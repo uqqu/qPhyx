@@ -438,6 +438,20 @@ Fact_calc(num)
     }
 }
 
+Weather(q_city)
+{
+    webRequest := ComObjCreate("WinHttp.WinHttpRequest.5.1")
+    webRequest.Open("GET", "https://api.openweathermap.org/data/2.5/weather?q=" q_city
+        . "&appid=" WEATHER_KEY "&units=metric")
+    webRequest.Send()
+    stat := RegExReplace(webRequest.ResponseText, ".+""main"":""(\w+)"".+", "$u1")
+    StringUpper stat, stat, T
+    temp := RegExReplace(webRequest.ResponseText, ".+""temp"":(-?\d+.\d+).+", "$u1")
+    feel := RegExReplace(webRequest.ResponseText, ".+""feels_like"":(-?\d+.\d+).+", "$u1")
+    wind := RegExReplace(webRequest.ResponseText, ".+""speed"":(\d+.\d+).+", "$u1")
+    Return stat "`n" temp "° (" feel "°)`n" wind "m/s"
+}
+
 Exch_rates(base, symbol, amount:=1)
 {
     If !amount
@@ -639,18 +653,74 @@ Unknown_currency(base)
     Return result
 }
 
-Weather(q_city)
+
+;=================================================================================================
+;===========================================Datetime functions====================================
+;=================================================================================================
+
+Datetime(format)
 {
-    webRequest := ComObjCreate("WinHttp.WinHttpRequest.5.1")
-    webRequest.Open("GET", "https://api.openweathermap.org/data/2.5/weather?q=" q_city
-        . "&appid=" WEATHER_KEY "&units=metric")
-    webRequest.Send()
-    stat := RegExReplace(webRequest.ResponseText, ".+""main"":""(\w+)"".+", "$u1")
-    StringUpper stat, stat, T
-    temp := RegExReplace(webRequest.ResponseText, ".+""temp"":(-?\d+.\d+).+", "$u1")
-    feel := RegExReplace(webRequest.ResponseText, ".+""feels_like"":(-?\d+.\d+).+", "$u1")
-    wind := RegExReplace(webRequest.ResponseText, ".+""speed"":(\d+.\d+).+", "$u1")
-    Return stat "`n" temp "° (" feel "°)`n" wind "m/s"
+    FormatTime, timeString, %A_Now%, %format%
+    Return timeString
+}
+
+Format_time()
+{
+    saved_value := Clipboard
+    Sleep, SLEEP_DELAY
+    SendInput ^{SC02E}
+    Sleep, SLEEP_DELAY
+    FormatTime, timeString, %A_Now%, %Clipboard%
+    Clipboard := saved_value
+    Return timeString
+}
+
+; 10 hours in a day (0-9), 100 minutes in a hour (00-99), 100 seconds in a minute (00-99).
+; Second was accelerated by 100_000/86_400≈1.1574
+Decimal_time()
+{
+    ms := (((A_Hour * 60 + A_Min) * 60 + A_Sec) * 1000 + A_MSec) * 1.1574
+    hours := Round(ms // 10000000)
+    minutes := Round((ms - hours * 10000000) // 100000)
+    seconds := Round((ms - hours * 10000000 - minutes * 100000) // 1000)
+    Return hours ":" minutes ":" seconds
+}
+
+; 10 months in a year, 6 weeks in a month, 6 days in a week.
+; The last 5(6 if leap year) days of the year is a holiday week.
+; New Year on the Winter solstice (dec 21-22, old style).
+Hexal_date()
+{
+    If (Mod(A_YYYY, 400) == 0) or (Mod(A_YYYY, 4) == 0 and Mod(A_YYYY, 100) != 0)
+    {
+        leap_mark := 1
+    }
+    Else
+    {
+        leap_mark := 0
+    }
+
+    If (A_YDay > 355+leap_mark)
+    {
+        year := A_YYYY+1
+        day := A_YDay - 355 - leap_mark
+    }
+    Else If (A_YDay > 349)
+    {
+        year := A_YYYY+1
+        day := A_YDay - 360
+        Return year " holidays, " day
+    }
+    Else
+    {
+        year := A_YYYY
+        day := A_YDay + 10
+    }
+
+    dd := Mod(day, 6)
+    ww := Mod(day, 36) // 6
+    mm := day // 36
+    Return mm "" ww "" dd ". " year
 }
 
 
@@ -1112,76 +1182,6 @@ Stilyze_math()
 
 
 ;=================================================================================================
-;===========================================Datetime functions====================================
-;=================================================================================================
-
-Datetime(format)
-{
-    FormatTime, timeString, %A_Now%, %format%
-    Return timeString
-}
-
-Format_time()
-{
-    saved_value := Clipboard
-    Sleep, SLEEP_DELAY
-    SendInput ^{SC02E}
-    Sleep, SLEEP_DELAY
-    FormatTime, timeString, %A_Now%, %Clipboard%
-    Clipboard := saved_value
-    Return timeString
-}
-
-; 10 hours in a day (0-9), 100 minutes in a hour (00-99), 100 seconds in a minute (00-99).
-; Second was accelerated by 100_000/86_400≈1.1574
-Decimal_time()
-{
-    ms := (((A_Hour * 60 + A_Min) * 60 + A_Sec) * 1000 + A_MSec) * 1.1574
-    hours := Round(ms // 10000000)
-    minutes := Round((ms - hours * 10000000) // 100000)
-    seconds := Round((ms - hours * 10000000 - minutes * 100000) // 1000)
-    Return hours ":" minutes ":" seconds
-}
-
-; 10 months in a year, 6 weeks in a month, 6 days in a week.
-; The last 5(6 if leap year) days of the year is a holiday week.
-; New Year on the Winter solstice (dec 21-22, old style).
-Hexal_date()
-{
-    If (Mod(A_YYYY, 400) == 0) or (Mod(A_YYYY, 4) == 0 and Mod(A_YYYY, 100) != 0)
-    {
-        leap_mark := 1
-    }
-    Else
-    {
-        leap_mark := 0
-    }
-
-    If (A_YDay > 355+leap_mark)
-    {
-        year := A_YYYY+1
-        day := A_YDay - 355 - leap_mark
-    }
-    Else If (A_YDay > 349)
-    {
-        year := A_YYYY+1
-        day := A_YDay - 360
-        Return year " holidays, " day
-    }
-    Else
-    {
-        year := A_YYYY
-        day := A_YDay + 10
-    }
-
-    dd := Mod(day, 6)
-    ww := Mod(day, 36) // 6
-    mm := day // 36
-    Return mm "" ww "" dd ". " year
-}
-
-
-;=================================================================================================
 ;===========================================Labels================================================
 ;=================================================================================================
 
@@ -1330,7 +1330,6 @@ Mus_timer:
 ;(\|), on a 102-key keyboards
 
  SC02B::
-    ;hardcoded
     WinGetTitle, title, A
     If (title != "Heroes of Might and Magic III: Horn of the Abyss")
     {
@@ -1342,7 +1341,6 @@ Mus_timer:
     }
     Return
 +SC02B::
-    ;hardcoded
     WinGetTitle, title, A
     If (title != "Heroes of Might and Magic III: Horn of the Abyss")
     {
