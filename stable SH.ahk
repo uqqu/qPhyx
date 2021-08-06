@@ -26,12 +26,14 @@ Try
 global LONG_TIME
 global DISABLE
 RegRead, LONG_TIME, HKEY_CURRENT_USER\Environment, QPHYX_LONG_TIME
+RegRead, DISABLE, HKEY_CURRENT_USER\Environment, QPHYX_DISABLE
 If !LONG_TIME
 {
     RegWrite, REG_SZ, HKEY_CURRENT_USER\Environment, QPHYX_DISABLE, 0
     RegWrite, REG_SZ, HKEY_CURRENT_USER\Environment, QPHYX_LONG_TIME, 0.166
+    QPHYX_DISABLE := 0
+    QPHYX_LONG_TIME := 0.166
 }
-RegRead, DISABLE, HKEY_CURRENT_USER\Environment, QPHYX_DISABLE
 
 global SPOTIFY
 SpotifyDetectProcessId()
@@ -188,14 +190,6 @@ Alt(process_name, path)
     }
 }
 
-;unused? 0x0409 en; 0x0419 ru; "0x50, 2, , %CtrlInFocus%" toggle
-SetInputLang(lang)
-{
-    WinExist("A")
-    ControlGetFocus, CtrlInFocus
-    PostMessage, 0x50, 0, % lang, %CtrlInFocus%
-}
-
 ;auxiliary to "#+SC025" restore
 LastMinimizedWindow()
 {
@@ -271,7 +265,7 @@ Pass:
 ;SC138:: ralt
 ;SC147:: home
 ;SC149:: page up
-;SC14id
+;SC14F:: end
 ;SC151:: page down
 ;SC152:: insert
 ;SC15B:: lwin
