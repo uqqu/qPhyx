@@ -1197,24 +1197,40 @@ Idle:
         If (title == "Advertisement") && !MUTE || MUTE && (title != "Advertisement")
         {
             MUTE := !MUTE
-            Run sndvol
-            WinWait Volume Mixer
-            WinGet, clist, ControlList, Volume Mixer
-            counter := 2
-            Loop, parse, clist, `n
+            WinGet, Style, Style, % "ahk_id " SPOTIFY
+            CoordMode, Mouse, Screen
+            MouseGetPos, xpos, ypos
+            WinGetPos, x, y, h, w, ahk_id %SPOTIFY%
+            If (Style & 0x10000000 and h > 500 and w > 500)
             {
-                ControlGetText, text, %A_LoopField%, Volume Mixer
-                IfInString text, %title%
+                BlockInput, On
+                nx := x+h-130
+                ny := y+w-50
+                Click, %nx%, %ny%
+                MouseMove, %xpos%, %ypos%
+                BlockInput, Off
+            }
+            Else
+            {
+                Run sndvol
+                WinWait Volume Mixer
+                WinGet, clist, ControlList, Volume Mixer
+                counter := 2
+                Loop, parse, clist, `n
                 {
-                    If counter
+                    ControlGetText, text, %A_LoopField%, Volume Mixer
+                    If InStr(text, title) or InStr(text, "Spotify")
                     {
-                        counter--
-                    }
-                    Else
-                    {
-                        ControlFocus, %A_LoopField%, Volume Mixer
-                        ControlSend, %A_LoopField%, {Space}{Esc}, Volume Mixer
-                        Break
+                        If counter
+                        {
+                            counter--
+                        }
+                        Else
+                        {
+                            ControlFocus, %A_LoopField%, Volume Mixer
+                            ControlSend, %A_LoopField%, {Space}{Esc}, Volume Mixer
+                            counter := 2
+                        }
                     }
                 }
             }
