@@ -347,9 +347,6 @@ LWin & SC02C:: Alt("firefox.exe",         "C:\Shortcuts\firefox.exe.lnk")       
     *SC150::
 ;delete
     *SC153::
-;undo, redo
-    ^SC02C::
-    ^SC016::
         Return
 
 ;backspace
