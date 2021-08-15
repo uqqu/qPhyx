@@ -10,9 +10,22 @@ icon = menu.png
 IfExist, %icon%
     Menu, Tray, Icon, %icon%
 
-global MUS_DELAY := 10
-global MUTE_MODE := 4 ; 0 – disable; 1 – "all_mute button"; 2 – mouse click on spotify mute;
-                      ; 3 – volume mixer proccess mute; 4 – 2 mode, if cannot – 3 mode
+global MUS_DELAY
+global MUTE_MODE ; 0 – disable; 1 – "all_mute button"; 2 – mouse click on spotify mute;
+                ; 3 – volume mixer proccess mute; 4 – 2 mode, if cannot – 3 mode
+RegRead, LONG_TIME, HKEY_CURRENT_USER\Environment, MUS_DELAY
+RegRead, DISABLE, HKEY_CURRENT_USER\Environment, MUTE_MODE
+If !MUS_DELAY
+{
+    RegWrite, REG_SZ, HKEY_CURRENT_USER\Environment, MUS_DELAY, 10
+    RegWrite, REG_SZ, HKEY_CURRENT_USER\Environment, MUTE_MODE, 4
+    MUS_DELAY := 10
+    MUTE_MODE := 4
+}
+
+global SPOTIFY := ""
+SpotifyDetectProcessId()
+
 global MUTE := 0
 global CITY := "Donetsk,UA" ; 48lat 38lon
 global SLEEP_DELAY := 33 ; ms ; for correct work with clipboard functions
@@ -29,11 +42,8 @@ global LONG_TIME
 RegRead, DISABLE, HKEY_CURRENT_USER\Environment, QPHYX_DISABLE
 RegRead, LONG_TIME, HKEY_CURRENT_USER\Environment, QPHYX_LONG_TIME
 
-global SPOTIFY := ""
-SpotifyDetectProcessId()
 
-;auto pause music on long afk
-;auto mute volume when advertisement (spotify window must not be minimized to the tray!)
+;music control label (auto pause music on long afk; auto mute volume when advertisement)
 SetTimer, Idle, 666
 
 
@@ -379,7 +389,7 @@ MuteSecondMode()
     If (Style & 0x10000000 and h > 500 and w > 500)
     {
         MUTE := !MUTE
-        WinSet, Transparent, 0, ahk_id %SPOTIFY%
+        WinSet, Transparent, 1, ahk_id %SPOTIFY%
         WinSet, AlwaysOnTop, 1, ahk_id %SPOTIFY%
         BlockInput, On
         nx := x+h-130
@@ -1327,6 +1337,7 @@ Mus_timer:
     {
         Menu, Func, Delete, &Auto-stop music on AFK delay (now is %MUS_DELAY%m)
         Menu, Func, Delete, Select &mute mode for spotify advertisement (now is %MUTE_MODE%)
+        RegWrite, REG_SZ, HKEY_CURRENT_USER, Environment, MUS_DELAY, %userInput%
         MUS_DELAY := userInput
         Menu, Func, Add, &Auto-stop music on AFK delay (now is %MUS_DELAY%m), Mus_timer
         Menu, Func, Add, Select &mute mode for spotify advertisement (now is %MUTE_MODE%), Mute_mode
@@ -1342,11 +1353,12 @@ Mute_mode:
 3 is process mute mode (call windows volume mixer and toggle mute on all spotify processes);
 4 is combine of 2 and 3 (call 2 mode, if spotify window is closed or minimized – call 3 mode).
     )
-    InputBox, userInput, Set new mute mode for spotify advertisement (only for this session!)
+    InputBox, userInput, Set new mute mode for spotify advertisement
         , %msg%, , 600, 200
     If !ErrorLevel
     {
         Menu, Func, Delete, Select &mute mode for spotify advertisement (now is %MUTE_MODE%)
+        RegWrite, REG_SZ, HKEY_CURRENT_USER, Environment, MUTE_MODE, %userInput%
         MUTE_MODE := userInput
         Menu, Func, Add, Select &mute mode for spotify advertisement (now is %MUTE_MODE%), Mute_mode
     }
