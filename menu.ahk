@@ -11,6 +11,8 @@ IfExist, %icon%
     Menu, Tray, Icon, %icon%
 
 global MUS_DELAY := 10
+global MUTE_MODE := 4 ; 0 – disable; 1 – "all_mute button"; 2 – mouse click on spotify mute;
+                      ; 3 – volume mixer proccess mute; 4 – 2 mode, if cannot – 3 mode
 global MUTE := 0
 global CITY := "Donetsk,UA" ; 48lat 38lon
 global SLEEP_DELAY := 33 ; ms ; for correct work with clipboard functions
@@ -338,7 +340,89 @@ If LONG_TIME
 }
 ;global MUS_DELAY int
 Menu, Func, Add, &Auto-stop music on AFK delay (now is %MUS_DELAY%m), Mus_timer
+;global MUTE_MODE int
+Menu, Func, Add, Select &mute mode for spotify advertisement (now is %MUTE_MODE%), Mute_mode
 
+
+;=================================================================================================
+;==========================================Spotify functions======================================
+;=================================================================================================
+
+;detect current spotify process
+SpotifyDetectProcessId()
+{
+    WinGet, id, list, , , Program Manager
+    Loop, %id%
+    {
+        this_id := id%A_Index%
+        WinGet, proc, ProcessName, ahk_id %this_id%
+        WinGetTitle, title, ahk_id %this_id%
+        If (title != "" && proc == "Spotify.exe")
+        {
+            SPOTIFY := this_id
+            Break
+        }
+    }
+    If (SPOTIFY == "")
+    {
+        SetTimer, SpotifyDetectProcessId, -66666
+    }
+}
+
+MuteSecondMode()
+{
+    WinGet, Style, Style, % "ahk_id " SPOTIFY
+    WinGet, active_id, ID, A
+    CoordMode, Mouse, Screen
+    MouseGetPos, xpos, ypos
+    WinGetPos, x, y, h, w, ahk_id %SPOTIFY%
+    If (Style & 0x10000000 and h > 500 and w > 500)
+    {
+        MUTE := !MUTE
+        WinSet, Transparent, 0, ahk_id %SPOTIFY%
+        WinSet, AlwaysOnTop, 1, ahk_id %SPOTIFY%
+        BlockInput, On
+        nx := x+h-130
+        ny := y+w-50
+        Click, %nx%, %ny%
+        MouseMove, %xpos%, %ypos%
+        BlockInput, Off
+        WinSet, AlwaysOnTop, 0, ahk_id %SPOTIFY%
+        WinActivate, ahk_id %active_id%
+        WinSet, Transparent, Off, ahk_id %SPOTIFY%
+        Return 1
+    }
+    Else
+    {
+        Return 0
+    }
+}
+
+MuteThirdMode()
+{
+    MUTE := !MUTE
+    Run sndvol
+    WinWait Volume Mixer
+    WinGet, clist, ControlList, Volume Mixer
+    counter := 2
+    Loop, parse, clist, `n
+    {
+        ControlGetText, text, %A_LoopField%, Volume Mixer
+        If InStr(text, title) or InStr(text, "Spotify")
+        {
+            If counter
+            {
+                counter--
+            }
+            Else
+            {
+                ControlFocus, %A_LoopField%, Volume Mixer
+                ControlSend, %A_LoopField%, {Space}{Esc}, Volume Mixer
+                counter := 2
+            }
+        }
+    }
+}
 
 ;=================================================================================================
 ;===========================================Tools functions=======================================
@@ -371,27 +455,6 @@ Menu, Func, Add, &Auto-stop music on AFK delay (now is %MUS_DELAY%m), Mus_timer
     result := %func%(params)
     MsgBox, , Message, % result
     Clipboard := saved_value
-}
-
-;detect current spotify process
-SpotifyDetectProcessId()
-{
-    WinGet, id, list, , , Program Manager
-    Loop, %id%
-    {
-        this_id := id%A_Index%
-        WinGet, proc, ProcessName, ahk_id %this_id%
-        WinGetTitle, title, ahk_id %this_id%
-        If (title != "" && proc == "Spotify.exe")
-        {
-            SPOTIFY := this_id
-            Break
-        }
-    }
-    If (SPOTIFY == "")
-    {
-        SetTimer, SpotifyDetectProcessId, -66666
-    }
 }
 
 ;compare selected with clipboard value
@@ -1172,7 +1235,7 @@ Stilyze_math()
                 result := result Chr(cur_char)
             }
         }
-        Else if last_bracket
+        Else If last_bracket
         {
             last_bracket := 0
         }
@@ -1191,50 +1254,24 @@ Pass:
 Idle:
     delay := MUS_DELAY * 60000
     IfGreater, A_TimeIdle, %delay%, SendInput {SC124}
-    If SPOTIFY
+    If SPOTIFY && MUTE_MODE
     {
         WinGetTitle, title, ahk_id %SPOTIFY%
         If (title == "Advertisement") && !MUTE || MUTE && (title != "Advertisement")
         {
-            MUTE := !MUTE
-            WinGet, Style, Style, % "ahk_id " SPOTIFY
-            CoordMode, Mouse, Screen
-            MouseGetPos, xpos, ypos
-            WinGetPos, x, y, h, w, ahk_id %SPOTIFY%
-            If (Style & 0x10000000 and h > 500 and w > 500)
+            If (MUTE_MODE == 1)
             {
-                BlockInput, On
-                nx := x+h-130
-                ny := y+w-50
-                Click, %nx%, %ny%
-                MouseMove, %xpos%, %ypos%
-                BlockInput, Off
+                MUTE := !MUTE
+                SendInput {SC120}
             }
-            Else
+            Else If (MUTE_MODE == 2)
             {
-                Run sndvol
-                WinWait Volume Mixer
-                WinGet, clist, ControlList, Volume Mixer
-                counter := 2
-                Loop, parse, clist, `n
-                {
-                    ControlGetText, text, %A_LoopField%, Volume Mixer
-                    If InStr(text, title) or InStr(text, "Spotify")
-                    {
-                        If counter
-                        {
-                            counter--
-                        }
-                        Else
-                        {
-                            ControlFocus, %A_LoopField%, Volume Mixer
-                            ControlSend, %A_LoopField%, {Space}{Esc}, Volume Mixer
-                            counter := 2
-                        }
-                    }
-                }
+                MuteSecondMode()
             }
-            ;SendInput {SC120} ; or just mute all ¯\_(ツ)_/¯ (del from line "Run sndvol" onwards)
+            Else If (MUTE_MODE == 3) || (MUTE_MODE == 4) && !MuteSecondMode()
+            {
+                MuteThirdMode()
+            }
         }
     }
     Return
@@ -1273,11 +1310,13 @@ Long_press:
     {
         Menu, Func, Delete, &Long press delay (now is %LONG_TIME%s)
         Menu, Func, Delete, &Auto-stop music on AFK delay (now is %MUS_DELAY%m)
+        Menu, Func, Delete, Select &mute mode for spotify advertisement (now is %MUTE_MODE%)
         RegWrite, REG_SZ, HKEY_CURRENT_USER, Environment, QPHYX_LONG_TIME, %userInput%
         LONG_TIME := userInput
         Run, stable SH.exe
         Menu, Func, Add, &Long press delay (now is %LONG_TIME%s), Long_press
         Menu, Func, Add, &Auto-stop music on AFK delay (now is %MUS_DELAY%m), Mus_timer
+        Menu, Func, Add, Select &mute mode for spotify advertisement (now is %MUTE_MODE%), Mute_mode
     }
     Return
 
@@ -1287,8 +1326,29 @@ Mus_timer:
     If !ErrorLevel
     {
         Menu, Func, Delete, &Auto-stop music on AFK delay (now is %MUS_DELAY%m)
+        Menu, Func, Delete, Select &mute mode for spotify advertisement (now is %MUTE_MODE%)
         MUS_DELAY := userInput
         Menu, Func, Add, &Auto-stop music on AFK delay (now is %MUS_DELAY%m), Mus_timer
+        Menu, Func, Add, Select &mute mode for spotify advertisement (now is %MUTE_MODE%), Mute_mode
+    }
+    Return
+
+Mute_mode:
+    msg = 
+    (
+    0 is disable feature;
+1 is global mute mode without mouse click and calling any processes;
+2 is mouse click mode (force spotify window and click on mute button);
+3 is process mute mode (call windows volume mixer and toggle mute on all spotify processes);
+4 is combine of 2 and 3 (call 2 mode, if spotify window is closed or minimized – call 3 mode).
+    )
+    InputBox, userInput, Set new mute mode for spotify advertisement (only for this session!)
+        , %msg%, , 600, 200
+    If !ErrorLevel
+    {
+        Menu, Func, Delete, Select &mute mode for spotify advertisement (now is %MUTE_MODE%)
+        MUTE_MODE := userInput
+        Menu, Func, Add, Select &mute mode for spotify advertisement (now is %MUTE_MODE%), Mute_mode
     }
     Return
 
@@ -1364,7 +1424,7 @@ Mus_timer:
         {
             Menu, Func, Check, D&isable (sh+tilde to toggle)
         }
-        Else if (DISABLE == 0)
+        Else If (DISABLE == 0)
         {
             Menu, Func, Uncheck, D&isable (sh+tilde to toggle)
         }
