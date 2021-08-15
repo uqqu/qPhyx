@@ -65,8 +65,6 @@ Menu, Paste, Icon, Paste menu, %A_AhkPath%, -207
     En_Ru_L_clip     := Func("@Clip").Bind("En_Ru_layout_switch")
     Ru_En_T_clip     := Func("@Clip").Bind("Ru_En_translit")
     En_Ru_T_clip     := Func("@Clip").Bind("En_Ru_translit")
-    Stile_math_clip  := Func("@Clip").Bind("Stilyze_math")
-    Simpl_math_clip  := Func("@Clip").Bind("Simplify_math")
     Calc_expr_clip   := Func("@Clip").Bind("Execute")
     Format_time_clip := Func("@Clip").Bind("Format_time")
     Menu, Clip, Add, Nor&malize, % Normalize_clip
@@ -80,8 +78,6 @@ Menu, Paste, Icon, Paste menu, %A_AhkPath%, -207
     Menu, Clip, Add, Ru-En transliterati&on, % Ru_En_T_clip
     Menu, Clip, Add, E&n-Ru transliteration, % En_Ru_T_clip
     Menu, Clip, Add, C&alculate the expression, % Calc_expr_clip
-    Menu, Clip, Add, S&tilyze math,  % Stile_math_clip
-    Menu, Clip, Add, Sim&plify math, % Simpl_math_clip
     Menu, Clip, Add, &FormatTime (e.g. "dd/MM" to "26/03"), % Format_time_clip
     ;currency converter submenu
         Usd_rub_c_c  := Func("@Clip").Bind(Func("Exch_rates").Bind("USD", "RUB", 0))
@@ -122,8 +118,6 @@ Menu, Paste, Add, &Clipboard text transform, :Clip
     En_Ru_L_sel     := Func("@Sel").Bind("En_Ru_layout_switch")
     Ru_En_T_sel     := Func("@Sel").Bind("Ru_En_translit")
     En_Ru_T_sel     := Func("@Sel").Bind("En_Ru_translit")
-    Stile_math_sel  := Func("@Sel").Bind("Stilyze_math")
-    Simpl_math_sel  := Func("@Sel").Bind("Simplify_math")
     Calc_expr_sel   := Func("@Sel").Bind("Execute")
     Format_time_sel := Func("@Sel").Bind("Format_time")
     Menu, Sel, Add, Nor&malize,   % Normalize_sel
@@ -137,8 +131,6 @@ Menu, Paste, Add, &Clipboard text transform, :Clip
     Menu, Sel, Add, Ru-En transliterati&on, % Ru_En_T_sel
     Menu, Sel, Add, E&n-Ru transliteration, % En_Ru_T_sel
     Menu, Sel, Add, C&alculate the expression, % Calc_expr_sel
-    Menu, Sel, Add, S&tilyze math,  % Stile_math_sel
-    Menu, Sel, Add, Sim&plify math, % Simpl_math_sel
     Menu, Sel, Add, &FormatTime (e.g. "dd/MM" to "26/03"), % Format_time_sel
     ;currency converter submenu
         Usd_rub_c_s  := Func("@Sel").Bind(Func("Exch_rates").Bind("USD", "RUB", 0))
@@ -249,8 +241,6 @@ Menu, Func, Add, &Compare selected with clipboard, % Compare_msg
     En_Ru_L_msg    := Func("@Msg").Bind("En_Ru_layout_switch")
     Ru_En_T_msg    := Func("@Msg").Bind("Ru_En_translit")
     En_Ru_T_msg    := Func("@Msg").Bind("En_Ru_translit")
-    Stile_math_msg := Func("@Msg").Bind("Stilyze_math")
-    Simpl_math_msg := Func("@Msg").Bind("Simplify_math")
     Calc_expr_msg  := Func("@Msg").Bind("Execute")
     Menu, Msg, Add, Nor&malize,   % Normalize_msg
     Menu, Msg, Add, &Sentence,    % Sentence_msg
@@ -263,8 +253,6 @@ Menu, Func, Add, &Compare selected with clipboard, % Compare_msg
     Menu, Msg, Add, Ru-En transliterati&on, % Ru_En_T_msg
     Menu, Msg, Add, E&n-Ru transliteration, % En_Ru_T_msg
     Menu, Msg, Add, C&alculate the expression, % Calc_expr_msg
-    Menu, Msg, Add, S&tilyze math,  % Stile_math_msg
-    Menu, Msg, Add, Sim&plify math, % Simpl_math_msg
     ;currency converter submenu
         Usd_rub_c_m  := Func("@Msg").Bind(Func("Exch_rates").Bind("USD", "RUB", 0))
         Rub_usd_c_m  := Func("@Msg").Bind(Func("Exch_rates").Bind("RUB", "USD", 0))
@@ -493,27 +481,22 @@ Compare()
 }
 
 ;calculate expression
-Execute()
+Execute() ; https://www.autohotkey.com/boards/viewtopic.php?p=221460#p221460
 {
-    expr := Simplify_math()
-    shell := ComObjCreate("WScript.Shell")
-    exec := shell.Exec("AutoHotkey.exe /ErrorStdOut *")
-    exec.StdIn.Write("FileAppend % (" expr "), *")
-    exec.StdIn.Close()
-    Return exec.StdOut.ReadAll()
-}
+    expr := Clipboard
+    expr := StrReplace( RegExReplace(expr, "\s") , ",", ".")
+    expr := RegExReplace(StrReplace(expr, "**", "^")
+            , "(\w+(\.*\d+)?)\^(\w+(\.*\d+)?)", "pow($1,$3)")
+    expr := RegExReplace(expr, "=+", "==")
+    expr := RegExReplace(expr, "\b(E|LN2|LN10|LOG2E|LOG10E|PI|SQRT1_2|SQRT2)\b", "Math.$1")
+    expr := RegExReplace(expr, "\b(abs|acos|asin|atan|atan2|ceil|cos|exp"
+            . "|floor|log|max|min|pow|random|round|sin|sqrt|tan)\b\(", "Math.$1(")
 
-;auxiliary to "Simplify_math()"
-Fact_calc(num)
-{
-    If !num
-    {
-        Return 1
-    }
-    Else
-    {
-        Return num * Fact_calc(num-1)
-    }
+    (o := ComObjCreate("HTMLfile")).write("<body><script>document"
+            . ".body.innerText=eval('" . expr . "');</script>")
+    o := StrReplace(StrReplace(StrReplace(InStr(o:=o.body.innerText, "body") ? "" : o
+            , "false", 0), "true", 1), "undefined", "")
+    Return o ;InStr(o, "e") ? Format("{:f}", o) : o
 }
 
 Weather(q_city)
@@ -1007,267 +990,6 @@ Ru_en_translit()
         Else
         {
             result := result Chr(cur_char)
-        }
-    }
-    Return result
-}
-
-Simplify_math()
-{
-    ;before: 1+2−3×4÷5≟6±7±8≠9≠0¹²³⁴−2−3¹²³⁺¹²³⁺⁽¹²³⁺¹²³⁾+2≈42
-    ;after: 1+2-3*4/5=6+/-7+/-8!=9!=0**(1234)−2-3**(123+123+(123+123))+2~42?
-    superscr := {0185:0049,0178:0050,0179:0051,8308:0052,8309:0053,8310:0054,8311:0055,8312:0056
-        ,8313:0057,8304:0048,8314:0043,8315:0045,8316:0061,8317:0040,8318:0041,8319:0110
-        ,8305:0105}
-    normalscr := {8722:045,8211:045,8212:045,0215:042,0247:047,0092:047,8776:126,8725:047}
-    result := ""
-    super := ""
-    fact := ""
-    end := ""
-    Loop % Strlen(Clipboard)
-    {
-        cur_char := Asc(Substr(Clipboard, A_Index, 1))
-        If super
-        {
-            If superscript.haskey(cur_char)
-            {
-                super := super Chr(superscript[cur_char])
-            }
-            Else
-            {
-                result := result "**(" super ")" Chr(cur_char)
-                super := ""
-            }
-        }
-        Else
-        {
-            If superscript.haskey(cur_char)
-            {
-                super := super Chr(superscript[cur_char])
-            }
-            Else If normalscript.haskey(cur_char)
-            {
-                result := result Chr(normalscript[cur_char])
-            }
-            Else If (cur_char == 0033)
-            {
-                Loop
-                {
-                    char := Asc(Substr(result, 1-A_Index, 1))
-                    If char between 47 and 58
-                    {
-                        fact := fact Chr(char)
-                    }
-                    Else
-                    {
-                        fact := Fact_calc(fact)
-                        result := Substr(result, 1, 1-A_Index) fact
-                        fact := ""
-                        Break
-                    }
-                }
-            }
-            Else If (cur_char == 0094)
-            {
-                result := result "**"
-            }
-            Else If (cur_char == 8800)
-            {
-                result := result "!="
-            }
-            Else If (cur_char == 0177)
-            {
-                result := result "+/-"
-            }
-            Else If (cur_char == 8804 || cur_char == 10877)
-            {
-                result := result "<="
-            }
-            Else If (cur_char == 8805 || cur_char == 10878)
-            {
-                result := result ">="
-            }
-            Else If (cur_char = 8810)
-            {
-                result := result "<<"
-            }
-            Else If (cur_char == 8811)
-            {
-                result := result ">>"
-            }
-            Else If (cur_char == 8799)
-            {
-                end := "?"
-                result := result "="
-            }
-            Else
-            {
-                result := result Chr(cur_char)
-            }
-        }
-    }
-    If super
-    {
-        result := result "**(" super ")"
-    }
-    Return result end
-}
-
-;/don't look at me/ (；一_一)
-Stilyze_math()
-{
-    ;before: 1+2-3*4/5=6+-7+/-8!=9<>0^1234-2-3**(123+123+(123+123))+2~42?
-    ;after: 1+2−3×4÷5≟6±7±8≠9≠0¹²³⁴−2−3¹²³⁺¹²³⁺⁽¹²³⁺¹²³⁾+2≈42
-    superscript := {0049:0185,0050:0178,0051:0179,0052:8308,0053:8309,0054:8310,0055:8311
-        ,0056:8312,0057:8313,0048:8304,0043:8314,0045:8315,0061:8316,0040:8317,0041:8318
-        ,0110:8319,0105:8305}
-    supscr := {0049:0185,0050:0178,0051:0179,0052:8308,0053:8309,0054:8310,0055:8311
-        ,0056:8312,0057:8313,0048:8304}
-    normalscript := {0045:8722,0042:0215,0047:0247,0126:8776}
-
-    result := ""
-    brackets := 0
-    last_bracket := 0
-    super := 0
-    skip := 0
-    q_mark := 0
-    Clipboard := Trim(Clipboard)
-    If RegExMatch(Clipboard, "\?")
-    {
-        Clipboard := RegExReplace(Clipboard, "\?")
-        q_mark := 1
-    }
-    Loop % Strlen(Clipboard)
-    {
-        If skip
-        {
-            skip--
-            continue
-        }
-        cur_char := Asc(Substr(Clipboard, A_Index, 1))
-        If super
-        {
-            If (brackets && cur_char == 0040)
-            {
-                brackets++
-                result := result Chr(8317)
-            }
-            Else If (brackets && cur_char == 0041)
-            {
-                brackets--
-                If brackets
-                {
-                    result := result Chr(8318)
-                }
-                Else
-                {
-                    super := 0
-                    last_bracket := 1
-                }
-            }
-            Else If brackets
-            {
-                If superscript.haskey(cur_char)
-                {
-                    result := result Chr(superscript[cur_char])
-                }
-                Else
-                {
-                    super := 0
-                }
-            }
-            Else
-            {
-                If supscr.haskey(cur_char)
-                {
-                    result := result Chr(supscr[cur_char])
-                }
-                Else
-                {
-                    super := 0
-                }
-            }
-        }
-
-        If (!super && !last_bracket)
-        {
-            If (cur_char == 0043)
-            {
-                If (Substr(Clipboard, A_Index+1, 2) == "/-")
-                {
-                    result := result Chr(0177)
-                    skip := 2
-                }
-                Else If (Substr(Clipboard, A_Index+1, 1) == "-")
-                {
-                    result := result Chr(0177)
-                    skip := 1
-                }
-                Else
-                {
-                    result := result Chr(cur_char)
-                }
-            }
-            Else If (cur_char == 0060 && Substr(Clipboard, A_Index+1, 1) == ">"
-                    || cur_char == 0033 && Substr(Clipboard, A_Index+1, 1) == "=")
-            {
-                result := result Chr(8800)
-                skip := 1
-            }
-            Else If (cur_char == 0061 && q_mark)
-            {
-                result := result Chr(8799)
-            }
-            Else If (cur_char == 0042 && Substr(Clipboard, A_Index+1, 1) == "*")
-            {
-                super := 1
-                If (Substr(Clipboard, A_Index+2, 1) == "(")
-                {
-                    skip := 2
-                    brackets := 1
-                }
-                Else
-                {
-                    skip := 1
-                }
-            }
-            Else If (cur_char == 0094)
-            {
-                super := 1
-                If (Substr(Clipboard, A_Index+1, 1) == "(")
-                {
-                    skip := 1
-                    brackets := 1
-                }
-            }
-            Else If (cur_char == 0060 && Substr(Clipboard, A_Index+1, 1) == "<")
-            {
-                result := result Chr(8810)
-            }
-            Else If (cur_char == 0062 && Substr(Clipboard, A_Index+1, 1) == ">")
-            {
-                result := result Chr(8811)
-            }
-            Else If (cur_char == 0060 && Substr(Clipboard, A_Index+1, 1) == "=")
-            {
-                result := result Chr(8805)
-            }
-            Else If (cur_char == 0062 && Substr(Clipboard, A_Index+1, 1) == "=")
-            {
-                result := result Chr(8804)
-            }
-            Else If normalscript.haskey(cur_char)
-            {
-                result := result Chr(normalscript[cur_char])
-            }
-            Else
-            {
-                result := result Chr(cur_char)
-            }
-        }
-        Else If last_bracket
-        {
-            last_bracket := 0
         }
     }
     Return result
