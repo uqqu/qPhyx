@@ -5,7 +5,7 @@
 #SingleInstance force
 #UseHook On
 
-icon = menu.png
+icon = menu.ico
 IfExist, %icon%
     Menu, Tray, Icon, %icon%
 
@@ -366,7 +366,7 @@ SpotifyDetectProcessId()
         this_id := id%A_Index%
         WinGet, proc, ProcessName, ahk_id %this_id%
         WinGetTitle, title, ahk_id %this_id%
-        If (title != "" && proc == "Spotify.exe")
+        If (title && proc == "Spotify.exe")
         {
             SPOTIFY := this_id
             Break

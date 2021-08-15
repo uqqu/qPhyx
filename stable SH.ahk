@@ -10,7 +10,7 @@ SetNumLockState AlwaysOff
 SetScrollLockState AlwaysOff
 
 ;set icon
-icon = stable SH.png
+icon = stable SH.ico
 IfExist, %icon%
 {
     Menu, Tray, Icon, %icon%
@@ -20,6 +20,10 @@ IfExist, %icon%
 Try
 {
     Run, ViATc-0.5.5en.ahk.lnk
+}
+;let menu override ViATc
+Try
+{
     Run, menu.exe
 }
 
