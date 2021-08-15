@@ -61,10 +61,12 @@ Menu, Paste, Icon, Paste menu, %A_AhkPath%, -207
     Uppercase_clip   := Func("@Clip").Bind("Uppercase")
     Inverted_clip    := Func("@Clip").Bind("Inverted")
     Sentence_clip    := Func("@Clip").Bind("Sentence")
-    Ru_En_L_clip     := Func("@Clip").Bind("Ru_En_layout_switch")
-    En_Ru_L_clip     := Func("@Clip").Bind("En_Ru_layout_switch")
-    Ru_En_T_clip     := Func("@Clip").Bind("Ru_En_translit")
-    En_Ru_T_clip     := Func("@Clip").Bind("En_Ru_translit")
+    En_Ru_L_clip     := Func("@Clip").Bind(Func("Layout_switch").Bind("qwerty_en_ru"))
+    Ru_En_L_clip     := Func("@Clip").Bind(Func("Layout_switch").Bind("qwerty_ru_en"))
+    En_Ru_Q_clip     := Func("@Clip").Bind(Func("Layout_switch").Bind("qphyx_en_ru"))
+    Ru_En_Q_clip     := Func("@Clip").Bind(Func("Layout_switch").Bind("qphyx_ru_en"))
+    En_Ru_T_clip     := Func("@Clip").Bind(Func("Layout_switch").Bind("translit_en_ru"))
+    Ru_En_T_clip     := Func("@Clip").Bind(Func("Layout_switch").Bind("translit_ru_en"))
     Calc_expr_clip   := Func("@Clip").Bind("Execute")
     Format_time_clip := Func("@Clip").Bind("Format_time")
     Menu, Clip, Add, Nor&malize, % Normalize_clip
@@ -73,10 +75,14 @@ Menu, Paste, Icon, Paste menu, %A_AhkPath%, -207
     Menu, Clip, Add, &Lowercase, % Lowercase_clip
     Menu, Clip, Add, &Uppercase, % Uppercase_clip
     Menu, Clip, Add, &Inverted,  % Inverted_clip
-    Menu, Clip, Add, &Ru-En layout switch, % Ru_En_L_clip
-    Menu, Clip, Add, &En-Ru layout switch, % En_Ru_L_clip
-    Menu, Clip, Add, Ru-En transliterati&on, % Ru_En_T_clip
+    Menu, Clip, Add
+    Menu, Clip, Add, &En-Ru qwerty switch, % En_Ru_L_clip
+    Menu, Clip, Add, &Ru-En qwerty switch, % Ru_En_L_clip
+    Menu, Clip, Add, En-Ru q&phyx switch, % En_Ru_Q_clip
+    Menu, Clip, Add, Ru-En &qphyx switch, % Ru_En_Q_clip
     Menu, Clip, Add, E&n-Ru transliteration, % En_Ru_T_clip
+    Menu, Clip, Add, Ru-En transliterati&on, % Ru_En_T_clip
+    Menu, Clip, Add
     Menu, Clip, Add, C&alculate the expression, % Calc_expr_clip
     Menu, Clip, Add, &FormatTime (e.g. "dd/MM" to "26/03"), % Format_time_clip
     ;currency converter submenu
@@ -114,10 +120,12 @@ Menu, Paste, Add, &Clipboard text transform, :Clip
     Uppercase_sel   := Func("@Sel").Bind("Uppercase")
     Inverted_sel    := Func("@Sel").Bind("Inverted")
     Sentence_sel    := Func("@Sel").Bind("Sentence")
-    Ru_En_L_sel     := Func("@Sel").Bind("Ru_En_layout_switch")
-    En_Ru_L_sel     := Func("@Sel").Bind("En_Ru_layout_switch")
-    Ru_En_T_sel     := Func("@Sel").Bind("Ru_En_translit")
-    En_Ru_T_sel     := Func("@Sel").Bind("En_Ru_translit")
+    En_Ru_L_sel     := Func("@Sel").Bind(Func("Layout_switch").Bind("qwerty_en_ru"))
+    Ru_En_L_sel     := Func("@Sel").Bind(Func("Layout_switch").Bind("qwerty_ru_en"))
+    En_Ru_Q_sel     := Func("@Sel").Bind(Func("Layout_switch").Bind("qphyx_en_ru"))
+    Ru_En_Q_sel     := Func("@Sel").Bind(Func("Layout_switch").Bind("qphyx_ru_en"))
+    En_Ru_T_sel     := Func("@Sel").Bind(Func("Layout_switch").Bind("translit_en_ru"))
+    Ru_En_T_sel     := Func("@Sel").Bind(Func("Layout_switch").Bind("translit_ru_en"))
     Calc_expr_sel   := Func("@Sel").Bind("Execute")
     Format_time_sel := Func("@Sel").Bind("Format_time")
     Menu, Sel, Add, Nor&malize,   % Normalize_sel
@@ -126,10 +134,14 @@ Menu, Paste, Add, &Clipboard text transform, :Clip
     Menu, Sel, Add, &Lowercase,   % Lowercase_sel
     Menu, Sel, Add, &Uppercase,   % Uppercase_sel
     Menu, Sel, Add, &Inverted,    % Inverted_sel
-    Menu, Sel, Add, &Ru-En layout switch, % Ru_En_L_sel
-    Menu, Sel, Add, &En-Ru layout switch, % En_Ru_L_sel
-    Menu, Sel, Add, Ru-En transliterati&on, % Ru_En_T_sel
+    Menu, Sel, Add
+    Menu, Sel, Add, &En-Ru qwerty switch, % En_Ru_L_sel
+    Menu, Sel, Add, &Ru-En qwerty switch, % Ru_En_L_sel
+    Menu, Sel, Add, En-Ru &qphyx switch, % En_Ru_Q_sel
+    Menu, Sel, Add, Ru-En q&phyx switch, % Ru_En_Q_sel
     Menu, Sel, Add, E&n-Ru transliteration, % En_Ru_T_sel
+    Menu, Sel, Add, Ru-En transliterati&on, % Ru_En_T_sel
+    Menu, Sel, Add
     Menu, Sel, Add, C&alculate the expression, % Calc_expr_sel
     Menu, Sel, Add, &FormatTime (e.g. "dd/MM" to "26/03"), % Format_time_sel
     ;currency converter submenu
@@ -237,10 +249,12 @@ Menu, Func, Add, &Compare selected with clipboard, % Compare_msg
     Uppercase_msg  := Func("@Msg").Bind("Uppercase")
     Inverted_msg   := Func("@Msg").Bind("Inverted")
     Sentence_msg   := Func("@Msg").Bind("Sentence")
-    Ru_En_L_msg    := Func("@Msg").Bind("Ru_En_layout_switch")
-    En_Ru_L_msg    := Func("@Msg").Bind("En_Ru_layout_switch")
-    Ru_En_T_msg    := Func("@Msg").Bind("Ru_En_translit")
-    En_Ru_T_msg    := Func("@Msg").Bind("En_Ru_translit")
+    En_Ru_L_msg    := Func("@Msg").Bind(Func("Layout_switch").Bind("qwerty_en_ru"))
+    Ru_En_L_msg    := Func("@Msg").Bind(Func("Layout_switch").Bind("qwerty_ru_en"))
+    En_Ru_Q_msg    := Func("@Msg").Bind(Func("Layout_switch").Bind("qphyx_en_ru"))
+    Ru_En_Q_msg    := Func("@Msg").Bind(Func("Layout_switch").Bind("qphyx_ru_en"))
+    En_Ru_T_msg    := Func("@Msg").Bind(Func("Layout_switch").Bind("translit_en_ru"))
+    Ru_En_T_msg    := Func("@Msg").Bind(Func("Layout_switch").Bind("translit_ru_en"))
     Calc_expr_msg  := Func("@Msg").Bind("Execute")
     Menu, Msg, Add, Nor&malize,   % Normalize_msg
     Menu, Msg, Add, &Sentence,    % Sentence_msg
@@ -248,10 +262,14 @@ Menu, Func, Add, &Compare selected with clipboard, % Compare_msg
     Menu, Msg, Add, &Lowercase,   % Lowercase_msg
     Menu, Msg, Add, &Uppercase,   % Uppercase_msg
     Menu, Msg, Add, &Inverted,    % Inverted_msg
-    Menu, Msg, Add, &Ru-En layout switch, % Ru_En_L_msg
-    Menu, Msg, Add, &En-Ru layout switch, % En_Ru_L_msg
-    Menu, Msg, Add, Ru-En transliterati&on, % Ru_En_T_msg
+    Menu, Msg, Add
+    Menu, Msg, Add, &En-Ru qwerty switch, % En_Ru_L_msg
+    Menu, Msg, Add, &Ru-En qwerty switch, % Ru_En_L_msg
+    Menu, Msg, Add, En-Ru &qphyx switch, % En_Ru_Q_msg
+    Menu, Msg, Add, Ru-En q&phyx switch, % Ru_En_Q_msg
     Menu, Msg, Add, E&n-Ru transliteration, % En_Ru_T_msg
+    Menu, Msg, Add, Ru-En transliterati&on, % Ru_En_T_msg
+    Menu, Msg, Add
     Menu, Msg, Add, C&alculate the expression, % Calc_expr_msg
     ;currency converter submenu
         Usd_rub_c_m  := Func("@Msg").Bind(Func("Exch_rates").Bind("USD", "RUB", 0))
@@ -880,109 +898,69 @@ Inverted()
     Return result
 }
 
-En_Ru_layout_switch()
+Layout_switch(dict)
 {
-    ; пЩ щк ЫЕфН  ,тЩц ш пщЕЕф СрщЩыуб ФТВ ш’Дд фССуЗе нщГК шТмшЕФЕшщТ ещ ЕРу идГуЫ
-    qwerty := {113:1081,119:1094,101:1091,114:1082,116:1077,121:1085,117:1075,105:1096,111:1097
-        ,112:1079,091:1093,093:1098,097:1092,115:1099,100:1074,102:1072,103:1087,104:1088
-        ,106:1086,107:1083,108:1076,059:1078,039:1101,122:1103,120:1095,099:1089,118:1084
-        ,098:1080,110:1090,109:1100,044:1073,046:1102,047:0046,096:1105,081:1049,087:1062
-        ,069:1059,082:1050,084:1045,089:1053,085:1043,073:1064,079:1065,080:1047,123:1061
-        ,125:1066,065:1060,083:1067,068:1042,070:1040,071:1055,072:1056,074:1054,075:1051
-        ,076:1044,058:1046,034:1069,090:1071,088:1063,067:1057,086:1052,066:1048,078:1058
-        ,077:1068,060:1041,062:1070,063:0044,126:1025}
+    qphyx_en_ru := { 113:[1102],112:[1087],104:[1093],121:[1099],120:[1103],122:[1079],119:[1096]
+        , 108:[1083],100:[1076],118:[1074],101:[1077],097:[1072],111:[1086],105:[1080],117:[1091]
+        , 109:[1084],115:[1089],116:[1090],114:[1088],110:[1085],099:[1094],106:[1081],103:[1075]
+        , 107:[1082],102:[1092],098:[1073],081:[1070],080:[1055],072:[1061],089:[1067],088:[1071]
+        , 090:[1047],087:[1064],076:[1051],068:[1044],086:[1042],069:[1045],065:[1040],079:[1054]
+        , 073:[1048],085:[1059],077:[1052],083:[1057],084:[1058],082:[1056],078:[1053],067:[1062]
+        , 074:[1049],071:[1043],075:[1050],070:[1060],066:[1041]}
+    qphyx_ru_en := { 1102:[113],1087:[112],1093:[104],1099:[121],1103:[120],1079:[122],1096:[119]
+        , 1083:[108],1076:[100],1074:[118],1078:[],   1098:[],   1077:[101],1072:[097],1086:[111]
+        , 1080:[105],1091:[117],1084:[109],1089:[115],1090:[116],1088:[114],1085:[110],1094:[099]
+        , 1081:[106],1101:[],   1105:[],   1075:[103],1100:[],   1082:[107],1092:[102],1095:[]
+        , 1097:[],   1073:[098],1070:[081],1055:[080],1061:[072],1067:[089],1071:[088],1047:[090]
+        , 1064:[087],1051:[076],1044:[068],1042:[086],1046:[],   1068:[],   1045:[069],1040:[065]
+        , 1054:[079],1048:[073],1059:[085],1052:[077],1057:[083],1058:[084],1056:[082],1053:[078]
+        , 1062:[067],1049:[074],1069:[],   1025:[],   1043:[071],1066:[],   1050:[075],1060:[070]
+        , 1063:[],   1065:[],   1041:[066]}
+    qwerty_en_ru := {113:[1081],119:[1094],101:[1091],114:[1082],116:[1077],121:[1085],117:[1075]
+        , 105:[1096],111:[1097],112:[1079],091:[1093],093:[1098],097:[1092],115:[1099],100:[1074]
+        , 102:[1072],103:[1087],104:[1088],106:[1086],107:[1083],108:[1076],059:[1078],039:[1101]
+        , 122:[1103],120:[1095],099:[1089],118:[1084],098:[1080],110:[1090],109:[1100],044:[1073]
+        , 046:[1102],047:[0046],096:[1105],081:[1049],087:[1062],069:[1059],082:[1050],084:[1045]
+        , 089:[1053],085:[1043],073:[1064],079:[1065],080:[1047],123:[1061],125:[1068],065:[1060]
+        , 083:[1067],068:[1042],070:[1040],071:[1055],072:[1056],074:[1054],075:[1051],076:[1044]
+        , 058:[1046],034:[1069],090:[1071],088:[1063],067:[1057],086:[1052],066:[1048],078:[1058]
+        , 077:[1066],060:[1041],062:[1070],063:[0044],126:[1025],064:[0034],035:[8470],036:[0059]
+        , 094:[0058],038:[0063]}
+    qwerty_ru_en := {1081:[113],1094:[119],1091:[101],1082:[114],1077:[116],1085:[121],1075:[117]
+        , 1096:[105],1097:[111],1079:[112],1093:[091],1098:[093],1092:[097],1099:[115],1074:[100]
+        , 1072:[102],1087:[103],1088:[104],1086:[106],1083:[107],1076:[108],1078:[059],1101:[039]
+        , 1103:[122],1095:[120],1089:[099],1084:[118],1080:[098],1090:[110],1100:[109],1073:[044]
+        , 1102:[046],0046:[047],1105:[096],1049:[081],1062:[087],1059:[069],1050:[082],1045:[084]
+        , 1053:[089],1043:[085],1064:[073],1065:[079],1047:[080],1061:[123],1068:[125],1060:[065]
+        , 1067:[083],1042:[068],1040:[070],1055:[071],1056:[072],1054:[074],1051:[075],1044:[076]
+        , 1046:[058],1069:[034],1071:[090],1063:[088],1057:[067],1052:[086],1048:[066],1058:[078]
+        , 1066:[077],1041:[060],1070:[062],0044:[063],1025:[126],0034:[064],8470:[035],0059:[036]
+        , 0058:[094],0063:[038]}
+    translit_en_ru := {065:[1040],066:[1041],067:[1062],068:[1044],069:[1045],070:[1060]
+        , 071:[1043],072:[1061],073:[1048],074:[1046],075:[1050],076:[1051],077:[1052]
+        , 078:[1053],079:[1054],080:[1055],081:[1050],082:[1056],083:[1057],084:[1058]
+        , 085:[1059],086:[1042],087:[1042],089:[1049],090:[1047],097:[1072],098:[1073]
+        , 099:[1094],100:[1076],101:[1077],102:[1092],103:[1075],104:[1093],105:[1080]
+        , 106:[1078],107:[1082],108:[1083],109:[1084],110:[1085],111:[1086],112:[1087]
+        , 113:[1082],114:[1088],115:[1089],116:[1090],117:[1091],118:[1074],119:[1074]
+        , 121:[1081],122:[1079],088:[1050,1057],120:[1082,1089]}
+    translit_ru_en := {1040:[65],1041:[66],1042:[86],1043:[71],1044:[68],1045:[69],1046:[90,72]
+        , 1047:[90],1048:[73],1049:[89],1050:[75],1051:[76],1052:[77],1053:[78],1054:[79]
+        , 1055:[80],1056:[82],1057:[83],1058:[84],1059:[85],1060:[70],1061:[75,72],1062:[84,83]
+        , 1063:[67,72],1064:[83,72],1065:[83,72,67,72],1066:[],1067:[89],1068:[],1069:[69]
+        , 1070:[89,85],1071:[89,65],1025:[89,79],1072:[97],1073:[98],1074:[118],1075:[103]
+        , 1076:[100],1077:[101],1078:[122,104],1079:[122],1080:[105],1081:[121],1082:[107]
+        , 1083:[108],1084:[109],1085:[110],1086:[111],1087:[112],1088:[114],1089:[115],1090:[116]
+        , 1091:[117],1092:[102],1093:[107,104],1094:[116,115],1095:[99,104],1096:[115,104]
+        , 1097:[115,104,99,104],1098:[],1099:[121],1100:[],1101:[101],1102:[121,117]
+        , 1103:[121,97],1105:[121,111]}
     result := ""
     Loop % Strlen(Clipboard)
     {
         cur_char := Asc(Substr(Clipboard, A_Index, 1))
-        If qwerty.haskey(cur_char)
+        If %dict%.haskey(cur_char)
         {
-            result := result Chr(qwerty[cur_char])
-        }
-        Else
-        {
-            result := result Chr(cur_char)
-        }
-    }
-    Return result
-}
-
-Ru_En_layout_switch()
-{
-    ;from prev; gO or STaY  ?nOw i goTTa ChoOse, AND i’Ll aCCePt yoUR iNviTATioN to THe blUeS
-    qwerty := {1081:113,1094:119,1091:101,1082:114,1077:116,1085:121,1075:117,1096:105,1097:111
-        ,1079:112,1093:091,1098:093,1092:097,1099:115,1074:100,1072:102,1087:103,1088:104
-        ,1086:106,1083:107,1076:108,1078:059,1101:039,1103:122,1095:120,1089:099,1084:118
-        ,1080:098,1090:110,1100:109,1073:044,1102:046,0046:047,1105:096,1049:081,1062:087
-        ,1059:069,1050:082,1045:084,1053:089,1043:085,1064:073,1065:079,1047:080,1061:123
-        ,1066:125,1060:065,1067:083,1042:068,1040:070,1055:071,1056:072,1054:074,1051:075
-        ,1044:076,1046:058,1069:034,1071:090,1063:088,1057:067,1052:086,1048:066,1058:078
-        ,1068:077,1041:060,1070:062,0044:063,1025:126}
-    result := ""
-    Loop % Strlen(Clipboard)
-    {
-        cur_char := Asc(Substr(Clipboard, A_Index, 1))
-        If qwerty.haskey(cur_char)
-        {
-            result := result Chr(qwerty[cur_char])
-        }
-        Else
-        {
-            result := result Chr(cur_char)
-        }
-    }
-    Return result
-}
-
-En_ru_translit()
-{
-    ; гО ор СТаЙ  ?нОв и гоТТа ЦхоОсе, АНД и’Лл аЦЦеПт йоУР иНвиТАТиоН то ТХе блУеС
-    en_ru := {65:[1040],66:[1041],67:[1062],68:[1044],69:[1045],70:[1060],71:[1043],72:[1061]
-        ,73:[1048],74:[1046],75:[1050],76:[1051],77:[1052],78:[1053],79:[1054],80:[1055]
-        ,81:[1050],82:[1056],83:[1057],84:[1058],85:[1059],86:[1042],87:[1042],88:[1050,1057]
-        ,89:[1049],90:[1047],97:[1072],98:[1073],99:[1094],100:[1076],101:[1077],102:[1092]
-        ,103:[1075],104:[1093],105:[1080],106:[1078],107:[1082],108:[1083],109:[1084],110:[1085]
-        ,111:[1086],112:[1087],113:[1082],114:[1088],115:[1089],116:[1090],117:[1091],118:[1074]
-        ,119:[1074],120:[1082,1089],121:[1081],122:[1079]}
-    result := ""
-    Loop % Strlen(Clipboard)
-    {
-        cur_char := Asc(Substr(Clipboard, A_Index, 1))
-        If en_ru.haskey(cur_char)
-        {
-            For ind, elem in en_ru[cur_char]
-            {
-                result := result Chr(elem)
-            }
-        }
-        Else
-        {
-            result := result Chr(cur_char)
-        }
-    }
-    Return result
-}
-
-Ru_en_translit()
-{
-    ;from pr; gO or STaY  ?nOv i goTTa TSkhoOse, AND i’Ll aTSTSePt yoUR iNviTATioN to TKHe blUeS
-    ru_en := {1040:[65],1041:[66],1042:[86],1043:[71],1044:[68],1045:[69],1046:[90,72],1047:[90]
-        ,1048:[73],1049:[89],1050:[75],1051:[76],1052:[77],1053:[78],1054:[79],1055:[80]
-        ,1056:[82],1057:[83],1058:[84],1059:[85],1060:[70],1061:[75,72],1062:[84,83]
-        ,1063:[67,72],1064:[83,72],1065:[83,72,67,72],1066:[],1067:[89],1068:[],1069:[69]
-        ,1070:[89,85],1071:[89,65],1025:[89,69],1072:[097],1073:[098],1074:[118],1075:[103]
-        ,1076:[100],1077:[101],1078:[122,104],1079:[122],1080:[105],1081:[121],1082:[107]
-        ,1083:[108],1084:[109],1085:[110],1086:[111],1087:[112],1088:[114],1089:[115]
-        ,1090:[116],1091:[117],1092:[102],1093:[107,104],1094:[116,115],1095:[099,104]
-        ,1096:[115,104],1097:[115,104,099,104],1098:[],1099:[121],1100:[],1101:[101]
-        ,1102:[121,117],1103:[121,097],1105:[121,101]}
-    result := ""
-    Loop % Strlen(Clipboard)
-    {
-        cur_char := Asc(Substr(Clipboard, A_Index, 1))
-        If ru_en.haskey(cur_char)
-        {
-            For ind, elem in ru_en[cur_char]
+            For ind, elem in %dict%[cur_char]
             {
                 result := result Chr(elem)
             }
