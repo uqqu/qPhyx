@@ -1,6 +1,6 @@
-﻿;=================================================================================================
-;============================================Presets==============================================
-;=================================================================================================
+﻿;===============================================================================================
+;============================================Presets============================================
+;===============================================================================================
 
 #SingleInstance force
 #UseHook On
@@ -10,7 +10,7 @@ SetNumLockState AlwaysOff
 SetScrollLockState AlwaysOff
 
 ;set icon
-icon = stable SH.ico
+icon = qphyx.ico
 IfExist, %icon%
 {
     Menu, Tray, Icon, %icon%
@@ -19,7 +19,7 @@ IfExist, %icon%
 ;let ViATc override hotkeys (only for TC)
 Try
 {
-    Run, ViATc-0.5.5en.ahk.lnk
+    Run, ViATc.lnk
 }
 ;let menu override ViATc
 Try
@@ -93,9 +93,9 @@ global DICT := { scan_code: ["releasing", "sended", "long_char"]
     , SC035: [0, 0, "{?}"]}
 
 
-;=================================================================================================
-;===========================================Layout functions======================================
-;=================================================================================================
+;===============================================================================================
+;===========================================Layout functions====================================
+;===============================================================================================
 
 ;numerical row interaction
 Down_num(this, alt:=0)
@@ -230,9 +230,9 @@ Pass:
     Return
 
 
-;=================================================================================================
-;===========================================Controlling assignments===============================
-;=================================================================================================
+;===============================================================================================
+;===========================================Controlling assignments=============================
+;===============================================================================================
 
 ;;;same
 ;SC001:: esc
@@ -282,7 +282,7 @@ Pass:
 ;SC036:: rshift ??? (136)
 ;SC054:: (Alt-SysRq) on a 84+ key keyboard
 ;SC055:: is less common; occurs e.g. as F11 on a Cherry G80-0777 keyboard,
-    ;as F12 on a Telerate keyboard, as PF1 on a Focus 9000 keyboard, and as FN on an IBM ThinkPad
+    ;as F12 on a Telerate keyboard, as PF1 on a Focus 9000 keyboard, as FN on an IBM ThinkPad
 ;SC056:: mostly on non-US keyboards.
     ;It is often an unlabelled key to the left or to the right of the left Alt key
 
@@ -297,7 +297,7 @@ Pass:
     {
         RegWrite, REG_SZ, HKEY_CURRENT_USER, Environment, QPHYX_DISABLE, 1
     }
-    Run, stable SH.exe
+    Run, qphyx.exe
     Return
 
 
@@ -458,7 +458,7 @@ LWin & SC02C:: Alt("firefox.exe",         "C:\Shortcuts\firefox.exe.lnk")       
     WinRestore, %title%
     Return
 
-; ctrl-sh-"g" (qphyx-view). clipboard swap (paste and save replaced text as a new clipboard text)
+; ctrl-sh-g (qphyx-view). clipboard swap (paste and save replaced text as a new clipboard text)
 +^SC02F::
     saved_value := Clipboard
     Sleep, SLEEP_DELAY
@@ -472,9 +472,9 @@ LWin & SC02C:: Alt("firefox.exe",         "C:\Shortcuts\firefox.exe.lnk")       
     Clipboard := saved_value2
     Return
 
-;=================================================================================================
-;============================="Send symbol" key assignments=======================================
-;=================================================================================================
+;===============================================================================================
+;============================="Send symbol" key assignments=====================================
+;===============================================================================================
 
 ;numeric row
 +SC002:: Down_num("SC002")
