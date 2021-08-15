@@ -2,7 +2,6 @@
 ;============================================Presets==============================================
 ;=================================================================================================
 
-;#NoTrayIcon
 #SingleInstance force
 #UseHook On
 
@@ -21,6 +20,7 @@ IfExist, %icon%
 Try
 {
     Run, ViATc-0.5.5en.ahk.lnk
+    Run, menu.exe
 }
 
 global LONG_TIME
@@ -293,7 +293,6 @@ Pass:
     {
         RegWrite, REG_SZ, HKEY_CURRENT_USER, Environment, QPHYX_DISABLE, 1
     }
-    Run, menu.exe
     Run, stable SH.exe
     Return
 

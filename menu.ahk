@@ -2,7 +2,6 @@
 ;============================================Presets==============================================
 ;=================================================================================================
 
-;#NoTrayIcon
 #SingleInstance force
 #UseHook On
 
@@ -11,8 +10,8 @@ IfExist, %icon%
     Menu, Tray, Icon, %icon%
 
 global MUS_DELAY
-global MUTE_MODE ; 0 – disable; 1 – "all_mute button"; 2 – mouse click on spotify mute;
-                ; 3 – volume mixer proccess mute; 4 – 2 mode, if cannot – 3 mode
+global MUTE_MODE    ; 0 – disable; 1 – "all_mute button"; 2 – mouse click on spotify mute;
+                    ; 3 – volume mixer proccess mute; 4 – 2 mode, if cannot – 3 mode
 RegRead, LONG_TIME, HKEY_CURRENT_USER\Environment, MUS_DELAY
 RegRead, DISABLE, HKEY_CURRENT_USER\Environment, MUTE_MODE
 If !MUS_DELAY
@@ -379,17 +378,20 @@ SpotifyDetectProcessId()
     }
 }
 
-MuteSecondMode()
+MuteSecondMode(title)
 {
     WinGet, Style, Style, % "ahk_id " SPOTIFY
-    WinGet, active_id, ID, A
+    WinGetTitle, active_title, A
     CoordMode, Mouse, Screen
     MouseGetPos, xpos, ypos
     WinGetPos, x, y, h, w, ahk_id %SPOTIFY%
-    If (Style & 0x10000000 and h > 500 and w > 500)
+    If (Style & 0x10000000 && h > 500 && w > 500)
     {
         MUTE := !MUTE
-        WinSet, Transparent, 1, ahk_id %SPOTIFY%
+        If (active_title != title)
+        {
+            WinSet, Transparent, 1, ahk_id %SPOTIFY%
+        }
         WinSet, AlwaysOnTop, 1, ahk_id %SPOTIFY%
         BlockInput, On
         nx := x+h-130
@@ -398,8 +400,11 @@ MuteSecondMode()
         MouseMove, %xpos%, %ypos%
         BlockInput, Off
         WinSet, AlwaysOnTop, 0, ahk_id %SPOTIFY%
-        WinActivate, ahk_id %active_id%
-        WinSet, Transparent, Off, ahk_id %SPOTIFY%
+        If (active_title != title)
+        {
+            WinActivate, %active_title%
+            WinSet, Transparent, Off, ahk_id %SPOTIFY%
+        }
         Return 1
     }
     Else
@@ -408,7 +413,7 @@ MuteSecondMode()
     }
 }
 
-MuteThirdMode()
+MuteThirdMode(title)
 {
     MUTE := !MUTE
     Run sndvol
@@ -418,7 +423,7 @@ MuteThirdMode()
     Loop, parse, clist, `n
     {
         ControlGetText, text, %A_LoopField%, Volume Mixer
-        If InStr(text, title) or InStr(text, "Spotify")
+        If (InStr(text, title) || InStr(text, "Spotify"))
         {
             If counter
             {
@@ -501,7 +506,7 @@ Execute()
 ;auxiliary to "Simplify_math()"
 Fact_calc(num)
 {
-    If (num == 0)
+    If !num
     {
         Return 1
     }
@@ -513,6 +518,10 @@ Fact_calc(num)
 
 Weather(q_city)
 {
+    If !WEATHER_KEY
+    {
+        Return "Not found api key in environment variables (search 'OPENWEATHERMAP')"
+    }
     webRequest := ComObjCreate("WinHttp.WinHttpRequest.5.1")
     webRequest.Open("GET", "https://api.openweathermap.org/data/2.5/weather?q=" q_city
         . "&appid=" WEATHER_KEY "&units=metric")
@@ -527,6 +536,10 @@ Weather(q_city)
 
 Exch_rates(base, symbol, amount:=1)
 {
+    If !CURRENCY_KEY
+    {
+        Return "Not found api key in environment variables (search 'GETGEOAPI')"
+    }
     If !amount
     {
         amount := RegExReplace(RegExReplace(Clipboard, "[^\d+\.,]"), ",", ".")
@@ -541,6 +554,10 @@ Exch_rates(base, symbol, amount:=1)
 
 Unknown_currency(base)
 {
+    If !CURRENCY_KEY
+    {
+        Return "Not found api key in environment variables (search 'GETGEOAPI')"
+    }
     currencies1 :=
         [[["XCD","EC$","$EC","carib"],"East Caribbean dollar"]
         ,[["COP","COL$","$COL","colom"],"Colombian peso"]
@@ -764,7 +781,7 @@ Decimal_time()
 ; New Year on the Winter solstice (dec 21-22, old style).
 Hexal_date()
 {
-    If (Mod(A_YYYY, 400) == 0) or (Mod(A_YYYY, 4) == 0 and Mod(A_YYYY, 100) != 0)
+    If (!Mod(A_YYYY, 400) || !Mod(A_YYYY, 4) && Mod(A_YYYY, 100))
     {
         leap_mark := 1
     }
@@ -863,11 +880,11 @@ Inverted()
         {
             result := result Chr(cur_char - 32)
         }
-        Else If cur_char == 1025
+        Else If (cur_char == 1025)
         {
             result := result Chr(1105)
         }
-        Else If cur_char == 1105
+        Else If (cur_char == 1105)
         {
             result := result Chr(1025)
         }
@@ -1034,7 +1051,7 @@ Simplify_math()
                 Loop
                 {
                     char := Asc(Substr(result, 1-A_Index, 1))
-                    If (char > 47 and char < 58)
+                    If char between 47 and 58
                     {
                         fact := fact Chr(char)
                     }
@@ -1059,11 +1076,11 @@ Simplify_math()
             {
                 result := result "+/-"
             }
-            Else If (cur_char == 8804 or cur_char == 10877)
+            Else If (cur_char == 8804 || cur_char == 10877)
             {
                 result := result "<="
             }
-            Else If (cur_char == 8805 or cur_char == 10878)
+            Else If (cur_char == 8805 || cur_char == 10878)
             {
                 result := result ">="
             }
@@ -1127,12 +1144,12 @@ Stilyze_math()
         cur_char := Asc(Substr(Clipboard, A_Index, 1))
         If super
         {
-            If (brackets and cur_char == 0040)
+            If (brackets && cur_char == 0040)
             {
                 brackets++
                 result := result Chr(8317)
             }
-            Else If (brackets and cur_char == 0041)
+            Else If (brackets && cur_char == 0041)
             {
                 brackets--
                 If brackets
@@ -1169,7 +1186,7 @@ Stilyze_math()
             }
         }
 
-        If !super and !last_bracket
+        If (!super && !last_bracket)
         {
             If (cur_char == 0043)
             {
@@ -1188,17 +1205,17 @@ Stilyze_math()
                     result := result Chr(cur_char)
                 }
             }
-            Else If (cur_char == 0060 and Substr(Clipboard, A_Index+1, 1) == ">"
-                    or cur_char == 0033 and Substr(Clipboard, A_Index+1, 1) == "=")
+            Else If (cur_char == 0060 && Substr(Clipboard, A_Index+1, 1) == ">"
+                    || cur_char == 0033 && Substr(Clipboard, A_Index+1, 1) == "=")
             {
                 result := result Chr(8800)
                 skip := 1
             }
-            Else If (cur_char == 0061 and q_mark)
+            Else If (cur_char == 0061 && q_mark)
             {
                 result := result Chr(8799)
             }
-            Else If (cur_char == 0042 and Substr(Clipboard, A_Index+1, 1) == "*")
+            Else If (cur_char == 0042 && Substr(Clipboard, A_Index+1, 1) == "*")
             {
                 super := 1
                 If (Substr(Clipboard, A_Index+2, 1) == "(")
@@ -1220,19 +1237,19 @@ Stilyze_math()
                     brackets := 1
                 }
             }
-            Else If (cur_char == 0060 and Substr(Clipboard, A_Index+1, 1) == "<")
+            Else If (cur_char == 0060 && Substr(Clipboard, A_Index+1, 1) == "<")
             {
                 result := result Chr(8810)
             }
-            Else If (cur_char == 0062 and Substr(Clipboard, A_Index+1, 1) == ">")
+            Else If (cur_char == 0062 && Substr(Clipboard, A_Index+1, 1) == ">")
             {
                 result := result Chr(8811)
             }
-            Else If (cur_char == 0060 and Substr(Clipboard, A_Index+1, 1) == "=")
+            Else If (cur_char == 0060 && Substr(Clipboard, A_Index+1, 1) == "=")
             {
                 result := result Chr(8805)
             }
-            Else If (cur_char == 0062 and Substr(Clipboard, A_Index+1, 1) == "=")
+            Else If (cur_char == 0062 && Substr(Clipboard, A_Index+1, 1) == "=")
             {
                 result := result Chr(8804)
             }
@@ -1264,10 +1281,10 @@ Pass:
 Idle:
     delay := MUS_DELAY * 60000
     IfGreater, A_TimeIdle, %delay%, SendInput {SC124}
-    If SPOTIFY && MUTE_MODE
+    If (SPOTIFY && MUTE_MODE)
     {
         WinGetTitle, title, ahk_id %SPOTIFY%
-        If (title == "Advertisement") ^= MUTE
+        If ((title == "Advertisement") ^ MUTE)
         {
             If (MUTE_MODE == 1)
             {
@@ -1276,11 +1293,11 @@ Idle:
             }
             Else If (MUTE_MODE == 2)
             {
-                MuteSecondMode()
+                MuteSecondMode(title)
             }
-            Else If (MUTE_MODE == 3) || (MUTE_MODE == 4) && !MuteSecondMode()
+            Else If ((MUTE_MODE == 3) || (MUTE_MODE == 4) && !MuteSecondMode(title))
             {
-                MuteThirdMode()
+                MuteThirdMode(title)
             }
         }
     }
@@ -1290,13 +1307,24 @@ Reminder:
     InputBox, userInput, Reminder, Remind me in ... minutes, , 200, 130
     If !ErrorLevel
     {
-        delay := userInput * 60000
-        SetTimer, Alarma, %delay%
+        If userInput is number
+        {
+            delay := userInput * 60000
+            SetTimer, Alarma, %delay%
+        }
+        Else
+        {
+            MsgBox, 53, Incorrect value, The input must be a number!
+            IfMsgBox Retry
+            {
+                Goto, Reminder
+            }
+        }
     }
     Return
 
 Alarma:
-    MsgBox, , ALARMA, ALARMA
+    MsgBox, 48, ALARMA, ALARMA
     SetTimer, Alarma, Off
     Return
 
@@ -1318,15 +1346,26 @@ Long_press:
         , New value in seconds (e.g. 0.15), , 444, 130
     If !ErrorLevel
     {
-        Menu, Func, Delete, &Long press delay (now is %LONG_TIME%s)
-        Menu, Func, Delete, &Auto-stop music on AFK delay (now is %MUS_DELAY%m)
-        Menu, Func, Delete, Select &mute mode for spotify advertisement (now is %MUTE_MODE%)
-        RegWrite, REG_SZ, HKEY_CURRENT_USER, Environment, QPHYX_LONG_TIME, %userInput%
-        LONG_TIME := userInput
-        Run, stable SH.exe
-        Menu, Func, Add, &Long press delay (now is %LONG_TIME%s), Long_press
-        Menu, Func, Add, &Auto-stop music on AFK delay (now is %MUS_DELAY%m), Mus_timer
-        Menu, Func, Add, Select &mute mode for spotify advertisement (now is %MUTE_MODE%), Mute_mode
+        If userInput is number
+        {
+            Menu, Func, Delete, &Long press delay (now is %LONG_TIME%s)
+            Menu, Func, Delete, &Auto-stop music on AFK delay (now is %MUS_DELAY%m)
+            Menu, Func, Delete, Select &mute mode for spotify advertisement (now is %MUTE_MODE%)
+            RegWrite, REG_SZ, HKEY_CURRENT_USER, Environment, QPHYX_LONG_TIME, %userInput%
+            LONG_TIME := userInput
+            Run, stable SH.exe
+            Menu, Func, Add, &Long press delay (now is %LONG_TIME%s), Long_press
+            Menu, Func, Add, &Auto-stop music on AFK delay (now is %MUS_DELAY%m), Mus_timer
+            Menu, Func, Add, Select &mute mode for spotify advertisement (now is %MUTE_MODE%), Mute_mode
+        }
+        Else
+        {
+            MsgBox, 53, Incorrect value, The input must be a number!
+            IfMsgBox Retry
+            {
+                Goto, Long_press
+            }
+        }
     }
     Return
 
@@ -1335,12 +1374,23 @@ Mus_timer:
         , New value in minutes (e.g. 10), , 444, 130
     If !ErrorLevel
     {
-        Menu, Func, Delete, &Auto-stop music on AFK delay (now is %MUS_DELAY%m)
-        Menu, Func, Delete, Select &mute mode for spotify advertisement (now is %MUTE_MODE%)
-        RegWrite, REG_SZ, HKEY_CURRENT_USER, Environment, MUS_DELAY, %userInput%
-        MUS_DELAY := userInput
-        Menu, Func, Add, &Auto-stop music on AFK delay (now is %MUS_DELAY%m), Mus_timer
-        Menu, Func, Add, Select &mute mode for spotify advertisement (now is %MUTE_MODE%), Mute_mode
+        If userInput is number
+        {
+            Menu, Func, Delete, &Auto-stop music on AFK delay (now is %MUS_DELAY%m)
+            Menu, Func, Delete, Select &mute mode for spotify advertisement (now is %MUTE_MODE%)
+            RegWrite, REG_SZ, HKEY_CURRENT_USER, Environment, MUS_DELAY, %userInput%
+            MUS_DELAY := userInput
+            Menu, Func, Add, &Auto-stop music on AFK delay (now is %MUS_DELAY%m), Mus_timer
+            Menu, Func, Add, Select &mute mode for spotify advertisement (now is %MUTE_MODE%), Mute_mode
+        }
+        Else
+        {
+            MsgBox, 53, Incorrect value, The input must be a number!
+            IfMsgBox Retry
+            {
+                Goto, Mus_timer
+            }
+        }
     }
     Return
 
@@ -1357,10 +1407,21 @@ Mute_mode:
         , %msg%, , 600, 200
     If !ErrorLevel
     {
-        Menu, Func, Delete, Select &mute mode for spotify advertisement (now is %MUTE_MODE%)
-        RegWrite, REG_SZ, HKEY_CURRENT_USER, Environment, MUTE_MODE, %userInput%
-        MUTE_MODE := userInput
-        Menu, Func, Add, Select &mute mode for spotify advertisement (now is %MUTE_MODE%), Mute_mode
+        If userInput is number
+        {
+            Menu, Func, Delete, Select &mute mode for spotify advertisement (now is %MUTE_MODE%)
+            RegWrite, REG_SZ, HKEY_CURRENT_USER, Environment, MUTE_MODE, %userInput%
+            MUTE_MODE := userInput
+            Menu, Func, Add, Select &mute mode for spotify advertisement (now is %MUTE_MODE%), Mute_mode
+        }
+        Else
+        {
+            MsgBox, 53, Incorrect value, The input must be a number!
+            IfMsgBox Retry
+            {
+                Goto, Mus_timer
+            }
+        }
     }
     Return
 
@@ -1432,11 +1493,11 @@ Mute_mode:
     WinGetTitle, title, A
     If (title != "Heroes of Might and Magic III: Horn of the Abyss")
     {
-        If (DISABLE == 1)
+        If DISABLE
         {
             Menu, Func, Check, D&isable (sh+tilde to toggle)
         }
-        Else If (DISABLE == 0)
+        Else If !DISABLE
         {
             Menu, Func, Uncheck, D&isable (sh+tilde to toggle)
         }
