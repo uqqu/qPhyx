@@ -23,7 +23,7 @@ If !MUS_DELAY
     MUTE_MODE := 4
 }
 
-global SPOTIFY := ""
+global SPOTIFY := 0
 SpotifyDetectProcessId()
 
 global MUTE := 0
@@ -373,7 +373,7 @@ SpotifyDetectProcessId()
             Break
         }
     }
-    If (SPOTIFY == "")
+    If !SPOTIFY
     {
         SetTimer, SpotifyDetectProcessId, -66666
     }
@@ -1267,7 +1267,7 @@ Idle:
     If SPOTIFY && MUTE_MODE
     {
         WinGetTitle, title, ahk_id %SPOTIFY%
-        If (title == "Advertisement") && !MUTE || MUTE && (title != "Advertisement")
+        If (title == "Advertisement") ^= MUTE
         {
             If (MUTE_MODE == 1)
             {
