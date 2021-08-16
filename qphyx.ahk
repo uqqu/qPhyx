@@ -120,7 +120,7 @@ Down_num(this, alt:=0)
 }
 Up_num(this, shift:=0, alt:=0)
 {
-    If NUM_DICT[this][1] and !NUM_DICT[this][2]
+    If (NUM_DICT[this][1] && !NUM_DICT[this][2])
     {
         If alt
         {
@@ -146,7 +146,7 @@ Down(this)
     {
         DICT[this][1] := 1
         KeyWait, %this%, T%LONG_TIME%
-        If (ErrorLevel and !DICT[this][2])
+        If (ErrorLevel && !DICT[this][2])
         {
             DICT[this][2] := 1
             SendInput % DICT[this][3]
@@ -155,7 +155,7 @@ Down(this)
 }
 Up(this)
 {
-    If DICT[this][1] and !DICT[this][2]
+    If (DICT[this][1] && !DICT[this][2])
     {
         SendInput {%this%}
     }
@@ -217,11 +217,15 @@ SpotifyDetectProcessId()
         this_id := id%A_Index%
         WinGet, proc, ProcessName, ahk_id %this_id%
         WinGetTitle, title, ahk_id %this_id%
-        If (title != "" && proc == "Spotify.exe")
+        If (title && proc == "Spotify.exe")
         {
             SPOTIFY := this_id
             Break
         }
+    }
+    If !SPOTIFY
+    {
+        SetTimer, SpotifyDetectProcessId, -66666
     }
 }
 
