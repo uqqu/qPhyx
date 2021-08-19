@@ -43,54 +43,54 @@ global SPOTIFY
 SpotifyDetectProcessId()
 
 
-global NUM_DICT := { scan_code: ["releasing", "sended", "long_char", "alt", "alt_long"]
-    , SC002: [0, 0, "{⁺}", "{₁}", "{₊}"]
-    , SC003: [0, 0, "{⁻}", "{₂}", "{₋}"]
-    , SC004: [0, 0, "{ⁿ}", "{₃}", "{ₓ}"]
-    , SC005: [0, 0, "{ⁱ}", "{₄}", "{ₐ}"]
-    , SC006: [0, 0, "{⁼}", "{₅}", "{₌}"]
-    , SC007: [0, 0, "{⁽}", "{₆}", "{₍}"]
-    , SC008: [0, 0, "{⁾}", "{₇}", "{₎}"]
-    , SC009: [0, 0, "{̂}" , "{₈}", "{̃}" ]
-    , SC00A: [0, 0, "{̆}" , "{₉}", "{̈}" ]
-    , SC00B: [0, 0, "{∕}", "{₀}", "{̧}" ]
-    , SC00C: [0, 0, "{∞}", "{↓}", "{←}"]
-    , SC00D: [0, 0, "{Σ}", "{↑}", "{→}"]}
+global NUM_DICT := { scan_code: ["releasing", "sended", "shift_long", "alt", "alt_long"]
+    , SC002: [0, 0, "⁺", "₁", "₊"]
+    , SC003: [0, 0, "⁻", "₂", "₋"]
+    , SC004: [0, 0, "ⁿ", "₃", "ₓ"]
+    , SC005: [0, 0, "ⁱ", "₄", "ₐ"]
+    , SC006: [0, 0, "⁼", "₅", "₌"]
+    , SC007: [0, 0, "⁽", "₆", "₍"]
+    , SC008: [0, 0, "⁾", "₇", "₎"]
+    , SC009: [0, 0, "̂" , "₈", "̃" ] ; shift long – diacritic circumflex; alt_long – diacr. tilde
+    , SC00A: [0, 0, "̆" , "₉", "̈" ] ; shift long – diacritic breve; alt_long – diacritic umlaut
+    , SC00B: [0, 0, "∕", "₀", "̧" ] ; alt long – diacritic cedilla
+    , SC00C: [0, 0, "∞", "↓", "←"]
+    , SC00D: [0, 0, "Σ", "↑", "→"]}
 
-global DICT := { scan_code: ["releasing", "sended", "long_char"]
-    , SC010: [0, 0, "{~}"]
-    , SC011: [0, 0, "{–}"]
-    , SC012: [0, 0, "{@}"]
-    , SC013: [0, 0, "{\}"]
-    , SC014: [0, 0, "{``}"]
-    , SC015: [0, 0, "{<}"]
-    , SC016: [0, 0, "{(}"]
-    , SC017: [0, 0, "{[}"]
-    , SC018: [0, 0, "{{}"]
-    , SC019: [0, 0, "{!}"]
-    , SC01A: [0, 0, "{#}"]
-    , SC01B: [0, 0, "{́}" ]
-    , SC01E: [0, 0, "{+}"]
-    , SC01F: [0, 0, "{-}"]
-    , SC020: [0, 0, "{*}"]
-    , SC021: [0, 0, "{/}"]
-    , SC022: [0, 0, "{=}"]
-    , SC023: [0, 0, "{""}"]
-    , SC024: [0, 0, "{'}"]
-    , SC025: [0, 0, "{.}"]
-    , SC026: [0, 0, "{,}"]
-    , SC027: [0, 0, "{:}"]
-    , SC028: [0, 0, "{;}"]
-    , SC02C: [0, 0, "{$}"]
-    , SC02D: [0, 0, "{€}"]
-    , SC02E: [0, 0, "{₽}"]
-    , SC02F: [0, 0, "{_}"]
-    , SC030: [0, 0, "{≈}"]
-    , SC031: [0, 0, "{>}"]
-    , SC032: [0, 0, "{)}"]
-    , SC033: [0, 0, "{]}"]
-    , SC034: [0, 0, "{}}"]
-    , SC035: [0, 0, "{?}"]}
+global DICT := { scan_code: ["releasing", "sended", "long", "alt"]
+    , SC010: [0, 0, "~", "°"]
+    , SC011: [0, 0, "–", "—"]
+    , SC012: [0, 0, "@", "§"]
+    , SC013: [0, 0, "\", "&"]
+    , SC014: [0, 0, "``","’"]
+    , SC015: [0, 0, "<", "«"]
+    , SC016: [0, 0, "(", "" ] ; alt – back
+    , SC017: [0, 0, "[", "" ] ; alt - forward
+    , SC018: [0, 0, "{", "“"]
+    , SC019: [0, 0, "!", "¡"]
+    , SC01A: [0, 0, "#", "№"]
+    , SC01B: [0, 0, "́" , "̀" ] ; long – diacritic acute; alt – diacritic grave
+    , SC01E: [0, 0, "+", "±"]
+    , SC01F: [0, 0, "-", "−"]
+    , SC020: [0, 0, "*", "×"]
+    , SC021: [0, 0, "/", "÷"]
+    , SC022: [0, 0, "=", "≠"]
+    , SC023: [0, 0, """","" ] ; alt - left
+    , SC024: [0, 0, "'", "" ] ; alt - down
+    , SC025: [0, 0, ".", "" ] ; alt - up
+    , SC026: [0, 0, ",", "" ] ; alt - right
+    , SC027: [0, 0, ":", "%"]
+    , SC028: [0, 0, ";", "^"]
+    , SC02C: [0, 0, "$", "¥"]
+    , SC02D: [0, 0, "€", "£"]
+    , SC02E: [0, 0, "₽", "¤"]
+    , SC02F: [0, 0, "_", "|"]
+    , SC030: [0, 0, "≈", "≟"]
+    , SC031: [0, 0, ">", "»"]
+    , SC032: [0, 0, ")", "" ] ; alt - undo
+    , SC033: [0, 0, "]", "" ] ; alt - redo
+    , SC034: [0, 0, "}", "”"]
+    , SC035: [0, 0, "?", "¿"]}
 
 
 ;===============================================================================================
@@ -149,7 +149,7 @@ Down(this)
         If (ErrorLevel && !DICT[this][2])
         {
             DICT[this][2] := 1
-            SendInput % DICT[this][3]
+            SendInput % "{Text}" . DICT[this][3]
         }
     }
 }
@@ -481,30 +481,36 @@ LWin & SC02C:: Alt("firefox.exe",         "C:\Shortcuts\firefox.exe.lnk")       
 ;===============================================================================================
 
 ;numeric row
-+SC002:: Down_num("SC002")
-!SC002:: Down_num("SC002", 1)
-+SC003:: Down_num("SC003")
-!SC003:: Down_num("SC003", 1)
-+SC004:: Down_num("SC004")
-!SC004:: Down_num("SC004", 1)
-+SC005:: Down_num("SC005")
-!SC005:: Down_num("SC005", 1)
-+SC006:: Down_num("SC006")
-!SC006:: Down_num("SC006", 1)
-+SC007:: Down_num("SC007")
-!SC007:: Down_num("SC007", 1)
-+SC008:: Down_num("SC008")
-!SC008:: Down_num("SC008", 1)
-+SC009:: Down_num("SC009")
-!SC009:: Down_num("SC009", 1)
-+SC00A:: Down_num("SC00A")
-!SC00A:: Down_num("SC00A", 1)
-+SC00B:: Down_num("SC00B")
-!SC00B:: Down_num("SC00B", 1)
-+SC00C:: Down_num("SC00C")
-!SC00C:: Down_num("SC00C", 1)
-+SC00D:: Down_num("SC00D")
-!SC00D:: Down_num("SC00D", 1)
++SC002::
++SC003::
++SC004::
++SC005::
++SC006::
++SC007::
++SC008::
++SC009::
++SC00A::
++SC00B::
++SC00C::
++SC00D::
+    Down_num(SubStr(A_ThisHotkey, 2))
+    Return
+
+!SC002::
+!SC003::
+!SC004::
+!SC005::
+!SC006::
+!SC007::
+!SC008::
+!SC009::
+!SC00A::
+!SC00B::
+!SC00C::
+!SC00D::
+    Down_num(SubStr(A_ThisHotkey, 2), 1)
+    Return
+
 ;top letters row
 SC010::
 SC011::
@@ -545,95 +551,106 @@ SC035::
     Return
 
 ;numeric row
-+SC002 up:: Up_num("SC002", 1)
-!SC002 up:: Up_num("SC002", , 1)
-+SC003 up:: Up_num("SC003", 1)
-!SC003 up:: Up_num("SC003", , 1)
-+SC004 up:: Up_num("SC004", 1)
-!SC004 up:: Up_num("SC004", , 1)
-+SC005 up:: Up_num("SC005", 1)
-!SC005 up:: Up_num("SC005", , 1)
-+SC006 up:: Up_num("SC006", 1)
-!SC006 up:: Up_num("SC006", , 1)
-+SC007 up:: Up_num("SC007", 1)
-!SC007 up:: Up_num("SC007", , 1)
-+SC008 up:: Up_num("SC008", 1)
-!SC008 up:: Up_num("SC008", , 1)
-+SC009 up:: Up_num("SC009", 1)
-!SC009 up:: Up_num("SC009", , 1)
-+SC00A up:: Up_num("SC00A", 1)
-!SC00A up:: Up_num("SC00A", , 1)
-+SC00B up:: Up_num("SC00B", 1)
-!SC00B up:: Up_num("SC00B", , 1)
-+SC00C up:: Up_num("SC00C", 1)
-!SC00C up:: Up_num("SC00C", , 1)
-+SC00D up:: Up_num("SC00D", 1)
-!SC00D up:: Up_num("SC00D", , 1)
-;top letters row
-SC010 up:: Up("SC010")
-SC011 up:: Up("SC011")
-SC012 up:: Up("SC012")
-SC013 up:: Up("SC013")
-SC014 up:: Up("SC014")
-SC015 up:: Up("SC015")
-SC016 up:: Up("SC016")
-SC017 up:: Up("SC017")
-SC018 up:: Up("SC018")
-SC019 up:: Up("SC019")
-SC01A up:: Up("SC01A")
-SC01B up:: Up("SC01B")
-;home letters row
-SC01E up:: Up("SC01E")
-SC01F up:: Up("SC01F")
-SC020 up:: Up("SC020")
-SC021 up:: Up("SC021")
-SC022 up:: Up("SC022")
-SC023 up:: Up("SC023")
-SC024 up:: Up("SC024")
-SC025 up:: Up("SC025")
-SC026 up:: Up("SC026")
-SC027 up:: Up("SC027")
-SC028 up:: Up("SC028")
-;bottom letters row
-SC02C up:: Up("SC02C")
-SC02D up:: Up("SC02D")
-SC02E up:: Up("SC02E")
-SC02F up:: Up("SC02F")
-SC030 up:: Up("SC030")
-SC031 up:: Up("SC031")
-SC032 up:: Up("SC032")
-SC033 up:: Up("SC033")
-SC034 up:: Up("SC034")
-SC035 up:: Up("SC035")
++SC002 up::
++SC003 up::
++SC004 up::
++SC005 up::
++SC006 up::
++SC007 up::
++SC008 up::
++SC009 up::
++SC00A up::
++SC00B up::
++SC00C up::
++SC00D up::
+    Up_num(SubStr(A_ThisHotkey, 2, 5), 1)
+    Return
+
+!SC002 up::
+!SC003 up::
+!SC004 up::
+!SC005 up::
+!SC006 up::
+!SC007 up::
+!SC008 up::
+!SC009 up::
+!SC00A up::
+!SC00B up::
+!SC00C up::
+!SC00D up::
+    Up_num(SubStr(A_ThisHotkey, 2, 5), , 1)
+    Return
 
 ;top letters row
-!SC010:: SendInput {°}
-!SC011:: SendInput {—}
-!SC012:: SendInput {§}
-!SC013:: SendInput {&}
-!SC014:: SendInput {’}
-!SC015:: SendInput {«}
-!SC018:: SendInput {“}
-!SC019:: SendInput {¡}
-!SC01A:: SendInput {№}
-!SC01B:: SendInput {̀}
+SC010 up::
+SC011 up::
+SC012 up::
+SC013 up::
+SC014 up::
+SC015 up::
+SC016 up::
+SC017 up::
+SC018 up::
+SC019 up::
+SC01A up::
+SC01B up::
 ;home letters row
-!SC01E:: SendInput {±}
-!SC01F:: SendInput {−}
-!SC020:: SendInput {×}
-!SC021:: SendInput {÷}
-!SC022:: SendInput {≠}
-!SC027:: SendInput {`%}
-!SC028:: SendInput {^}
+SC01E up::
+SC01F up::
+SC020 up::
+SC021 up::
+SC022 up::
+SC023 up::
+SC024 up::
+SC025 up::
+SC026 up::
+SC027 up::
+SC028 up::
 ;bottom letters row
-!SC02C:: SendInput {¥}
-!SC02D:: SendInput {£}
-!SC02E:: SendInput {¤}
-!SC02F:: SendInput {|}
-!SC030:: SendInput {≟}
-!SC031:: SendInput {»}
-!SC034:: SendInput {”}
-!SC035:: SendInput {¿}
+SC02C up::
+SC02D up::
+SC02E up::
+SC02F up::
+SC030 up::
+SC031 up::
+SC032 up::
+SC033 up::
+SC034 up::
+SC035 up::
+    Up(SubStr(A_ThisHotkey, 1, 5))
+    Return
+
+;top letters row
+!SC010::
+!SC011::
+!SC012::
+!SC013::
+!SC014::
+!SC015::
+!SC018::
+!SC019::
+!SC01A::
+!SC01B::
+;home letters row
+!SC01E::
+!SC01F::
+!SC020::
+!SC021::
+!SC022::
+!SC027::
+!SC028::
+;bottom letters row
+!SC02C::
+!SC02D::
+!SC02E::
+!SC02F::
+!SC030::
+!SC031::
+!SC034::
+!SC035::
+    SendInput % "{Text}" DICT[SubStr(A_ThisHotkey, 2)][4]
+    Return
+
 ;space
 SC039::
     For k in DICT
