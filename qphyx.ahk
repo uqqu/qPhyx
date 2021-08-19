@@ -465,14 +465,14 @@ LWin & SC02C:: Alt("firefox.exe",         "C:\Shortcuts\firefox.exe.lnk")       
 ; ctrl-sh-g (qphyx-view). clipboard swap (paste and save replaced text as a new clipboard text)
 +^SC02F::
     saved_value := Clipboard
-    Sleep, SLEEP_DELAY
+    Clipboard := ""
     SendInput ^{SC02E}
-    Sleep, SLEEP_DELAY
+    ClipWait
     saved_value2 := Clipboard
+    Clipboard := ""
     Clipboard := saved_value
-    Sleep, SLEEP_DELAY
-    SendInput ^{SC02F}
-    Sleep, SLEEP_DELAY
+    ClipWait
+    SendEvent ^{SC02F}
     Clipboard := saved_value2
     Return
 
