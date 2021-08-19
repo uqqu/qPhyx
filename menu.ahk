@@ -588,7 +588,7 @@ MuteSecondMode(title)
         nx := x+h-330
         ny := y+w-55
         Click, %nx%, %ny%
-        SendInput {Tab}{Tab}{Enter}
+        SendInput {Tab}{Tab}{Tab}{Enter}
         MouseMove, %xpos%, %ypos%
         BlockInput, Off
         WinSet, AlwaysOnTop, 0, ahk_id %SPOTIFY%
