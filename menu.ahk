@@ -578,15 +578,19 @@ MuteSecondMode(title)
     WinGetPos, x, y, h, w, ahk_id %SPOTIFY%
     If (Style & 0x10000000 && h > 500 && w > 500)
     {
-        MUTE := !MUTE
+        nx := x+h-130
+        ny := y+w-55
         If (active_title != title)
         {
             WinSet, Transparent, 1, ahk_id %SPOTIFY%
         }
+        Else If !MUTE
+        {
+            nx := x+h-165
+        }
+        MUTE := !MUTE
         WinSet, AlwaysOnTop, 1, ahk_id %SPOTIFY%
         BlockInput, On
-        nx := x+h-130
-        ny := y+w-50
         Click, %nx%, %ny%
         MouseMove, %xpos%, %ypos%
         BlockInput, Off
