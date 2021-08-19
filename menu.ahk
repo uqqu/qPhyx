@@ -578,20 +578,17 @@ MuteSecondMode(title)
     WinGetPos, x, y, h, w, ahk_id %SPOTIFY%
     If (Style & 0x10000000 && h > 500 && w > 500)
     {
-        nx := x+h-130
-        ny := y+w-55
+        MUTE := !MUTE
         If (active_title != title)
         {
             WinSet, Transparent, 1, ahk_id %SPOTIFY%
         }
-        Else If !MUTE
-        {
-            nx := x+h-165
-        }
-        MUTE := !MUTE
         WinSet, AlwaysOnTop, 1, ahk_id %SPOTIFY%
         BlockInput, On
+        nx := x+h-330
+        ny := y+w-55
         Click, %nx%, %ny%
+        SendInput {Tab}{Tab}{Enter}
         MouseMove, %xpos%, %ypos%
         BlockInput, Off
         WinSet, AlwaysOnTop, 0, ahk_id %SPOTIFY%
@@ -963,7 +960,7 @@ Unknown_currency(base)
                         webRequest := ComObjCreate("WinHttp.WinHttpRequest.5.1")
                         webRequest.Open("GET"
                             , "https://api.getgeoapi.com/api/v2/currency/convert?api_key="
-                            . CURRENCY_KEY "&from=" elem[1][1] "&to=" base "&amount=" 
+                            . CURRENCY_KEY "&from=" elem[1][1] "&to=" base "&amount="
                             . amount1 "&format=json")
                         webRequest.Send()
                         result := amount1 " " elem[2] " to " base ": "
@@ -1343,7 +1340,7 @@ Mus_timer:
     Return
 
 Mute_mode:
-    msg = 
+    msg =
     (
     0 is disable feature;
 1 is global mute mode without mouse click and calling any processes;
