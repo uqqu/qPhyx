@@ -578,15 +578,15 @@ MuteSecondMode(title)
     WinGetPos, x, y, h, w, ahk_id %SPOTIFY%
     If (Style & 0x10000000 && h > 500 && w > 500)
     {
-        MUTE := !MUTE
+        MUTE := MUTE ? 0 : 2
         If (active_title != title)
         {
             WinSet, Transparent, 1, ahk_id %SPOTIFY%
         }
         WinSet, AlwaysOnTop, 1, ahk_id %SPOTIFY%
-        BlockInput, On
         nx := x+h-330
         ny := y+w-55
+        BlockInput, On
         Click, %nx%, %ny%
         SendInput {Tab}{Tab}{Tab}{Enter}
         MouseMove, %xpos%, %ypos%
@@ -607,7 +607,7 @@ MuteSecondMode(title)
 
 MuteThirdMode(title)
 {
-    MUTE := !MUTE
+    MUTE := MUTE ? 0 : 3
     BlockInput, On
     Run sndvol
     WinWait Volume Mixer
@@ -1229,16 +1229,17 @@ Idle:
         WinGetTitle, title, ahk_id %SPOTIFY%
         If ((title == "Advertisement") ^ MUTE)
         {
-            If (MUTE_MODE == 1)
+            If (MUTE == 1 || (!MUTE && MUTE_MODE == 1))
             {
                 MUTE := !MUTE
                 SendInput {SC120}
             }
-            Else If (MUTE_MODE == 2)
+            Else If (MUTE == 2 || (!MUTE && MUTE_MODE == 2))
             {
                 MuteSecondMode(title)
             }
-            Else If ((MUTE_MODE == 3) || (MUTE_MODE == 4) && !MuteSecondMode(title))
+            Else If (MUTE == 3 || (!MUTE && MUTE_MODE == 3)
+                || (!MUTE && MUTE_MODE == 4 && !MuteSecondMode(title)))
             {
                 MuteThirdMode(title)
             }
