@@ -312,15 +312,23 @@ Pass:
 ^SC029:: SendInput ^{SC001}
 
 ;swap between opened predefined apps
-LWin & SC010:: Alt("nvim-qt.exe",         "C:\Shortcuts\nvim-qt.exe.lnk")       ;Q
-LWin & SC011:: Alt("Notion.exe",          "C:\Shortcuts\Notion.exe.lnk")        ;P
-LWin & SC012:: Alt("taskmgr.exe",         "C:\Shortcuts\taskmgr.exe.lnk")       ;H
-LWin & SC01E:: Alt("Everything.exe",      "C:\Shortcuts\Everything.exe.lnk")    ;E
-LWin & SC01F:: Alt("Spotify.exe",         "C:\Shortcuts\Spotify.exe.lnk")       ;A
-LWin & SC020:: Alt("calc.exe",            "C:\Shortcuts\calc.exe.lnk")          ;O
-LWin & SC021:: Alt("WindowsTerminal.exe", "C:\Shortcuts\wt.exe.lnk")            ;I
-LWin & SC02C:: Alt("firefox.exe",         "C:\Shortcuts\firefox.exe.lnk")       ;J
-;LWin& SC02D:: Total Commander (set in VIaTC) ;Э
+LWin & SC010:: Alt("nvim-qt.exe",       "C:\Shortcuts\nvim-qt.exe.lnk")     ;Q
+LWin & SC011:: Alt("Notion.exe",        "C:\Shortcuts\Notion.exe.lnk")      ;P
+LWin & SC012:: Alt("taskmgr.exe",       "C:\Shortcuts\taskmgr.exe.lnk")     ;H
+LWin & SC01E:: Alt("Everything.exe",    "C:\Shortcuts\Everything.exe.lnk")  ;E
+LWin & SC01F:: Alt("Spotify.exe",       "C:\Shortcuts\Spotify.exe.lnk")     ;A
+LWin & SC02C:: Alt("firefox.exe",       "C:\Shortcuts\firefox.exe.lnk")     ;J
+LWin & SC020:: Alt("calc.exe",          "C:\Shortcuts\calc.exe.lnk")        ;O
+;LWin& SC02D:: Total Commander (set in VIaTC)                               ;Э
+LWin & SC021::                                                              ;I
+    If (SubStr(A_OSVersion, 1, 2) == 10)
+    {
+        Alt("WindowsTerminal.exe", "C:\Shortcuts\wt.exe.lnk")
+    }
+    Else
+    {
+        Alt("cmd.exe", "C:\Shortcuts\cmd.exe.lnk")
+    }
 
 ;;;Return
 ;numpad mult (*)
