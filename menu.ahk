@@ -5,7 +5,7 @@
 #SingleInstance force
 #UseHook On
 
-icon = menu.ico
+icon := "internal\menu.ico"
 IfExist, %icon%
     Menu, Tray, Icon, %icon%
 

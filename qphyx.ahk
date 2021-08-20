@@ -10,7 +10,7 @@ SetNumLockState AlwaysOff
 SetScrollLockState AlwaysOff
 
 ;set icon
-icon = qphyx.ico
+icon := "internal\qphyx.ico"
 IfExist, %icon%
 {
     Menu, Tray, Icon, %icon%
@@ -19,7 +19,7 @@ IfExist, %icon%
 ;let ViATc override hotkeys (only for TC)
 Try
 {
-    Run, ViATc.lnk
+    Run "internal\ViATc.lnk"
 }
 ;let menu override ViATc
 Try
