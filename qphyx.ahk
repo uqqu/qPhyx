@@ -13,18 +13,18 @@ SetScrollLockState AlwaysOff
 icon := "internal\qphyx.ico"
 IfExist, %icon%
 {
-    Menu, Tray, Icon, %icon%
+    Menu, Tray, Icon, %icon%, , 1
 }
 
 ;let ViATc override hotkeys (only for TC)
 Try
 {
-    Run "internal\ViATc.lnk"
+    Run, "internal\ViATc.lnk"
 }
 ;let menu override ViATc
 Try
 {
-    Run, menu.exe
+    Run, "menu.exe"
 }
 
 global LONG_TIME

@@ -7,7 +7,7 @@
 
 icon := "internal\menu.ico"
 IfExist, %icon%
-    Menu, Tray, Icon, %icon%
+    Menu, Tray, Icon, %icon%, , 1
 
 global MUS_DELAY
 RegRead, LONG_TIME, HKEY_CURRENT_USER\Environment, MUS_DELAY
