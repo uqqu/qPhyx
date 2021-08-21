@@ -10,16 +10,11 @@ IfExist, %icon%
     Menu, Tray, Icon, %icon%
 
 global MUS_DELAY
-global MUTE_MODE    ; 0 – disable; 1 – "all_mute button"; 2 – mouse click on spotify mute;
-                    ; 3 – volume mixer proccess mute; 4 – 2 mode, if cannot – 3 mode
 RegRead, LONG_TIME, HKEY_CURRENT_USER\Environment, MUS_DELAY
-RegRead, DISABLE, HKEY_CURRENT_USER\Environment, MUTE_MODE
 If !MUS_DELAY
 {
     RegWrite, REG_SZ, HKEY_CURRENT_USER\Environment, MUS_DELAY, 10
-    RegWrite, REG_SZ, HKEY_CURRENT_USER\Environment, MUTE_MODE, 4
     MUS_DELAY := 10
-    MUTE_MODE := 4
 }
 
 global SPOTIFY := 0
@@ -540,98 +535,7 @@ If LONG_TIME
 }
 ;global MUS_DELAY int
 Menu, Func, Add, &Auto-stop music on AFK delay (now is %MUS_DELAY%m), Mus_timer
-;global MUTE_MODE int
-Menu, Func, Add, Select &mute mode for spotify advertisement (now is %MUTE_MODE%), Mute_mode
 
-
-;===============================================================================================
-;==========================================Spotify functions====================================
-;===============================================================================================
-
-;detect current spotify process
-SpotifyDetectProcessId()
-{
-    WinGet, id, list, , , Program Manager
-    Loop, %id%
-    {
-        this_id := id%A_Index%
-        WinGet, proc, ProcessName, ahk_id %this_id%
-        WinGetTitle, title, ahk_id %this_id%
-        If (title && proc == "Spotify.exe")
-        {
-            SPOTIFY := this_id
-            Break
-        }
-    }
-    If !SPOTIFY
-    {
-        SetTimer, SpotifyDetectProcessId, -66666
-    }
-}
-
-MuteSecondMode(title)
-{
-    WinGet, Style, Style, % "ahk_id " SPOTIFY
-    WinGetTitle, active_title, A
-    CoordMode, Mouse, Screen
-    MouseGetPos, xpos, ypos
-    WinGetPos, x, y, h, w, ahk_id %SPOTIFY%
-    If (Style & 0x10000000 && h > 500 && w > 500)
-    {
-        MUTE := MUTE ? 0 : 2
-        If (active_title != title)
-        {
-            WinSet, Transparent, 1, ahk_id %SPOTIFY%
-        }
-        WinSet, AlwaysOnTop, 1, ahk_id %SPOTIFY%
-        nx := x+h-330
-        ny := y+w-55
-        BlockInput, On
-        Click, %nx%, %ny%
-        SendInput {Tab}{Tab}{Tab}{Enter}
-        MouseMove, %xpos%, %ypos%
-        BlockInput, Off
-        WinSet, AlwaysOnTop, 0, ahk_id %SPOTIFY%
-        If (active_title != title)
-        {
-            WinActivate, %active_title%
-            WinSet, Transparent, Off, ahk_id %SPOTIFY%
-        }
-        Return 1
-    }
-    Else
-    {
-        Return 0
-    }
-}
-
-MuteThirdMode(title)
-{
-    MUTE := MUTE ? 0 : 3
-    BlockInput, On
-    Run sndvol
-    WinWait Volume Mixer
-    WinGet, clist, ControlList, Volume Mixer
-    counter := 2
-    Loop, parse, clist, `n
-    {
-        ControlGetText, text, %A_LoopField%, Volume Mixer
-        If (InStr(text, title) || InStr(text, "Spotify"))
-        {
-            If counter
-            {
-                counter--
-            }
-            Else
-            {
-                ControlFocus, %A_LoopField%, Volume Mixer
-                ControlSend, %A_LoopField%, {Space}{Esc}, Volume Mixer
-                counter := 2
-            }
-        }
-    }
-    BlockInput, Off
-}
 
 ;===============================================================================================
 ;===========================================Tools functions=====================================
@@ -714,6 +618,27 @@ MuteThirdMode(title)
         {
             Clipboard := saved_value
         }
+    }
+}
+
+;detect current spotify process
+SpotifyDetectProcessId()
+{
+    WinGet, id, list, , , Program Manager
+    Loop, %id%
+    {
+        this_id := id%A_Index%
+        WinGet, proc, ProcessName, ahk_id %this_id%
+        WinGetTitle, title, ahk_id %this_id%
+        If (title && proc == "Spotify.exe")
+        {
+            SPOTIFY := this_id
+            Break
+        }
+    }
+    If !SPOTIFY
+    {
+        SetTimer, SpotifyDetectProcessId, -66666
     }
 }
 
@@ -1224,25 +1149,13 @@ Pass:
 Idle:
     delay := MUS_DELAY * 60000
     IfGreater, A_TimeIdle, %delay%, SendInput {SC124}
-    If (SPOTIFY && MUTE_MODE)
+    If SPOTIFY
     {
         WinGetTitle, title, ahk_id %SPOTIFY%
-        If ((title == "Advertisement") ^ MUTE)
+        If (((title == "Advertisement") ^ !MUTE) && FileExist "internal\nircmd.exe")
         {
-            If (MUTE == 1 || (!MUTE && MUTE_MODE == 1))
-            {
-                MUTE := !MUTE
-                SendInput {SC120}
-            }
-            Else If (MUTE == 2 || (!MUTE && MUTE_MODE == 2))
-            {
-                MuteSecondMode(title)
-            }
-            Else If (MUTE == 3 || (!MUTE && MUTE_MODE == 3)
-                || (!MUTE && MUTE_MODE == 4 && !MuteSecondMode(title)))
-            {
-                MuteThirdMode(title)
-            }
+            MUTE := !MUTE
+            Run internal\nircmd.exe setappvolume Spotify.exe %MUTE%
         }
     }
     Return
@@ -1294,13 +1207,10 @@ Long_press:
         {
             Menu, Func, Delete, &Long press delay (now is %LONG_TIME%s)
             Menu, Func, Delete, &Auto-stop music on AFK delay (now is %MUS_DELAY%m)
-            Menu, Func, Delete, Select &mute mode for spotify advertisement (now is %MUTE_MODE%)
             RegWrite, REG_SZ, HKEY_CURRENT_USER, Environment, QPHYX_LONG_TIME, %userInput%
             LONG_TIME := userInput
             Menu, Func, Add, &Long press delay (now is %LONG_TIME%s), Long_press
             Menu, Func, Add, &Auto-stop music on AFK delay (now is %MUS_DELAY%m), Mus_timer
-            Menu, Func, Add
-                , Select &mute mode for spotify advertisement (now is %MUTE_MODE%), Mute_mode
             Run, qphyx.exe
         }
         Else
@@ -1322,44 +1232,9 @@ Mus_timer:
         If userInput is number
         {
             Menu, Func, Delete, &Auto-stop music on AFK delay (now is %MUS_DELAY%m)
-            Menu, Func, Delete, Select &mute mode for spotify advertisement (now is %MUTE_MODE%)
             RegWrite, REG_SZ, HKEY_CURRENT_USER, Environment, MUS_DELAY, %userInput%
             MUS_DELAY := userInput
             Menu, Func, Add, &Auto-stop music on AFK delay (now is %MUS_DELAY%m), Mus_timer
-            Menu, Func, Add
-                , Select &mute mode for spotify advertisement (now is %MUTE_MODE%), Mute_mode
-        }
-        Else
-        {
-            MsgBox, 53, Incorrect value, The input must be a number!
-            IfMsgBox Retry
-            {
-                Goto, Mus_timer
-            }
-        }
-    }
-    Return
-
-Mute_mode:
-    msg =
-    (
-    0 is disable feature;
-1 is global mute mode without mouse click and calling any processes;
-2 is mouse click mode (force spotify window and click on mute button);
-3 is process mute mode (call windows volume mixer and toggle mute on all spotify processes);
-4 is combine of 2 and 3 (call 2 mode, if spotify window is closed or minimized – call 3 mode).
-    )
-    InputBox, userInput, Set new mute mode for spotify advertisement
-        , %msg%, , 600, 200
-    If !ErrorLevel
-    {
-        If userInput is number
-        {
-            Menu, Func, Delete, Select &mute mode for spotify advertisement (now is %MUTE_MODE%)
-            RegWrite, REG_SZ, HKEY_CURRENT_USER, Environment, MUTE_MODE, %userInput%
-            MUTE_MODE := userInput
-            Menu, Func, Add
-                , Select &mute mode for spotify advertisement (now is %MUTE_MODE%), Mute_mode
         }
         Else
         {
