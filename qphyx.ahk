@@ -2,10 +2,10 @@
 ;============================================Presets============================================
 ;===============================================================================================
 
-#SingleInstance force
+#SingleInstance Force
 #UseHook On
 
-SetCapslockState AlwaysOff
+SetCapsLockState AlwaysOff
 SetNumLockState AlwaysOff
 SetScrollLockState AlwaysOff
 
@@ -27,8 +27,8 @@ Try
     Run, "menu.exe"
 }
 
-global LONG_TIME
-global DISABLE
+Global LONG_TIME
+Global DISABLE
 RegRead, LONG_TIME, HKEY_CURRENT_USER\Environment, QPHYX_LONG_TIME
 RegRead, DISABLE, HKEY_CURRENT_USER\Environment, QPHYX_DISABLE
 If !LONG_TIME
@@ -39,11 +39,11 @@ If !LONG_TIME
     QPHYX_LONG_TIME := 0.166
 }
 
-global SPOTIFY
+Global SPOTIFY
 SpotifyDetectProcessId()
 
 
-global NUM_DICT := { scan_code: ["releasing", "sended", "shift_long", "alt", "alt_long"]
+Global NUM_DICT := {scan_code: ["releasing", "sended", "shift_long", "alt", "alt_long"]
     , SC002: [0, 0, "⁺", "₁", "₊"]
     , SC003: [0, 0, "⁻", "₂", "₋"]
     , SC004: [0, 0, "ⁿ", "₃", "ₓ"]
@@ -57,7 +57,7 @@ global NUM_DICT := { scan_code: ["releasing", "sended", "shift_long", "alt", "al
     , SC00C: [0, 0, "∞", "↓", "←"]
     , SC00D: [0, 0, "Σ", "↑", "→"]}
 
-global DICT := { scan_code: ["releasing", "sended", "long", "alt"]
+Global DICT := {scan_code: ["releasing", "sended", "long", "alt"]
     , SC010: [0, 0, "~", "°"]
     , SC011: [0, 0, "–", "—"]
     , SC012: [0, 0, "@", "§"]
@@ -98,7 +98,7 @@ global DICT := { scan_code: ["releasing", "sended", "long", "alt"]
 ;===============================================================================================
 
 ;numerical row interaction
-Down_num(this, alt:=0)
+DownNum(this, alt:=0)
 {
     If !NUM_DICT[this][1]
     {
@@ -118,7 +118,7 @@ Down_num(this, alt:=0)
         }
     }
 }
-Up_num(this, shift:=0, alt:=0)
+UpNum(this, shift:=0, alt:=0)
 {
     If (NUM_DICT[this][1] && !NUM_DICT[this][2])
     {
@@ -176,10 +176,10 @@ Alt(process_name, path)
         proc := "ahk_exe " . process_name
     }
 
-    If Winexist(proc)
+    If WinExist(proc)
     {
         WinGetTitle, title, %proc%
-        If Winactive(title)
+        If WinActive(title)
         {
             WinMinimize, %title%
         }
@@ -200,8 +200,8 @@ LastMinimizedWindow()
     WinGet, windows, List
     Loop, %windows%
     {
-        WinGet, winState, MinMax, % "ahk_id" windows%A_Index%
-        If (winState == -1)
+        WinGet, win_state, MinMax, % "ahk_id" windows%A_Index%
+        If (win_state == -1)
         {
             Return windows%A_Index%
         }
@@ -465,8 +465,8 @@ LWin & SC021::                                                              ;I
     }
     Return
  #+SC025::
-    lastMinimized := LastMinimizedWindow()
-    WinGetTitle, title, ahk_id %lastMinimized%
+    last_minimized := LastMinimizedWindow()
+    WinGetTitle, title, ahk_id %last_minimized%
     WinRestore, %title%
     Return
 
@@ -501,7 +501,7 @@ LWin & SC021::                                                              ;I
 +SC00B::
 +SC00C::
 +SC00D::
-    Down_num(SubStr(A_ThisHotkey, 2))
+    DownNum(SubStr(A_ThisHotkey, 2))
     Return
 
 !SC002::
@@ -516,7 +516,7 @@ LWin & SC021::                                                              ;I
 !SC00B::
 !SC00C::
 !SC00D::
-    Down_num(SubStr(A_ThisHotkey, 2), 1)
+    DownNum(SubStr(A_ThisHotkey, 2), 1)
     Return
 
 ;top letters row
@@ -571,7 +571,7 @@ SC035::
 +SC00B up::
 +SC00C up::
 +SC00D up::
-    Up_num(SubStr(A_ThisHotkey, 2, 5), 1)
+    UpNum(SubStr(A_ThisHotkey, 2, 5), 1)
     Return
 
 !SC002 up::
@@ -586,7 +586,7 @@ SC035::
 !SC00B up::
 !SC00C up::
 !SC00D up::
-    Up_num(SubStr(A_ThisHotkey, 2, 5), , 1)
+    UpNum(SubStr(A_ThisHotkey, 2, 5), , 1)
     Return
 
 ;top letters row

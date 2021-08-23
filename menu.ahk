@@ -2,14 +2,14 @@
 ;============================================Presets============================================
 ;===============================================================================================
 
-#SingleInstance force
+#SingleInstance Force
 #UseHook On
 
 icon := "internal\menu.ico"
 IfExist, %icon%
     Menu, Tray, Icon, %icon%, , 1
 
-global MUS_DELAY
+Global MUS_DELAY
 RegRead, LONG_TIME, HKEY_CURRENT_USER\Environment, MUS_DELAY
 If !MUS_DELAY
 {
@@ -17,22 +17,22 @@ If !MUS_DELAY
     MUS_DELAY := 10
 }
 
-global SPOTIFY := 0
+Global SPOTIFY := 0
 SpotifyDetectProcessId()
 
-global MUTE := 0
-global CITY := "Donetsk,UA" ; 48lat 38lon
-global SLEEP_DELAY := 33 ; ms ; for correct work with clipboard functions
+Global MUTE := 0
+Global CITY := "Donetsk,UA" ; 48lat 38lon
+Global SLEEP_DELAY := 33 ; ms ; for correct work with clipboard functions
 
 ;api keys
-global CURRENCY_KEY
-global WEATHER_KEY
+Global CURRENCY_KEY
+Global WEATHER_KEY
 RegRead, CURRENCY_KEY, HKEY_CURRENT_USER\Environment, GETGEOAPI
 RegRead, WEATHER_KEY, HKEY_CURRENT_USER\Environment, OPENWEATHERMAP
 
 ;qphyx-layout functionality
-global DISABLE
-global LONG_TIME
+Global DISABLE
+Global LONG_TIME
 RegRead, DISABLE, HKEY_CURRENT_USER\Environment, QPHYX_DISABLE
 RegRead, LONG_TIME, HKEY_CURRENT_USER\Environment, QPHYX_LONG_TIME
 
@@ -50,180 +50,180 @@ Menu, Paste, ToggleEnable, Paste menu
 Menu, Paste, Icon, Paste menu, %A_AhkPath%, -207
 
 ;"clipboard as input; paste as output" submenu
-    Normalize_clip   := Func("@Clip").Bind("Normalize")
-    Capitaliz_clip   := Func("@Clip").Bind("Capitalized")
-    Lowercase_clip   := Func("@Clip").Bind("Lowercase")
-    Uppercase_clip   := Func("@Clip").Bind("Uppercase")
-    Inverted_clip    := Func("@Clip").Bind("Inverted")
-    Sentence_clip    := Func("@Clip").Bind("Sentence")
-    En_Ru_L_clip     := Func("@Clip").Bind(Func("Layout_switch").Bind("qwerty_en_ru"))
-    Ru_En_L_clip     := Func("@Clip").Bind(Func("Layout_switch").Bind("qwerty_ru_en"))
-    En_Ru_Q_clip     := Func("@Clip").Bind(Func("Layout_switch").Bind("qphyx_en_ru"))
-    Ru_En_Q_clip     := Func("@Clip").Bind(Func("Layout_switch").Bind("qphyx_ru_en"))
-    En_Ru_T_clip     := Func("@Clip").Bind(Func("Layout_switch").Bind("translit_en_ru"))
-    Ru_En_T_clip     := Func("@Clip").Bind(Func("Layout_switch").Bind("translit_ru_en"))
-    Calc_expr_clip   := Func("@Clip").Bind("Execute")
-    Format_time_clip := Func("@Clip").Bind("Format_time")
-    Menu, Clip, Add, Nor&malize, % Normalize_clip
-    Menu, Clip, Add, &Sentence,  % Sentence_clip
-    Menu, Clip, Add, &Capitalized, % Capitaliz_clip
-    Menu, Clip, Add, &Lowercase, % Lowercase_clip
-    Menu, Clip, Add, &Uppercase, % Uppercase_clip
-    Menu, Clip, Add, &Inverted,  % Inverted_clip
+    normalize_clip   := Func("@Clip").Bind("Normalize")
+    capitaliz_clip   := Func("@Clip").Bind("Capitalized")
+    lowercase_clip   := Func("@Clip").Bind("Lowercase")
+    uppercase_clip   := Func("@Clip").Bind("Uppercase")
+    inverted_clip    := Func("@Clip").Bind("Inverted")
+    sentence_clip    := Func("@Clip").Bind("Sentence")
+    en_ru_q_clip     := Func("@Clip").Bind(Func("LayoutSwitch").Bind("qphyx_en_ru"))
+    ru_en_q_clip     := Func("@Clip").Bind(Func("LayoutSwitch").Bind("qphyx_ru_en"))
+    en_ru_l_clip     := Func("@Clip").Bind(Func("LayoutSwitch").Bind("qwerty_en_ru"))
+    ru_en_l_clip     := Func("@Clip").Bind(Func("LayoutSwitch").Bind("qwerty_ru_en"))
+    en_ru_t_clip     := Func("@Clip").Bind(Func("LayoutSwitch").Bind("translit_en_ru"))
+    ru_en_t_clip     := Func("@Clip").Bind(Func("LayoutSwitch").Bind("translit_ru_en"))
+    calc_expr_clip   := Func("@Clip").Bind("Execute")
+    format_time_clip := Func("@Clip").Bind("DatetimeFormat")
+    Menu, Clip, Add, Nor&malize,   % normalize_clip
+    Menu, Clip, Add, &Sentence,    % sentence_clip
+    Menu, Clip, Add, &Capitalized, % capitaliz_clip
+    Menu, Clip, Add, &Lowercase,   % lowercase_clip
+    Menu, Clip, Add, &Uppercase,   % uppercase_clip
+    Menu, Clip, Add, &Inverted,    % inverted_clip
     Menu, Clip, Add
-    Menu, Clip, Add, &En-Ru qwerty switch, % En_Ru_L_clip
-    Menu, Clip, Add, &Ru-En qwerty switch, % Ru_En_L_clip
-    Menu, Clip, Add, En-Ru q&phyx switch, % En_Ru_Q_clip
-    Menu, Clip, Add, Ru-En &qphyx switch, % Ru_En_Q_clip
-    Menu, Clip, Add, E&n-Ru transliteration, % En_Ru_T_clip
-    Menu, Clip, Add, Ru-En transliterati&on, % Ru_En_T_clip
+    Menu, Clip, Add, En-Ru q&phyx switch,    % en_ru_q_clip
+    Menu, Clip, Add, Ru-En &qphyx switch,    % ru_en_q_clip
+    Menu, Clip, Add, &En-Ru qwerty switch,   % en_ru_l_clip
+    Menu, Clip, Add, &Ru-En qwerty switch,   % ru_en_l_clip
+    Menu, Clip, Add, E&n-Ru transliteration, % en_ru_t_clip
+    Menu, Clip, Add, Ru-En transliterati&on, % ru_en_t_clip
     Menu, Clip, Add
-    Menu, Clip, Add, C&alculate the expression, % Calc_expr_clip
-    Menu, Clip, Add, &FormatTime (e.g. "dd/MM" to "26/03"), % Format_time_clip
+    Menu, Clip, Add, C&alculate the expression, % calc_expr_clip
+    Menu, Clip, Add, &Format Time (e.g. "dd/MM" to "26/03"), % format_time_clip
     ;currency converter submenu
-        Usd_rub_c_c  := Func("@Clip").Bind(Func("Exch_rates").Bind("USD", "RUB", 0))
-        Rub_usd_c_c  := Func("@Clip").Bind(Func("Exch_rates").Bind("RUB", "USD", 0))
-        Uah_usd_c_c  := Func("@Clip").Bind(Func("Exch_rates").Bind("UAH", "USD", 0))
-        Usd_uah_c_c  := Func("@Clip").Bind(Func("Exch_rates").Bind("USD", "UAH", 0))
-        Rub_uah_c_c  := Func("@Clip").Bind(Func("Exch_rates").Bind("RUB", "UAH", 0))
-        Uah_rub_c_c  := Func("@Clip").Bind(Func("Exch_rates").Bind("UAH", "RUB", 0))
-        Usd_eur_c_c  := Func("@Clip").Bind(Func("Exch_rates").Bind("USD", "EUR", 0))
-        Eur_usd_c_c  := Func("@Clip").Bind(Func("Exch_rates").Bind("EUR", "USD", 0))
-        Unk_to_usd_c := Func("@Clip").Bind(Func("Unknown_currency").Bind("USD"))
-        Unk_to_rub_c := Func("@Clip").Bind(Func("Unknown_currency").Bind("RUB"))
-        Menu, Conv_c, Add, &USD–RUB, % Usd_rub_c_c
-        Menu, Conv_c, Add, &RUB–USD, % Rub_usd_c_c
-        Menu, Conv_c, Add
-        Menu, Conv_c, Add, U&SD–UAH, % Usd_uah_c_c
-        Menu, Conv_c, Add, UA&H–USD, % Uah_usd_c_c
-        Menu, Conv_c, Add
-        Menu, Conv_c, Add, U&AH–RUB, % Uah_rub_c_c
-        Menu, Conv_c, Add, RU&B–UAH, % Rub_uah_c_c
-        Menu, Conv_c, Add
-        Menu, Conv_c, Add, US&D–EUR, % Usd_eur_c_c
-        Menu, Conv_c, Add, &EUR–USD, % Eur_usd_c_c
-        Menu, Conv_c, Add
-        Menu, Conv_c, Add, ... &to USD, % Unk_to_usd_c
-        Menu, Conv_c, Add, ... t&o RUB, % Unk_to_rub_c
-    Menu, Clip, Add, Currenc&y converter, :Conv_c
+        usd_rub_c_c  := Func("@Clip").Bind(Func("ExchRates").Bind("USD", "RUB", 0))
+        rub_usd_c_c  := Func("@Clip").Bind(Func("ExchRates").Bind("RUB", "USD", 0))
+        uah_usd_c_c  := Func("@Clip").Bind(Func("ExchRates").Bind("UAH", "USD", 0))
+        usd_uah_c_c  := Func("@Clip").Bind(Func("ExchRates").Bind("USD", "UAH", 0))
+        rub_uah_c_c  := Func("@Clip").Bind(Func("ExchRates").Bind("RUB", "UAH", 0))
+        uah_rub_c_c  := Func("@Clip").Bind(Func("ExchRates").Bind("UAH", "RUB", 0))
+        usd_eur_c_c  := Func("@Clip").Bind(Func("ExchRates").Bind("USD", "EUR", 0))
+        eur_usd_c_c  := Func("@Clip").Bind(Func("ExchRates").Bind("EUR", "USD", 0))
+        unk_to_usd_c := Func("@Clip").Bind(Func("UnknownCurrency").Bind("USD"))
+        unk_to_rub_c := Func("@Clip").Bind(Func("UnknownCurrency").Bind("RUB"))
+        Menu, ConvC, Add, &USD–RUB, % usd_rub_c_c
+        Menu, ConvC, Add, &RUB–USD, % rub_usd_c_c
+        Menu, ConvC, Add
+        Menu, ConvC, Add, U&SD–UAH, % usd_uah_c_c
+        Menu, ConvC, Add, UA&H–USD, % uah_usd_c_c
+        Menu, ConvC, Add
+        Menu, ConvC, Add, U&AH–RUB, % uah_rub_c_c
+        Menu, ConvC, Add, RU&B–UAH, % rub_uah_c_c
+        Menu, ConvC, Add
+        Menu, ConvC, Add, US&D–EUR, % usd_eur_c_c
+        Menu, ConvC, Add, &EUR–USD, % eur_usd_c_c
+        Menu, ConvC, Add
+        Menu, ConvC, Add, ... &to USD, % unk_to_usd_c
+        Menu, ConvC, Add, ... t&o RUB, % unk_to_rub_c
+    Menu, Clip, Add, Currenc&y converter, :ConvC
 Menu, Paste, Add, &Clipboard text transform, :Clip
 
 ;"selected text as input; paste as output" submenu
-    Normalize_sel   := Func("@Sel").Bind("Normalize")
-    Capitaliz_sel   := Func("@Sel").Bind("Capitalized")
-    Lowercase_sel   := Func("@Sel").Bind("Lowercase")
-    Uppercase_sel   := Func("@Sel").Bind("Uppercase")
-    Inverted_sel    := Func("@Sel").Bind("Inverted")
-    Sentence_sel    := Func("@Sel").Bind("Sentence")
-    En_Ru_L_sel     := Func("@Sel").Bind(Func("Layout_switch").Bind("qwerty_en_ru"))
-    Ru_En_L_sel     := Func("@Sel").Bind(Func("Layout_switch").Bind("qwerty_ru_en"))
-    En_Ru_Q_sel     := Func("@Sel").Bind(Func("Layout_switch").Bind("qphyx_en_ru"))
-    Ru_En_Q_sel     := Func("@Sel").Bind(Func("Layout_switch").Bind("qphyx_ru_en"))
-    En_Ru_T_sel     := Func("@Sel").Bind(Func("Layout_switch").Bind("translit_en_ru"))
-    Ru_En_T_sel     := Func("@Sel").Bind(Func("Layout_switch").Bind("translit_ru_en"))
-    Calc_expr_sel   := Func("@Sel").Bind("Execute")
-    Format_time_sel := Func("@Sel").Bind("Format_time")
-    Menu, Sel, Add, Nor&malize,   % Normalize_sel
-    Menu, Sel, Add, &Sentence,    % Sentence_sel
-    Menu, Sel, Add, &Capitalized, % Capitaliz_sel
-    Menu, Sel, Add, &Lowercase,   % Lowercase_sel
-    Menu, Sel, Add, &Uppercase,   % Uppercase_sel
-    Menu, Sel, Add, &Inverted,    % Inverted_sel
+    normalize_sel   := Func("@Sel").Bind("Normalize")
+    capitaliz_sel   := Func("@Sel").Bind("Capitalized")
+    lowercase_sel   := Func("@Sel").Bind("Lowercase")
+    uppercase_sel   := Func("@Sel").Bind("Uppercase")
+    inverted_sel    := Func("@Sel").Bind("Inverted")
+    sentence_sel    := Func("@Sel").Bind("Sentence")
+    en_ru_q_sel     := Func("@Sel").Bind(Func("LayoutSwitch").Bind("qphyx_en_ru"))
+    ru_en_q_sel     := Func("@Sel").Bind(Func("LayoutSwitch").Bind("qphyx_ru_en"))
+    en_ru_l_sel     := Func("@Sel").Bind(Func("LayoutSwitch").Bind("qwerty_en_ru"))
+    ru_en_l_sel     := Func("@Sel").Bind(Func("LayoutSwitch").Bind("qwerty_ru_en"))
+    en_ru_t_sel     := Func("@Sel").Bind(Func("LayoutSwitch").Bind("translit_en_ru"))
+    ru_en_t_sel     := Func("@Sel").Bind(Func("LayoutSwitch").Bind("translit_ru_en"))
+    calc_expr_sel   := Func("@Sel").Bind("Execute")
+    format_time_sel := Func("@Sel").Bind("DatetimeFormat")
+    Menu, Sel, Add, Nor&malize,   % normalize_sel
+    Menu, Sel, Add, &Sentence,    % sentence_sel
+    Menu, Sel, Add, &Capitalized, % capitaliz_sel
+    Menu, Sel, Add, &Lowercase,   % lowercase_sel
+    Menu, Sel, Add, &Uppercase,   % uppercase_sel
+    Menu, Sel, Add, &Inverted,    % inverted_sel
     Menu, Sel, Add
-    Menu, Sel, Add, &En-Ru qwerty switch, % En_Ru_L_sel
-    Menu, Sel, Add, &Ru-En qwerty switch, % Ru_En_L_sel
-    Menu, Sel, Add, En-Ru &qphyx switch, % En_Ru_Q_sel
-    Menu, Sel, Add, Ru-En q&phyx switch, % Ru_En_Q_sel
-    Menu, Sel, Add, E&n-Ru transliteration, % En_Ru_T_sel
-    Menu, Sel, Add, Ru-En transliterati&on, % Ru_En_T_sel
+    Menu, Sel, Add, En-Ru &qphyx switch,    % en_ru_q_sel
+    Menu, Sel, Add, Ru-En q&phyx switch,    % ru_en_q_sel
+    Menu, Sel, Add, &En-Ru qwerty switch,   % en_ru_l_sel
+    Menu, Sel, Add, &Ru-En qwerty switch,   % ru_en_l_sel
+    Menu, Sel, Add, E&n-Ru transliteration, % en_ru_t_sel
+    Menu, Sel, Add, Ru-En transliterati&on, % ru_en_t_sel
     Menu, Sel, Add
-    Menu, Sel, Add, C&alculate the expression, % Calc_expr_sel
-    Menu, Sel, Add, &FormatTime (e.g. "dd/MM" to "26/03"), % Format_time_sel
+    Menu, Sel, Add, C&alculate the expression, % calc_expr_sel
+    Menu, Sel, Add, &Format Time (e.g. "dd/MM" to "26/03"), % format_time_sel
     ;currency converter submenu
-        Usd_rub_c_s  := Func("@Sel").Bind(Func("Exch_rates").Bind("USD", "RUB", 0))
-        Rub_usd_c_s  := Func("@Sel").Bind(Func("Exch_rates").Bind("RUB", "USD", 0))
-        Uah_usd_c_s  := Func("@Sel").Bind(Func("Exch_rates").Bind("UAH", "USD", 0))
-        Usd_uah_c_s  := Func("@Sel").Bind(Func("Exch_rates").Bind("USD", "UAH", 0))
-        Rub_uah_c_s  := Func("@Sel").Bind(Func("Exch_rates").Bind("RUB", "UAH", 0))
-        Uah_rub_c_s  := Func("@Sel").Bind(Func("Exch_rates").Bind("UAH", "RUB", 0))
-        Usd_eur_c_s  := Func("@Sel").Bind(Func("Exch_rates").Bind("USD", "EUR", 0))
-        Eur_usd_c_s  := Func("@Sel").Bind(Func("Exch_rates").Bind("EUR", "USD", 0))
-        Unk_to_usd_s := Func("@Sel").Bind(Func("Unknown_currency").Bind("USD"))
-        Unk_to_rub_s := Func("@Sel").Bind(Func("Unknown_currency").Bind("RUB"))
-        Menu, Conv_s, Add, &USD–RUB, % Usd_rub_c_s
-        Menu, Conv_s, Add, &RUB–USD, % Rub_usd_c_s
-        Menu, Conv_s, Add
-        Menu, Conv_s, Add, U&SD–UAH, % Usd_uah_c_s
-        Menu, Conv_s, Add, UA&H–USD, % Uah_usd_c_s
-        Menu, Conv_s, Add
-        Menu, Conv_s, Add, U&AH–RUB, % Uah_rub_c_s
-        Menu, Conv_s, Add, RU&B–UAH, % Rub_uah_c_s
-        Menu, Conv_s, Add
-        Menu, Conv_s, Add, US&D–EUR, % Usd_eur_c_s
-        Menu, Conv_s, Add, &EUR–USD, % Eur_usd_c_s
-        Menu, Conv_s, Add
-        Menu, Conv_s, Add, ... &to USD, % Unk_to_usd_s
-        Menu, Conv_s, Add, ... t&o RUB, % Unk_to_rub_s
-    Menu, Sel, Add, Currenc&y converter, :Conv_s
+        usd_rub_c_s  := Func("@Sel").Bind(Func("ExchRates").Bind("USD", "RUB", 0))
+        rub_usd_c_s  := Func("@Sel").Bind(Func("ExchRates").Bind("RUB", "USD", 0))
+        uah_usd_c_s  := Func("@Sel").Bind(Func("ExchRates").Bind("UAH", "USD", 0))
+        usd_uah_c_s  := Func("@Sel").Bind(Func("ExchRates").Bind("USD", "UAH", 0))
+        rub_uah_c_s  := Func("@Sel").Bind(Func("ExchRates").Bind("RUB", "UAH", 0))
+        uah_rub_c_s  := Func("@Sel").Bind(Func("ExchRates").Bind("UAH", "RUB", 0))
+        usd_eur_c_s  := Func("@Sel").Bind(Func("ExchRates").Bind("USD", "EUR", 0))
+        eur_usd_c_s  := Func("@Sel").Bind(Func("ExchRates").Bind("EUR", "USD", 0))
+        unk_to_usd_s := Func("@Sel").Bind(Func("UnknownCurrency").Bind("USD"))
+        unk_to_rub_s := Func("@Sel").Bind(Func("UnknownCurrency").Bind("RUB"))
+        Menu, ConvS, Add, &USD–RUB, % usd_rub_c_s
+        Menu, ConvS, Add, &RUB–USD, % rub_usd_c_s
+        Menu, ConvS, Add
+        Menu, ConvS, Add, U&SD–UAH, % usd_uah_c_s
+        Menu, ConvS, Add, UA&H–USD, % uah_usd_c_s
+        Menu, ConvS, Add
+        Menu, ConvS, Add, U&AH–RUB, % uah_rub_c_s
+        Menu, ConvS, Add, RU&B–UAH, % rub_uah_c_s
+        Menu, ConvS, Add
+        Menu, ConvS, Add, US&D–EUR, % usd_eur_c_s
+        Menu, ConvS, Add, &EUR–USD, % eur_usd_c_s
+        Menu, ConvS, Add
+        Menu, ConvS, Add, ... &to USD, % unk_to_usd_s
+        Menu, ConvS, Add, ... t&o RUB, % unk_to_rub_s
+    Menu, Sel, Add, Currenc&y converter, :ConvS
 Menu, Paste, Add, &Selected text transform, :Sel
 
 ;"input_box as input; paste as output" submenu
-    Normalize_inp   := Func("@Inp").Bind("Normalize")
-    Capitaliz_inp   := Func("@Inp").Bind("Capitalized")
-    Lowercase_inp   := Func("@Inp").Bind("Lowercase")
-    Uppercase_inp   := Func("@Inp").Bind("Uppercase")
-    Inverted_inp    := Func("@Inp").Bind("Inverted")
-    Sentence_inp    := Func("@Inp").Bind("Sentence")
-    En_Ru_L_inp     := Func("@Inp").Bind(Func("Layout_switch").Bind("qwerty_en_ru"))
-    Ru_En_L_inp     := Func("@Inp").Bind(Func("Layout_switch").Bind("qwerty_ru_en"))
-    En_Ru_Q_inp     := Func("@Inp").Bind(Func("Layout_switch").Bind("qphyx_en_ru"))
-    Ru_En_Q_inp     := Func("@Inp").Bind(Func("Layout_switch").Bind("qphyx_ru_en"))
-    En_Ru_T_inp     := Func("@Inp").Bind(Func("Layout_switch").Bind("translit_en_ru"))
-    Ru_En_T_inp     := Func("@Inp").Bind(Func("Layout_switch").Bind("translit_ru_en"))
-    Calc_expr_inp   := Func("@Inp").Bind("Execute")
-    Format_time_inp := Func("@Inp").Bind("Format_time")
-    Menu, Inp, Add, Nor&malize,   % Normalize_inp
-    Menu, Inp, Add, &Sentence,    % Sentence_inp
-    Menu, Inp, Add, &Capitalized, % Capitaliz_inp
-    Menu, Inp, Add, &Lowercase,   % Lowercase_inp
-    Menu, Inp, Add, &Uppercase,   % Uppercase_inp
-    Menu, Inp, Add, &Inverted,    % Inverted_inp
+    normalize_inp   := Func("@Inp").Bind("Normalize")
+    capitaliz_inp   := Func("@Inp").Bind("Capitalized")
+    lowercase_inp   := Func("@Inp").Bind("Lowercase")
+    uppercase_inp   := Func("@Inp").Bind("Uppercase")
+    inverted_inp    := Func("@Inp").Bind("Inverted")
+    sentence_inp    := Func("@Inp").Bind("Sentence")
+    en_ru_q_inp     := Func("@Inp").Bind(Func("LayoutSwitch").Bind("qphyx_en_ru"))
+    ru_en_q_inp     := Func("@Inp").Bind(Func("LayoutSwitch").Bind("qphyx_ru_en"))
+    en_ru_l_inp     := Func("@Inp").Bind(Func("LayoutSwitch").Bind("qwerty_en_ru"))
+    ru_en_l_inp     := Func("@Inp").Bind(Func("LayoutSwitch").Bind("qwerty_ru_en"))
+    en_ru_t_inp     := Func("@Inp").Bind(Func("LayoutSwitch").Bind("translit_en_ru"))
+    ru_en_t_inp     := Func("@Inp").Bind(Func("LayoutSwitch").Bind("translit_ru_en"))
+    calc_expr_inp   := Func("@Inp").Bind("Execute")
+    format_time_inp := Func("@Inp").Bind("DatetimeFormat")
+    Menu, Inp, Add, Nor&malize,   % normalize_inp
+    Menu, Inp, Add, &Sentence,    % sentence_inp
+    Menu, Inp, Add, &Capitalized, % capitaliz_inp
+    Menu, Inp, Add, &Lowercase,   % lowercase_inp
+    Menu, Inp, Add, &Uppercase,   % uppercase_inp
+    Menu, Inp, Add, &Inverted,    % inverted_inp
     Menu, Inp, Add
-    Menu, Inp, Add, &En-Ru qwerty switch, % En_Ru_L_inp
-    Menu, Inp, Add, &Ru-En qwerty switch, % Ru_En_L_inp
-    Menu, Inp, Add, En-Ru &qphyx switch, % En_Ru_Q_inp
-    Menu, Inp, Add, Ru-En q&phyx switch, % Ru_En_Q_inp
-    Menu, Inp, Add, E&n-Ru transliteration, % En_Ru_T_inp
-    Menu, Inp, Add, Ru-En transliterati&on, % Ru_En_T_inp
+    Menu, Inp, Add, En-Ru &qphyx switch,    % en_ru_q_inp
+    Menu, Inp, Add, Ru-En q&phyx switch,    % ru_en_q_inp
+    Menu, Inp, Add, &En-Ru qwerty switch,   % en_ru_l_inp
+    Menu, Inp, Add, &Ru-En qwerty switch,   % ru_en_l_inp
+    Menu, Inp, Add, E&n-Ru transliteration, % en_ru_t_inp
+    Menu, Inp, Add, Ru-En transliterati&on, % ru_en_t_inp
     Menu, Inp, Add
-    Menu, Inp, Add, C&alculate the expression, % Calc_expr_inp
-    Menu, Inp, Add, &FormatTime (e.g. "dd/MM" to "26/03"), % Format_time_inp
+    Menu, Inp, Add, C&alculate the expression, % calc_expr_inp
+    Menu, Inp, Add, &Format Time (e.g. "dd/MM" to "26/03"), % format_time_inp
     ;currency converter submenu
-        Usd_rub_c_i  := Func("@Inp").Bind(Func("Exch_rates").Bind("USD", "RUB", 0))
-        Rub_usd_c_i  := Func("@Inp").Bind(Func("Exch_rates").Bind("RUB", "USD", 0))
-        Uah_usd_c_i  := Func("@Inp").Bind(Func("Exch_rates").Bind("UAH", "USD", 0))
-        Usd_uah_c_i  := Func("@Inp").Bind(Func("Exch_rates").Bind("USD", "UAH", 0))
-        Rub_uah_c_i  := Func("@Inp").Bind(Func("Exch_rates").Bind("RUB", "UAH", 0))
-        Uah_rub_c_i  := Func("@Inp").Bind(Func("Exch_rates").Bind("UAH", "RUB", 0))
-        Usd_eur_c_i  := Func("@Inp").Bind(Func("Exch_rates").Bind("USD", "EUR", 0))
-        Eur_usd_c_i  := Func("@Inp").Bind(Func("Exch_rates").Bind("EUR", "USD", 0))
-        Unk_to_usd_i := Func("@Inp").Bind(Func("Unknown_currency").Bind("USD"))
-        Unk_to_rub_i := Func("@Inp").Bind(Func("Unknown_currency").Bind("RUB"))
-        Menu, Conv_i, Add, &USD–RUB, % Usd_rub_c_i
-        Menu, Conv_i, Add, &RUB–USD, % Rub_usd_c_i
-        Menu, Conv_i, Add
-        Menu, Conv_i, Add, U&SD–UAH, % Usd_uah_c_i
-        Menu, Conv_i, Add, UA&H–USD, % Uah_usd_c_i
-        Menu, Conv_i, Add
-        Menu, Conv_i, Add, U&AH–RUB, % Uah_rub_c_i
-        Menu, Conv_i, Add, RU&B–UAH, % Rub_uah_c_i
-        Menu, Conv_i, Add
-        Menu, Conv_i, Add, US&D–EUR, % Usd_eur_c_i
-        Menu, Conv_i, Add, &EUR–USD, % Eur_usd_c_i
-        Menu, Conv_i, Add
-        Menu, Conv_i, Add, ... &to USD, % Unk_to_usd_i
-        Menu, Conv_i, Add, ... t&o RUB, % Unk_to_rub_i
-    Menu, Inp, Add, Currenc&y converter, :Conv_i
+        usd_rub_c_i  := Func("@Inp").Bind(Func("ExchRates").Bind("USD", "RUB", 0))
+        rub_usd_c_i  := Func("@Inp").Bind(Func("ExchRates").Bind("RUB", "USD", 0))
+        uah_usd_c_i  := Func("@Inp").Bind(Func("ExchRates").Bind("UAH", "USD", 0))
+        usd_uah_c_i  := Func("@Inp").Bind(Func("ExchRates").Bind("USD", "UAH", 0))
+        rub_uah_c_i  := Func("@Inp").Bind(Func("ExchRates").Bind("RUB", "UAH", 0))
+        uah_rub_c_i  := Func("@Inp").Bind(Func("ExchRates").Bind("UAH", "RUB", 0))
+        usd_eur_c_i  := Func("@Inp").Bind(Func("ExchRates").Bind("USD", "EUR", 0))
+        eur_usd_c_i  := Func("@Inp").Bind(Func("ExchRates").Bind("EUR", "USD", 0))
+        unk_to_usd_i := Func("@Inp").Bind(Func("UnknownCurrency").Bind("USD"))
+        unk_to_rub_i := Func("@Inp").Bind(Func("UnknownCurrency").Bind("RUB"))
+        Menu, ConvI, Add, &USD–RUB, % usd_rub_c_i
+        Menu, ConvI, Add, &RUB–USD, % rub_usd_c_i
+        Menu, ConvI, Add
+        Menu, ConvI, Add, U&SD–UAH, % usd_uah_c_i
+        Menu, ConvI, Add, UA&H–USD, % uah_usd_c_i
+        Menu, ConvI, Add
+        Menu, ConvI, Add, U&AH–RUB, % uah_rub_c_i
+        Menu, ConvI, Add, RU&B–UAH, % rub_uah_c_i
+        Menu, ConvI, Add
+        Menu, ConvI, Add, US&D–EUR, % usd_eur_c_i
+        Menu, ConvI, Add, &EUR–USD, % eur_usd_c_i
+        Menu, ConvI, Add
+        Menu, ConvI, Add, ... &to USD, % unk_to_usd_i
+        Menu, ConvI, Add, ... t&o RUB, % unk_to_rub_i
+    Menu, Inp, Add, Currenc&y converter, :ConvI
 Menu, Paste, Add, &Input text to transform, :Inp
 Menu, Paste, Add
 
@@ -247,44 +247,44 @@ Menu, Paste, Add
 Menu, Paste, Add, &Emoji, :Emoji
 
 ;time submenu
-    Time_pst     := Func("@Clip").Bind(Func("Datetime").Bind("hh:mm:ss tt"))
-    Date_pst     := Func("@Clip").Bind(Func("Datetime").Bind("MMMM dd"))
-    DT_pst       := Func("@Clip").Bind(Func("Datetime").Bind("dddd, MMMM dd yyyy hh:mm:ss tt"))
-    New_time_pst := Func("@Clip").Bind("Decimal_time")
-    New_date_pst := Func("@Clip").Bind("Hexal_date")
-    New_datetime := Func("@Clip").Bind("New_datetime")
-    Menu, DT_P, Add, &Time, % Time_pst
-    Menu, DT_P, Add, &Date, % Date_pst
-    Menu, DT_P, Add, DateTi&me, % DT_pst
-    Menu, DT_P, Add, De&cimal time, % New_time_pst
-    Menu, DT_P, Add, &Hexal date, % New_date_pst
-    Menu, DT_P, Add, &New datetime, % New_datetime
-Menu, Paste, Add, &Datetime, :DT_P
+    time_pst     := Func("@Clip").Bind(Func("Datetime").Bind("hh:mm:ss tt"))
+    date_pst     := Func("@Clip").Bind(Func("Datetime").Bind("MMMM dd"))
+    datetime_pst := Func("@Clip").Bind(Func("Datetime").Bind("dddd, MMMM dd yyyy hh:mm:ss tt"))
+    new_time_pst := Func("@Clip").Bind("DecimalTime")
+    new_date_pst := Func("@Clip").Bind("HexalDate")
+    new_datetime := Func("@Clip").Bind("NewDatetime")
+    Menu, DatetimeP, Add, &Time, % time_pst
+    Menu, DatetimeP, Add, &Date, % date_pst
+    Menu, DatetimeP, Add, DateTi&me, % datetime_pst
+    Menu, DatetimeP, Add, De&cimal time, % new_time_pst
+    Menu, DatetimeP, Add, &Hexal date,   % new_date_pst
+    Menu, DatetimeP, Add, &New datetime, % new_datetime
+Menu, Paste, Add, &Datetime, :DatetimeP
 
 ;exchange rates submenu
-    Usd_rub_r_p := Func("@Clip").Bind(Func("Exch_rates").Bind("USD", "RUB"))
-    Rub_usd_r_p := Func("@Clip").Bind(Func("Exch_rates").Bind("RUB", "USD"))
-    Uah_usd_r_p := Func("@Clip").Bind(Func("Exch_rates").Bind("UAH", "USD"))
-    Usd_uah_r_p := Func("@Clip").Bind(Func("Exch_rates").Bind("USD", "UAH"))
-    Rub_uah_r_p := Func("@Clip").Bind(Func("Exch_rates").Bind("RUB", "UAH"))
-    Uah_rub_r_p := Func("@Clip").Bind(Func("Exch_rates").Bind("UAH", "RUB"))
-    Usd_eur_r_p := Func("@Clip").Bind(Func("Exch_rates").Bind("USD", "EUR"))
-    Eur_usd_r_p := Func("@Clip").Bind(Func("Exch_rates").Bind("EUR", "USD"))
-    Menu, Rates_p, Add, &USD–RUB, % Usd_rub_r_p
-    Menu, Rates_p, Add, &RUB–USD, % Rub_usd_r_p
-    Menu, Rates_p, Add
-    Menu, Rates_p, Add, U&SD–UAH, % Usd_uah_r_p
-    Menu, Rates_p, Add, UA&H–USD, % Uah_usd_r_p
-    Menu, Rates_p, Add
-    Menu, Rates_p, Add, U&AH–RUB, % Uah_rub_r_p
-    Menu, Rates_p, Add, RU&B–UAH, % Rub_uah_r_p
-    Menu, Rates_p, Add
-    Menu, Rates_p, Add, US&D–EUR, % Usd_eur_r_p
-    Menu, Rates_p, Add, &EUR–USD, % Eur_usd_r_p
-Menu, Paste, Add, E&xchange rate, :Rates_p
+    usd_rub_r_p := Func("@Clip").Bind(Func("ExchRates").Bind("USD", "RUB"))
+    rub_usd_r_p := Func("@Clip").Bind(Func("ExchRates").Bind("RUB", "USD"))
+    uah_usd_r_p := Func("@Clip").Bind(Func("ExchRates").Bind("UAH", "USD"))
+    usd_uah_r_p := Func("@Clip").Bind(Func("ExchRates").Bind("USD", "UAH"))
+    rub_uah_r_p := Func("@Clip").Bind(Func("ExchRates").Bind("RUB", "UAH"))
+    uah_rub_r_p := Func("@Clip").Bind(Func("ExchRates").Bind("UAH", "RUB"))
+    usd_eur_r_p := Func("@Clip").Bind(Func("ExchRates").Bind("USD", "EUR"))
+    eur_usd_r_p := Func("@Clip").Bind(Func("ExchRates").Bind("EUR", "USD"))
+    Menu, RatesP, Add, &USD–RUB, % usd_rub_r_p
+    Menu, RatesP, Add, &RUB–USD, % rub_usd_r_p
+    Menu, RatesP, Add
+    Menu, RatesP, Add, U&SD–UAH, % usd_uah_r_p
+    Menu, RatesP, Add, UA&H–USD, % uah_usd_r_p
+    Menu, RatesP, Add
+    Menu, RatesP, Add, U&AH–RUB, % uah_rub_r_p
+    Menu, RatesP, Add, RU&B–UAH, % rub_uah_r_p
+    Menu, RatesP, Add
+    Menu, RatesP, Add, US&D–EUR, % usd_eur_r_p
+    Menu, RatesP, Add, &EUR–USD, % eur_usd_r_p
+Menu, Paste, Add, E&xchange rate, :RatesP
 
-Weather_pst := Func("@Clip").Bind(Func("Weather").Bind(CITY))
-Menu, Paste, Add, Current &weather, % Weather_pst
+weather_pst := Func("@Clip").Bind(Func("Weather").Bind(CITY))
+Menu, Paste, Add, Current &weather, % weather_pst
 
 
 ;===============================================================================================
@@ -295,227 +295,227 @@ Menu, Func, Add, Message menu, Pass
 Menu, Func, ToggleEnable, Message menu
 Menu, Func, Icon, Message menu, %A_AhkPath%, -207
 
-Compare_msg := Func("Compare")
-Menu, Func, Add, C&ompare selected with clipboard, % Compare_msg
+compare_msg := Func("Compare")
+Menu, Func, Add, C&ompare selected with clipboard, % compare_msg
 Menu, Func, Add
 
 ;"clipboard text as input; message box as output" submenu
-    Normalize_c_msg   := Func("@C_Msg").Bind("Normalize")
-    Capitaliz_c_msg   := Func("@C_Msg").Bind("Capitalized")
-    Lowercase_c_msg   := Func("@C_Msg").Bind("Lowercase")
-    Uppercase_c_msg   := Func("@C_Msg").Bind("Uppercase")
-    Inverted_c_msg    := Func("@C_Msg").Bind("Inverted")
-    Sentence_c_msg    := Func("@C_Msg").Bind("Sentence")
-    En_Ru_L_c_msg     := Func("@C_Msg").Bind(Func("Layout_switch").Bind("qwerty_en_ru"))
-    Ru_En_L_c_msg     := Func("@C_Msg").Bind(Func("Layout_switch").Bind("qwerty_ru_en"))
-    En_Ru_Q_c_msg     := Func("@C_Msg").Bind(Func("Layout_switch").Bind("qphyx_en_ru"))
-    Ru_En_Q_c_msg     := Func("@C_Msg").Bind(Func("Layout_switch").Bind("qphyx_ru_en"))
-    En_Ru_T_c_msg     := Func("@C_Msg").Bind(Func("Layout_switch").Bind("translit_en_ru"))
-    Ru_En_T_c_msg     := Func("@C_Msg").Bind(Func("Layout_switch").Bind("translit_ru_en"))
-    Calc_expr_c_msg   := Func("@C_Msg").Bind("Execute")
-    Format_time_c_msg := Func("@C_Msg").Bind("Format_time")
-    Menu, C_Msg, Add, Nor&malize,   % Normalize_c_msg
-    Menu, C_Msg, Add, &Sentence,    % Sentence_c_msg
-    Menu, C_Msg, Add, &Capitalized, % Capitaliz_c_msg
-    Menu, C_Msg, Add, &Lowercase,   % Lowercase_c_msg
-    Menu, C_Msg, Add, &Uppercase,   % Uppercase_c_msg
-    Menu, C_Msg, Add, &Inverted,    % Inverted_c_msg
-    Menu, C_Msg, Add
-    Menu, C_Msg, Add, &En-Ru qwerty switch, % En_Ru_L_c_msg
-    Menu, C_Msg, Add, &Ru-En qwerty switch, % Ru_En_L_c_msg
-    Menu, C_Msg, Add, En-Ru &qphyx switch, % En_Ru_Q_c_msg
-    Menu, C_Msg, Add, Ru-En q&phyx switch, % Ru_En_Q_c_msg
-    Menu, C_Msg, Add, E&n-Ru transliteration, % En_Ru_T_c_msg
-    Menu, C_Msg, Add, Ru-En transliterati&on, % Ru_En_T_c_msg
-    Menu, C_Msg, Add
-    Menu, C_Msg, Add, C&alculate the expression, % Calc_expr_c_msg
-    Menu, C_Msg, Add, &FormatTime (e.g. "dd/MM" to "26/03"), % Format_time_c_msg
+    normalize_c_msg   := Func("@ClipMsg").Bind("Normalize")
+    capitaliz_c_msg   := Func("@ClipMsg").Bind("Capitalized")
+    lowercase_c_msg   := Func("@ClipMsg").Bind("Lowercase")
+    uppercase_c_msg   := Func("@ClipMsg").Bind("Uppercase")
+    inverted_c_msg    := Func("@ClipMsg").Bind("Inverted")
+    sentence_c_msg    := Func("@ClipMsg").Bind("Sentence")
+    en_ru_q_c_msg     := Func("@ClipMsg").Bind(Func("LayoutSwitch").Bind("qphyx_en_ru"))
+    ru_en_q_c_msg     := Func("@ClipMsg").Bind(Func("LayoutSwitch").Bind("qphyx_ru_en"))
+    en_ru_l_c_msg     := Func("@ClipMsg").Bind(Func("LayoutSwitch").Bind("qwerty_en_ru"))
+    ru_en_l_c_msg     := Func("@ClipMsg").Bind(Func("LayoutSwitch").Bind("qwerty_ru_en"))
+    en_ru_t_c_msg     := Func("@ClipMsg").Bind(Func("LayoutSwitch").Bind("translit_en_ru"))
+    ru_en_t_c_msg     := Func("@ClipMsg").Bind(Func("LayoutSwitch").Bind("translit_ru_en"))
+    calc_expr_c_msg   := Func("@ClipMsg").Bind("Execute")
+    format_time_c_msg := Func("@ClipMsg").Bind("DatetimeFormat")
+    Menu, ClipMsg, Add, Nor&malize,   % normalize_c_msg
+    Menu, ClipMsg, Add, &Sentence,    % sentence_c_msg
+    Menu, ClipMsg, Add, &Capitalized, % capitaliz_c_msg
+    Menu, ClipMsg, Add, &Lowercase,   % lowercase_c_msg
+    Menu, ClipMsg, Add, &Uppercase,   % uppercase_c_msg
+    Menu, ClipMsg, Add, &Inverted,    % inverted_c_msg
+    Menu, ClipMsg, Add
+    Menu, ClipMsg, Add, En-Ru &qphyx switch,    % en_ru_q_c_msg
+    Menu, ClipMsg, Add, Ru-En q&phyx switch,    % ru_en_q_c_msg
+    Menu, ClipMsg, Add, &En-Ru qwerty switch,   % en_ru_l_c_msg
+    Menu, ClipMsg, Add, &Ru-En qwerty switch,   % ru_en_l_c_msg
+    Menu, ClipMsg, Add, E&n-Ru transliteration, % en_ru_t_c_msg
+    Menu, ClipMsg, Add, Ru-En transliterati&on, % ru_en_t_c_msg
+    Menu, ClipMsg, Add
+    Menu, ClipMsg, Add, C&alculate the expression, % calc_expr_c_msg
+    Menu, ClipMsg, Add, &Format Time (e.g. "dd/MM" to "26/03"), % format_time_c_msg
     ;currency converter submenu
-        Usd_rub_c_m_c  := Func("@C_Msg").Bind(Func("Exch_rates").Bind("USD", "RUB", 0))
-        Rub_usd_c_m_c  := Func("@C_Msg").Bind(Func("Exch_rates").Bind("RUB", "USD", 0))
-        Uah_usd_c_m_c  := Func("@C_Msg").Bind(Func("Exch_rates").Bind("UAH", "USD", 0))
-        Usd_uah_c_m_c  := Func("@C_Msg").Bind(Func("Exch_rates").Bind("USD", "UAH", 0))
-        Rub_uah_c_m_c  := Func("@C_Msg").Bind(Func("Exch_rates").Bind("RUB", "UAH", 0))
-        Uah_rub_c_m_c  := Func("@C_Msg").Bind(Func("Exch_rates").Bind("UAH", "RUB", 0))
-        Usd_eur_c_m_c  := Func("@C_Msg").Bind(Func("Exch_rates").Bind("USD", "EUR", 0))
-        Eur_usd_c_m_c  := Func("@C_Msg").Bind(Func("Exch_rates").Bind("EUR", "USD", 0))
-        Unk_to_usd_m_c := Func("@C_Msg").Bind(Func("Unknown_currency").Bind("USD"))
-        Unk_to_rub_m_c := Func("@C_Msg").Bind(Func("Unknown_currency").Bind("RUB"))
-        Menu, Conv_m_c, Add, &USD–RUB, % Usd_rub_c_m_c
-        Menu, Conv_m_c, Add, &RUB–USD, % Rub_usd_c_m_c
-        Menu, Conv_m_c, Add
-        Menu, Conv_m_c, Add, U&SD–UAH, % Usd_uah_c_m_c
-        Menu, Conv_m_c, Add, UA&H–USD, % Uah_usd_c_m_c
-        Menu, Conv_m_c, Add
-        Menu, Conv_m_c, Add, U&AH–RUB, % Uah_rub_c_m_c
-        Menu, Conv_m_c, Add, RU&B–UAH, % Rub_uah_c_m_c
-        Menu, Conv_m_c, Add
-        Menu, Conv_m_c, Add, US&D–EUR, % Usd_eur_c_m_c
-        Menu, Conv_m_c, Add, &EUR–USD, % Eur_usd_c_m_c
-        Menu, Conv_m_c, Add
-        Menu, Conv_m_c, Add, ... &to USD, % Unk_to_usd_m_c
-        Menu, Conv_m_c, Add, ... t&o RUB, % Unk_to_rub_m_c
-    Menu, C_Msg, Add, Currenc&y converter, :Conv_m_c
-Menu, Func, Add, &Clipboard text transform, :C_Msg
+        usd_rub_c_m_c  := Func("@ClipMsg").Bind(Func("ExchRates").Bind("USD", "RUB", 0))
+        rub_usd_c_m_c  := Func("@ClipMsg").Bind(Func("ExchRates").Bind("RUB", "USD", 0))
+        uah_usd_c_m_c  := Func("@ClipMsg").Bind(Func("ExchRates").Bind("UAH", "USD", 0))
+        usd_uah_c_m_c  := Func("@ClipMsg").Bind(Func("ExchRates").Bind("USD", "UAH", 0))
+        rub_uah_c_m_c  := Func("@ClipMsg").Bind(Func("ExchRates").Bind("RUB", "UAH", 0))
+        uah_rub_c_m_c  := Func("@ClipMsg").Bind(Func("ExchRates").Bind("UAH", "RUB", 0))
+        usd_eur_c_m_c  := Func("@ClipMsg").Bind(Func("ExchRates").Bind("USD", "EUR", 0))
+        eur_usd_c_m_c  := Func("@ClipMsg").Bind(Func("ExchRates").Bind("EUR", "USD", 0))
+        unk_to_usd_m_c := Func("@ClipMsg").Bind(Func("UnknownCurrency").Bind("USD"))
+        unk_to_rub_m_c := Func("@ClipMsg").Bind(Func("UnknownCurrency").Bind("RUB"))
+        Menu, ConvMC, Add, &USD–RUB, % usd_rub_c_m_c
+        Menu, ConvMC, Add, &RUB–USD, % rub_usd_c_m_c
+        Menu, ConvMC, Add
+        Menu, ConvMC, Add, U&SD–UAH, % usd_uah_c_m_c
+        Menu, ConvMC, Add, UA&H–USD, % uah_usd_c_m_c
+        Menu, ConvMC, Add
+        Menu, ConvMC, Add, U&AH–RUB, % uah_rub_c_m_c
+        Menu, ConvMC, Add, RU&B–UAH, % rub_uah_c_m_c
+        Menu, ConvMC, Add
+        Menu, ConvMC, Add, US&D–EUR, % usd_eur_c_m_c
+        Menu, ConvMC, Add, &EUR–USD, % eur_usd_c_m_c
+        Menu, ConvMC, Add
+        Menu, ConvMC, Add, ... &to USD, % unk_to_usd_m_c
+        Menu, ConvMC, Add, ... t&o RUB, % unk_to_rub_m_c
+    Menu, ClipMsg, Add, Currenc&y converter, :ConvMC
+Menu, Func, Add, &Clipboard text transform, :ClipMsg
 
 ;"selected text as input; message box as output" submenu
-    Normalize_s_msg   := Func("@S_Msg").Bind("Normalize")
-    Capitaliz_s_msg   := Func("@S_Msg").Bind("Capitalized")
-    Lowercase_s_msg   := Func("@S_Msg").Bind("Lowercase")
-    Uppercase_s_msg   := Func("@S_Msg").Bind("Uppercase")
-    Inverted_s_msg    := Func("@S_Msg").Bind("Inverted")
-    Sentence_s_msg    := Func("@S_Msg").Bind("Sentence")
-    En_Ru_L_s_msg     := Func("@S_Msg").Bind(Func("Layout_switch").Bind("qwerty_en_ru"))
-    Ru_En_L_s_msg     := Func("@S_Msg").Bind(Func("Layout_switch").Bind("qwerty_ru_en"))
-    En_Ru_Q_s_msg     := Func("@S_Msg").Bind(Func("Layout_switch").Bind("qphyx_en_ru"))
-    Ru_En_Q_s_msg     := Func("@S_Msg").Bind(Func("Layout_switch").Bind("qphyx_ru_en"))
-    En_Ru_T_s_msg     := Func("@S_Msg").Bind(Func("Layout_switch").Bind("translit_en_ru"))
-    Ru_En_T_s_msg     := Func("@S_Msg").Bind(Func("Layout_switch").Bind("translit_ru_en"))
-    Calc_expr_s_msg   := Func("@S_Msg").Bind("Execute")
-    Format_time_s_msg := Func("@S_Msg").Bind("Format_time")
-    Menu, S_Msg, Add, Nor&malize,   % Normalize_s_msg
-    Menu, S_Msg, Add, &Sentence,    % Sentence_s_msg
-    Menu, S_Msg, Add, &Capitalized, % Capitaliz_s_msg
-    Menu, S_Msg, Add, &Lowercase,   % Lowercase_s_msg
-    Menu, S_Msg, Add, &Uppercase,   % Uppercase_s_msg
-    Menu, S_Msg, Add, &Inverted,    % Inverted_s_msg
-    Menu, S_Msg, Add
-    Menu, S_Msg, Add, &En-Ru qwerty switch, % En_Ru_L_s_msg
-    Menu, S_Msg, Add, &Ru-En qwerty switch, % Ru_En_L_s_msg
-    Menu, S_Msg, Add, En-Ru &qphyx switch, % En_Ru_Q_s_msg
-    Menu, S_Msg, Add, Ru-En q&phyx switch, % Ru_En_Q_s_msg
-    Menu, S_Msg, Add, E&n-Ru transliteration, % En_Ru_T_s_msg
-    Menu, S_Msg, Add, Ru-En transliterati&on, % Ru_En_T_s_msg
-    Menu, S_Msg, Add
-    Menu, S_Msg, Add, C&alculate the expression, % Calc_expr_s_msg
-    Menu, S_Msg, Add, &FormatTime (e.g. "dd/MM" to "26/03"), % Format_time_s_msg
+    normalize_s_msg   := Func("@SelMsg").Bind("Normalize")
+    capitaliz_s_msg   := Func("@SelMsg").Bind("Capitalized")
+    lowercase_s_msg   := Func("@SelMsg").Bind("Lowercase")
+    uppercase_s_msg   := Func("@SelMsg").Bind("Uppercase")
+    inverted_s_msg    := Func("@SelMsg").Bind("Inverted")
+    sentence_s_msg    := Func("@SelMsg").Bind("Sentence")
+    en_ru_q_s_msg     := Func("@SelMsg").Bind(Func("LayoutSwitch").Bind("qphyx_en_ru"))
+    ru_en_q_s_msg     := Func("@SelMsg").Bind(Func("LayoutSwitch").Bind("qphyx_ru_en"))
+    en_ru_l_s_msg     := Func("@SelMsg").Bind(Func("LayoutSwitch").Bind("qwerty_en_ru"))
+    ru_en_l_s_msg     := Func("@SelMsg").Bind(Func("LayoutSwitch").Bind("qwerty_ru_en"))
+    en_ru_t_s_msg     := Func("@SelMsg").Bind(Func("LayoutSwitch").Bind("translit_en_ru"))
+    ru_en_t_s_msg     := Func("@SelMsg").Bind(Func("LayoutSwitch").Bind("translit_ru_en"))
+    calc_expr_s_msg   := Func("@SelMsg").Bind("Execute")
+    format_time_s_msg := Func("@SelMsg").Bind("DatetimeFormat")
+    Menu, SelMsg, Add, Nor&malize,   % normalize_s_msg
+    Menu, SelMsg, Add, &Sentence,    % sentence_s_msg
+    Menu, SelMsg, Add, &Capitalized, % capitaliz_s_msg
+    Menu, SelMsg, Add, &Lowercase,   % lowercase_s_msg
+    Menu, SelMsg, Add, &Uppercase,   % uppercase_s_msg
+    Menu, SelMsg, Add, &Inverted,    % inverted_s_msg
+    Menu, SelMsg, Add
+    Menu, SelMsg, Add, En-Ru &qphyx switch,    % en_ru_q_s_msg
+    Menu, SelMsg, Add, Ru-En q&phyx switch,    % ru_en_q_s_msg
+    Menu, SelMsg, Add, &En-Ru qwerty switch,   % en_ru_l_s_msg
+    Menu, SelMsg, Add, &Ru-En qwerty switch,   % ru_en_l_s_msg
+    Menu, SelMsg, Add, E&n-Ru transliteration, % en_ru_t_s_msg
+    Menu, SelMsg, Add, Ru-En transliterati&on, % ru_en_t_s_msg
+    Menu, SelMsg, Add
+    Menu, SelMsg, Add, C&alculate the expression, % calc_expr_s_msg
+    Menu, SelMsg, Add, &Format Time (e.g. "dd/MM" to "26/03"), % format_time_s_msg
     ;currency converter submenu
-        Usd_rub_c_m_s  := Func("@S_Msg").Bind(Func("Exch_rates").Bind("USD", "RUB", 0))
-        Rub_usd_c_m_s  := Func("@S_Msg").Bind(Func("Exch_rates").Bind("RUB", "USD", 0))
-        Uah_usd_c_m_s  := Func("@S_Msg").Bind(Func("Exch_rates").Bind("UAH", "USD", 0))
-        Usd_uah_c_m_s  := Func("@S_Msg").Bind(Func("Exch_rates").Bind("USD", "UAH", 0))
-        Rub_uah_c_m_s  := Func("@S_Msg").Bind(Func("Exch_rates").Bind("RUB", "UAH", 0))
-        Uah_rub_c_m_s  := Func("@S_Msg").Bind(Func("Exch_rates").Bind("UAH", "RUB", 0))
-        Usd_eur_c_m_s  := Func("@S_Msg").Bind(Func("Exch_rates").Bind("USD", "EUR", 0))
-        Eur_usd_c_m_s  := Func("@S_Msg").Bind(Func("Exch_rates").Bind("EUR", "USD", 0))
-        Unk_to_usd_m_s := Func("@S_Msg").Bind(Func("Unknown_currency").Bind("USD"))
-        Unk_to_rub_m_s := Func("@S_Msg").Bind(Func("Unknown_currency").Bind("RUB"))
-        Menu, Conv_m_s, Add, &USD–RUB, % Usd_rub_c_m_s
-        Menu, Conv_m_s, Add, &RUB–USD, % Rub_usd_c_m_s
-        Menu, Conv_m_s, Add
-        Menu, Conv_m_s, Add, U&SD–UAH, % Usd_uah_c_m_s
-        Menu, Conv_m_s, Add, UA&H–USD, % Uah_usd_c_m_s
-        Menu, Conv_m_s, Add
-        Menu, Conv_m_s, Add, U&AH–RUB, % Uah_rub_c_m_s
-        Menu, Conv_m_s, Add, RU&B–UAH, % Rub_uah_c_m_s
-        Menu, Conv_m_s, Add
-        Menu, Conv_m_s, Add, US&D–EUR, % Usd_eur_c_m_s
-        Menu, Conv_m_s, Add, &EUR–USD, % Eur_usd_c_m_s
-        Menu, Conv_m_s, Add
-        Menu, Conv_m_s, Add, ... &to USD, % Unk_to_usd_m_s
-        Menu, Conv_m_s, Add, ... t&o RUB, % Unk_to_rub_m_s
-    Menu, S_Msg, Add, Currenc&y converter, :Conv_m_s
-Menu, Func, Add, &Selected text transform, :S_Msg
+        usd_rub_c_m_s  := Func("@SelMsg").Bind(Func("ExchRates").Bind("USD", "RUB", 0))
+        rub_usd_c_m_s  := Func("@SelMsg").Bind(Func("ExchRates").Bind("RUB", "USD", 0))
+        uah_usd_c_m_s  := Func("@SelMsg").Bind(Func("ExchRates").Bind("UAH", "USD", 0))
+        usd_uah_c_m_s  := Func("@SelMsg").Bind(Func("ExchRates").Bind("USD", "UAH", 0))
+        rub_uah_c_m_s  := Func("@SelMsg").Bind(Func("ExchRates").Bind("RUB", "UAH", 0))
+        uah_rub_c_m_s  := Func("@SelMsg").Bind(Func("ExchRates").Bind("UAH", "RUB", 0))
+        usd_eur_c_m_s  := Func("@SelMsg").Bind(Func("ExchRates").Bind("USD", "EUR", 0))
+        eur_usd_c_m_s  := Func("@SelMsg").Bind(Func("ExchRates").Bind("EUR", "USD", 0))
+        unk_to_usd_m_s := Func("@SelMsg").Bind(Func("UnknownCurrency").Bind("USD"))
+        unk_to_rub_m_s := Func("@SelMsg").Bind(Func("UnknownCurrency").Bind("RUB"))
+        Menu, ConvMS, Add, &USD–RUB, % usd_rub_c_m_s
+        Menu, ConvMS, Add, &RUB–USD, % rub_usd_c_m_s
+        Menu, ConvMS, Add
+        Menu, ConvMS, Add, U&SD–UAH, % usd_uah_c_m_s
+        Menu, ConvMS, Add, UA&H–USD, % uah_usd_c_m_s
+        Menu, ConvMS, Add
+        Menu, ConvMS, Add, U&AH–RUB, % uah_rub_c_m_s
+        Menu, ConvMS, Add, RU&B–UAH, % rub_uah_c_m_s
+        Menu, ConvMS, Add
+        Menu, ConvMS, Add, US&D–EUR, % usd_eur_c_m_s
+        Menu, ConvMS, Add, &EUR–USD, % eur_usd_c_m_s
+        Menu, ConvMS, Add
+        Menu, ConvMS, Add, ... &to USD, % unk_to_usd_m_s
+        Menu, ConvMS, Add, ... t&o RUB, % unk_to_rub_m_s
+    Menu, SelMsg, Add, Currenc&y converter, :ConvMS
+Menu, Func, Add, &Selected text transform, :SelMsg
 
 ;"input box as input; message box as output" submenu
-    Normalize_i_msg   := Func("@I_Msg").Bind("Normalize")
-    Capitaliz_i_msg   := Func("@I_Msg").Bind("Capitalized")
-    Lowercase_i_msg   := Func("@I_Msg").Bind("Lowercase")
-    Uppercase_i_msg   := Func("@I_Msg").Bind("Uppercase")
-    Inverted_i_msg    := Func("@I_Msg").Bind("Inverted")
-    Sentence_i_msg    := Func("@I_Msg").Bind("Sentence")
-    En_Ru_L_i_msg     := Func("@I_Msg").Bind(Func("Layout_switch").Bind("qwerty_en_ru"))
-    Ru_En_L_i_msg     := Func("@I_Msg").Bind(Func("Layout_switch").Bind("qwerty_ru_en"))
-    En_Ru_Q_i_msg     := Func("@I_Msg").Bind(Func("Layout_switch").Bind("qphyx_en_ru"))
-    Ru_En_Q_i_msg     := Func("@I_Msg").Bind(Func("Layout_switch").Bind("qphyx_ru_en"))
-    En_Ru_T_i_msg     := Func("@I_Msg").Bind(Func("Layout_switch").Bind("translit_en_ru"))
-    Ru_En_T_i_msg     := Func("@I_Msg").Bind(Func("Layout_switch").Bind("translit_ru_en"))
-    Calc_expr_i_msg   := Func("@I_Msg").Bind("Execute")
-    Format_time_i_msg := Func("@I_Msg").Bind("Format_time")
-    Menu, I_Msg, Add, Nor&malize,   % Normalize_i_msg
-    Menu, I_Msg, Add, &Sentence,    % Sentence_i_msg
-    Menu, I_Msg, Add, &Capitalized, % Capitaliz_i_msg
-    Menu, I_Msg, Add, &Lowercase,   % Lowercase_i_msg
-    Menu, I_Msg, Add, &Uppercase,   % Uppercase_i_msg
-    Menu, I_Msg, Add, &Inverted,    % Inverted_i_msg
-    Menu, I_Msg, Add
-    Menu, I_Msg, Add, &En-Ru qwerty switch, % En_Ru_L_i_msg
-    Menu, I_Msg, Add, &Ru-En qwerty switch, % Ru_En_L_i_msg
-    Menu, I_Msg, Add, En-Ru &qphyx switch, % En_Ru_Q_i_msg
-    Menu, I_Msg, Add, Ru-En q&phyx switch, % Ru_En_Q_i_msg
-    Menu, I_Msg, Add, E&n-Ru transliteration, % En_Ru_T_i_msg
-    Menu, I_Msg, Add, Ru-En transliterati&on, % Ru_En_T_i_msg
-    Menu, I_Msg, Add
-    Menu, I_Msg, Add, C&alculate the expression, % Calc_expr_i_msg
-    Menu, I_Msg, Add, &FormatTime (e.g. "dd/MM" to "26/03"), % Format_time_i_msg
+    normalize_i_msg   := Func("@InpMsg").Bind("Normalize")
+    capitaliz_i_msg   := Func("@InpMsg").Bind("Capitalized")
+    lowercase_i_msg   := Func("@InpMsg").Bind("Lowercase")
+    uppercase_i_msg   := Func("@InpMsg").Bind("Uppercase")
+    inverted_i_msg    := Func("@InpMsg").Bind("Inverted")
+    sentence_i_msg    := Func("@InpMsg").Bind("Sentence")
+    en_ru_q_i_msg     := Func("@InpMsg").Bind(Func("LayoutSwitch").Bind("qphyx_en_ru"))
+    ru_en_q_i_msg     := Func("@InpMsg").Bind(Func("LayoutSwitch").Bind("qphyx_ru_en"))
+    en_ru_l_i_msg     := Func("@InpMsg").Bind(Func("LayoutSwitch").Bind("qwerty_en_ru"))
+    ru_en_l_i_msg     := Func("@InpMsg").Bind(Func("LayoutSwitch").Bind("qwerty_ru_en"))
+    en_ru_t_i_msg     := Func("@InpMsg").Bind(Func("LayoutSwitch").Bind("translit_en_ru"))
+    ru_en_t_i_msg     := Func("@InpMsg").Bind(Func("LayoutSwitch").Bind("translit_ru_en"))
+    calc_expr_i_msg   := Func("@InpMsg").Bind("Execute")
+    format_time_i_msg := Func("@InpMsg").Bind("DatetimeFormat")
+    Menu, InpMsg, Add, Nor&malize,   % normalize_i_msg
+    Menu, InpMsg, Add, &Sentence,    % sentence_i_msg
+    Menu, InpMsg, Add, &Capitalized, % capitaliz_i_msg
+    Menu, InpMsg, Add, &Lowercase,   % lowercase_i_msg
+    Menu, InpMsg, Add, &Uppercase,   % uppercase_i_msg
+    Menu, InpMsg, Add, &Inverted,    % inverted_i_msg
+    Menu, InpMsg, Add
+    Menu, InpMsg, Add, En-Ru &qphyx switch,    % en_ru_q_i_msg
+    Menu, InpMsg, Add, Ru-En q&phyx switch,    % ru_en_q_i_msg
+    Menu, InpMsg, Add, &En-Ru qwerty switch,   % en_ru_l_i_msg
+    Menu, InpMsg, Add, &Ru-En qwerty switch,   % ru_en_l_i_msg
+    Menu, InpMsg, Add, E&n-Ru transliteration, % en_ru_t_i_msg
+    Menu, InpMsg, Add, Ru-En transliterati&on, % ru_en_t_i_msg
+    Menu, InpMsg, Add
+    Menu, InpMsg, Add, C&alculate the expression, % calc_expr_i_msg
+    Menu, InpMsg, Add, &Format Time (e.g. "dd/MM" to "26/03"), % format_time_i_msg
     ;currency converter submenu
-        Usd_rub_c_m_i  := Func("@I_Msg").Bind(Func("Exch_rates").Bind("USD", "RUB", 0))
-        Rub_usd_c_m_i  := Func("@I_Msg").Bind(Func("Exch_rates").Bind("RUB", "USD", 0))
-        Uah_usd_c_m_i  := Func("@I_Msg").Bind(Func("Exch_rates").Bind("UAH", "USD", 0))
-        Usd_uah_c_m_i  := Func("@I_Msg").Bind(Func("Exch_rates").Bind("USD", "UAH", 0))
-        Rub_uah_c_m_i  := Func("@I_Msg").Bind(Func("Exch_rates").Bind("RUB", "UAH", 0))
-        Uah_rub_c_m_i  := Func("@I_Msg").Bind(Func("Exch_rates").Bind("UAH", "RUB", 0))
-        Usd_eur_c_m_i  := Func("@I_Msg").Bind(Func("Exch_rates").Bind("USD", "EUR", 0))
-        Eur_usd_c_m_i  := Func("@I_Msg").Bind(Func("Exch_rates").Bind("EUR", "USD", 0))
-        Unk_to_usd_m_i := Func("@I_Msg").Bind(Func("Unknown_currency").Bind("USD"))
-        Unk_to_rub_m_i := Func("@I_Msg").Bind(Func("Unknown_currency").Bind("RUB"))
-        Menu, Conv_m_i, Add, &USD–RUB, % Usd_rub_c_m_i
-        Menu, Conv_m_i, Add, &RUB–USD, % Rub_usd_c_m_i
-        Menu, Conv_m_i, Add
-        Menu, Conv_m_i, Add, U&SD–UAH, % Usd_uah_c_m_i
-        Menu, Conv_m_i, Add, UA&H–USD, % Uah_usd_c_m_i
-        Menu, Conv_m_i, Add
-        Menu, Conv_m_i, Add, U&AH–RUB, % Uah_rub_c_m_i
-        Menu, Conv_m_i, Add, RU&B–UAH, % Rub_uah_c_m_i
-        Menu, Conv_m_i, Add
-        Menu, Conv_m_i, Add, US&D–EUR, % Usd_eur_c_m_i
-        Menu, Conv_m_i, Add, &EUR–USD, % Eur_usd_c_m_i
-        Menu, Conv_m_i, Add
-        Menu, Conv_m_i, Add, ... &to USD, % Unk_to_usd_m_i
-        Menu, Conv_m_i, Add, ... t&o RUB, % Unk_to_rub_m_i
-    Menu, I_Msg, Add, Currenc&y converter, :Conv_m_i
-Menu, Func, Add, &Input text to transform, :I_Msg
+        usd_rub_c_m_i  := Func("@InpMsg").Bind(Func("ExchRates").Bind("USD", "RUB", 0))
+        rub_usd_c_m_i  := Func("@InpMsg").Bind(Func("ExchRates").Bind("RUB", "USD", 0))
+        uah_usd_c_m_i  := Func("@InpMsg").Bind(Func("ExchRates").Bind("UAH", "USD", 0))
+        usd_uah_c_m_i  := Func("@InpMsg").Bind(Func("ExchRates").Bind("USD", "UAH", 0))
+        rub_uah_c_m_i  := Func("@InpMsg").Bind(Func("ExchRates").Bind("RUB", "UAH", 0))
+        uah_rub_c_m_i  := Func("@InpMsg").Bind(Func("ExchRates").Bind("UAH", "RUB", 0))
+        usd_eur_c_m_i  := Func("@InpMsg").Bind(Func("ExchRates").Bind("USD", "EUR", 0))
+        eur_usd_c_m_i  := Func("@InpMsg").Bind(Func("ExchRates").Bind("EUR", "USD", 0))
+        unk_to_usd_m_i := Func("@InpMsg").Bind(Func("UnknownCurrency").Bind("USD"))
+        unk_to_rub_m_i := Func("@InpMsg").Bind(Func("UnknownCurrency").Bind("RUB"))
+        Menu, ConvMI, Add, &USD–RUB, % usd_rub_c_m_i
+        Menu, ConvMI, Add, &RUB–USD, % rub_usd_c_m_i
+        Menu, ConvMI, Add
+        Menu, ConvMI, Add, U&SD–UAH, % usd_uah_c_m_i
+        Menu, ConvMI, Add, UA&H–USD, % uah_usd_c_m_i
+        Menu, ConvMI, Add
+        Menu, ConvMI, Add, U&AH–RUB, % uah_rub_c_m_i
+        Menu, ConvMI, Add, RU&B–UAH, % rub_uah_c_m_i
+        Menu, ConvMI, Add
+        Menu, ConvMI, Add, US&D–EUR, % usd_eur_c_m_i
+        Menu, ConvMI, Add, &EUR–USD, % eur_usd_c_m_i
+        Menu, ConvMI, Add
+        Menu, ConvMI, Add, ... &to USD, % unk_to_usd_m_i
+        Menu, ConvMI, Add, ... t&o RUB, % unk_to_rub_m_i
+    Menu, InpMsg, Add, Currenc&y converter, :ConvMI
+Menu, Func, Add, &Input text to transform, :InpMsg
 Menu, Func, Add
 
 ;time submenu
-    Time_msg     := Func("@C_Msg").Bind(Func("Datetime").Bind("hh:mm:ss tt"))
-    Date_msg     := Func("@C_Msg").Bind(Func("Datetime").Bind("MMMM dd"))
-    DT_msg       := Func("@C_Msg").Bind(Func("Datetime").Bind("dddd, MMMM dd yyyy hh:mm:ss tt"))
-    New_time_msg := Func("@C_Msg").Bind("Decimal_time")
-    New_date_msg := Func("@C_Msg").Bind("Hexal_date")
-    New_dt_msg   := Func("@C_Msg").Bind("New_datetime")
-    Menu, DT_M, Add, &Time, % Time_msg
-    Menu, DT_M, Add, &Date, % Date_msg
-    Menu, DT_M, Add, DateTi&me, % DT_msg
-    Menu, DT_M, Add, De&cimal time, % New_time_msg
-    Menu, DT_M, Add, &Hexal date, % New_date_msg
-    Menu, DT_M, Add, &New datetime, % New_dt_msg
-Menu, Func, Add, &Datetime, :DT_M
+    time_msg     := Func("@ClipMsg").Bind(Func("Datetime").Bind("hh:mm:ss tt"))
+    date_msg     := Func("@ClipMsg").Bind(Func("Datetime").Bind("MMMM dd"))
+    dt_msg       := Func("@ClipMsg").Bind(Func("Datetime").Bind("dddd, MMMM dd yyyy hh:mm:ss tt"))
+    new_time_msg := Func("@ClipMsg").Bind("DecimalTime")
+    new_date_msg := Func("@ClipMsg").Bind("HexalDate")
+    new_dt_msg   := Func("@ClipMsg").Bind("NewDatetime")
+    Menu, DatetimeM, Add, &Time, % time_msg
+    Menu, DatetimeM, Add, &Date, % date_msg
+    Menu, DatetimeM, Add, DateTi&me, % dt_msg
+    Menu, DatetimeM, Add, De&cimal time, % new_time_msg
+    Menu, DatetimeM, Add, &Hexal date,   % new_date_msg
+    Menu, DatetimeM, Add, &New datetime, % new_dt_msg
+Menu, Func, Add, &Datetime, :DatetimeM
 
 ;exchange rates submenu
-    Usd_rub_r_m := Func("@C_Msg").Bind(Func("Exch_rates").Bind("USD", "RUB"))
-    Rub_usd_r_m := Func("@C_Msg").Bind(Func("Exch_rates").Bind("RUB", "USD"))
-    Uah_usd_r_m := Func("@C_Msg").Bind(Func("Exch_rates").Bind("UAH", "USD"))
-    Usd_uah_r_m := Func("@C_Msg").Bind(Func("Exch_rates").Bind("USD", "UAH"))
-    Rub_uah_r_m := Func("@C_Msg").Bind(Func("Exch_rates").Bind("RUB", "UAH"))
-    Uah_rub_r_m := Func("@C_Msg").Bind(Func("Exch_rates").Bind("UAH", "RUB"))
-    Usd_eur_r_m := Func("@C_Msg").Bind(Func("Exch_rates").Bind("USD", "EUR"))
-    Eur_usd_r_m := Func("@C_Msg").Bind(Func("Exch_rates").Bind("EUR", "USD"))
-    Menu, Rates_m, Add, &USD–RUB, % Usd_rub_r_m
-    Menu, Rates_m, Add, &RUB–USD, % Rub_usd_r_m
-    Menu, Rates_m, Add
-    Menu, Rates_m, Add, U&SD–UAH, % Usd_uah_r_m
-    Menu, Rates_m, Add, UA&H–USD, % Uah_usd_r_m
-    Menu, Rates_m, Add
-    Menu, Rates_m, Add, U&AH–RUB, % Uah_rub_r_m
-    Menu, Rates_m, Add, RU&B–UAH, % Rub_uah_r_m
-    Menu, Rates_m, Add
-    Menu, Rates_m, Add, US&D–EUR, % Usd_eur_r_m
-    Menu, Rates_m, Add, &EUR–USD, % Eur_usd_r_m
-Menu, Func, Add, E&xchange rate, :Rates_m
+    usd_rub_r_m := Func("@ClipMsg").Bind(Func("ExchRates").Bind("USD", "RUB"))
+    rub_usd_r_m := Func("@ClipMsg").Bind(Func("ExchRates").Bind("RUB", "USD"))
+    uah_usd_r_m := Func("@ClipMsg").Bind(Func("ExchRates").Bind("UAH", "USD"))
+    usd_uah_r_m := Func("@ClipMsg").Bind(Func("ExchRates").Bind("USD", "UAH"))
+    rub_uah_r_m := Func("@ClipMsg").Bind(Func("ExchRates").Bind("RUB", "UAH"))
+    uah_rub_r_m := Func("@ClipMsg").Bind(Func("ExchRates").Bind("UAH", "RUB"))
+    usd_eur_r_m := Func("@ClipMsg").Bind(Func("ExchRates").Bind("USD", "EUR"))
+    eur_usd_r_m := Func("@ClipMsg").Bind(Func("ExchRates").Bind("EUR", "USD"))
+    Menu, RatesM, Add, &USD–RUB, % usd_rub_r_m
+    Menu, RatesM, Add, &RUB–USD, % rub_usd_r_m
+    Menu, RatesM, Add
+    Menu, RatesM, Add, U&SD–UAH, % usd_uah_r_m
+    Menu, RatesM, Add, UA&H–USD, % uah_usd_r_m
+    Menu, RatesM, Add
+    Menu, RatesM, Add, U&AH–RUB, % uah_rub_r_m
+    Menu, RatesM, Add, RU&B–UAH, % rub_uah_r_m
+    Menu, RatesM, Add
+    Menu, RatesM, Add, US&D–EUR, % usd_eur_r_m
+    Menu, RatesM, Add, &EUR–USD, % eur_usd_r_m
+Menu, Func, Add, E&xchange rate, :RatesM
 
-Weather_msg := Func("@C_Msg").Bind(Func("Weather").Bind(CITY))
-Menu, Func, Add, Current &weather, % Weather_msg
+weather_msg := Func("@ClipMsg").Bind(Func("Weather").Bind(CITY))
+Menu, Func, Add, Current &weather, % weather_msg
 
 ;reminder
 Menu, Func, Add, &Reminder, Reminder
@@ -531,10 +531,10 @@ If LONG_TIME
     ;global DISABLE bool
     Menu, Func, Add, Disa&ble (sh+tilde to toggle), Disable
     ;global LONG_TIME int
-    Menu, Func, Add, &Long press delay (now is %LONG_TIME%s), Long_press
+    Menu, Func, Add, &Long press delay (now is %LONG_TIME%s), LongPress
 }
 ;global MUS_DELAY int
-Menu, Func, Add, &Auto-stop music on AFK delay (now is %MUS_DELAY%m), Mus_timer
+Menu, Func, Add, &Auto-stop music on AFK delay (now is %MUS_DELAY%m), MusTimer
 
 
 ;===============================================================================================
@@ -559,19 +559,19 @@ Menu, Func, Add, &Auto-stop music on AFK delay (now is %MUS_DELAY%m), Mus_timer
 }
 @Inp(func, params*)
 {
-    InputBox, userInput, %func%, Input for %func% function, , 300, 150
+    InputBox, user_input, %func%, Input for %func% function, , 300, 150
     If !ErrorLevel
     {
         saved_value := Clipboard
         Sleep, SLEEP_DELAY
-        Clipboard := userInput
+        Clipboard := user_input
         Sleep, SLEEP_DELAY
         result := %func%(params)
         SendInput %result%
         Clipboard := saved_value
     }
 }
-@C_Msg(func, params*)
+@ClipMsg(func, params*)
 {
     result := %func%(params)
     MsgBox, 260, %func%, %result% `nSave result to clipboard?
@@ -580,7 +580,7 @@ Menu, Func, Add, &Auto-stop music on AFK delay (now is %MUS_DELAY%m), Mus_timer
         Clipboard := result
     }
 }
-@S_Msg(func, params*)
+@SelMsg(func, params*)
 {
     saved_value := Clipboard
     Sleep, SLEEP_DELAY
@@ -599,14 +599,14 @@ Menu, Func, Add, &Auto-stop music on AFK delay (now is %MUS_DELAY%m), Mus_timer
         Clipboard := saved_value
     }
 }
-@I_Msg(func, params*)
+@InpMsg(func, params*)
 {
-    InputBox, userInput, %func%, Input for %func% function, , 300, 150
+    InputBox, user_input, %func%, Input for %func% function, , 300, 150
     If !ErrorLevel
     {
         saved_value := Clipboard
         Sleep, SLEEP_DELAY
-        Clipboard := userInput
+        Clipboard := user_input
         Sleep, SLEEP_DELAY
         result := %func%(params)
         MsgBox, 260, %func%, %result% `nSave result to clipboard?
@@ -687,19 +687,19 @@ Weather(q_city)
     {
         Return "Not found api key in environment variables (search 'OPENWEATHERMAP')"
     }
-    webRequest := ComObjCreate("WinHttp.WinHttpRequest.5.1")
-    webRequest.Open("GET", "https://api.openweathermap.org/data/2.5/weather?q=" q_city
+    web_request := ComObjCreate("WinHttp.WinHttpRequest.5.1")
+    web_request.Open("GET", "https://api.openweathermap.org/data/2.5/weather?q=" q_city
         . "&appid=" WEATHER_KEY "&units=metric")
-    webRequest.Send()
-    stat := RegExReplace(webRequest.ResponseText, ".+""main"":""(\w+)"".+", "$u1")
+    web_request.Send()
+    stat := RegExReplace(web_request.ResponseText, ".+""main"":""(\w+)"".+", "$u1")
     StringUpper stat, stat, T
-    temp := RegExReplace(webRequest.ResponseText, ".+""temp"":(-?\d+.\d+).+", "$u1")
-    feel := RegExReplace(webRequest.ResponseText, ".+""feels_like"":(-?\d+.\d+).+", "$u1")
-    wind := RegExReplace(webRequest.ResponseText, ".+""speed"":(\d+.\d+).+", "$u1")
+    temp := RegExReplace(web_request.ResponseText, ".+""temp"":(-?\d+.\d+).+", "$u1")
+    feel := RegExReplace(web_request.ResponseText, ".+""feels_like"":(-?\d+.\d+).+", "$u1")
+    wind := RegExReplace(web_request.ResponseText, ".+""speed"":(\d+.\d+).+", "$u1")
     Return stat "`n" temp "° (" feel "°)`n" wind "m/s"
 }
 
-Exch_rates(base, symbol, amount:=1)
+ExchRates(base, symbol, amount:=1)
 {
     If !CURRENCY_KEY
     {
@@ -709,15 +709,15 @@ Exch_rates(base, symbol, amount:=1)
     {
         amount := RegExReplace(RegExReplace(Clipboard, "[^\d+\.,]"), ",", ".")
     }
-    webRequest := ComObjCreate("WinHttp.WinHttpRequest.5.1")
-    webRequest.Open("GET", "https://api.getgeoapi.com/api/v2/currency/convert?api_key="
+    web_request := ComObjCreate("WinHttp.WinHttpRequest.5.1")
+    web_request.Open("GET", "https://api.getgeoapi.com/api/v2/currency/convert?api_key="
         . CURRENCY_KEY "&from=" base "&to=" symbol "&amount=" amount "&format=json")
-    webRequest.Send()
-    Return Round(RegExReplace(webRequest.ResponseText
+    web_request.Send()
+    Return Round(RegExReplace(web_request.ResponseText
         , ".+""rate_for_amount"":""(\d+\.\d+)"".+", "$u1"), 2)
 }
 
-Unknown_currency(base)
+UnknownCurrency(base)
 {
     If !CURRENCY_KEY
     {
@@ -882,14 +882,14 @@ Unknown_currency(base)
                 {
                     If InStr(Clipboard, var)
                     {
-                        webRequest := ComObjCreate("WinHttp.WinHttpRequest.5.1")
-                        webRequest.Open("GET"
+                        web_request := ComObjCreate("WinHttp.WinHttpRequest.5.1")
+                        web_request.Open("GET"
                             , "https://api.getgeoapi.com/api/v2/currency/convert?api_key="
                             . CURRENCY_KEY "&from=" elem[1][1] "&to=" base "&amount="
                             . amount1 "&format=json")
-                        webRequest.Send()
+                        web_request.Send()
                         result := amount1 " " elem[2] " to " base ": "
-                            . Round(RegExReplace(webRequest.ResponseText
+                            . Round(RegExReplace(web_request.ResponseText
                                 , ".+""rate_for_amount"":""(\d+\.\d+)"".+", "$u1"), 2)
                         Break 3
                     }
@@ -911,23 +911,23 @@ Unknown_currency(base)
 
 Datetime(format)
 {
-    FormatTime, timeString, %A_Now%, %format%
-    Return timeString
+    FormatTime, time_string, %A_Now%, %format%
+    Return time_string
 }
 
-Format_time()
+DatetimeFormat()
 {
     Clipboard := StrReplace(StrReplace(StrReplace(Clipboard, "д", "d"), "м", "m"), "М", "M")
     Clipboard := StrReplace(StrReplace(StrReplace(Clipboard, "г", "y"), "э", "gg"), "ч", "h")
     Clipboard := StrReplace(StrReplace(StrReplace(Clipboard, "Ч", "H"), "с", "S"), "п", "t")
-    FormatTime, timeString, %A_Now%, %Clipboard%
-    Return timeString
+    FormatTime, time_string, %A_Now%, %Clipboard%
+    Return time_string
 }
 
 
 ; 10 hours in a day (0-9), 100 minutes in a hour (00-99), 100 seconds in a minute (00-99).
 ; Second was accelerated by 100_000/86_400≈1.1574
-Decimal_time()
+DecimalTime()
 {
     ms := (((A_Hour * 60 + A_Min) * 60 + A_Sec) * 1000 + A_MSec) * 1.1574
     hours := Round(ms // 10000000)
@@ -939,7 +939,7 @@ Decimal_time()
 ; 10 months in a year, 6 weeks in a month, 6 days in a week.
 ; The last 5(6 if leap year) days of the year is a holiday week.
 ; New Year on the Winter solstice (dec 21-22, old style).
-Hexal_date()
+HexalDate()
 {
     If (!Mod(A_YYYY, 400) || !Mod(A_YYYY, 4) && Mod(A_YYYY, 100))
     {
@@ -973,11 +973,9 @@ Hexal_date()
     Return mm "" ww "" dd ". " year
 }
 
-New_datetime()
+NewDatetime()
 {
-    time := Decimal_time()
-    date := Hexal_date()
-    Return time " | " date
+    Return DecimalTime() " | " HexalDate()
 }
 
 
@@ -1028,22 +1026,22 @@ Inverted()
 {
     ; Go OR stAy  ?NoW I GOttA cHOoSE, and I’lL AccEpT YOur InVItatIOn TO thE BLuEs
     result := ""
-    Loop % Strlen(Clipboard)
+    Loop % StrLen(Clipboard)
     {
-        cur_char := Asc(Substr(Clipboard, A_Index, 1))
-        If cur_char between 65 and 90
+        cur_char := Asc(SubStr(Clipboard, A_Index, 1))
+        If cur_char Between 65 And 90
         {
             result := result Chr(cur_char + 32)
         }
-        Else If cur_char between 1040 and 1071
+        Else If cur_char Between 1040 And 1071
         {
             result := result Chr(cur_char + 32)
         }
-        Else If cur_char between 97 and 122
+        Else If cur_char Between 97 And 122
         {
             result := result Chr(cur_char - 32)
         }
-        Else If cur_char between 1072 and 1103
+        Else If cur_char Between 1072 And 1103
         {
             result := result Chr(cur_char - 32)
         }
@@ -1063,7 +1061,7 @@ Inverted()
     Return result
 }
 
-Layout_switch(dict)
+LayoutSwitch(dict)
 {
     qphyx_en_ru := { 113:[1102],112:[1087],104:[1093],121:[1099],120:[1103],122:[1079],119:[1096]
         , 108:[1083],100:[1076],118:[1074],101:[1077],097:[1072],111:[1086],105:[1080],117:[1091]
@@ -1120,9 +1118,9 @@ Layout_switch(dict)
         , 1097:[115,104,99,104],1098:[],1099:[121],1100:[],1101:[101],1102:[121,117]
         , 1103:[121,97],1105:[121,111]}
     result := ""
-    Loop % Strlen(Clipboard)
+    Loop % StrLen(Clipboard)
     {
-        cur_char := Asc(Substr(Clipboard, A_Index, 1))
+        cur_char := Asc(SubStr(Clipboard, A_Index, 1))
         If %dict%.haskey(cur_char)
         {
             For ind, elem in %dict%[cur_char]
@@ -1161,12 +1159,12 @@ Idle:
     Return
 
 Reminder:
-    InputBox, userInput, Reminder, Remind me in ... minutes, , 200, 130
+    InputBox, user_input, Reminder, Remind me in ... minutes, , 200, 130
     If !ErrorLevel
     {
-        If userInput is number
+        If user_input is number
         {
-            delay := userInput * 60000
+            delay := user_input * 60000
             SetTimer, Alarma, %delay%
         }
         Else
@@ -1174,7 +1172,7 @@ Reminder:
             MsgBox, 53, Incorrect value, The input must be a number!
             IfMsgBox Retry
             {
-                Goto, Reminder
+                GoTo, Reminder
             }
         }
     }
@@ -1198,19 +1196,19 @@ Disable:
     Run, qphyx.exe
     Return
 
-Long_press:
-    InputBox, userInput, Set new long press delay (only for this session!)
+LongPress:
+    InputBox, user_input, Set new long press delay (only for this session!)
         , New value in seconds (e.g. 0.15), , 444, 130
     If !ErrorLevel
     {
-        If userInput is number
+        If user_input is number
         {
             Menu, Func, Delete, &Long press delay (now is %LONG_TIME%s)
             Menu, Func, Delete, &Auto-stop music on AFK delay (now is %MUS_DELAY%m)
-            RegWrite, REG_SZ, HKEY_CURRENT_USER, Environment, QPHYX_LONG_TIME, %userInput%
-            LONG_TIME := userInput
-            Menu, Func, Add, &Long press delay (now is %LONG_TIME%s), Long_press
-            Menu, Func, Add, &Auto-stop music on AFK delay (now is %MUS_DELAY%m), Mus_timer
+            RegWrite, REG_SZ, HKEY_CURRENT_USER, Environment, QPHYX_LONG_TIME, %user_input%
+            LONG_TIME := user_input
+            Menu, Func, Add, &Long press delay (now is %LONG_TIME%s), LongPress
+            Menu, Func, Add, &Auto-stop music on AFK delay (now is %MUS_DELAY%m), MusTimer
             Run, qphyx.exe
         }
         Else
@@ -1218,30 +1216,30 @@ Long_press:
             MsgBox, 53, Incorrect value, The input must be a number!
             IfMsgBox Retry
             {
-                Goto, Long_press
+                GoTo, LongPress
             }
         }
     }
     Return
 
-Mus_timer:
-    InputBox, userInput, Set new auto-stop music on AFK delay (only for this session!)
+MusTimer:
+    InputBox, user_input, Set new auto-stop music on AFK delay (only for this session!)
         , New value in minutes (e.g. 10), , 444, 130
     If !ErrorLevel
     {
-        If userInput is number
+        If user_input is number
         {
             Menu, Func, Delete, &Auto-stop music on AFK delay (now is %MUS_DELAY%m)
-            RegWrite, REG_SZ, HKEY_CURRENT_USER, Environment, MUS_DELAY, %userInput%
-            MUS_DELAY := userInput
-            Menu, Func, Add, &Auto-stop music on AFK delay (now is %MUS_DELAY%m), Mus_timer
+            RegWrite, REG_SZ, HKEY_CURRENT_USER, Environment, MUS_DELAY, %user_input%
+            MUS_DELAY := user_input
+            Menu, Func, Add, &Auto-stop music on AFK delay (now is %MUS_DELAY%m), MusTimer
         }
         Else
         {
             MsgBox, 53, Incorrect value, The input must be a number!
             IfMsgBox Retry
             {
-                Goto, Mus_timer
+                GoTo, MusTimer
             }
         }
     }
