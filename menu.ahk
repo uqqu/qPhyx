@@ -79,6 +79,20 @@ Menu, Paste, Add, Paste menu, Pass
 Menu, Paste, ToggleEnable, Paste menu
 Menu, Paste, Icon, Paste menu, %A_AhkPath%, -207
 
+;"predefined values paste" submenu
+IniRead, section, %INI%, SavedValue
+For ind, pair in StrSplit(section, "`n")
+{
+    values := StrSplit(pair, "=")
+    option%ind% := Func("SendValue").Bind(values[2])
+    Menu, Values, Add, % values[1], % option%ind%
+}
+Menu, Values, Add
+Menu, Values, Add, Add new value, AddSavedValue
+Menu, Values, Add, Delete existing value, DeleteSavedValue
+
+Menu, Paste, Add, Saved &values, :Values
+
 ;"clipboard as input; paste as output" submenu
     normalize_clip   := Func("@Clip").Bind("Normalize")
     capitaliz_clip   := Func("@Clip").Bind("Capitalized")
@@ -574,6 +588,7 @@ Menu, Func, Add, &Auto-stop music on AFK delay (now is %MUS_PAUSE_DELAY%m), MusT
 ;decorators
 @Clip(func, params*)
 {
+    msgbox % params
     result := %func%(params)
     SendInput %result%
 }
@@ -649,6 +664,11 @@ Menu, Func, Add, &Auto-stop music on AFK delay (now is %MUS_PAUSE_DELAY%m), MusT
             Clipboard := saved_value
         }
     }
+}
+
+SendValue(value)
+{
+    SendInput %value%
 }
 
 ;detect current spotify process
@@ -1270,6 +1290,60 @@ MusTimer:
             IfMsgBox Retry
             {
                 GoTo, MusTimer
+            }
+        }
+    }
+    Return
+
+AddSavedValue:
+    message =
+    (
+        Enter name for new value (with "&&" for hotkey)
+Take into account that "test", "&&test" and "tes&&t" are three different values!
+If you enter existing value name it will be overwritten without warning!
+    )
+    InputBox, user_input, New value name, %message%, , 470, 160
+    If !ErrorLevel
+    {
+        InputBox, user_input_2, Value for %user_input%
+            , Enter value for %user_input%`nAll values stored solely in "config.ini", , 444, 160
+        If !ErrorLevel
+        {
+            IniWrite, %user_input_2%, %INI%, SavedValue, %user_input%
+            MsgBox, Success!
+            Run, menu%EXT%
+        }
+    }
+    Return
+
+DeleteSavedValue:
+    InputBox, user_input, Enter deleting value name
+        , Enter deleting value name (with "&&" if there is), , 470, 140
+    If !ErrorLevel
+    {
+        If !user_input
+        {
+            MsgBox, 53, , Input must be not empty!
+            IfMsgBox Retry
+            {
+                GoTo, DeleteSavedValue
+            }
+        }
+        Else
+        {
+            IniDelete, %INI%, SavedValue, %user_input%
+            If !ErrorLevel
+            {
+                MsgBox, Success (or not ¯\_(ツ)_/¯)
+                Run, menu%EXT%
+            }
+            Else
+            {
+                MsgBox, 53, Incorrect value
+                IfMsgBox Retry
+                {
+                    GoTo, DeleteSavedValue
+                }
             }
         }
     }
