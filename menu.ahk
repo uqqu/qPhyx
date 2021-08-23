@@ -5,24 +5,53 @@
 #SingleInstance Force
 #UseHook On
 
+;set icon
 icon := "internal\menu.ico"
 IfExist, %icon%
-    Menu, Tray, Icon, %icon%, , 1
-
-Global MUS_DELAY
-RegRead, LONG_TIME, HKEY_CURRENT_USER\Environment, MUS_DELAY
-If !MUS_DELAY
 {
-    RegWrite, REG_SZ, HKEY_CURRENT_USER\Environment, MUS_DELAY, 10
-    MUS_DELAY := 10
+    Menu, Tray, Icon, %icon%, , 1
 }
 
-Global SPOTIFY := 0
-SpotifyDetectProcessId()
+Global EXT
+If A_IsCompiled
+{
+    EXT := ".exe"
+}
+Else
+{
+    EXT := ".ahk"
+}
 
-Global MUTE := 0
-Global CITY := "Donetsk,UA" ; 48lat 38lon
-Global SLEEP_DELAY := 33 ; ms ; for correct work with clipboard functions
+;main config.ini variables
+Global MUS_CHECK_DELAY
+Global MUS_PAUSE_DELAY
+Global NIRCMD_PATH
+Global SLEEP_DELAY
+;qphyx-layout functionality
+Global QPHYX_DISABLE
+Global QPHYX_LONG_TIME
+
+Global INI := "config.ini"
+IfExist, %INI%
+{
+    IniRead, MUS_CHECK_DELAY,   %INI%, Configuration, MusCheckDelay
+    IniRead, MUS_PAUSE_DELAY,   %INI%, Configuration, MusPauseDelay
+    IniRead, SLEEP_DELAY,       %INI%, Configuration, SleepDelay
+    IniRead, NIRCMD_PATH,       %INI%, Configuration, NircmdPath
+    IniRead, QPHYX_DISABLE,     %INI%, Configuration, QphyxDisable
+    IniRead, QPHYX_LONG_TIME,   %INI%, Configuration, QphyxLongTime
+}
+Else
+{
+    IniWrite, 666,                  %INI%, Configuration, MusCheckDelay
+    IniWrite, 10,                   %INI%, Configuration, MusPauseDelay
+    IniWrite, 33,                   %INI%, Configuration, SleepDelay
+    IniWrite, internal\nircmd.exe,  %INI%, Configuration, NircmdPath
+    IniWrite, internal\ViATc.lnk,   %INI%, Configuration, ViatcPath
+    IniWrite, 0,                    %INI%, Configuration, QphyxDisable
+    IniWrite, 0.15,                 %INI%, Configuration, QphyxLongTime
+    Run, menu%EXT%
+}
 
 ;api keys
 Global CURRENCY_KEY
@@ -30,15 +59,16 @@ Global WEATHER_KEY
 RegRead, CURRENCY_KEY, HKEY_CURRENT_USER\Environment, GETGEOAPI
 RegRead, WEATHER_KEY, HKEY_CURRENT_USER\Environment, OPENWEATHERMAP
 
-;qphyx-layout functionality
-Global DISABLE
-Global LONG_TIME
-RegRead, DISABLE, HKEY_CURRENT_USER\Environment, QPHYX_DISABLE
-RegRead, LONG_TIME, HKEY_CURRENT_USER\Environment, QPHYX_LONG_TIME
+Global CITY
+RegRead, CITY, HKEY_CURRENT_USER\Environment, CITY
 
+;on the fly advertisement controlling variables
+Global MUTE := 0
+Global SPOTIFY := 0
+SpotifyDetectProcessId() ; fill SPOTIFY value
 
 ;music control label (auto pause music on long afk; auto mute volume when advertisement)
-SetTimer, Idle, 666
+SetTimer, Idle, %MUS_CHECK_DELAY%
 
 
 ;===============================================================================================
@@ -526,15 +556,15 @@ Menu, Func, Add, Settings, Pass
 Menu, Func, ToggleEnable, Settings
 Menu, Func, Icon, Settings, %A_AhkPath%, -206
 
-If LONG_TIME
+If QPHYX_LONG_TIME
 {
-    ;global DISABLE bool
-    Menu, Func, Add, Disa&ble (sh+tilde to toggle), Disable
-    ;global LONG_TIME int
-    Menu, Func, Add, &Long press delay (now is %LONG_TIME%s), LongPress
+    ;global QPHYX_DISABLE bool
+    Menu, Func, Add, Disa&ble (sh+tilde to toggle), QphyxDisable
+    ;global QPHYX_LONG_TIME int
+    Menu, Func, Add, &Long press delay (now is %QPHYX_LONG_TIME%s), QphyxLongPress
 }
-;global MUS_DELAY int
-Menu, Func, Add, &Auto-stop music on AFK delay (now is %MUS_DELAY%m), MusTimer
+;global MUS_PAUSE_DELAY int
+Menu, Func, Add, &Auto-stop music on AFK delay (now is %MUS_PAUSE_DELAY%m), MusTimer
 
 
 ;===============================================================================================
@@ -666,7 +696,7 @@ Compare()
 Execute() ; https://www.autohotkey.com/boards/viewtopic.php?p=221460#p221460
 {
     expr := Clipboard
-    expr := StrReplace( RegExReplace(expr, "\s") , ",", ".")
+    expr := StrReplace(RegExReplace(expr, "\s") , ",", ".")
     expr := RegExReplace(StrReplace(expr, "**", "^")
             , "(\w+(\.*\d+)?)\^(\w+(\.*\d+)?)", "pow($1,$3)")
     expr := RegExReplace(expr, "=+", "==")
@@ -1145,12 +1175,12 @@ Pass:
     Return
 
 Idle:
-    delay := MUS_DELAY * 60000
+    delay := MUS_PAUSE_DELAY * 60000
     IfGreater, A_TimeIdle, %delay%, SendInput {SC124}
     If SPOTIFY
     {
         WinGetTitle, title, ahk_id %SPOTIFY%
-        If (((title == "Advertisement") ^ !MUTE) && FileExist "internal\nircmd.exe")
+        If (((title == "Advertisement") ^ !MUTE) && FileExist NIRCMD_PATH)
         {
             MUTE := !MUTE
             Run internal\nircmd.exe setappvolume Spotify.exe %MUTE%
@@ -1183,40 +1213,40 @@ Alarma:
     SetTimer, Alarma, Off
     Return
 
-Disable:
-    If DISABLE
+QphyxDisable:
+    If QPHYX_DISABLE
     {
-        RegWrite, REG_SZ, HKEY_CURRENT_USER, Environment, QPHYX_DISABLE, 0
+        IniWrite, 0, %INI%, Configuration, QphyxDisable
     }
     Else
     {
-        RegWrite, REG_SZ, HKEY_CURRENT_USER, Environment, QPHYX_DISABLE, 1
+        IniWrite, 1, %INI%, Configuration, QphyxDisable
     }
-    DISABLE := !DISABLE
-    Run, qphyx.exe
+    QPHYX_DISABLE := !QPHYX_DISABLE
+    Run, qphyx%EXT%
     Return
 
-LongPress:
+QphyxLongPress:
     InputBox, user_input, Set new long press delay (only for this session!)
         , New value in seconds (e.g. 0.15), , 444, 130
     If !ErrorLevel
     {
         If user_input is number
         {
-            Menu, Func, Delete, &Long press delay (now is %LONG_TIME%s)
-            Menu, Func, Delete, &Auto-stop music on AFK delay (now is %MUS_DELAY%m)
-            RegWrite, REG_SZ, HKEY_CURRENT_USER, Environment, QPHYX_LONG_TIME, %user_input%
-            LONG_TIME := user_input
-            Menu, Func, Add, &Long press delay (now is %LONG_TIME%s), LongPress
-            Menu, Func, Add, &Auto-stop music on AFK delay (now is %MUS_DELAY%m), MusTimer
-            Run, qphyx.exe
+            Menu, Func, Delete, &Long press delay (now is %QPHYX_LONG_TIME%s)
+            Menu, Func, Delete, &Auto-stop music on AFK delay (now is %MUS_PAUSE_DELAY%m)
+            IniWrite, %user_input%, %INI%, Configuration, QphyxLongTime
+            QPHYX_LONG_TIME := user_input
+            Menu, Func, Add, &Long press delay (now is %QPHYX_LONG_TIME%s), LongPress
+            Menu, Func, Add, &Auto-stop music on AFK delay (now is %MUS_PAUSE_DELAY%m), MusTimer
+            Run, qphyx%EXT%
         }
         Else
         {
             MsgBox, 53, Incorrect value, The input must be a number!
             IfMsgBox Retry
             {
-                GoTo, LongPress
+                GoTo, QphyxLongPress
             }
         }
     }
@@ -1229,10 +1259,10 @@ MusTimer:
     {
         If user_input is number
         {
-            Menu, Func, Delete, &Auto-stop music on AFK delay (now is %MUS_DELAY%m)
-            RegWrite, REG_SZ, HKEY_CURRENT_USER, Environment, MUS_DELAY, %user_input%
-            MUS_DELAY := user_input
-            Menu, Func, Add, &Auto-stop music on AFK delay (now is %MUS_DELAY%m), MusTimer
+            Menu, Func, Delete, &Auto-stop music on AFK delay (now is %MUS_PAUSE_DELAY%m)
+            IniWrite, %user_input%, %INI%, Configuration, MusPauseDelay
+            MUS_PAUSE_DELAY := user_input
+            Menu, Func, Add, &Auto-stop music on AFK delay (now is %MUS_PAUSE_DELAY%m), MusTimer
         }
         Else
         {
@@ -1313,11 +1343,11 @@ MusTimer:
     WinGetTitle, title, A
     If (title != "Heroes of Might and Magic III: Horn of the Abyss")
     {
-        If DISABLE
+        If QPHYX_DISABLE
         {
             Menu, Func, Check, Disa&ble (sh+tilde to toggle)
         }
-        Else If !DISABLE
+        Else If !QPHYX_DISABLE
         {
             Menu, Func, Uncheck, Disa&ble (sh+tilde to toggle)
         }

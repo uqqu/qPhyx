@@ -16,31 +16,53 @@ IfExist, %icon%
     Menu, Tray, Icon, %icon%, , 1
 }
 
-;let ViATc override hotkeys (only for TC)
-Try
+Global EXT
+If A_IsCompiled
 {
-    Run, "internal\ViATc.lnk"
+    EXT := ".exe"
 }
-;let menu override ViATc
-Try
+Else
 {
-    Run, "menu.exe"
+    EXT := ".ahk"
 }
 
-Global LONG_TIME
-Global DISABLE
-RegRead, LONG_TIME, HKEY_CURRENT_USER\Environment, QPHYX_LONG_TIME
-RegRead, DISABLE, HKEY_CURRENT_USER\Environment, QPHYX_DISABLE
-If !LONG_TIME
+;main config.ini variables
+Global VIATC_PATH
+Global QPHYX_DISABLE
+Global QPHYX_LONG_TIME
+
+Global INI := "config.ini"
+IfExist, %INI%
 {
-    RegWrite, REG_SZ, HKEY_CURRENT_USER\Environment, QPHYX_DISABLE, 0
-    RegWrite, REG_SZ, HKEY_CURRENT_USER\Environment, QPHYX_LONG_TIME, 0.166
-    QPHYX_DISABLE := 0
-    QPHYX_LONG_TIME := 0.166
+    IniRead, VIATC_PATH,        %INI%, Configuration, ViatcPath
+    IniRead, QPHYX_DISABLE,     %INI%, Configuration, QphyxDisable
+    IniRead, QPHYX_LONG_TIME,   %INI%, Configuration, QphyxLongTime
+}
+Else
+{
+    IniWrite, 666,                  %INI%, Configuration, MusCheckDelay
+    IniWrite, 10,                   %INI%, Configuration, MusPauseDelay
+    IniWrite, 33,                   %INI%, Configuration, SleepDelay
+    IniWrite, internal\nircmd.exe,  %INI%, Configuration, NircmdPath
+    IniWrite, internal\ViATc.lnk,   %INI%, Configuration, ViatcPath
+    IniWrite, 0,                    %INI%, Configuration, QphyxDisable
+    IniWrite, 0.15,                 %INI%, Configuration, QphyxLongTime
+    Run, qphyx%EXT%
 }
 
 Global SPOTIFY
 SpotifyDetectProcessId()
+
+;let ViATc override hotkeys (only for TC)
+Try
+{
+    Run, %VIATC_PATH%
+}
+;let menu override ViATc
+Try
+{
+    Run, menu%EXT%
+}
 
 
 Global NUM_DICT := {scan_code: ["releasing", "sended", "shift_long", "alt", "alt_long"]
@@ -103,7 +125,7 @@ DownNum(this, alt:=0)
     If !NUM_DICT[this][1]
     {
         NUM_DICT[this][1] := 1
-        KeyWait, %this%, T%LONG_TIME%
+        KeyWait, %this%, T%QPHYX_LONG_TIME%
         If ErrorLevel
         {
             NUM_DICT[this][2] := 1
@@ -145,7 +167,7 @@ Down(this)
     If !DICT[this][1]
     {
         DICT[this][1] := 1
-        KeyWait, %this%, T%LONG_TIME%
+        KeyWait, %this%, T%QPHYX_LONG_TIME%
         If (ErrorLevel && !DICT[this][2])
         {
             DICT[this][2] := 1
@@ -293,19 +315,19 @@ Pass:
 
 ;tilde
 +SC029::
-    If DISABLE
+    If QPHYX_DISABLE
     {
-        RegWrite, REG_SZ, HKEY_CURRENT_USER, Environment, QPHYX_DISABLE, 0
+        IniWrite, 0, %INI%, Configuration, QphyxDisable
     }
     Else
     {
-        RegWrite, REG_SZ, HKEY_CURRENT_USER, Environment, QPHYX_DISABLE, 1
+        IniWrite, 1, %INI%, Configuration, QphyxDisable
     }
-    Run, qphyx.exe
+    Run, qphyx%EXT%
     Return
 
 
-#If !DISABLE
+#If !QPHYX_DISABLE
 
  SC029:: SendInput  {SC001}
 !SC029:: SendInput !{SC001}
@@ -367,7 +389,7 @@ LWin & SC021::                                                              ;I
 ;backspace
  SC00E:: SendInput {SC122}
 !SC00E::
-    KeyWait, SC00E, T%LONG_TIME%
+    KeyWait, SC00E, T%QPHYX_LONG_TIME%
     If ErrorLevel
     {
         SendInput {SC110}
@@ -379,7 +401,7 @@ LWin & SC021::                                                              ;I
     KeyWait, SC00E
     Return
 +SC00E::
-    KeyWait, SC00E, T%LONG_TIME%
+    KeyWait, SC00E, T%QPHYX_LONG_TIME%
     If ErrorLevel
     {
         SendInput {SC119}
@@ -397,7 +419,7 @@ LWin & SC021::                                                              ;I
  ^SC01C:: SendInput ^{SC00E}
 +^SC01C:: SendInput ^{SC153}
  #SC01C::
-    KeyWait, SC01C, T%LONG_TIME%
+    KeyWait, SC01C, T%QPHYX_LONG_TIME%
     If ErrorLevel
     {
         WinMinimizeAllUndo
