@@ -76,8 +76,8 @@ Global NUM_DICT := {scan_code: ["releasing", "sended", "shift_long", "alt", "alt
     , SC009: [0, 0, "̂" , "₈", "̃" ] ; shift long – diacritic circumflex; alt_long – diacr. tilde
     , SC00A: [0, 0, "̆" , "₉", "̈" ] ; shift long – diacritic breve; alt_long – diacritic umlaut
     , SC00B: [0, 0, "∕", "₀", "̧" ] ; alt long – diacritic cedilla
-    , SC00C: [0, 0, "∞", "↓", "←"]
-    , SC00D: [0, 0, "Σ", "↑", "→"]}
+    , SC00C: [0, 0, "ß", "↓", "←"]
+    , SC00D: [0, 0, "ẞ", "↑", "→"]}
 
 Global DICT := {scan_code: ["releasing", "sended", "long", "alt"]
     , SC010: [0, 0, "~", "°"]
