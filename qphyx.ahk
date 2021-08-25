@@ -10,7 +10,7 @@ SetNumLockState AlwaysOff
 SetScrollLockState AlwaysOff
 
 ;set icon
-icon := "internal\qphyx.ico"
+icon := "qphyx.ico"
 IfExist, %icon%
 {
     Menu, Tray, Icon, %icon%, , 1
@@ -27,24 +27,23 @@ Else
 }
 
 ;main config.ini variables
-Global VIATC_PATH
+Global MENU_PATH
+Global VIATC_FILE
 Global QPHYX_DISABLE
 Global QPHYX_LONG_TIME
 
 Global INI := "config.ini"
 IfExist, %INI%
 {
-    IniRead, VIATC_PATH,        %INI%, Configuration, ViatcPath
-    IniRead, QPHYX_DISABLE,     %INI%, Configuration, QphyxDisable
-    IniRead, QPHYX_LONG_TIME,   %INI%, Configuration, QphyxLongTime
+    IniRead, MENU_PATH,             %INI%, Configuration, MenuPath
+    IniRead, VIATC_FILE,            %INI%, Configuration, ViatcFile
+    IniRead, QPHYX_DISABLE,         %INI%, Configuration, QphyxDisable
+    IniRead, QPHYX_LONG_TIME,       %INI%, Configuration, QphyxLongTime
 }
 Else
 {
-    IniWrite, 666,                  %INI%, Configuration, MusCheckDelay
-    IniWrite, 10,                   %INI%, Configuration, MusPauseDelay
-    IniWrite, 33,                   %INI%, Configuration, SleepDelay
-    IniWrite, internal\nircmd.exe,  %INI%, Configuration, NircmdPath
-    IniWrite, internal\ViATc.lnk,   %INI%, Configuration, ViatcPath
+    IniWrite, c:\menu\,             %INI%, Configuration, MenuPath
+    IniWrite, c:\ViATc\ViATc.ahk,   %INI%, Configuration, ViatcFile
     IniWrite, 0,                    %INI%, Configuration, QphyxDisable
     IniWrite, 0.15,                 %INI%, Configuration, QphyxLongTime
     Run, qphyx%EXT%
@@ -56,12 +55,12 @@ SpotifyDetectProcessId()
 ;let ViATc override hotkeys (only for TC)
 Try
 {
-    Run, %VIATC_PATH%
+    Run, %VIATC_FILE%
 }
 ;let menu override ViATc
 Try
 {
-    Run, menu%EXT%
+    Run, %MENU_PATH%menu%EXT%, %MENU_PATH%
 }
 
 
@@ -334,23 +333,14 @@ Pass:
 ^SC029:: SendInput ^{SC001}
 
 ;swap between opened predefined apps
-LWin & SC010:: Alt("nvim-qt.exe",       "C:\Shortcuts\nvim-qt.exe.lnk")     ;Q
-LWin & SC011:: Alt("Notion.exe",        "C:\Shortcuts\Notion.exe.lnk")      ;P
-LWin & SC012:: Alt("taskmgr.exe",       "C:\Shortcuts\taskmgr.exe.lnk")     ;H
-LWin & SC01E:: Alt("Everything.exe",    "C:\Shortcuts\Everything.exe.lnk")  ;E
-LWin & SC01F:: Alt("Spotify.exe",       "C:\Shortcuts\Spotify.exe.lnk")     ;A
-LWin & SC02C:: Alt("firefox.exe",       "C:\Shortcuts\firefox.exe.lnk")     ;J
-LWin & SC020:: Alt("calc.exe",          "C:\Shortcuts\calc.exe.lnk")        ;O
-;LWin& SC02D:: Total Commander (set in VIaTC)                               ;Э
-LWin & SC021::                                                              ;I
-    If (SubStr(A_OSVersion, 1, 2) == 10)
-    {
-        Alt("WindowsTerminal.exe", "C:\Shortcuts\wt.exe.lnk")
-    }
-    Else
-    {
-        Alt("cmd.exe", "C:\Shortcuts\cmd.exe.lnk")
-    }
+IniRead, section, %INI%, AltApps
+For ind, pair in StrSplit(section, "`n")
+{
+    scan_code := SubStr(pair, 1, 3)
+    values := StrSplit(SubStr(pair, 5), ",")
+    option%ind% := Func("Alt").Bind(values[1], values[2])
+    Hotkey, LWin & SC%scan_code%, % option%ind%
+}
 
 ;;;Return
 ;numpad mult (*)
