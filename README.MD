@@ -17,9 +17,13 @@ This project can't be described briefly. It must either be tried or described in
 > For a better understanding of this part it is recommended to have a look at the [external/calculating.xlsx](https://github.com/da3/layout/blob/master/external/calculation.xlsx)
 
 Now it looks like this (*hereinafter in "excel-scheme" view*):
-![English letter layout](https://github.com/da3/layout/external/readme_images/letters_en.png "English letter layout")
+
+![English letter layout](https://github.com/da3/layout/blob/master/external/readme_images/letters_en.png "English letter layout")
+
 ... for English, and like this:
-![Russian letter layout](https://github.com/da3/layout/external/readme_images/letters_ru.png "Russian letter layout")
+
+![Russian letter layout](https://github.com/da3/layout/blob/master/external/readme_images/letters_ru.png "Russian letter layout")
+
 ... for Russian language.
 
 Тhe arrangement of the letters was as objective as possible:
@@ -31,7 +35,7 @@ Now it looks like this (*hereinafter in "excel-scheme" view*):
 
 * In addition to the previous were collected frequency analyses of letter pairs – bigrams (English – [uic.edu](http://homepages.math.uic.edu/~leon/mcs425-s08/handouts/char_freq2.pdf), Russian – [statistica.ru](http://statistica.ru/local-portals/data-mining/analiz-tekstov/))
 * Letter-part of default non-ergonomic keyboard were categorized into 6*(7)* groups by convenience:
-![Groups of keys by convenience](https://github.com/da3/layout/external/readme_images/groups.png "Groups of keys by convenience")
+![Groups of keys by convenience](https://github.com/da3/layout/blob/master/external/readme_images/groups.png "Groups of keys by convenience")
 * Were summarized objective criteria for evaluating layout convenience: 
   * hand alteration
   * uniform hands load
@@ -54,13 +58,13 @@ The following requirements were imposed on the symbol layout:
 * It should contain main (and maybe some more) controlling commands.
 
 ![60% keyboard explanation](https://cdn.thewirecutter.com/wp-content/media/2021/05/20210527_mech-keyboard_layout.png "60% keyboard explanation")
-Source: [nytimes.com](https://www.nytimes.com/wirecutter/blog/how-to-shop-for-a-mechanical-keyboard/); Illustration: Sarah Macreading, Dana Davis
+<sub>Source: [nytimes.com](https://www.nytimes.com/wirecutter/blog/how-to-shop-for-a-mechanical-keyboard/); Illustration: Sarah Macreading, Dana Davis</sub>
 
 
 With all these requirements the result were two variants: more classical and "complete".
 
 ### Lite variant
-![Lite symbol layout](https://github.com/da3/layout/external/readme_images/symbols_lite.png "Lite symbol layout")
+![Lite symbol layout](https://github.com/da3/layout/blob/master/external/readme_images/symbols_lite.png "Lite symbol layout")
 > First of all – yes this layout suggests to non-standard keyboard usage as `long presses`. I am not going to prove to you that it is a comfortably – if you are convinced otherwise you still won't believe me. But I'm sure if you use this functionality enough to use it automatically, then you will agree with me. We won't mention this subject any more.
 
 In green are highlighted main symbols, which there are also in the qwerty-layout; in gray are highlighted additional symbols, which I thought I should add (this is probably the most subjective part). In the corner placed two diacritic symbols for accents.
@@ -74,7 +78,7 @@ As you can see, all of the conditions above are met:
 * There are controlling (navigation) commands.
 
 ### Complete variant
-![Complete symbol layout](https://github.com/da3/layout/external/readme_images/symbols_complete.png "Complete symbol layout")
+![Complete symbol layout](https://github.com/da3/layout/blob/master/external/readme_images/symbols_complete.png "Complete symbol layout")
 
 > It may look very strange and very unfamiliar, but I assure – it's only because it's unfamiliar.
 
@@ -95,7 +99,7 @@ And again – it may look very strange, but these remapping were all done only t
 
 Omitting a bunch of different attempts: letter layer has been implemented by the native keyboard layout generation tool – [Microsoft Keyboard Layout Creator](https://www.microsoft.com/en-us/download/details.aspx?id=102134), symbol layer was realized with [AHK](https://www.autohotkey.com/).
 
-Generated `MKLC` layouts for your `Windows` – [external/qphyx_en/](https://github.com/da3/layout/blob/master/external/qphyx_en), [external/qphyx_ru/](https://github.com/da3/layout/blob/master/external/qphyx_ru)
+Generated `MKLC` layouts for your `Windows` – [external/qphyx_en/](https://github.com/da3/layout/tree/master/external/MKLC_qphyx_en), [external/qphyx_ru/](https://github.com/da3/layout/tree/master/external/MKLC_qphyx_ru)
 
 AHK script is more variable. Base script functionality is, of course, symbolic layers addition. Base "long press" delay is 0.15s. You can change it in `config.ini` (will generate with first start). Early on in you may want to increase this value up to 0.2. In the process of getting used to it, you may decrease it up to 0.1 (recommend is 0.12)
 
@@ -110,8 +114,8 @@ Example – bind `nvim` on `Win–q`:
 ```
 010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
 ```
+* Full arrow replacement with `alt-[mstr]` (with shift/ctrl/shift-ctrl. alt-(sh)-ctrl-[st] used for bol and eol)
 * Move windows with `Win-(shift)-mstr` (`hjkl` in qwerty-view) as well as with `arrows`
-* Don't forget about `non-breaking space` with `Shift-space`
 * If you collide with case, which require some "standard" key behavior – you can toggle script work on air with `Shift-tilde`
 * And many more features available on `\|` key (ansi-keyboards) with [menu](https://github.com/da3/menu) addon!
 
@@ -131,7 +135,7 @@ A: No, current version can be used only on Windows. I weren't interested in ways
 
 Q: Can I use it on Android?
 
-A: Yes, partially. It cannot be done for `G.Board`, but there is an app with totally customization – [Multiling O Keyboard](https://play.google.com/store/apps/details?id=kl.ime.oh&hl=en). You can find layout pattern for this app with screenshot examples at the [external/android/](https://github.com/da3/layout/external/android/).
+A: Yes, partially. It cannot be done for `G.Board`, but there is an app with totally customization – [Multiling O Keyboard](https://play.google.com/store/apps/details?id=kl.ime.oh&hl=en). You can find layout pattern for this app with screenshot examples at the [external/android/](https://github.com/da3/layout/tree/master/external/android).
 
 Q: English layout has empty keys?
 
@@ -201,9 +205,13 @@ A: Don't create it yourself, let it be generated at startup, and only then edit 
 > Для лучшего понимания этой части рекомендуется обратиться к [external/calculating.xlsx](https://github.com/da3/layout/blob/master/external/calculation.xlsx)
 
 Сейчас это выглядит так (*здесь и далее в виде "excel-схем"*):
-![English letter layout image](https://github.com/da3/layout/external/readme_images/letters_en.png "English letter layout")
+
+![English letter layout image](https://github.com/da3/layout/blob/master/external/readme_images/letters_en.png "English letter layout")
+
 ... для английского, и вот так:
-![Russian letter layout image](https://github.com/da3/layout/external/readme_images/letters_ru.png "Russian letter layout")
+
+![Russian letter layout image](https://github.com/da3/layout/blob/master/external/readme_images/letters_ru.png "Russian letter layout")
+
 ... для русского языка.
 
 Расположение букв на раскладке было максимально, насколько это возможно, лишено субъективщины. Объективные критерии, голые цифры.
@@ -215,7 +223,7 @@ A: Don't create it yourself, let it be generated at startup, and only then edit 
 
 * В дополнение к предыдущему были найдены таблицы частотности конкретных сочетаний двух букв – биграмм (английский – [uic.edu](http://homepages.math.uic.edu/~leon/mcs425-s08/handouts/char_freq2.pdf), русский – [statistica.ru](http://statistica.ru/local-portals/data-mining/analiz-tekstov/))
 * Буквенная часть стандартной не эргономичной клавиатуры была разделена на 6*(7)* групп по удобству:
-![Группы клавиш по удобству](https://github.com/da3/layout/external/readme_images/groups.png "Группы клавиш по удобству")
+![Группы клавиш по удобству](https://github.com/da3/layout/blob/master/external/readme_images/groups.png "Группы клавиш по удобству")
 * Были отобраны объективные критерии оценки удобства раскладки: 
   * чередование рук
   * равномерная нагрузка рук
@@ -238,13 +246,13 @@ A: Don't create it yourself, let it be generated at startup, and only then edit 
 * Наличие основных (а может быть и чуть больше) управляющих команд.
 
 ![Объяснение, что есть 60% клавиатура](https://cdn.thewirecutter.com/wp-content/media/2021/05/20210527_mech-keyboard_layout.png "Объяснение, что есть 60% клавиатура")
-Источник: [nytimes.com](https://www.nytimes.com/wirecutter/blog/how-to-shop-for-a-mechanical-keyboard/); Illustration: Sarah Macreading, Dana Davis
+<sub>Источник: [nytimes.com](https://www.nytimes.com/wirecutter/blog/how-to-shop-for-a-mechanical-keyboard/); Illustration: Sarah Macreading, Dana Davis</sub>
 
 
 В результате, со всеми требованиями, получилось две версии раскладки: более стандартная и полная (соответственно – менее стандартная).
 
 ### Облегчённый вариант
-![Облегчённый символьный вариант](https://github.com/da3/layout/external/readme_images/symbols_lite.png "Облегчённый символьный вариант")
+![Облегчённый символьный вариант](https://github.com/da3/layout/blob/master/external/readme_images/symbols_lite.png "Облегчённый символьный вариант")
 > Перво-наперво – да, эта раскладка предполагает нестандартное использование компьютерной клавиатуры, а именно – `длинные` или `долгие нажатия`. Я не собираюсь доказывать, что это удобно – если вы убеждены в обратном, вы всё равно мне не поверите. Могу лишь сказать, что если вы переведёте эту функциональность в автоматизм (в процессе использования, конечно же), тогда вы со мной согласитесь. А этот процесс абсолютно не сложен. За сим всё, больше мы этот вопрос поднимать не будем.
 
 Зелёным выделены основные символы, перекочевавшие со стандартной qwerty раскладки. Серым выделены дополнительные символы, которыми я счёл нужным дополнить раскладку (пожалуй, это самая субъективная часть всего проекта). В углу, под извечным `Ъ` расположились акут и гравис, в первую очередь как маркёры основного и побочного ударений.
@@ -258,14 +266,14 @@ A: Don't create it yourself, let it be generated at startup, and only then edit 
 * Присутствуют управляющие (навигационные) команды.
 
 ### Полный вариант
-![Полный символьный вариант](https://github.com/da3/layout/external/readme_images/symbols_complete.png "Полный символьный вариант")
+![Полный символьный вариант](https://github.com/da3/layout/blob/master/external/readme_images/symbols_complete.png "Полный символьный вариант")
 
 > Несомненно, это выглядит крайне странно и непривычно. Но уверяю, это именно оттого, что непривычно.
 
 Давайте взглянем, что изменилось:
 * Показался цифровой ряд. Базовые позиции не изменились. Я не разделяю мнения, что обычный порядок по возрастанию плох, и их нужно перемешивать. Альтернативные слои содержат не самые востребованные из всех возможных символы, но выполняют, в первую очередь, логическую роль. Да и в целом, будем откровенны – из всех символов, альтернативные слои для цифрового ряда наименее удобные, и распределять символы на них наравне с остальными рядами было бы неправильно.
 * Расширенная диакритика – с её помощью раскладка может быть использована для французского, испанского, португальского, итальянского, немецкого (с эсцетом в том же цифровом ряду), турецкого, эсперанто и многих других языков.
-* Управляющие клавиши изменены по позициым и переназначены:
+* Управляющие клавиши изменены по позициям и переназначены:
   * `backspace` теперь используется для управления воспроизведением;
   * `enter` выполняет функции `backspace` и `delete`;
   * `caps lock` был заменён на `enter`; 
@@ -278,16 +286,16 @@ A: Don't create it yourself, let it be generated at startup, and only then edit 
 
 ## Реализация
 
-Опуская множество попыток при помощи множества самых различных средств из разных категорий оных: буквенный слой был реализован нативным средством генерации нативных клавиатурных раскладок – [Microsoft Keyboard Layout Creator](https://www.microsoft.com/en-us/download/details.aspx?id=102134), символьный слой реализован через [AHK](https://www.autohotkey.com/).
+Опуская множество попыток при помощи множества различных средств из разных категорий: буквенный слой был реализован средством генерации нативных клавиатурных раскладок – [Microsoft Keyboard Layout Creator](https://www.microsoft.com/en-us/download/details.aspx?id=102134), символьный слой реализован через [AHK](https://www.autohotkey.com/).
 
-Сгенерированные `MKLC` раскладки для `Windows` – [external/qphyx_en/](https://github.com/da3/layout/blob/master/external/qphyx_en), [external/qphyx_ru/](https://github.com/da3/layout/blob/master/external/qphyx_ru)
+Сгенерированные `MKLC` раскладки для `Windows` – [external/qphyx_en/](https://github.com/da3/layout/tree/master/external/MKLC_qphyx_en), [external/qphyx_ru/](https://github.com/da3/layout/tree/master/external/MKLC_qphyx_ru)
 
 
 AHK сценарий более содержателен. Но основная его функциональность заключается в добавлении символьных слоёв с "длинными" нажатиями. Базово длительность последних – 0.15с. Вы можете изменить её в файле `config.ini` (будет сгенерирован после первого запуска). На первое время вы захотите увеличить время реакции вплоть до 0.2. Привыкая к этой функциональности время срабатывания будет уменьшаться вами вплоть до 0.1 (кмк, 0.12 оптимально).
 
 ## Дополнительная функциональность
 
-* Вставка с сохранением выделенного в буфер обмена (или просто clipboard swap) – `Ctrl-Shift-g` (`g` в qwerty-виде);
+* Вставка с сохранением выделенного в буфер обмена (или просто clipboard swap) – `Ctrl-Shift-g` (`v` в qwerty-виде);
 * Активация/свёртка предустановленных приложений – `Win-[любая клавиша]` – определите свои любимые приложения в `config.ini` (необходимо создать секцию `AltApps`) и переключайтесь между ними. Если процесс ещё не запущен – запускает его. Этот путь быстрее, проще и более гибкий нежели стандартный `Win-[1-9]`. Шаблон для добавления в `.ini`:
 ```
 {числовая_часть_сканкода}={имя_процесса},{путь_к_файлу}
@@ -296,8 +304,8 @@ AHK сценарий более содержателен. Но основная 
 ```
 010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
 ```
-* Перемещение окон с помощью `Win-(shift)-мстр` (`ролд` в йцукен-виде) так же, как и при помощи `стрелок`
-* Не забудьте о `неразрывном пробеле` через `Shift-пробел`
+* Полная замена стрелок с `alt-[мстр]` (с shift/ctrl/shift-ctrl. alt-(sh)-ctrl-[ст] используются для bol и eol)
+* Перемещение окон с помощью `Win-(shift)-[мстр]` (`[ролд]` в йцукен-виде) так же, как и при помощи `стрелок`
 * Если же вы столкнулись со случааем, в котором вам нужно "стандартное" поведение клавиш – вы можете на лету приостановить работу скрипта сочетанием `Shift-tilde`
 * А вся остальная функциональность находится на клавише `\|` (для ansi клавиатур), но работает с помощью [menu](https://github.com/da3/menu).
 
@@ -309,7 +317,7 @@ AHK сценарий более содержателен. Но основная 
 
 В: Возможно ли использовать это на Linux?
 
-О: Нет. Насколько я интересовался вопросом – есть только сложные пути реализации отлова длинных нажатий на этой ОС, и за эти варианты я сейчас взяться не готов. Конечно, можно назначить любую клавишу как модификатор, и перенести весь слой длинных нажатий под этот модификатор. Но это уже будет не совсем то, что я делал. Или совсем не то.
+О: Нет. Насколько я интересовался вопросом – там есть только сложные пути реализации отлова длинных нажатий, и за эти варианты я сейчас взяться не готов. Конечно, можно назначить любую клавишу как модификатор, и перенести весь слой длинных нажатий под этот модификатор. Но это уже будет не совсем то, что я делал. Или совсем не то.
 
 В: Могу я использовать это на Mac?
 
@@ -317,7 +325,7 @@ AHK сценарий более содержателен. Но основная 
 
 В: Может хоть на Android?
 
-О: Да! Правда, не для монополиста `G.Board`, но есть приложение с полнейшей кастомизацией – [Multiling O Keyboard](https://play.google.com/store/apps/details?id=kl.ime.oh&hl=en). Шаблоны раскладок для этого приложения и скриншоты можно найти тут: [external/android/](https://github.com/da3/layout/external/android/).
+О: Да! Правда, не для монополиста `G.Board`, но есть приложение с полнейшей кастомизацией – [Multiling O Keyboard](https://play.google.com/store/apps/details?id=kl.ime.oh&hl=en). Шаблоны раскладок для этого приложения и скриншоты можно найти тут: [external/android/](https://github.com/da3/layout/tree/master/external/android/).
 
 В: В английской раскладке присутствуют пустые клавиши?
 
@@ -341,7 +349,7 @@ AHK сценарий более содержателен. Но основная 
 
 В: Нужно ли мне сначала потренироваться в слепом наборе, прежде чем знакомиться с этим проектом?
 
-О: Если вы уже об этом задумались – однозначно стоит, и вне зависимости от того, собираетесь ли вы потом знакомиться с данным проектом. А если всё-таки собираетесь, то даже лучше сначала знакомиться с проектом, а уже пользуясь выбранной раскладкой тренироваться в слепом наборе. Следующий вопрос ответит, почему так.
+О: Если вы уже об этом задумались – однозначно стоит, и вне зависимости от того, собираетесь ли вы потом знакомиться с данным проектом. А если всё-таки собираетесь, то даже лучше сначала ознакомиться с проектом, а уже пользуясь выбранной раскладкой тренироваться в слепом наборе. Следующий вопрос ответит, почему так.
 
 В: Я грандмастер набора текста на qwerty/dvorak/workman/др, есть ли смысл переходить на эту раскладку?
 
