@@ -17,9 +17,13 @@ This project can't be described briefly. It must either be tried or described in
 > For a better understanding of this part it is recommended to have a look at the [external/calculating.xlsx](https://github.com/da3/layout/blob/master/external/calculation.xlsx)
 
 Now it looks like this (*hereinafter in "excel-scheme" view*):
+
 ![English letter layout](https://github.com/da3/layout/blob/master/external/readme_images/letters_en.png "English letter layout")
+
 ... for English, and like this:
+
 ![Russian letter layout](https://github.com/da3/layout/blob/master/external/readme_images/letters_ru.png "Russian letter layout")
+
 ... for Russian language.
 
 Тhe arrangement of the letters was as objective as possible:
@@ -54,7 +58,7 @@ The following requirements were imposed on the symbol layout:
 * It should contain main (and maybe some more) controlling commands.
 
 ![60% keyboard explanation](https://cdn.thewirecutter.com/wp-content/media/2021/05/20210527_mech-keyboard_layout.png "60% keyboard explanation")
-Source: [nytimes.com](https://www.nytimes.com/wirecutter/blog/how-to-shop-for-a-mechanical-keyboard/); Illustration: Sarah Macreading, Dana Davis
+<sub>Source: [nytimes.com](https://www.nytimes.com/wirecutter/blog/how-to-shop-for-a-mechanical-keyboard/); Illustration: Sarah Macreading, Dana Davis</sub>
 
 
 With all these requirements the result were two variants: more classical and "complete".
@@ -110,8 +114,8 @@ Example – bind `nvim` on `Win–q`:
 ```
 010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
 ```
+* Full arrow replacement with `alt-[mstr]` (with shift/ctrl/shift-ctrl. alt-(sh)-ctrl-[st] used for bol and eol)
 * Move windows with `Win-(shift)-mstr` (`hjkl` in qwerty-view) as well as with `arrows`
-* Don't forget about `non-breaking space` with `Shift-space`
 * If you collide with case, which require some "standard" key behavior – you can toggle script work on air with `Shift-tilde`
 * And many more features available on `\|` key (ansi-keyboards) with [menu](https://github.com/da3/menu) addon!
 
@@ -201,9 +205,13 @@ A: Don't create it yourself, let it be generated at startup, and only then edit 
 > Для лучшего понимания этой части рекомендуется обратиться к [external/calculating.xlsx](https://github.com/da3/layout/blob/master/external/calculation.xlsx)
 
 Сейчас это выглядит так (*здесь и далее в виде "excel-схем"*):
+
 ![English letter layout image](https://github.com/da3/layout/blob/master/external/readme_images/letters_en.png "English letter layout")
+
 ... для английского, и вот так:
+
 ![Russian letter layout image](https://github.com/da3/layout/blob/master/external/readme_images/letters_ru.png "Russian letter layout")
+
 ... для русского языка.
 
 Расположение букв на раскладке было максимально, насколько это возможно, лишено субъективщины. Объективные критерии, голые цифры.
@@ -238,7 +246,7 @@ A: Don't create it yourself, let it be generated at startup, and only then edit 
 * Наличие основных (а может быть и чуть больше) управляющих команд.
 
 ![Объяснение, что есть 60% клавиатура](https://cdn.thewirecutter.com/wp-content/media/2021/05/20210527_mech-keyboard_layout.png "Объяснение, что есть 60% клавиатура")
-Источник: [nytimes.com](https://www.nytimes.com/wirecutter/blog/how-to-shop-for-a-mechanical-keyboard/); Illustration: Sarah Macreading, Dana Davis
+<sub>Источник: [nytimes.com](https://www.nytimes.com/wirecutter/blog/how-to-shop-for-a-mechanical-keyboard/); Illustration: Sarah Macreading, Dana Davis</sub>
 
 
 В результате, со всеми требованиями, получилось две версии раскладки: более стандартная и полная (соответственно – менее стандартная).
@@ -265,7 +273,7 @@ A: Don't create it yourself, let it be generated at startup, and only then edit 
 Давайте взглянем, что изменилось:
 * Показался цифровой ряд. Базовые позиции не изменились. Я не разделяю мнения, что обычный порядок по возрастанию плох, и их нужно перемешивать. Альтернативные слои содержат не самые востребованные из всех возможных символы, но выполняют, в первую очередь, логическую роль. Да и в целом, будем откровенны – из всех символов, альтернативные слои для цифрового ряда наименее удобные, и распределять символы на них наравне с остальными рядами было бы неправильно.
 * Расширенная диакритика – с её помощью раскладка может быть использована для французского, испанского, португальского, итальянского, немецкого (с эсцетом в том же цифровом ряду), турецкого, эсперанто и многих других языков.
-* Управляющие клавиши изменены по позициым и переназначены:
+* Управляющие клавиши изменены по позициям и переназначены:
   * `backspace` теперь используется для управления воспроизведением;
   * `enter` выполняет функции `backspace` и `delete`;
   * `caps lock` был заменён на `enter`; 
@@ -296,8 +304,8 @@ AHK сценарий более содержателен. Но основная 
 ```
 010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
 ```
-* Перемещение окон с помощью `Win-(shift)-мстр` (`ролд` в йцукен-виде) так же, как и при помощи `стрелок`
-* Не забудьте о `неразрывном пробеле` через `Shift-пробел`
+* Полная замена стрелок с `alt-[мстр]` (с shift/ctrl/shift-ctrl. alt-(sh)-ctrl-[ст] используются для bol и eol)
+* Перемещение окон с помощью `Win-(shift)-[мстр]` (`[ролд]` в йцукен-виде) так же, как и при помощи `стрелок`
 * Если же вы столкнулись со случааем, в котором вам нужно "стандартное" поведение клавиш – вы можете на лету приостановить работу скрипта сочетанием `Shift-tilde`
 * А вся остальная функциональность находится на клавише `\|` (для ansi клавиатур), но работает с помощью [menu](https://github.com/da3/menu).
 
