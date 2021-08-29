@@ -121,73 +121,46 @@ Example – bind `nvim` on `Win–q`:
 
 ## FAQ
 
-Q: What about layout for ergonomic keyboards?
-
-A: This project is aimed at standard non-ergonomic keyboards. Porting this layout to any other keyboard it is a special process. I think very highly of ergonomic keyboards and I will be glad realize version for one of them someday, but now there are no any version for keyboards different of standard.
-
-Q: Can I use it on Linux?
-
-A: No. As I know, there are only hard ways to realize "long presses" on Linux, and I'm not ready to take on them now. It is possible to implement a version with additional modifier instead of "long" trigger, but it will no longer be the original project.
-
-Q: Can I use it on Mac?
-
-A: No, current version can be used only on Windows. I weren't interested in ways to realize it on Mac.
-
-Q: Can I use it on Android?
-
-A: Yes, partially. It cannot be done for `G.Board`, but there is an app with totally customization – [Multiling O Keyboard](https://play.google.com/store/apps/details?id=kl.ime.oh&hl=en). You can find layout pattern for this app with screenshot examples at the [external/android/](https://github.com/da3/layout/tree/master/external/android).
-
-Q: English layout has empty keys?
-
-A: Yes. With the separating letter and symbol layers, keys with the potential-letter functions may be used only for letters. There is no problem with that, it's even more comfortably because now letters allocated to more convenient positions.
-
-Q: ...and yet they are not completely empty?
-
-A: Yes, technically, `x`, `c` and `b` keys (in qwerty-view) send U+001E "Record Separator", which does not appear in the printout, but can be used by third-party programs. I have not yet encountered a case where this would be bad, but potentially, if there are any, it can be removed.
-
-Q: Can I use symbol layout with `qwerty`?
-
-A: You can, but it won't be as comfortable as it planned.
-
-Q: Can I use letter layout without symbols?
-
-A: Unfortunately no. You will be missing base symbols, which were placed on "potential-letter" keys.
-
-Q: Has this project something to do with blind typing?
-
-A: Of course! The main goal in maximizing convenience with blind typing and minimizing unnecessary moves (especially, moves that make you have to take your hands off your "home" positions)
-
-Q: Should I first train with blind typing before use this layout?
-
-A: If you are asking yourself this question – you should, regardless of future using this layout. And if you are not experienced in blind typing – maybe it is even better! Pay close attention to the following question for more details.
-
-Q: I am grandmaster of qwerty/dvorak/workman/etc, will I get any profit from switching to this layout?
-
-A: Yes, but the process of switching to any new layout is very long and discomfortable. And the better you mastered the old layout, the more unpleasant the switching to the new one will be. The first time you will be slow and clumsy, and it will be really annoying. Also later you will sometimes have "phantom" typing, when one letter of the entire stream suddenly will typed from old layout. Pretty infuriating thing. Switching, especially from `qwerty`, worth it, but you have to be ready for it.
-
-Q: I can't use arrows/numpad!
-
-A: That's the way it's supposed to be. If you want to try this layout, you should be used to keep your hands on "home" positions.
-
-Q: I can't "scream" with `Caps Lock`!
-
-A: That's great. That's the way it's supposed to be.
-
-Q: ... but I need `Caps Lock` function for my PL or some other case!
-
-A: This layout is for general use. In general cases this function is harmful. For special cases you always can add mapping for `Caps Lock` and comment `SetCapsLockState` on `qphyx.ahk`. But, please, don't overuse it.
-
-Q: This project is relative to [menu](https://github.com/da3/menu)?
-
-A: Yes, once they were an one-piece project, but while the functionality was becoming more and more they were separated in two projects. But they have connections with each other (e.g. you can regulate "long press" delay with `menu` and some more). For connection between them you should correct path to relative in`config.ini` for both.
-
-Q: Some other integrations?
-
-A: Just start at the right time – [ViATc](https://github.com/magicstep/ViATc-English). If you use it – correct path to `ViATc-x.x.xen.ahk` in the `config.ini`. That's all.
-
-Q: Troubles with `config.ini`
-
-A: Don't create it yourself, let it be generated at startup, and only then edit it. For functionality with switching between applications, add a line `[AltApps]` at the end of the settings file, and afterwards, on separate lines, arrange your applications according to the appropriate pattern.
+<dl>
+  <dt>Do I need to install <a href="https://www.autohotkey.com/">AutoHotKey</a>?</dt>
+  <dd>Only for using the <code>.ahk</code> version. Using a compiled identical <code>.exe</code> version does not require any additional installations.</dd>
+  <dt>What about layout for ergonomic keyboards?</dt>
+  <dd>This project is aimed at standard non-ergonomic keyboards. Porting this layout to any other keyboard it is a special process. I think very highly of ergonomic keyboards and I will be glad realize version for one of them someday, but now there are no any version for keyboards different of standard.</dd>
+  <dt>Can I use it on Linux?</dt>
+  <dd>No. As I know, there are only hard ways to realize "long presses" on Linux, and I'm not ready to take on them now. It is possible to implement a version with additional modifier instead of "long" trigger, but it will no longer be the original project.</dd>
+  <dt>Can I use it on Mac?</dt>
+  <dd>No, current version can be used only on Windows. I weren't interested in ways to realize it on Mac.</dd>
+  <dt>Can I use it on Android?</dt>
+  <dd>Yes, partially. It cannot be done for <code>G.Board</code>, but there is an app with totally customization – <a href="https://play.google.com/store/apps/details?id=kl.ime.oh&hl=en">Multiling O Keyboard</a>. You can find layout pattern for this app with screenshot examples at the <a href="https://github.com/da3/layout/tree/master/external/android">external/android/</a>.</dd>
+  <dt>English layout has empty keys?</dt>
+  <dd>Yes. With the separating letter and symbol layers, keys with the potential-letter functions may be used only for letters. There is no problem with that, it's even more comfortably because now letters allocated to more convenient positions.</dd>
+  <dt>...and yet they are not completely empty?</dt>
+  <dd>Yes, technically, <code>x</code>, <code>c</code> and <code>b</code> keys (in qwerty-view) send <code>U+001E</code>, which does not appear in the printout, but can be used by third-party programs. I have not yet encountered a case where this would be bad, but potentially, if there are any, it can be removed.</dd>
+  <dt>Can I use symbol layout with <code>qwerty</code>?</dt>
+  <dd>You can, but it won't be as comfortable as it planned.</dd>
+  <dt>Can I use letter layout without symbols?</dt>
+  <dd>Unfortunately no. You will be missing base symbols, which were placed on "potential-letter" keys.</dd>
+  <dt>Has this project something to do with touch typing?</dt>
+  <dd>Of course! The main goal in maximizing convenience with touch typing and minimizing unnecessary moves (especially, moves that make you have to take your hands off your "home" positions)</dd>
+  <dt>Should I first train with touch typing before use this layout?</dt>
+  <dd>If you are asking yourself this question – you should, regardless of future using this layout. And if you are not experienced in touch typing – maybe it is even better! Pay close attention to the following question for more details.</dd>
+  <dt>I am a grandmaster of <code>colemak</code>/<code>dvorak</code>/<code>workman</code>/etc, will I get any profit from switching to this layout?</dt>
+  <dd>If you're happy with your current layout, and you're not looking for anything more than just a layout, there's no reason. However, if you want to switch, note that the process of switching to any new layout is very long and discomfortable. And the better you mastered the old layout, the more unpleasant the switching to the new one will be. The first time you will be slow and clumsy, and it will be really annoying. Also later you will sometimes have "phantom" typing, when one letter of the entire stream suddenly will typed from old layout. Pretty infuriating thing. I am by no means discouraging you, just that you should be prepared in advance for all the things described.</dd>
+  <dt>...and I'm a grandmaster of <code>qwerty</code>! Will I ge...</dt>
+  <dd>*interrupts* Right now, take any third-party layout. I would be pleased if the layout that is the focus of this entire text was chosen, but even if not, there are many other layouts for Latin, and some of them are very good. But not for the Russian. It is bad there. Anyway, try to give up <code>qwerty</code>. This is an extremely important layout for typing history, but leave its use to museum workers.</dd>
+  <dt>I can't use <code>arrows</code>/<code>numpad</code>!</dt>
+  <dd>That's the way it's supposed to be. If you want to try this layout, you should be used to keep your hands on "home" positions.</dd>
+  <dt>I can't "scream" with <code>Caps Lock</code>!</dt>
+  <dd>That's great. That's the way it's supposed to be.</dd>
+  <dt>... but I need <code>Caps Lock</code> function for my PL or some other case!</dt>
+  <dd>This layout is for general use. In general cases this function is harmful. For special cases you always can add mapping for <code>Caps Lock</code> and comment <code>SetCapsLockState</code> on <code>qphyx.ahk</code>. But, please, don't overuse it.</dd>
+  <dt>Is this project relative to <a href="https://github.com/da3/menu">menu</a>?</dt>
+  <dd>Yes, once they were an one-piece project, but while the functionality was becoming more and more they were separated in two projects. But they have connections with each other (e.g. you can regulate "long press" delay with <code>menu</code> and some more). For connection between them you should correct path to relative in <code>config.ini</code> for both.</dd>
+  <dt>Some other integrations?</dt>
+  <dd>Just start at the right time – <a href="https://github.com/magicstep/ViATc-English">ViATc</a>. If you use it – correct path to <code>ViATc-x.x.xen.ahk</code> in the <code>config.ini</code>. That's all.</dd>
+  <dt>Troubles with <code>config.ini</code></dt>
+  <dd>Don't create it yourself, let it be generated at startup, and only then edit it. For functionality with switching between applications, add a line <code>[AltApps]</code> at the end of the settings file, and afterwards, on separate lines, arrange your applications according to the appropriate pattern.</dd>
+</dl>
 
 ## ↓ Russian part
 
@@ -310,74 +283,46 @@ AHK сценарий более содержателен. Но основная 
 * А вся остальная функциональность находится на клавише `\|` (для ansi клавиатур), но работает с помощью [menu](https://github.com/da3/menu).
 
 ## ЧАВО
-
-В: А что насчёт раскладки для эргономических клавиатур?
-
-О: Этот проект направлен на стандартные не эргономические клавиатуры. Пененос этой раскладки на любую другую клавиатуру это отдельный процесс. Я буду рад когда-нибудь сделать это, но на текущий момент нет версий для любых клавиатур отличных от стандартной.
-
-В: Возможно ли использовать это на Linux?
-
-О: Нет. Насколько я интересовался вопросом – там есть только сложные пути реализации отлова длинных нажатий, и за эти варианты я сейчас взяться не готов. Конечно, можно назначить любую клавишу как модификатор, и перенести весь слой длинных нажатий под этот модификатор. Но это уже будет не совсем то, что я делал. Или совсем не то.
-
-В: Могу я использовать это на Mac?
-
-О: Нет, текущая версия используется только на Windows. Честно говоря, я пока даже не интересовался вопросом реализации этой раскладки на Mac.
-
-В: Может хоть на Android?
-
-О: Да! Правда, не для монополиста `G.Board`, но есть приложение с полнейшей кастомизацией – [Multiling O Keyboard](https://play.google.com/store/apps/details?id=kl.ime.oh&hl=en). Шаблоны раскладок для этого приложения и скриншоты можно найти тут: [external/android/](https://github.com/da3/layout/tree/master/external/android/).
-
-В: В английской раскладке присутствуют пустые клавиши?
-
-О: Да. В виду разделения буквенного и символьных слоёв, клавиши с потенциально-буквенным назначением могут быть использованы только для букв. Но в том, что они пустые нет никакой проблемы – количество символов от этого уж явно не пострадало, а буквы расположены на самых удобных позициях, не теснясь с конкурентами на место.
-
-В: ...но они не совсем пустые?
-
-О: Да, технически, `ч`, `с` и `и` клавиши (в йцукен-виде) отправляют U+001E "Record Separator", который не отображается на печати, но может быть использован сторонними программами, для дополнительных назначений, к примеру. Я не сталкивался со случаями, где это решение давало бы сбои, но если такие найдутся, это всегда можно убрать. Пока пользы больше.
-
-В: Могу я использовать символьную раскладку с `йцукен`?
-
-О: Вы-то, конечно, можете, но это будет не так удобно, как это планировалось (планировалось не использовать `йцукен`).
-
-В: Могу я использовать буквенную раскладку без символьной?
-
-О: А вот тут, к сожалению, нет. Вам объективно не будет хватать базовых символов.
-
-В: Связан ли как-то этот проект и метод слепого набора?
-
-О: Конечно! Основная цель как раз в максимизации удобства слепого набора и минимизации лишних движений (в особенности – движений отрывающих руки с их домашних позиций).
-
-В: Нужно ли мне сначала потренироваться в слепом наборе, прежде чем знакомиться с этим проектом?
-
-О: Если вы уже об этом задумались – однозначно стоит, и вне зависимости от того, собираетесь ли вы потом знакомиться с данным проектом. А если всё-таки собираетесь, то даже лучше сначала ознакомиться с проектом, а уже пользуясь выбранной раскладкой тренироваться в слепом наборе. Следующий вопрос ответит, почему так.
-
-В: Я грандмастер набора текста на qwerty/dvorak/workman/др, есть ли смысл переходить на эту раскладку?
-
-О: Смысл есть, несомненно, но процесс перехода на любую новую раскладку длителен и дискомфортен. И чем лучше вы владели предыдущей раскладкой, тем больнее будет переход на новую. Первое время вы будете очень медленными и неуклюжими, и это будет бесить. Также потом могут иногда проявляться фантомные нажатия, когда в процессе потокового набора палец на один символ идёт по старому автоматизму. Тоже довольно бесячая вещь. Но смена раскладки стоит того, особенно, если вы переходите с `йцукен`. Просто вы должны быть заранее готовы ко всему описанному.
-
-В: Я не могу использовать стрелки и цифровой блок!
-
-О: Так и задумано. Если вы хотите попробовать эту раскладку, как она и планировалась, вам нужно привыкнуть к тому, чтобы поменьше отрывать руки от домашних позиций.
-
-В: Я не могу кричать капсом!
-
-О: Восхитительно. Так и задумано.
-
-В: ... но мне нужен `Caps Lock` для моего ЯП или для чего-то ещё!
-
-О: Эта раскладка для общего пользования. А для общего пользования функция `Caps Lock` вредна. Для частных случаев вы можете добавить собственное назначение для этой функции и закомментировать строку `SetCapsLockState` в `qphyx.ahk`. Но пожалуйста, не злоупотребляйте ей.
-
-В: Этот проект родственен с [menu](https://github.com/da3/menu)?
-
-О: Да, когда-то это был единый проект, но с постоянным добавлением нового функционала было принято решение о его разделении на два проекта. Но и сейчас они тесно связаны друг с другом. К примеру, вы можете выставлять время срабатывания длинного нажатия через `input-box`, вызываемый `menu`, а `qphyx` сам вызывает `menu` в подходящий момент, дабы избежать конфликта назначений. Для связи между ними нужно лишь в `config.ini` обоих проектов указать путь к родственнику.
-
-В: Ещё какие-нибудь интеграции?
-
-О: Просто вызов в нужное время, для исключения конфликтов – [ViATc](https://github.com/magicstep/ViATc-English). Если вы пользуетесь этим проектом, просто укажите путь к основному файлу `ViATc-x.x.xen.ahk` в `config.ini`.
-
-В: Проблемы с `config.ini`
-
-О: Не создавайте его сами, дайте ему сгенерироваться при запуске, и лишь потом правьте. Для функциональности с переключением между приложениями добавьте в конец файла настроек строку `[AltApps]`, а после ниже, на отдельных строках, располагайте ваши приложения по соответствующему образцу.
+<dl>
+  <dt>Нужно ли устанавливать <a href="https://www.autohotkey.com/">AutoHotKey</a>?</dt>
+  <dd>Только для использования <code>.ahk</code> Версии. Использование скомпилированной идентичной <code>.exe</code> версии не требует никаких дополнительных установок.</dd>
+  <dt>А что насчёт раскладки для эргономических клавиатур?</dt>
+  <dd>Этот проект направлен на стандартные не эргономические клавиатуры. Пененос этой раскладки на любую другую клавиатуру это отдельный процесс. Я буду рад когда-нибудь сделать это, но на текущий момент нет версий для любых клавиатур отличных от стандартной.</dd>
+  <dt>Возможно ли использовать это на Linux?</dt>
+  <dd>Нет. Насколько я интересовался вопросом – там есть только сложные пути реализации отлова длинных нажатий, и за эти варианты я сейчас взяться не готов. Конечно, можно назначить любую клавишу как модификатор, и перенести весь слой длинных нажатий под этот модификатор. Но это уже будет не совсем то, что я делал. Или совсем не то.</dd>
+  <dt>Могу я использовать это на Mac?</dt>
+  <dd>Нет, текущая версия используется только на Windows. Честно говоря, я пока даже не интересовался вопросом реализации этой раскладки на Mac.</dd>
+  <dt>Может хоть на Android?</dt>
+  <dd>Да! Правда, не для монополиста <code>G.Board</code>, но есть приложение с полнейшей кастомизацией – <a href="https://play.google.com/store/apps/details?id=kl.ime.oh&hl=en">Multiling O Keyboard</a>. Шаблоны раскладок для этого приложения и скриншоты можно найти тут: <a href="https://github.com/da3/layout/tree/master/external/android">external/android/</a>.</dd>
+  <dt>В английской раскладке присутствуют пустые клавиши?</dt>
+  <dd>Да. В виду разделения буквенного и символьных слоёв, клавиши с потенциально-буквенным назначением могут быть использованы только для букв. Но в том, что они пустые нет никакой проблемы – количество символов от этого уж явно не пострадало, а буквы расположены на самых удобных позициях, не теснясь с конкурентами на место.</dd>
+  <dt>...но они не совсем пустые?</dt>
+  <dd>Да, технически, <code>ч</code>, <code>с</code> и <code>и</code> клавиши (в йцукен-виде) отправляют <code>U+001E</code>, который не отображается на печати, но может быть использован сторонними программами, для дополнительных назначений, к примеру. Я не сталкивался со случаями, где это решение давало бы сбои, но если такие найдутся, это всегда можно убрать. Пока пользы больше.</dd>
+  <dt>Могу я использовать символьную раскладку с <code>йцукен</code>?</dt>
+  <dd>Вы-то, конечно, можете, но это будет не так удобно, как это планировалось (планировалось не использовать <code>йцукен</code>).</dd>
+  <dt>Могу я использовать буквенную раскладку без символьной?</dt>
+  <dd>А вот тут, к сожалению, нет. Вам объективно не будет хватать базовых символов.</dd>
+  <dt>Связан ли как-то этот проект и метод слепого набора?</dt>
+  <dd>Конечно! Основная цель как раз в максимизации удобства слепого набора и минимизации лишних движений (в особенности – движений отрывающих руки с их домашних позиций).</dd>
+  <dt>Нужно ли мне сначала потренироваться в слепом наборе, прежде чем знакомиться с этим проектом?</dt>
+  <dd>Если вы уже об этом задумались – однозначно стоит, и вне зависимости от того, собираетесь ли вы потом знакомиться с данным проектом. А если всё-таки собираетесь, то даже лучше сначала ознакомиться с проектом, а уже пользуясь выбранной раскладкой тренироваться в слепом наборе. Следующий вопрос ответит, почему так.</dd>
+  <dt>Я грандмастер набора текста на <code>colemak</code>/<code>dvorak</code>/<code>workman</code>/др, есть ли смысл переходить на эту раскладку?</dt>
+  <dd>Если вас всё устраивает в вашей текущей раскладке, и вы не ищете чего-то большего, нежели просто раскладка, то смысла нет. Однако если вы захотите перейти, учтите, что процесс перехода на любую новую раскладку длителен и дискомфортен. И чем лучше вы владели предыдущей раскладкой, тем больнее будет переход на новую. Первое время вы будете очень медленными и неуклюжими, и это будет бесить. Также потом могут иногда проявляться фантомные нажатия, когда в процессе потокового набора палец на один символ идёт по старому автоматизму. Тоже довольно бесячая вещь. Я ни в коем случае не отговариваю вас, просто вы должны быть заранее готовы ко всему описанному.</dd>
+  <dt>...а я грандмастер набора текста на <code>qwerty</code>! Есть ли мн...</dt>
+  <dd>*перебивает* Прямо сейчас возьмите любую стороннюю раскладку. Мне будет приятно, если выбор остановится на раскладке, которой посвящён весь данный текст, но даже если нет – существует множество других раскладок для латиницы, и некоторые из них очень даже хороши. Но не для русского. Там всё плохо. Так или иначе, постарайтесь отказаться от <code>qwerty</code> и <code>йцукен</code>. Это крайне важные раскладки для истории набора текста, но оставьте их использование музейным работникам.</dd>
+  <dt>Я не могу использовать <code>стрелки</code> и <code>цифровой блок</code>!</dt>
+  <dd>Так и задумано. Если вы хотите попробовать эту раскладку, как она и планировалась, вам нужно привыкнуть к тому, чтобы поменьше отрывать руки от домашних позиций.</dd>
+  <dt>Я не могу кричать капсом!</dt>
+  <dd>Восхитительно. Так и задумано.</dd>
+  <dt>... но мне нужен <code>Caps Lock</code> для моего ЯП или для чего-то ещё!</dt>
+  <dd>Эта раскладка для общего пользования. А для общего пользования функция <code>Caps Lock</code> вредна. Для частных случаев вы можете добавить собственное назначение для этой функции и закомментировать строку <code>SetCapsLockState</code> в <code>qphyx.ahk</code>. Но пожалуйста, не злоупотребляйте ей.</dd>
+  <dt>Этот проект родственен с <a href="https://github.com/da3/menu">menu</a>?</dt>
+  <dd>Да, когда-то это был единый проект, но с постоянным добавлением нового функционала было принято решение о его разделении на два проекта. Но и сейчас они тесно связаны друг с другом. К примеру, вы можете выставлять время срабатывания длинного нажатия через <code>input-box</code> вызываемый <code>menu</code>, а <code>qphyx</code> сам вызывает <code>menu</code> в подходящий момент, дабы избежать конфликта назначений. Для связи между ними нужно лишь в <code>config.ini</code> обоих проектов указать путь к родственнику.</dd>
+  <dt>Ещё какие-нибудь интеграции?</dt>
+  <dd>Просто вызов в нужное время, для исключения конфликтов – <a href="https://github.com/magicstep/ViATc-English">ViATc</a>. Если вы пользуетесь этим проектом, просто укажите путь к основному файлу <code>ViATc-x.x.xen.ahk</code> в <code>config.ini</code>, только и всего.</dd>
+  <dt>Проблемы с <code>config.ini</code></dt>
+  <dd>Не создавайте его сами, дайте ему сгенерироваться при запуске, и лишь потом правьте. Для функциональности с переключением между приложениями добавьте в конец файла настроек строку <code>[AltApps]</code>, а после ниже, на отдельных строках, располагайте ваши приложения по соответствующему образцу.</dd>
+</dl>
 
 
 ## Copyrights
