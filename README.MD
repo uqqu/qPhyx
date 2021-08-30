@@ -14,48 +14,194 @@ This project can't be described briefly. It must either be tried or described in
 
 ## Letter layout
 
-> For a better understanding of this part it is recommended to have a look at the [external/calculating.xlsx](https://github.com/da3/layout/blob/master/external/calculation.xlsx)
+> For a better understanding of this part it is recommended to have a look at the [external/calculation.xlsx](https://github.com/da3/layout/blob/master/external/calculation.xlsx)
 
-Now it looks like this (*hereinafter in "excel-scheme" view*):
+Тhe arrangement of the letters was as objective as possible.
 
-![English letter layout](https://github.com/da3/layout/blob/master/external/readme_images/letters_en.png "English letter layout")
+### Frequency analyses
 
-... for English, and like this:
+First, various frequency analyses were found and stored with their average value *(so this is a meta-analysis?)*. A total of 25 analyses were selected based on different samples. All valid analyses found were taken into account.
+
+For English, the following analyses (resource references) were included in the final view for the base character frequency:
+
+  * [norvig.com](http://norvig.com/mayzner.html)
+  * [ac.uk](https://core.ac.uk/download/pdf/231084615.pdf)
+  * [sttmedia.com](https://www.sttmedia.com/characterfrequency-english)
+  * [nd.edu](https://www3.nd.edu/~busiforc/handouts/cryptography/letterfrequencies.html)
+  * [pi.math.cornell.edu](http://pi.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html)
+  * [lexico.com](https://www.lexico.com/explore/which-letters-are-used-most)
+  * [cs.wellesley.edu](http://cs.wellesley.edu/~fturbak/codman/letterfreq.html)
+  * [en.algoritmy.net](http://en.algoritmy.net/article/40379/Letter-frequency-English)
+  * [practicalcryptography.com](http://practicalcryptography.com/cryptanalysis/letter-frequencies-various-languages/english-letter-frequencies/)
+
+For Russian, the following analyses were included for the base character frequency:
+
+  * [dict.ruslang.ru](http://dict.ruslang.ru/freq.php?act=show&dic=freq_letters)
+  * [sttmedia.com](https://www.sttmedia.com/characterfrequency-russian)
+  * [simia.net](http://simia.net/letters/index.html)
+  * [lg--web.chat.ru](http://lg--web.chat.ru/texts.html)
+  * [practicalcryptography.com](http://practicalcryptography.com/cryptanalysis/letter-frequencies-various-languages/russian-letter-frequencies/)
+  * Яглом А.М., Яглом И.М., Вероятость и информация, М.: Наука, 1973. / с.238
+
+For English, the following bigram analyses were selected for paired symbol frequency:
+
+  * [joyofdata.de](https://www.joyofdata.de/blog/frequency-of-character-combinations/)
+  * [gist.github.com/lydell](https://gist.github.com/lydell/c439049abac2c9226e53)
+  * [homepages.math.uic.edu](http://homepages.math.uic.edu/~leon/mcs425-s08/handouts/char_freq2.pdf)
+  * [practicalcryptography.com](http://practicalcryptography.com/cryptanalysis/letter-frequencies-various-languages/english-letter-frequencies/)
+  * [link.springer.com](https://link.springer.com/content/pdf/10.3758/BF03201360.pdf)
+
+For Russian, the following bigram analyses were selected for paired symbol frequency:
+
+  * [statistica.ru](http://statistica.ru/local-portals/data-mining/analiz-tekstov/)
+  * [joyofdata.de](https://www.joyofdata.de/blog/frequency-of-character-combinations/)
+  * [practicalcryptography.com](http://practicalcryptography.com/cryptanalysis/letter-frequencies-various-languages/russian-letter-frequencies/)
+
+### Selection of convenience criteria
+
+To objectively evaluate the ease of use of the layout, it is necessary to allocate the appropriate criteria. They are:
+  * hand alteration (the probability that both hands will be used to type any random pair of letters)
+  * even handload
+  * even fingerload
+  * minimum chance for double sequentially usage of the same finger (bearing in mind base key repeating).
+  * maximum usage on the most convenience groups (see below)
+
+For the latter criteria letter-part of default non-ergonomic keyboard were divided into 6(7) groups by convenience:
+> Despite the fact that such a division itself is somewhat subjective, the allocation of the first group does not cause any questions - these are home finger positions, where you do not need to make any movements, only pressing. In future evaluations, the focus of this criterion will be on the first group, as the most objective.
+
+> *hereinafter in "excel-view"*
+
+![Groups of keys by convenience](https://github.com/da3/layout/blob/master/external/readme_images/groups_animated.gif "Groups of keys by convenience")
+<br>[Last frame](https://github.com/da3/layout/blob/master/external/readme_images/groups.png)
+
+### Layout creation
+
+Past points have been systematized and automated in [external/calculation.xlsx](https://github.com/da3/layout/blob/master/external/calculation.xlsx) to further create the layout.
+> You can also try to change the current layout or create your own in this file. All evaluations change dynamically, depending on the current view.
+
+Many variations have been tried for both languages. Some were extremely successful, and are still on the sheet <code>[en/ru] archive</code>. However, the final form of layouts must skillfully balance between all criteria. And also in view of the original purpose of the phonetic layout, it is necessary to take into account the phonetic dependence of the layouts of the two languages. After much ordeal, such a double layout became the following parts:
+
+![Latin letter layout](https://github.com/da3/layout/blob/master/external/readme_images/letters_la.png "Latin letter layout")
 
 ![Russian letter layout](https://github.com/da3/layout/blob/master/external/readme_images/letters_ru.png "Russian letter layout")
 
-... for Russian language.
+### Result numbers
 
-Тhe arrangement of the letters was as objective as possible:
-* First, various frequency analyses were found on the Internet and stored with their average value *(so this is a meta-analysis?)*
+I'll list it all:
+  * hand alteration – 67.73% (en) and 73.32% (ru)
+  * handload – 49.69/50.31% and 50.64/49.36%
+  * maximum difference of finger load – 3.86% and 7.48%
+  * chance for double sequentially usage of the same finger – 3.38% and 4.37%
+  * "home" group usage – 64.01% and 57.72%
+<br><sub>and also a nice look and mnemonic rows</sub>
 
-  For English – [simia.net](http://simia.net/letters/index.html), [sttmedia.com](https://www.sttmedia.com/characterfrequency-english), [algoritmy.net](http://en.algoritmy.net/article/40379/Letter-frequency-English), [cornell.edu](http://pi.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html), [lexico.com](https://www.lexico.com/explore/which-letters-are-used-most), wiki
-  
-  For Russian – [simia.net](http://simia.net/letters/index.html), [sttmedia.com](https://www.sttmedia.com/characterfrequency-russian), [ruslang.ru](http://dict.ruslang.ru/freq.php?act=show&dic=freq_letters)
+### Existing alternative layouts
 
-* In addition to the previous were collected frequency analyses of letter pairs – bigrams (English – [uic.edu](http://homepages.math.uic.edu/~leon/mcs425-s08/handouts/char_freq2.pdf), Russian – [statistica.ru](http://statistica.ru/local-portals/data-mining/analiz-tekstov/))
-* Letter-part of default non-ergonomic keyboard were categorized into 6*(7)* groups by convenience:
-![Groups of keys by convenience](https://github.com/da3/layout/blob/master/external/readme_images/groups.png "Groups of keys by convenience")
-* Were summarized objective criteria for evaluating layout convenience: 
-  * hand alteration
-  * uniform hands load
-  * uniform fingers load
-  * maximum usage on the most convenience groups from the previous point
-  * minimum chance for double sequentially usage of the same finger (bearing in mind 3.22% for English and 1.76% for Russian base key repeating).
-* Based on past points all letters were placed in their positions for English and Russian. 
-* Russian layout was moved to phonetic-view with English layout, and English layout was adapted for better summarized result with great performance for both.
+One more clarification - you can still compare these layouts directly with each other, but you can not with the "topic-starter" - they are conceptually different. All numbers below are just a general idea (and a little bit to show how bad the standard <code>qwerty</code> and <code>йцукен</code> are).
+> Only letters are counted in the calculations! The rates of character-oriented layouts on the base layer may be somewhat inaccurate. But only "somewhat," as one should not overestimate the frequency of non-alphabetic characters, especially for English.
+
+
+<details>
+  <summary>qwerty (en)</summary>
+  <ul>
+    <li>hand alteration – 51.68%</li>
+    <li>handload – 58.47/41.53%</li>
+    <li>maximum difference of finger load – 19.99%</li>
+    <li>chance for double sequentially usage of the same finger – 7.29%</li>
+    <li>"home" group usage – 26.09%</li>
+  </ul>
+</details>
+<details>
+  <summary>workman (en)</summary>
+  <ul>
+    <li>hand alteration – 54.89%</li>
+    <li>handload – 51.70/48.30%</li>
+    <li>maximum difference of finger load – 11.28%</li>
+    <li>chance for double sequentially usage of the same finger – 3.15%</li>
+    <li>"home" group usage – 62.73%</li>
+  </ul>
+</details>
+<details>
+  <summary>colemak (en)</summary>
+  <ul>
+    <li>hand alteration – 57.23%</li>
+    <li>handload – 48.31/51.69%</li>
+    <li>maximum difference of finger load – 12.48%</li>
+    <li>chance for double sequentially usage of the same finger – 1.84%</li>
+    <li>"home" group usage – 64.01%</li>
+  </ul>
+</details>
+<details>
+  <summary>dvorak (en)</summary>
+  <ul>
+    <li>hand alteration – 68.19%</li>
+    <li>handload – 43.33/56.67%</li>
+    <li>maximum difference of finger load – 9.83%</li>
+    <li>chance for double sequentially usage of the same finger – 2.97%</li>
+    <li>"home" group usage – 58.33%</li>
+  </ul>
+</details>
+<details>
+  <summary>qwpr (en)</summary>
+  <ul>
+    <li>hand alteration – 57.23%</li>
+    <li>handload – 48.31/51.69%</li>
+    <li>maximum difference of finger load – 14.06%</li>
+    <li>chance for double sequentially usage of the same finger – 4.41%</li>
+    <li>"home" group usage – 61.62%</li>
+  </ul>
+</details>
+<details>
+  <summary>йцукен (ru)</summary>
+  <ul>
+    <li>hand alteration – 53.54%</li>
+    <li>handload – 53.23/46.63%</li>
+    <li>maximum difference of finger load – 29.51%</li>
+    <li>chance for double sequentially usage of the same finger – 19.79%</li>
+    <li>"home" group usage – 33.97%</li>
+  </ul>
+  <sub>Интересный факт: две трети всех нажатий в йцукен приходятся на указательные пальцы. А подобная сгруппированность популярнейших символов в результате приводит к тому, что и каждое пятое нажатие будет выполняться одним и тем же пальцем. О каком "десятипальцевом наборе" в таком раскладе может идти речь?</sub>
+</details>
+<details>
+  <summary>яверты (ru)</summary>
+  (** учитывались только буквы основного буквенного блока)
+  <ul>
+    <li>hand alteration – 48.36%</li>
+    <li>handload – 50.41/46.84%</li>
+    <li>maximum difference of finger load – 13.24%</li>
+    <li>chance for double sequentially usage of the same finger – 9.38%</li>
+    <li>"home" group usage – 61.62%</li>
+  </ul>
+</details>
+
+> More layouts, and their appearance can be found in .xlsx file. Here are listed only the main parameters of the most important layouts to mention.
+
+#### Result
+Let's start with the English layouts: <code>qwerty</code> is frankly bad, if not rougher. Any existing layout (including the ones not listed) is much better. If you look at the opposite result, everything is not so clear, but <code>dvorak</code>, according to the main points, takes the lead.
+I will not compare <code>dvorak</code> and <code>qPhyx</code>, because this comparison is incorrect, as I mentioned in the beginning. But even for a general idea you can note that on the whole the numbers of the topic-starter if not better, then at least at the level of the leader.
+
+
+And now let's move on to the Russian layouts... Everything is bad. For the Russian language there is simply no sane alternative layouts. The ones that are available are hardly better than the standard <code>йцукен</code>, and this is despite the fact that there are even more questions to <code>йцукен</code> than to its <code>qwerty</code> counterpart.
+
+<br>
+
+> ↓ NB!
+<br>At this stage it is worth getting a little ahead of ourselves and noting that the English layout, in fact, is the common layout of the Latin alphabet, which with the help of the extended character diacritics allows you to write in the top ten most popular languages, which are based on the Latin alphabet.
+<br>With Cyrillic languages, the situation is somewhat more complicated, and they will not be able to fit into a single Cyrillic layout due to the excessive variety of characters, which simple diacritics are very inconvenient to fix, and it is not always possible. However, adapting the Russian layout to another language does not take away any of the advantages of the latter, and there are already plans for Ukrainian and Belarusian layouts.
+<br>Thus, we get a unified system for all Latin- and potentially Cyrillic-based languages. By system I mean everything you are now and further reading - all the concepts and everything that follows from them, be it phonetic continuity or symbolic unity... It's worth telling the latter already, isn't it?
+
 
 ## Symbol layout
 > One of the reason of making *"one more"* layout – symbol mismatch in different languages and their limited number.
 
 The following requirements were imposed on the symbol layout:
-* Symbols unity on the any language;
-* A clear delineation between symbol and letter layouts (or now more correctly – *layers*);
-* Group symbols in the logical categories;
-* Мore symbols, add diacritic;
-* It is necessary to keep in mind the convenience groups for symbols too;
-* All of this should fit in the 60% ANSI-keyboard (see below for example);
-* It should contain main (and maybe some more) controlling commands.
+* symbols unity on the any letter layout
+* a clear delineation between symbol and letter layouts (or now more correctly – *layers*)
+* group symbols in the logical categories
+* more symbols, add diacritic
+* it is necessary to keep in mind the convenience groups for symbols too
+* all of this should fit in the 60% ANSI-keyboard (see below for example)
+* it should contain main (and maybe some more) controlling commands
 
 ![60% keyboard explanation](https://cdn.thewirecutter.com/wp-content/media/2021/05/20210527_mech-keyboard_layout.png "60% keyboard explanation")
 <sub>Source: [nytimes.com](https://www.nytimes.com/wirecutter/blog/how-to-shop-for-a-mechanical-keyboard/); Illustration: Sarah Macreading, Dana Davis</sub>
@@ -67,15 +213,15 @@ With all these requirements the result were two variants: more classical and "co
 ![Lite symbol layout](https://github.com/da3/layout/blob/master/external/readme_images/symbols_lite.png "Lite symbol layout")
 > First of all – yes this layout suggests to non-standard keyboard usage as `long presses`. I am not going to prove to you that it is a comfortably – if you are convinced otherwise you still won't believe me. But I'm sure if you use this functionality enough to use it automatically, then you will agree with me. We won't mention this subject any more.
 
-In green are highlighted main symbols, which there are also in the qwerty-layout; in gray are highlighted additional symbols, which I thought I should add (this is probably the most subjective part). In the corner placed two diacritic symbols for accents.
+In green are highlighted main symbols, which there are also in the `qwerty` layout; in gray are highlighted additional symbols, which I thought I should add (this is probably the most subjective part). In the corner placed two diacritic symbols for accents.
 
 As you can see, all of the conditions above are met:
-* Symbols are the separate layers and these layers is independent of any language;
-* Symbols are grouped (base math, currencies, punctuation, brackets with mirror reflection around the home row); 
-* Additional symbols with often usage cases; 
-* Most usage symbols/groups placed on the most convenience groups; 
-* All these within 60% keyboard (even less so far);
-* There are controlling (navigation) commands.
+* symbols are the separate layers and these layers is independent of any language
+* symbols are grouped (base math, currencies, punctuation, brackets with mirror reflection around the home row) 
+* additional symbols with often usage cases
+* most usage symbols/groups placed on the most convenience groups
+* all these within 60% keyboard (even less so far)
+* there are controlling (navigation) commands
 
 ### Complete variant
 ![Complete symbol layout](https://github.com/da3/layout/blob/master/external/readme_images/symbols_complete.png "Complete symbol layout")
@@ -164,10 +310,10 @@ Example – bind `nvim` on `Win–q`:
 
 ## ↓ Russian part
 
-**qPhyx** начинался как альтернативная фонетическая двуязычная клавиатурная раскладка. Впоследствии многие функции вышли за рамки обычной раскладки, и проект стал чем-то большим. Его можно логично разделить на три части:
-1. Клавиатурная раскладка стандартного вида
-2. Символьная раскладка с некоторыми особенностями и функциями
-3. Возникшее в процессе дополнение, включающее в себя некоторый набор функций
+**qPhyx** начинался как альтернативная фонетическая двуязычная (двуписьменная, как бы это ни звучало) клавиатурная раскладка. Впоследствии многие функции вышли за рамки обычной раскладки, и проект стал чем-то большим. Его можно логично разделить на три части:
+1. Клавиатурная раскладка стандартного вида;
+2. Символьная раскладка с некоторыми особенностями и функциями;
+3. Возникшее в процессе дополнение, включающее в себя некоторый набор функций.
 
 Первые две части связаны друг с другом, и находятся в этом репозитории. Третья часть, хоть и планировалась как часть цельного проекта, и долгое время ею была, сейчас вынесена в [отдельный репозиторий](https://github.com/da3/menu). 
 
@@ -175,51 +321,200 @@ Example – bind `nvim` on `Win–q`:
 
 ## Буквенная раскладка
 
-> Для лучшего понимания этой части рекомендуется обратиться к [external/calculating.xlsx](https://github.com/da3/layout/blob/master/external/calculation.xlsx)
-
-Сейчас это выглядит так (*здесь и далее в виде "excel-схем"*):
-
-![English letter layout image](https://github.com/da3/layout/blob/master/external/readme_images/letters_en.png "English letter layout")
-
-... для английского, и вот так:
-
-![Russian letter layout image](https://github.com/da3/layout/blob/master/external/readme_images/letters_ru.png "Russian letter layout")
-
-... для русского языка.
+> Для лучшего понимания этой части рекомендуется обратиться к [external/calculation.xlsx](https://github.com/da3/layout/blob/master/external/calculation.xlsx)
 
 Расположение букв на раскладке было максимально, насколько это возможно, лишено субъективщины. Объективные критерии, голые цифры.
-* Первым делом на просторах интернета были отобраны различные анализы частотности букв для интересующих языков из которых были выведены средние значения *(получается, мета-анализ)*
 
-  Для английского – [simia.net](http://simia.net/letters/index.html), [sttmedia.com](https://www.sttmedia.com/characterfrequency-english), [algoritmy.net](http://en.algoritmy.net/article/40379/Letter-frequency-English), [cornell.edu](http://pi.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html), [lexico.com](https://www.lexico.com/explore/which-letters-are-used-most), wiki
-  
-  Для русского – [simia.net](http://simia.net/letters/index.html), [sttmedia.com](https://www.sttmedia.com/characterfrequency-russian), [ruslang.ru](http://dict.ruslang.ru/freq.php?act=show&dic=freq_letters)
+### Анализы частотности
 
-* В дополнение к предыдущему были найдены таблицы частотности конкретных сочетаний двух букв – биграмм (английский – [uic.edu](http://homepages.math.uic.edu/~leon/mcs425-s08/handouts/char_freq2.pdf), русский – [statistica.ru](http://statistica.ru/local-portals/data-mining/analiz-tekstov/))
-* Буквенная часть стандартной не эргономичной клавиатуры была разделена на 6*(7)* групп по удобству:
-![Группы клавиш по удобству](https://github.com/da3/layout/blob/master/external/readme_images/groups.png "Группы клавиш по удобству")
-* Были отобраны объективные критерии оценки удобства раскладки: 
-  * чередование рук
+Первым делом были отобраны различные анализы частотности букв для интересующих языков из которых были выведены средние значения *(получается, мета-анализ)*. Всего было отобрано 25 анализов основанных на разных выборках. Учитывались все достоверные найденные анализы.
+
+Для английского языка для базовой символьной частотности в финальный вид были включены следующие анализы (ссылки на ресурсы):
+
+  * [norvig.com](http://norvig.com/mayzner.html)
+  * [ac.uk](https://core.ac.uk/download/pdf/231084615.pdf)
+  * [sttmedia.com](https://www.sttmedia.com/characterfrequency-english)
+  * [nd.edu](https://www3.nd.edu/~busiforc/handouts/cryptography/letterfrequencies.html)
+  * [pi.math.cornell.edu](http://pi.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html)
+  * [lexico.com](https://www.lexico.com/explore/which-letters-are-used-most)
+  * [cs.wellesley.edu](http://cs.wellesley.edu/~fturbak/codman/letterfreq.html)
+  * [en.algoritmy.net](http://en.algoritmy.net/article/40379/Letter-frequency-English)
+  * [practicalcryptography.com](http://practicalcryptography.com/cryptanalysis/letter-frequencies-various-languages/english-letter-frequencies/)
+
+Для русского явыка для базовой символьной частотности были включены следующие анализы:
+
+  * [dict.ruslang.ru](http://dict.ruslang.ru/freq.php?act=show&dic=freq_letters)
+  * [sttmedia.com](https://www.sttmedia.com/characterfrequency-russian)
+  * [simia.net](http://simia.net/letters/index.html)
+  * [lg--web.chat.ru](http://lg--web.chat.ru/texts.html)
+  * [practicalcryptography.com](http://practicalcryptography.com/cryptanalysis/letter-frequencies-various-languages/russian-letter-frequencies/)
+  * Яглом А.М., Яглом И.М., Вероятость и информация, М.: Наука, 1973. / с.238.
+
+Для английского языка для парной символьной частотности были отобраны следующие биграммные анализы:
+
+  * [joyofdata.de](https://www.joyofdata.de/blog/frequency-of-character-combinations/)
+  * [gist.github.com/lydell](https://gist.github.com/lydell/c439049abac2c9226e53)
+  * [homepages.math.uic.edu](http://homepages.math.uic.edu/~leon/mcs425-s08/handouts/char_freq2.pdf)
+  * [practicalcryptography.com](http://practicalcryptography.com/cryptanalysis/letter-frequencies-various-languages/english-letter-frequencies/)
+  * [link.springer.com](https://link.springer.com/content/pdf/10.3758/BF03201360.pdf)
+
+Для русского языка для парной символьной частотности были отобраны следующие биграммные анализы:
+
+  * [statistica.ru](http://statistica.ru/local-portals/data-mining/analiz-tekstov/)
+  * [joyofdata.de](https://www.joyofdata.de/blog/frequency-of-character-combinations/)
+  * [practicalcryptography.com](http://practicalcryptography.com/cryptanalysis/letter-frequencies-various-languages/russian-letter-frequencies/)
+
+### Отбор критериев удобства
+
+Для объективной оценки удобства использования раскладки необходимо выделить соответствующие критерии. Ими стали:
+
+  * чередование рук (вероятность, с которой для набора любой случайной пары букв будут задействованы обе руки)
   * равномерная нагрузка рук
   * равномерная нагрузка пальцев
-  * максимальное использование наиболее удобных групп из прошлого пункта
-  * минимизация вероятности использования одного пальца на два набора подряд (с учётом базовой вероятности повтора одной буквы в 3.22% для английского, и 1.76% для русского).
-* На основе прошлых пунктов все буквы были распределены на свои позиции для обоих языков.
-* Позже русская раскладка была экспериментально опробована в виде фонетического переложения с английской. Эксперимент оказался весьма удачным, а в английскую версию были внесены финальные коррективы, с оглядкой на фонетическую зависимость.
+  * минимизация вероятности использования одного пальца на два набора подряд (с учётом базовой вероятности повтора одной буквы)
+  * максимальное использование наиболее удобных групп (см. далее)
+
+Для последнего критерия буквенная часть стандартной не эргономичной клавиатуры была разделена на 6(7) групп по удобству.
+> Несмотря на то, что само подобное разделение является несколько субъективным, выделение первой группы не вызывает никаких вопросов – это домашние позиции пальцев, где вам не нужно совершать никаких движений, только нажатие. В будущей оценке основное внимание на этот критерий будет обращено именно на первую группу, как на самую объективную.
+
+> *Здесь и далее в "excel-виде"*
+
+![Группы клавиш по удобству](https://github.com/da3/layout/blob/master/external/readme_images/groups_animated.gif "Группы клавиш по удобству")
+<br>[Последний фрейм](https://github.com/da3/layout/blob/master/external/readme_images/groups.png)
+
+### Создание раскладки
+
+Прошлые пункты были систематизированны и автоматизированны в [external/calculation.xlsx](https://github.com/da3/layout/blob/master/external/calculation.xlsx), для дальнейшего создания раскладки. 
+> Вы также можете попробовать изменить текущую раскладку или создать свою в данном файле. Все оценки изменяются динамически, в зависимости от текущего вида.
+
+Было опробованно множество вариантов для обоих языков. Некоторые оказались крайне удачными, и до сих пор хранятся на листе <code>[en/ru] archive</code>. Однако финальный вид раскладок должен умело балансировать между всеми критериями. А также в виду изначальной цели создания фонетической раскладки, необходимо учитывать фонетическую зависимость раскладок двух языков. Спустя многие мытарства такой двойной раскладкой стали следующие части:
+
+![Latin letter layout](https://github.com/da3/layout/blob/master/external/readme_images/letters_la.png "Latin letter layout")
+
+![Russian letter layout](https://github.com/da3/layout/blob/master/external/readme_images/letters_ru.png "Russian letter layout")
+
+### Так что же, Веничка, что же всё-таки с цифрами? Нам страшно интересно...
+
+Да ведь я понимаю, что интересно. Сейчас, сейчас перечислю:
+  * чередование рук – 67.73% (en) и 73.32% (ru)
+  * равномерность нагрузки рук – 49.69/50.31% и 50.64/49.36%
+  * максимальная разница нагрузки пальцев – 3.86% и 7.48%
+  * вероятность "чистого" повторного нажатия одним пальцем – 3.38% и 4.37%
+  * использование "домашней" группы – 64.01% и 57.72%
+<br><sub>а ещё приятный внешний вид и мнемонические ряды</sub>
+
+### Так-так-так, – говорите вы, – а альтернативные раскладки? Ведь всё уже придумано до тебя.
+
+Сейчас я вам покажу альтернативные раскладки.
+<br>Но сначала ещё одно уточнение – напрямую сравнивать эти раскладки между собой ещё можно, а вот с "топик-стартером" не получится – они концептуально разные. Все цифры ниже служат исключительно для общего представления (и немножко для демонстрации, насколько стандартные <code>qwerty</code> и <code>йцукен</code> плохи).
+> В подсчётах учитываются только буквы! Показатели символьно-ориентированных на базовом слое раскладок могут быть несколько неточными. Но лишь "несколько", т.к. не стоит переоценивать частоту небуквенных символов, особенно для английского языка.
+
+<details>
+  <summary>qwerty (en)</summary>
+  <ul>
+    <li>чередование рук – 51.68%</li>
+    <li>равномерность нагрузки рук – 58.47/41.53%</li>
+    <li>максимальная разница нагрузки пальцев – 19.99%</li>
+    <li>вероятность "чистого" повторного нажатия одним пальцем – 7.29%</li>
+    <li>использование "домашней" группы – 26.09%</li>
+  </ul>
+</details>
+<details>
+  <summary>workman (en)</summary>
+  <ul>
+    <li>чередование рук – 54.89%</li>
+    <li>равномерность нагрузки рук – 51.70/48.30%</li>
+    <li>максимальная разница нагрузки пальцев – 11.28%</li>
+    <li>вероятность "чистого" повторного нажатия одним пальцем – 3.15%</li>
+    <li>использование "домашней" группы – 62.73%</li>
+  </ul>
+</details>
+<details>
+  <summary>colemak (en)</summary>
+  <ul>
+    <li>чередование рук – 57.23%</li>
+    <li>равномерность нагрузки рук – 48.31/51.69%</li>
+    <li>максимальная разница нагрузки пальцев – 12.48%</li>
+    <li>вероятность "чистого" повторного нажатия одним пальцем – 1.84%</li>
+    <li>использование "домашней" группы – 64.01%</li>
+  </ul>
+</details>
+<details>
+  <summary>dvorak (en)</summary>
+  <ul>
+    <li>чередование рук – 68.19%</li>
+    <li>равномерность нагрузки рук – 43.33/56.67%</li>
+    <li>максимальная разница нагрузки пальцев – 9.83%</li>
+    <li>вероятность "чистого" повторного нажатия одним пальцем – 2.97%</li>
+    <li>использование "домашней" группы – 58.33%</li>
+  </ul>
+</details>
+<details>
+  <summary>qwpr (en)</summary>
+  <ul>
+    <li>чередование рук – 57.23%</li>
+    <li>равномерность нагрузки рук – 48.31/51.69%</li>
+    <li>максимальная разница нагрузки пальцев – 14.06%</li>
+    <li>вероятность "чистого" повторного нажатия одним пальцем – 4.41%</li>
+    <li>использование "домашней" группы – 61.62%</li>
+  </ul>
+</details>
+<details>
+  <summary>йцукен (ru)</summary>
+  <ul>
+    <li>чередование рук – 53.54%</li>
+    <li>равномерность нагрузки рук – 53.23/46.63%</li>
+    <li>максимальная разница нагрузки пальцев – 29.51%</li>
+    <li>вероятность "чистого" повторного нажатия одним пальцем – 19.79%</li>
+    <li>использование "домашней" группы – 33.97%</li>
+  </ul>
+  <sub>Интересный факт: две трети всех нажатий в йцукен приходятся на указательные пальцы. А подобная сгруппированность популярнейших символов в результате приводит к тому, что и каждое пятое нажатие будет выполняться одним и тем же пальцем. О каком "десятипальцевом наборе" в таком раскладе может идти речь?</sub>
+</details>
+<details>
+  <summary>яверты (ru)</summary>
+  (** учитывались только буквы основного буквенного блока)
+  <ul>
+    <li>чередование рук – 48.36%</li>
+    <li>равномерность нагрузки рук – 50.41/46.84%</li>
+    <li>максимальная разница нагрузки пальцев – 13.24%</li>
+    <li>вероятность "чистого" повторного нажатия одним пальцем – 9.38%</li>
+    <li>использование "домашней" группы – 61.62%</li>
+  </ul>
+</details>
+
+> Больше раскладок, а также их внешний вид можете найти в .xlsx файле. Здесь перечислены лишь основные показатели наиболее важных к упоминанию раскладок.
+
+
+
+#### Результат
+Начнём с английских раскладок: <code>qwerty</code> откровенно плох, если не сказать грубее. Любая существующая раскладка (в том числе из неперечисленных) в разы и разы лучше. Если смотреть на обратный результат, то всё не так однозначно, но <code>dvorak</code>, по основным пунктам, всё-таки забирает первенство.
+Сравнивать <code>dvorak</code> и <code>qPhyx</code> я не стану, так как это сравнение некорректно, о чём я обмолвился изначально. Но даже для общего представления вы можете отметить, что в целом цифры топик-стартера если уж не лучше, то как минимум на уровне лидера.
+
+
+А теперь перейдём к русским раскладкам... Всё очень плохо. Для русского языка попросту отсутствуют вменяемые альтернативные раскладки. Те что есть, едва ли лучше стандартного <code>йцукен</code>, и это при том, что к <code>йцукен</code> вопросов ещё больше, чем к его собрату <code>qwerty</code>.
+
+<br>
+
+> ↓ NB!
+<br>На этом этапе стоит забежать несколько наперёд и отметить, что английская раскладка, на деле является общей раскладкой латиницы, которая при помощи расширенной диакритики символьной раскладки позволяет писать на первом десятке популярнейших языков, в основе которых лежит латиница.
+<br>С кириллическими языками дело обстоит несколько сложнее, и их не получится вписать в единую кириллическую раскладку в виду чрезмерного разнообразия символов, которые простой диакритикой исправляются очень неудобно, да и не всегда это возможно. Однако адаптация русской раскладки под другой язык не убирает никаких преимуществ последней, и уже есть намётки на украинскую и белорусскую раскладки.
+<br>Таким образом, получается единая система для всех латице- и, потенциально, кириллице-основанных языков. Под системой я подразумеваю всё, что вы сейчас и далее читаете – все концепты и всё из них вытекающее, будь то фонетическая преемственность или символьное единство... Стоит уже и последнем рассказать, не так ли?
+
 
 ## Символьная раскладка
 > Одна из причин создания *"и ещё одной"* раскладки – несоответствие символов в различных языках и их ограниченное количество.
 
 К символьной раскладке были выставлены следующие требования:
-* Единство символов для любого языка;
-* Чёткое разграничение между буквенной и символьной раскладками (или, теперь более корректно, – *слоями*);
-* Группировка символов по логическим категориям;
-* Больше символов; добавление диакритических символов;
-* Расположение с учётом "групп удобства" всё ещё более чем актуально;
-* Всё это должно быть вписано в 60% ANSI-клавиатуру (объяснение ниже);
-* Наличие основных (а может быть и чуть больше) управляющих команд.
+* единство символов для любой буквенной раскладки
+* чёткое разграничение между буквенной и символьной раскладками (или, теперь более корректно, – *слоями*)
+* группировка символов по логическим категориям
+* больше символов; добавление диакритических символов
+* расположение с учётом "групп удобства" всё ещё более чем актуально
+* всё это должно быть вписано в 60% ANSI-клавиатуру (объяснение ниже)
+* наличие основных (а может быть и чуть больше) управляющих команд
 
 ![Объяснение, что есть 60% клавиатура](https://cdn.thewirecutter.com/wp-content/media/2021/05/20210527_mech-keyboard_layout.png "Объяснение, что есть 60% клавиатура")
-<sub>Источник: [nytimes.com](https://www.nytimes.com/wirecutter/blog/how-to-shop-for-a-mechanical-keyboard/); Illustration: Sarah Macreading, Dana Davis</sub>
+<sub>Источник: [nytimes.com](https://www.nytimes.com/wirecutter/blog/how-to-shop-for-a-mechanical-keyboard/); Иллюстрация: Sarah Macreading, Dana Davis</sub>
 
 
 В результате, со всеми требованиями, получилось две версии раскладки: более стандартная и полная (соответственно – менее стандартная).
@@ -228,15 +523,15 @@ Example – bind `nvim` on `Win–q`:
 ![Облегчённый символьный вариант](https://github.com/da3/layout/blob/master/external/readme_images/symbols_lite.png "Облегчённый символьный вариант")
 > Перво-наперво – да, эта раскладка предполагает нестандартное использование компьютерной клавиатуры, а именно – `длинные` или `долгие нажатия`. Я не собираюсь доказывать, что это удобно – если вы убеждены в обратном, вы всё равно мне не поверите. Могу лишь сказать, что если вы переведёте эту функциональность в автоматизм (в процессе использования, конечно же), тогда вы со мной согласитесь. А этот процесс абсолютно не сложен. За сим всё, больше мы этот вопрос поднимать не будем.
 
-Зелёным выделены основные символы, перекочевавшие со стандартной qwerty раскладки. Серым выделены дополнительные символы, которыми я счёл нужным дополнить раскладку (пожалуй, это самая субъективная часть всего проекта). В углу, под извечным `Ъ` расположились акут и гравис, в первую очередь как маркёры основного и побочного ударений.
+Зелёным выделены основные символы, перекочевавшие со стандартной `qwerty` раскладки. Серым выделены дополнительные символы, которыми я счёл нужным дополнить раскладку (пожалуй, это самая субъективная часть всего проекта). В углу, под извечным `Ъ` расположились акут и гравис, в первую очередь как маркёры основного и побочного ударений.
 
 Как видно, все условия соблюдены:
-* Символы образуют собственный, независимый от какого бы то ни было языка слой;
-* Символы сгруппированы по категориям (базовая математика, валюты, пунктуация, скобки с зеркальным отображением вокруг домашнего ряда);
-* Дополнительные символы из числа востребованных;
-* Распределение с учётом "групп удобства";
-* Всё вмещено в 60% клавиатуру (даже чуть меньше, ведь цифровой ряд ещё впереди);
-* Присутствуют управляющие (навигационные) команды.
+* символы образуют собственный, независимый от какого бы то ни было языка слой
+* символы сгруппированы по категориям (базовая математика, валюты, пунктуация, скобки с зеркальным отображением вокруг домашнего ряда)
+* дополнительные символы из числа востребованных
+* распределение с учётом "групп удобства"
+* всё вмещено в 60% клавиатуру (даже чуть меньше, ведь цифровой ряд ещё впереди)
+* присутствуют управляющие (навигационные) команды
 
 ### Полный вариант
 ![Полный символьный вариант](https://github.com/da3/layout/blob/master/external/readme_images/symbols_complete.png "Полный символьный вариант")
@@ -244,15 +539,17 @@ Example – bind `nvim` on `Win–q`:
 > Несомненно, это выглядит крайне странно и непривычно. Но уверяю, это именно оттого, что непривычно.
 
 Давайте взглянем, что изменилось:
-* Показался цифровой ряд. Базовые позиции не изменились. Я не разделяю мнения, что обычный порядок по возрастанию плох, и их нужно перемешивать. Альтернативные слои содержат не самые востребованные из всех возможных символы, но выполняют, в первую очередь, логическую роль. Да и в целом, будем откровенны – из всех символов, альтернативные слои для цифрового ряда наименее удобные, и распределять символы на них наравне с остальными рядами было бы неправильно.
-* Расширенная диакритика – с её помощью раскладка может быть использована для французского, испанского, португальского, итальянского, немецкого (с эсцетом в том же цифровом ряду), турецкого, эсперанто и многих других языков.
-* Управляющие клавиши изменены по позициям и переназначены:
-  * `backspace` теперь используется для управления воспроизведением;
-  * `enter` выполняет функции `backspace` и `delete`;
-  * `caps lock` был заменён на `enter`; 
-  * базовая `tilde` теперь `esc`;
-  * функция `caps lock` удалена (так и запланировано);
-    * если сильно надо, вы можете определить функцию `caps lock` на `esc`, но в некоторых редких случаях вам может понадобиться "оригинальный" `esc` а не `tilde` как `esc`
+#### Цифровой ряд.
+Базовые позиции не изменились. Я не разделяю мнения, что обычный порядок по возрастанию плох, и их нужно перемешивать. Альтернативные слои содержат не самые востребованные из всех возможных символы, но выполняют, в первую очередь, логическую роль. Да и в целом, будем откровенны – из всех символов, альтернативные слои для цифрового ряда наименее удобные, и распределять символы на них наравне с остальными рядами было бы неправильно.
+#### Расширенная диакритика.
+С её помощью раскладка может быть использована для французского, испанского, португальского, итальянского, немецкого (с эсцетом в том же цифровом ряду), турецкого, эсперанто и многих других языков.
+#### Управляющие клавиши изменены по позициям и переназначены.
+  * `backspace` теперь используется для управления воспроизведением
+  * `enter` выполняет функции `backspace` и `delete`
+  * `caps lock` был заменён на `enter`
+  * базовая `tilde` теперь `esc`
+  * функция `caps lock` удалена (так и запланировано)
+    * если сильно понадобится, вы можете определить функцию `caps lock` на `esc`, но в некоторых редких случаях вам может понадобиться "оригинальный" `esc` а не `tilde` как `esc`
 
 И ещё раз – это выглядит очень странно, но это сделано исключительно для повышения удобства.
 
