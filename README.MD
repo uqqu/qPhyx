@@ -229,14 +229,16 @@ As you can see, all of the conditions above are met:
 > It may look very strange and very unfamiliar, but I assure – it's only because it's unfamiliar.
 
 Let's see what are changed: 
-* Num row. Base numbers are not changed. I don't think that ascending order for them is a bad thing. Alternate layers for nums contains not the best possible variants, but it is logical and, in general, num-layers is the less convenience, and they get the least attention
-* Extended diacritic allows you to write in French, Spanish, Portuguese, Italian, German (with eszett at the same row), Turkish, Esperanto and many more languages as well
-* Controlling keys are swapped and reassigned: 
-  * `backspace` now used for music control;
-  * `enter` performs the functions of `backspace` and `delete`;
-  * `caps lock` was be replaced by `enter`; 
-  * base `tilde` as `esc`;
-  * `caps lock` function thrown out (it was meant to be);
+#### Num row.
+Base numbers are not changed. I don't think that ascending order for them is a bad thing. Alternate layers for nums contains not the best possible variants, but it is logical and, in general, num-layers is the less convenience, and they get the least attention.
+#### Extended diacritic.
+It allows you to write in French, Spanish, Portuguese, Italian, German (with eszett at the same row), Turkish, Esperanto and many more languages as well.
+#### Controlling keys are swapped and reassigned: 
+  * `backspace` now used for music control
+  * `enter` performs the functions of `backspace` and `delete`
+  * `caps lock` was be replaced by `enter`
+  * base `tilde` as `esc`
+  * `caps lock` function thrown out (it was meant to be)
     * if you want, you can map `caps lock` function on `esc`, but for some cases you still may use `esc` instead of `tilde` as `esc`
 
 And again – it may look very strange, but these remapping were all done only to increase convenience.
@@ -245,7 +247,7 @@ And again – it may look very strange, but these remapping were all done only t
 
 Omitting a bunch of different attempts: letter layer has been implemented by the native keyboard layout generation tool – [Microsoft Keyboard Layout Creator](https://www.microsoft.com/en-us/download/details.aspx?id=102134), symbol layer was realized with [AHK](https://www.autohotkey.com/).
 
-Generated `MKLC` layouts for your `Windows` – [external/qphyx_en/](https://github.com/da3/layout/tree/master/external/MKLC_qphyx_en), [external/qphyx_ru/](https://github.com/da3/layout/tree/master/external/MKLC_qphyx_ru)
+Generated `MKLC` layouts for your `Windows` – [external/qphyx_la/](https://github.com/da3/layout/tree/master/external/MKLC_qphyx_la), [external/qphyx_ru/](https://github.com/da3/layout/tree/master/external/MKLC_qphyx_ru)
 
 AHK script is more variable. Base script functionality is, of course, symbolic layers addition. Base "long press" delay is 0.15s. You can change it in `config.ini` (will generate with first start). Early on in you may want to increase this value up to 0.2. In the process of getting used to it, you may decrease it up to 0.1 (recommend is 0.12)
 
@@ -278,7 +280,7 @@ Example – bind `nvim` on `Win–q`:
   <dd>No, current version can be used only on Windows. I weren't interested in ways to realize it on Mac.</dd>
   <dt>Can I use it on Android?</dt>
   <dd>Yes, partially. It cannot be done for <code>G.Board</code>, but there is an app with totally customization – <a href="https://play.google.com/store/apps/details?id=kl.ime.oh&hl=en">Multiling O Keyboard</a>. You can find layout pattern for this app with screenshot examples at the <a href="https://github.com/da3/layout/tree/master/external/android">external/android/</a>.</dd>
-  <dt>English layout has empty keys?</dt>
+  <dt>Latin layout has empty keys?</dt>
   <dd>Yes. With the separating letter and symbol layers, keys with the potential-letter functions may be used only for letters. There is no problem with that, it's even more comfortably because now letters allocated to more convenient positions.</dd>
   <dt>...and yet they are not completely empty?</dt>
   <dd>Yes, technically, <code>x</code>, <code>c</code> and <code>b</code> keys (in qwerty-view) send <code>U+001E</code>, which does not appear in the printout, but can be used by third-party programs. I have not yet encountered a case where this would be bad, but potentially, if there are any, it can be removed.</dd>
@@ -286,6 +288,8 @@ Example – bind `nvim` on `Win–q`:
   <dd>You can, but it won't be as comfortable as it planned.</dd>
   <dt>Can I use letter layout without symbols?</dt>
   <dd>Unfortunately no. You will be missing base symbols, which were placed on "potential-letter" keys.</dd>
+  <dt>So, what languages can I write in exactly?</dt>
+  <dd>ANSWER</dd>
   <dt>Has this project something to do with touch typing?</dt>
   <dd>Of course! The main goal in maximizing convenience with touch typing and minimizing unnecessary moves (especially, moves that make you have to take your hands off your "home" positions)</dd>
   <dt>Should I first train with touch typing before use this layout?</dt>
@@ -558,7 +562,7 @@ Example – bind `nvim` on `Win–q`:
 
 Опуская множество попыток при помощи множества различных средств из разных категорий: буквенный слой был реализован средством генерации нативных клавиатурных раскладок – [Microsoft Keyboard Layout Creator](https://www.microsoft.com/en-us/download/details.aspx?id=102134), символьный слой реализован через [AHK](https://www.autohotkey.com/).
 
-Сгенерированные `MKLC` раскладки для `Windows` – [external/qphyx_en/](https://github.com/da3/layout/tree/master/external/MKLC_qphyx_en), [external/qphyx_ru/](https://github.com/da3/layout/tree/master/external/MKLC_qphyx_ru)
+Сгенерированные `MKLC` раскладки для `Windows` – [external/qphyx_la/](https://github.com/da3/layout/tree/master/external/MKLC_qphyx_la), [external/qphyx_ru/](https://github.com/da3/layout/tree/master/external/MKLC_qphyx_ru)
 
 
 AHK сценарий более содержателен. Но основная его функциональность заключается в добавлении символьных слоёв с "длинными" нажатиями. Базово длительность последних – 0.15с. Вы можете изменить её в файле `config.ini` (будет сгенерирован после первого запуска). На первое время вы захотите увеличить время реакции вплоть до 0.2. Привыкая к этой функциональности время срабатывания будет уменьшаться вами вплоть до 0.1 (кмк, 0.12 оптимально).
@@ -591,7 +595,7 @@ AHK сценарий более содержателен. Но основная 
   <dd>Нет, текущая версия используется только на Windows. Честно говоря, я пока даже не интересовался вопросом реализации этой раскладки на Mac.</dd>
   <dt>Может хоть на Android?</dt>
   <dd>Да! Правда, не для монополиста <code>G.Board</code>, но есть приложение с полнейшей кастомизацией – <a href="https://play.google.com/store/apps/details?id=kl.ime.oh&hl=en">Multiling O Keyboard</a>. Шаблоны раскладок для этого приложения и скриншоты можно найти тут: <a href="https://github.com/da3/layout/tree/master/external/android">external/android/</a>.</dd>
-  <dt>В английской раскладке присутствуют пустые клавиши?</dt>
+  <dt>В латинской раскладке присутствуют пустые клавиши?</dt>
   <dd>Да. В виду разделения буквенного и символьных слоёв, клавиши с потенциально-буквенным назначением могут быть использованы только для букв. Но в том, что они пустые нет никакой проблемы – количество символов от этого уж явно не пострадало, а буквы расположены на самых удобных позициях, не теснясь с конкурентами на место.</dd>
   <dt>...но они не совсем пустые?</dt>
   <dd>Да, технически, <code>ч</code>, <code>с</code> и <code>и</code> клавиши (в йцукен-виде) отправляют <code>U+001E</code>, который не отображается на печати, но может быть использован сторонними программами, для дополнительных назначений, к примеру. Я не сталкивался со случаями, где это решение давало бы сбои, но если такие найдутся, это всегда можно убрать. Пока пользы больше.</dd>
@@ -599,6 +603,8 @@ AHK сценарий более содержателен. Но основная 
   <dd>Вы-то, конечно, можете, но это будет не так удобно, как это планировалось (планировалось не использовать <code>йцукен</code>).</dd>
   <dt>Могу я использовать буквенную раскладку без символьной?</dt>
   <dd>А вот тут, к сожалению, нет. Вам объективно не будет хватать базовых символов.</dd>
+  <dt>И всё-таки, на каких конкретно языках можно писать?</dt>
+  <dd>ОТВЕТ</dd>
   <dt>Связан ли как-то этот проект и метод слепого набора?</dt>
   <dd>Конечно! Основная цель как раз в максимизации удобства слепого набора и минимизации лишних движений (в особенности – движений отрывающих руки с их домашних позиций).</dd>
   <dt>Нужно ли мне сначала потренироваться в слепом наборе, прежде чем знакомиться с этим проектом?</dt>
