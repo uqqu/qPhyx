@@ -1,4 +1,4 @@
-﻿;===============================================================================================
+;===============================================================================================
 ;============================================Presets============================================
 ;===============================================================================================
 
@@ -6,8 +6,6 @@
 #UseHook On
 
 SetCapsLockState AlwaysOff
-SetNumLockState AlwaysOff
-SetScrollLockState AlwaysOff
 
 ;set icon
 icon := "qphyx.ico"
@@ -26,22 +24,24 @@ Else
     EXT := ".ahk"
 }
 
-;main config.ini variables
-Global MENU_PATH
-Global VIATC_FILE
+;global config.ini variables
 Global QPHYX_DISABLE
 Global QPHYX_LONG_TIME
 
 Global INI := "config.ini"
 IfExist, %INI%
 {
-    IniRead, MENU_PATH,             %INI%, Configuration, MenuPath
-    IniRead, VIATC_FILE,            %INI%, Configuration, ViatcFile
+    IniRead, latin_mode,            %INI%, Configuration, LatinMode
+    IniRead, cyrillic_mode,         %INI%, Configuration, CyrillicMode
+    IniRead, menu_path,             %INI%, Configuration, MenuPath
+    IniRead, viatc_file,            %INI%, Configuration, ViatcFile
     IniRead, QPHYX_DISABLE,         %INI%, Configuration, QphyxDisable
     IniRead, QPHYX_LONG_TIME,       %INI%, Configuration, QphyxLongTime
 }
 Else
 {
+    IniWrite, 0,                    %INI%, Configuration, LatinMode
+    IniWrite, 0,                    %INI%, Configuration, CyrillicMode
     IniWrite, c:\menu\,             %INI%, Configuration, MenuPath
     IniWrite, c:\ViATc\ViATc.ahk,   %INI%, Configuration, ViatcFile
     IniWrite, 0,                    %INI%, Configuration, QphyxDisable
@@ -55,28 +55,28 @@ SpotifyDetectProcessId()
 ;let ViATc override hotkeys (only for TC)
 Try
 {
-    Run, %VIATC_FILE%
+    Run, %viatc_file%
 }
 ;let menu override ViATc
 Try
 {
-    Run, %MENU_PATH%menu%EXT%, %MENU_PATH%
+    Run, %menu_path%menu%EXT%, %menu_path%
 }
 
 
-Global NUM_DICT := {scan_code: ["releasing", "sended", "shift_long", "alt", "alt_long"]
-    , SC002: [0, 0, "⁺", "₁", "₊"]
-    , SC003: [0, 0, "⁻", "₂", "₋"]
-    , SC004: [0, 0, "ⁿ", "₃", "ₓ"]
-    , SC005: [0, 0, "ⁱ", "₄", "ₐ"]
-    , SC006: [0, 0, "⁼", "₅", "₌"]
-    , SC007: [0, 0, "⁽", "₆", "₍"]
-    , SC008: [0, 0, "⁾", "₇", "₎"]
-    , SC009: [0, 0, "̂" , "₈", "̃" ] ; shift long – diacritic circumflex; alt_long – diacr. tilde
-    , SC00A: [0, 0, "̆" , "₉", "̈" ] ; shift long – diacritic breve; alt_long – diacritic umlaut
-    , SC00B: [0, 0, "∕", "₀", "̧" ] ; alt long – diacritic cedilla
-    , SC00C: [0, 0, "ß", "↓", "←"]
-    , SC00D: [0, 0, "ẞ", "↑", "→"]}
+Global NUM_DICT := {scan_code: ["releasing", "sended", "alt", "alt_long"]
+    , SC002: [0, 0, "̃", "̧"]   ; alt – õ ; alt_long – o̧
+    , SC003: [0, 0, "̊", "̥"]   ; alt – o̊ ; alt_long – o̥
+    , SC004: [0, 0, "̈", "̤"]   ; alt – ö ; alt_long – o̤
+    , SC005: [0, 0, "̇", "̣"]   ; alt – ȯ ; alt_long – ọ
+    , SC006: [0, 0, "̆", "̮"]   ; alt – ŏ ; alt_long – o̮
+    , SC007: [0, 0, "̄", "̱"]   ; alt – ō ; alt_long – o̱
+    , SC008: [0, 0, "̂", "̭"]   ; alt – ô ; alt_long – o̭
+    , SC009: [0, 0, "̌", "̦"]   ; alt – ǒ ; alt_long – o̦
+    , SC00A: [0, 0, "͗", "̳"]   ; alt – o͗ ; alt_long – o̳
+    , SC00B: [0, 0, "̉", "̨"]   ; alt – ỏ ; alt_long – ǫ
+    , SC00C: [0, 0, "̋", "✓"]  ; alt – ő
+    , SC00D: [0, 0, "̛", "✕"]} ; alt – ơ
 
 Global DICT := {scan_code: ["releasing", "sended", "long", "alt"]
     , SC010: [0, 0, "~", "°"]
@@ -112,6 +112,22 @@ Global DICT := {scan_code: ["releasing", "sended", "long", "alt"]
     , SC033: [0, 0, "]", "" ] ; alt - redo
     , SC034: [0, 0, "}", "”"]
     , SC035: [0, 0, "?", "¿"]}
+    
+IniRead, section, modes.ini, Latin %LATIN_MODE%
+For ind, pair in StrSplit(section, "`n")
+{
+    scan_code := SubStr(pair, 1, 5)
+    values := StrSplit(SubStr(pair, 7), ",")
+    NUM_DICT[scan_code].Push(values[1], values[2])
+}
+
+IniRead, section, modes.ini, Cyrillic %CYRILLIC_MODE%
+For ind, pair in StrSplit(section, "`n")
+{
+    scan_code := SubStr(pair, 1, 5)
+    values := StrSplit(SubStr(pair, 7), ",")
+    NUM_DICT[scan_code].Push(values[1], values[2])
+}
 
 
 ;===============================================================================================
@@ -130,26 +146,49 @@ DownNum(this, alt:=0)
             NUM_DICT[this][2] := 1
             If alt
             {
-                SendInput % NUM_DICT[this][5]
+                SendInput % NUM_DICT[this][4]
             }
             Else
             {
-                SendInput % NUM_DICT[this][3]
+                SetFormat, Integer, H
+                lang := % DllCall("GetKeyboardLayout", Int
+                    , DllCall("GetWindowThreadProcessId", int, WinActive("A"), Int, 0))
+                SetFormat, Integer, D
+                If (lang == -0xF3EFBF7)
+                {
+                    SendInput % NUM_DICT[this][6]
+                }
+                Else If (lang == -0xF3FFBE7)
+                {
+                    SendInput % NUM_DICT[this][8]
+                }
             }
         }
     }
 }
+
 UpNum(this, shift:=0, alt:=0)
 {
     If (NUM_DICT[this][1] && !NUM_DICT[this][2])
     {
         If alt
         {
-            SendInput % NUM_DICT[this][4]
+            SendInput % NUM_DICT[this][3]
         }
         Else If shift
         {
-            SendInput +{%this%}
+            SetFormat, Integer, H
+            lang := % DllCall("GetKeyboardLayout", Int
+                , DllCall("GetWindowThreadProcessId", int, WinActive("A"), Int, 0))
+            SetFormat, Integer, D
+            If (lang == -0xF3EFBF7)
+            {
+                SendInput % NUM_DICT[this][5]
+            }
+            Else If (lang == -0xF3FFBE7)
+            {
+                SendInput % NUM_DICT[this][7]
+            }
         }
         Else
         {
@@ -174,6 +213,7 @@ Down(this)
         }
     }
 }
+
 Up(this)
 {
     If (DICT[this][1] && !DICT[this][2])
@@ -250,9 +290,15 @@ SpotifyDetectProcessId()
     }
 }
 
-
-Pass:
-    Return
+;swap between opened predefined apps
+IniRead, section, %INI%, AltApps
+For ind, pair in StrSplit(section, "`n")
+{
+    scan_code := SubStr(pair, 1, 5)
+    values := StrSplit(SubStr(pair, 7), ",")
+    option%ind% := Func("Alt").Bind(values[1], values[2])
+    Hotkey, LWin & %scan_code%, % option%ind%
+}
 
 
 ;===============================================================================================
@@ -300,7 +346,7 @@ Pass:
 ;SC15B:: lwin
 ;SC15D:: apps key
 ;SC169:: browser forward
-;SC16A:: browser back-
+;SC16A:: browser back
 ;SC16D:: media player
 
 ;;;other (not found)
@@ -331,16 +377,6 @@ Pass:
  SC029:: SendInput  {SC001}
 !SC029:: SendInput !{SC001}
 ^SC029:: SendInput ^{SC001}
-
-;swap between opened predefined apps
-IniRead, section, %INI%, AltApps
-For ind, pair in StrSplit(section, "`n")
-{
-    scan_code := SubStr(pair, 1, 3)
-    values := StrSplit(SubStr(pair, 5), ",")
-    option%ind% := Func("Alt").Bind(values[1], values[2])
-    Hotkey, LWin & SC%scan_code%, % option%ind%
-}
 
 ;;;Return
 ;numpad mult (*)
@@ -433,7 +469,7 @@ For ind, pair in StrSplit(section, "`n")
 !SC03A:: SendInput !{SC01C}
 ^SC03A:: SendInput ^{SC01C}
 
-;uim, гшьб (wlf] шлфч)
+;uim, гшьб (wdf] шдфч)
 !SC016:: SendInput  {SC16A}
 !SC017:: SendInput  {SC169}
 !SC032:: SendInput ^{SC02C}
