@@ -32,23 +32,25 @@ Global QPHYX_LONG_TIME
 Global INI := "config.ini"
 IfExist, %INI%
 {
-    IniRead, latin_mode,            %INI%, Configuration, LatinMode
-    IniRead, cyrillic_mode,         %INI%, Configuration, CyrillicMode
-    IniRead, menu_path,             %INI%, Configuration, MenuPath
-    IniRead, viatc_file,            %INI%, Configuration, ViatcFile
-    IniRead, DOTLESS_I_SWAP,        %INI%, Configuration, DotlessISwap
-    IniRead, QPHYX_DISABLE,         %INI%, Configuration, QphyxDisable
-    IniRead, QPHYX_LONG_TIME,       %INI%, Configuration, QphyxLongTime
+    IniRead, latin_mode,                %INI%, Configuration, LatinMode
+    IniRead, cyrillic_mode,             %INI%, Configuration, CyrillicMode
+    IniRead, menu_path,                 %INI%, Configuration, MenuPath
+    IniRead, viatc_file,                %INI%, Configuration, ViatcFile
+    IniRead, romanian_cedilla_to_comma, %INI%, Configuration, RomanianCedillaToComma
+    IniRead, DOTLESS_I_SWAP,            %INI%, Configuration, DotlessISwap
+    IniRead, QPHYX_DISABLE,             %INI%, Configuration, QphyxDisable
+    IniRead, QPHYX_LONG_TIME,           %INI%, Configuration, QphyxLongTime
 }
 Else
 {
-    IniWrite, 0,                    %INI%, Configuration, LatinMode
-    IniWrite, 0,                    %INI%, Configuration, CyrillicMode
-    IniWrite, c:\menu\,             %INI%, Configuration, MenuPath
-    IniWrite, c:\ViATc\ViATc.ahk,   %INI%, Configuration, ViatcFile
-    IniWrite, 0                     %INI%, Configuration, DotlessISwap
-    IniWrite, 0,                    %INI%, Configuration, QphyxDisable
-    IniWrite, 0.15,                 %INI%, Configuration, QphyxLongTime
+    IniWrite, 0,                        %INI%, Configuration, LatinMode
+    IniWrite, 0,                        %INI%, Configuration, CyrillicMode
+    IniWrite, c:\menu\,                 %INI%, Configuration, MenuPath
+    IniWrite, c:\ViATc\ViATc.ahk,       %INI%, Configuration, ViatcFile
+    IniWrite, 1                         %INI%, Configuration, RomanianCedillaToComma
+    IniWrite, 0                         %INI%, Configuration, DotlessISwap
+    IniWrite, 0,                        %INI%, Configuration, QphyxDisable
+    IniWrite, 0.15,                     %INI%, Configuration, QphyxLongTime
     Run, qphyx%EXT%
 }
 
@@ -130,6 +132,15 @@ For ind, pair in StrSplit(section, "`n")
     scan_code := SubStr(pair, 1, 5)
     values := StrSplit(SubStr(pair, 7), ",")
     NUM_DICT[scan_code].Push(values[1], values[2])
+}
+
+;https://www.wikiwand.com/en/Romanian_alphabet#/Comma-below_(ș_and_ț)_versus_cedilla_(ş_and_ţ)
+;Default on. If you know what you're doing 
+;   and you want to type cedilla, you can disable this behavior in config.ini
+;This also influences to the cyrillic layout. (Only with selected Romanian mode, ofc)
+If (latin_mode == 3 && romanian_cedilla_to_comma)
+{
+    NUM_DICT["SC002"][4] := "̦"
 }
 
 ;Turkish, Kazakh latin, Azerbajani latin, ..., mode
