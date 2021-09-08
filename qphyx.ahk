@@ -25,6 +25,7 @@ Else
 }
 
 ;global config.ini variables
+Global DOTLESS_I_SWAP
 Global QPHYX_DISABLE
 Global QPHYX_LONG_TIME
 
@@ -35,6 +36,7 @@ IfExist, %INI%
     IniRead, cyrillic_mode,         %INI%, Configuration, CyrillicMode
     IniRead, menu_path,             %INI%, Configuration, MenuPath
     IniRead, viatc_file,            %INI%, Configuration, ViatcFile
+    IniRead, DOTLESS_I_SWAP,        %INI%, Configuration, DotlessISwap
     IniRead, QPHYX_DISABLE,         %INI%, Configuration, QphyxDisable
     IniRead, QPHYX_LONG_TIME,       %INI%, Configuration, QphyxLongTime
 }
@@ -44,6 +46,7 @@ Else
     IniWrite, 0,                    %INI%, Configuration, CyrillicMode
     IniWrite, c:\menu\,             %INI%, Configuration, MenuPath
     IniWrite, c:\ViATc\ViATc.ahk,   %INI%, Configuration, ViatcFile
+    IniWrite, 0                     %INI%, Configuration, DotlessISwap
     IniWrite, 0,                    %INI%, Configuration, QphyxDisable
     IniWrite, 0.15,                 %INI%, Configuration, QphyxLongTime
     Run, qphyx%EXT%
@@ -127,6 +130,16 @@ For ind, pair in StrSplit(section, "`n")
     scan_code := SubStr(pair, 1, 5)
     values := StrSplit(SubStr(pair, 7), ",")
     NUM_DICT[scan_code].Push(values[1], values[2])
+}
+
+;Turkish, Kazakh latin, Azerbajani latin, ..., mode
+;Default i = dotted i (iİ); num-row i <sh-long-8> = dotless i (ıI)
+;Stay calm with third-party bindings. <Sh-i> will be detect as I. Diacr. dot will be added later
+;With this mode you can type I as <sh-i>+<bs> or as <sh-long-8>, how you want it
+If DOTLESS_I_SWAP
+{
+    NUM_DICT["SC009"][6] := "I"
+   ;+SC021::I+̇
 }
 
 
@@ -730,3 +743,18 @@ SC039::
     }
     SendInput +{Space}
     Return
+
+
+If DOTLESS_I_SWAP
+{
+    +~SC021::
+        SetFormat, Integer, H
+        lang := % DllCall("GetKeyboardLayout", Int
+            , DllCall("GetWindowThreadProcessId", int, WinActive("A"), Int, 0))
+        SetFormat, Integer, D
+        If (lang == -0xF3EFBF7)
+        {
+            SendInput ̇
+        }
+        Return
+}
