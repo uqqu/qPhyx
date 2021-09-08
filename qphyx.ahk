@@ -14,17 +14,11 @@ IfExist, %icon%
     Menu, Tray, Icon, %icon%, , 1
 }
 
-Global EXT
-If A_IsCompiled
-{
-    EXT := ".exe"
-}
-Else
-{
-    EXT := ".ahk"
-}
+Global EXT := A_IsCompiled ? ".exe" : ".ahk"
 
 ;global config.ini variables
+Global USER_KEY_1
+Global USER_KEY_2
 Global DOTLESS_I_SWAP
 Global QPHYX_DISABLE
 Global QPHYX_LONG_TIME
@@ -32,6 +26,8 @@ Global QPHYX_LONG_TIME
 Global INI := "config.ini"
 IfExist, %INI%
 {
+    IniRead, USER_KEY_1,                %INI%, Configuration, UserKey1
+    IniRead, USER_KEY_2,                %INI%, Configuration, UserKey2
     IniRead, latin_mode,                %INI%, Configuration, LatinMode
     IniRead, cyrillic_mode,             %INI%, Configuration, CyrillicMode
     IniRead, menu_path,                 %INI%, Configuration, MenuPath
@@ -43,14 +39,17 @@ IfExist, %INI%
 }
 Else
 {
+    IniWrite % "",                      %INI%, Configuration, UserKey1
+    IniWrite % "",                      %INI%, Configuration, UserKey2
     IniWrite, 0,                        %INI%, Configuration, LatinMode
     IniWrite, 0,                        %INI%, Configuration, CyrillicMode
     IniWrite, c:\menu\,                 %INI%, Configuration, MenuPath
     IniWrite, c:\ViATc\ViATc.ahk,       %INI%, Configuration, ViatcFile
-    IniWrite, 1                         %INI%, Configuration, RomanianCedillaToComma
-    IniWrite, 0                         %INI%, Configuration, DotlessISwap
+    IniWrite, 1,                        %INI%, Configuration, RomanianCedillaToComma
+    IniWrite, 0,                        %INI%, Configuration, DotlessISwap
     IniWrite, 0,                        %INI%, Configuration, QphyxDisable
     IniWrite, 0.15,                     %INI%, Configuration, QphyxLongTime
+    FileAppend, `n[AltApps]`n, %INI%
     Run, qphyx%EXT%
 }
 
@@ -143,10 +142,11 @@ If (latin_mode == 3 && romanian_cedilla_to_comma)
     NUM_DICT["SC002"][4] := "̦"
 }
 
-;Turkish, Kazakh latin, Azerbajani latin, ..., mode
+;Turkish, Kazakh latin, Azerbajani latin, ..., mode feature
 ;Default i = dotted i (iİ); num-row i <sh-long-8> = dotless i (ıI)
 ;Stay calm with third-party bindings. <Sh-i> will be detect as I. Diacr. dot will be added later
 ;With this mode you can type I as <sh-i>+<bs> or as <sh-long-8>, how you want it
+;This option is not depends on selected latin mode, because you may want to use it with any mode
 If DOTLESS_I_SWAP
 {
     NUM_DICT["SC009"][6] := "I"
@@ -756,9 +756,9 @@ SC039::
     Return
 
 
-If DOTLESS_I_SWAP
-{
-    +~SC021::
++~SC021::
+    If DOTLESS_I_SWAP
+    {
         SetFormat, Integer, H
         lang := % DllCall("GetKeyboardLayout", Int
             , DllCall("GetWindowThreadProcessId", int, WinActive("A"), Int, 0))
@@ -767,5 +767,8 @@ If DOTLESS_I_SWAP
         {
             SendInput ̇
         }
-        Return
-}
+    }
+    Return
+
+SC00C:: SendInput %USER_KEY_1%
+SC00D:: SendInput %USER_KEY_2%
