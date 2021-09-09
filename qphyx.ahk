@@ -116,7 +116,7 @@ Global DICT := {scan_code: ["releasing", "sended", "long", "alt"]
     , SC033: [0, 0, "]", "" ] ; alt - redo
     , SC034: [0, 0, "}", "”"]
     , SC035: [0, 0, "?", "¿"]}
-    
+
 IniRead, section, modes.ini, Latin %LATIN_MODE%
 For ind, pair in StrSplit(section, "`n")
 {
@@ -134,7 +134,7 @@ For ind, pair in StrSplit(section, "`n")
 }
 
 ;https://www.wikiwand.com/en/Romanian_alphabet#/Comma-below_(ș_and_ț)_versus_cedilla_(ş_and_ţ)
-;Default on. If you know what you're doing 
+;Default on. If you know what you're doing
 ;   and you want to type cedilla, you can disable this behavior in config.ini
 ;This also influences to the cyrillic layout. (Only with selected Romanian mode, ofc)
 If (latin_mode == 3 && romanian_cedilla_to_comma)
@@ -249,17 +249,9 @@ Up(this)
 }
 
 ;swap between opened predefined apps
-Alt(process_name, path)
+Alt(proc_name, path)
 {
-    ;hardcoded
-    If (process_name == "Spotify.exe" && SPOTIFY)
-    {
-        proc := "ahk_id " . SPOTIFY
-    }
-    Else
-    {
-        proc := "ahk_exe " . process_name
-    }
+    proc := (proc_name == "Spotify.exe" && SPOTIFY) ? "ahk_id " . SPOTIFY : "ahk_exe " . proc_name
 
     If WinExist(proc)
     {
@@ -313,6 +305,83 @@ SpotifyDetectProcessId()
         SetTimer, SpotifyDetectProcessId, -66666
     }
 }
+
+;!be careful with use it on non-textfields
+IncrDecrNumber(n)
+{
+    saved_value := Clipboard
+    SendInput ^{SC02E}
+    Sleep, 1
+    value := Clipboard
+    If (value*0 != 0 || value == saved_value)
+    {
+        l_pos := 0
+        r_pos := 0
+        neg := 0
+        Loop
+        {
+            l_pos++
+            SendInput +{Left}
+            SendInput ^{SC02E}
+            Sleep, 1
+            value := Clipboard
+            If (SubStr(value, 1, 1) == "-")
+            {
+                neg := 1
+                Break
+            }
+            Else If (SubStr(value, 1, 1)*0 != 0)
+            {
+                l_pos--
+                SendInput +{Right}
+                Break
+            }
+        }
+        SendInput +{Right %l_pos%}
+        Loop
+        {
+            r_pos++
+            SendInput +{Right}
+            SendInput ^{SC02E}
+            Sleep, 1
+            value := Clipboard
+            If ((r_pos == 1) && (l_pos == 0) && !neg && (SubStr(value, 1, 1) == "-"))
+            {
+                neg := 1
+            }
+            Else If (SubStr(value, StrLen(value), 1)*0 != 0)
+            {
+                r_pos--
+                SendInput +{Left}
+                Break
+            }
+        }
+        If (l_pos != 0 || r_pos != 0)
+        {
+            If (r_pos != 0)
+            {
+                SendInput {Right}
+            }
+            x := l_pos + r_pos
+            SendInput +{Left %x%}
+            SendInput ^{SC02E}
+            Sleep, 1
+            value := Clipboard
+            SendInput % value + 1 * n
+            SendInput {Left %r_pos%}
+        }
+    }
+    Else
+    {
+        SendInput % value + 1 * n
+        new_value_len := StrLen(value + 1 * n)
+        SendInput {Left %new_value_len%}
+        SendInput +{Right %new_value_len%}
+    }
+    Clipboard := saved_value
+    Return
+}
+
 
 ;swap between opened predefined apps
 IniRead, section, %INI%, AltApps
@@ -384,14 +453,7 @@ For ind, pair in StrSplit(section, "`n")
 
 ;tilde
 +SC029::
-    If QPHYX_DISABLE
-    {
-        IniWrite, 0, %INI%, Configuration, QphyxDisable
-    }
-    Else
-    {
-        IniWrite, 1, %INI%, Configuration, QphyxDisable
-    }
+    IniWrite % !QPHYX_DISABLE, %INI%, Configuration, QphyxDisable
     Run, qphyx%EXT%
     Return
 
@@ -770,5 +832,24 @@ SC039::
     }
     Return
 
-SC00C:: SendInput %USER_KEY_1%
-SC00D:: SendInput %USER_KEY_2%
+SC00C::
+    If USER_KEY_1
+    {
+        SendInput %USER_KEY_1%
+    }
+    Else
+    {
+        IncrDecrNumber(-1)
+    }
+    Return
+
+SC00D::
+    If USER_KEY_2
+    {
+        SendInput %USER_KEY_2%
+    }
+    Else
+    {
+        IncrDecrNumber(1)
+    }
+    Return
