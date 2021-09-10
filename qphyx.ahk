@@ -22,6 +22,7 @@ Global USER_KEY_2
 Global DOTLESS_I_SWAP
 Global QPHYX_DISABLE
 Global QPHYX_LONG_TIME
+Global ESC_AS_CAPS
 
 Global INI := "config.ini"
 IfExist, %INI%
@@ -36,6 +37,7 @@ IfExist, %INI%
     IniRead, DOTLESS_I_SWAP,            %INI%, Configuration, DotlessISwap
     IniRead, QPHYX_DISABLE,             %INI%, Configuration, QphyxDisable
     IniRead, QPHYX_LONG_TIME,           %INI%, Configuration, QphyxLongTime
+    IniRead, ESC_AS_CAPS,               %INI%, Configuration, EscAsCaps
 }
 Else
 {
@@ -49,8 +51,14 @@ Else
     IniWrite, 0,                        %INI%, Configuration, DotlessISwap
     IniWrite, 0,                        %INI%, Configuration, QphyxDisable
     IniWrite, 0.15,                     %INI%, Configuration, QphyxLongTime
+    IniWrite, 0,                        %INI%, Configuration, EscAsCaps
     FileAppend, `n[AltApps]`n, %INI%
     Run, qphyx%EXT%
+}
+
+If ESC_AS_CAPS
+{
+    SetCapsLockState Off
 }
 
 Global SPOTIFY
@@ -174,17 +182,18 @@ DownNum(this, alt:=0)
             }
             Else
             {
+                caps_lock := GetKeyState("CapsLock", "T")
                 SetFormat, Integer, H
                 lang := % DllCall("GetKeyboardLayout", Int
                     , DllCall("GetWindowThreadProcessId", int, WinActive("A"), Int, 0))
                 SetFormat, Integer, D
                 If (lang == -0xF3EFBF7)
                 {
-                    SendInput % NUM_DICT[this][6]
+                    SendInput % NUM_DICT[this][6-caps_lock]
                 }
                 Else If (lang == -0xF3FFBE7)
                 {
-                    SendInput % NUM_DICT[this][8]
+                    SendInput % NUM_DICT[this][8-caps_lock]
                 }
             }
         }
@@ -201,17 +210,18 @@ UpNum(this, shift:=0, alt:=0)
         }
         Else If shift
         {
+            caps_lock := GetKeyState("CapsLock", "T")
             SetFormat, Integer, H
             lang := % DllCall("GetKeyboardLayout", Int
                 , DllCall("GetWindowThreadProcessId", int, WinActive("A"), Int, 0))
             SetFormat, Integer, D
             If (lang == -0xF3EFBF7)
             {
-                SendInput % NUM_DICT[this][5]
+                SendInput % NUM_DICT[this][5+caps_lock]
             }
             Else If (lang == -0xF3FFBE7)
             {
-                SendInput % NUM_DICT[this][7]
+                SendInput % NUM_DICT[this][7+caps_lock]
             }
         }
         Else
@@ -242,7 +252,13 @@ Up(this)
 {
     If (DICT[this][1] && !DICT[this][2])
     {
-        SendInput {%this%}
+        If GetKeyState("CapsLock", "T") {
+            SendInput +{%this%}
+        }
+        Else
+        {
+            SendInput {%this%}
+        }
     }
     DICT[this][1] := 0
     DICT[this][2] := 0
@@ -307,8 +323,10 @@ SpotifyDetectProcessId()
 }
 
 ;!be careful with use it on non-textfields
+;don't look at me (；一_一)
 IncrDecrNumber(n)
 {
+    BlockInput, On
     saved_value := Clipboard
     SendInput ^{SC02E}
     Sleep, 1
@@ -317,6 +335,7 @@ IncrDecrNumber(n)
     {
         l_pos := 0
         r_pos := 0
+        float := 0
         neg := 0
         Loop
         {
@@ -325,7 +344,11 @@ IncrDecrNumber(n)
             SendInput ^{SC02E}
             Sleep, 1
             value := Clipboard
-            If (SubStr(value, 1, 1) == "-")
+            If (SubStr(value, 1, 1) == "." && !float)
+            {
+                float := 1
+            }
+            Else If (SubStr(value, 1, 1) == "-")
             {
                 neg := 1
                 Break
@@ -345,7 +368,11 @@ IncrDecrNumber(n)
             SendInput ^{SC02E}
             Sleep, 1
             value := Clipboard
-            If ((r_pos == 1) && (l_pos == 0) && !neg && (SubStr(value, 1, 1) == "-"))
+            If (SubStr(value, StrLen(value), 1) == "." && !float)
+            {
+                float := 1
+            }
+            Else If ((r_pos == 1) && (l_pos == 0) && !neg && (SubStr(value, 1, 1) == "-"))
             {
                 neg := 1
             }
@@ -367,18 +394,33 @@ IncrDecrNumber(n)
             SendInput ^{SC02E}
             Sleep, 1
             value := Clipboard
-            SendInput % value + 1 * n
+            If InStr(value, ".") {
+                value := Round(value + 1 * n, StrLen(value) - InStr(value, "."))
+            }
+            Else
+            {
+                value := value + 1 * n
+            }
+            SendInput % value
             SendInput {Left %r_pos%}
         }
     }
     Else
     {
-        SendInput % value + 1 * n
-        new_value_len := StrLen(value + 1 * n)
+        If InStr(value, ".") {
+            value := Round(value + 1 * n, StrLen(value) - InStr(value, "."))
+        }
+        Else
+        {
+            value := value + 1 * n
+        }
+        SendInput % value
+        new_value_len := StrLen(value)
         SendInput {Left %new_value_len%}
         SendInput +{Right %new_value_len%}
     }
     Clipboard := saved_value
+    BlockInput, Off
     Return
 }
 
@@ -452,6 +494,10 @@ For ind, pair in StrSplit(section, "`n")
 
 
 ;tilde
+^+SC029::
+    Run, qphyx%EXT%
+    Return
+
 +SC029::
     IniWrite % !QPHYX_DISABLE, %INI%, Configuration, QphyxDisable
     Run, qphyx%EXT%
@@ -853,3 +899,13 @@ SC00D::
         IncrDecrNumber(1)
     }
     Return
+
+SC001::
+    If ESC_AS_CAPS
+    {
+        SetCapsLockState, % (t:=!t) ?  "On" :  "Off"
+    }
+    Else
+    {
+        SendInput {%A_ThisHotkey%}
+    }
