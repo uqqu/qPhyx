@@ -14,7 +14,8 @@ IfExist, %icon%
     Menu, Tray, Icon, %icon%, , 1
 }
 
-Global EXT := A_IsCompiled ? ".exe" : ".ahk"
+Global EXT := A_IsCompiled ? 1 : 0
+Process, Close, % "qphyx" . [".exe", ".ahk"][EXT + 1]
 
 ;global config.ini variables
 Global USER_KEY_1
@@ -53,7 +54,7 @@ Else
     IniWrite, 0.15,                     %INI%, Configuration, QphyxLongTime
     IniWrite, 0,                        %INI%, Configuration, EscAsCaps
     FileAppend, `n[AltApps]`n, %INI%
-    Run, qphyx%EXT%
+    QphyxRestart()
 }
 
 If ESC_AS_CAPS
@@ -72,7 +73,14 @@ Try
 ;let menu override ViATc
 Try
 {
-    Run, %menu_path%menu%EXT%, %menu_path%
+    IfExist % menu_path . "menu" . [".ahk", ".exe"][EXT + 1]
+    {
+        Run % menu_path . "menu" . [".ahk", ".exe"][EXT + 1], %menu_path%
+    }
+    Else
+    {
+        Run % menu_path . "menu" . [".ahk", ".exe"][!EXT + 1], %menu_path%
+    }
 }
 
 
@@ -163,7 +171,7 @@ If DOTLESS_I_SWAP
 
 
 ;===============================================================================================
-;===========================================Layout functions====================================
+;=========================================Main layout functions=================================
 ;===============================================================================================
 
 ;numerical row interaction
@@ -264,6 +272,11 @@ Up(this)
     DICT[this][2] := 0
 }
 
+
+;===============================================================================================
+;=====================================Additional layout functions===============================
+;===============================================================================================
+
 ;swap between opened predefined apps
 Alt(proc_name, path)
 {
@@ -283,7 +296,7 @@ Alt(proc_name, path)
     }
     Else
     {
-        Run %path%
+        Run, %path%
     }
 }
 
@@ -298,27 +311,6 @@ LastMinimizedWindow()
         {
             Return windows%A_Index%
         }
-    }
-}
-
-;detect current spotify process
-SpotifyDetectProcessId()
-{
-    WinGet, id, list, , , Program Manager
-    Loop, %id%
-    {
-        this_id := id%A_Index%
-        WinGet, proc, ProcessName, ahk_id %this_id%
-        WinGetTitle, title, ahk_id %this_id%
-        If (title && proc == "Spotify.exe")
-        {
-            SPOTIFY := this_id
-            Break
-        }
-    }
-    If !SPOTIFY
-    {
-        SetTimer, SpotifyDetectProcessId, -66666
     }
 }
 
@@ -425,6 +417,37 @@ IncrDecrNumber(n)
 }
 
 
+;===============================================================================================
+;================================================Auxiliary======================================
+;===============================================================================================
+
+QphyxRestart()
+{
+    Run % "qphyx" . [".ahk", ".exe"][EXT + 1]
+}
+
+;detect current spotify process
+SpotifyDetectProcessId()
+{
+    WinGet, id, list, , , Program Manager
+    Loop, %id%
+    {
+        this_id := id%A_Index%
+        WinGet, proc, ProcessName, ahk_id %this_id%
+        WinGetTitle, title, ahk_id %this_id%
+        If (title && proc == "Spotify.exe")
+        {
+            SPOTIFY := this_id
+            Break
+        }
+    }
+    If !SPOTIFY
+    {
+        SetTimer, SpotifyDetectProcessId, -66666
+    }
+}
+
+
 ;swap between opened predefined apps
 IniRead, section, %INI%, AltApps
 For ind, pair in StrSplit(section, "`n")
@@ -437,7 +460,7 @@ For ind, pair in StrSplit(section, "`n")
 
 
 ;===============================================================================================
-;===========================================Controlling assignments=============================
+;==============================================Unused scancodes=================================
 ;===============================================================================================
 
 ;;;same
@@ -492,15 +515,21 @@ For ind, pair in StrSplit(section, "`n")
 ;SC056:: mostly on non-US keyboards.
     ;It is often an unlabelled key to the left or to the right of the left Alt key
 
+;SC02B:: (\|), on a 102-key keyboards is a default key for menu.*
+
+
+;===============================================================================================
+;===========================================Controlling assignments=============================
+;===============================================================================================
 
 ;tilde
 ^+SC029::
-    Run, qphyx%EXT%
+    QphyxRestart()
     Return
 
 +SC029::
     IniWrite % !QPHYX_DISABLE, %INI%, Configuration, QphyxDisable
-    Run, qphyx%EXT%
+    QphyxRestart()
     Return
 
 
@@ -509,6 +538,7 @@ For ind, pair in StrSplit(section, "`n")
  SC029:: SendInput  {SC001}
 !SC029:: SendInput !{SC001}
 ^SC029:: SendInput ^{SC001}
+
 
 ;;;Return
 ;numpad mult (*)
@@ -543,6 +573,7 @@ For ind, pair in StrSplit(section, "`n")
 ;delete
     *SC153::
         Return
+
 
 ;backspace
  SC00E:: SendInput {SC122}
@@ -592,8 +623,6 @@ For ind, pair in StrSplit(section, "`n")
     }
     KeyWait, SC01C
     Return
-
-;(\|), on a 102-key keyboards controled by menu.ahk
 
 ;caps lock
  SC03A:: SendInput  {SC01C}
@@ -663,6 +692,43 @@ For ind, pair in StrSplit(section, "`n")
     SendEvent ^{SC02F}
     Clipboard := saved_value2
     Return
+
+; old num-row "-" (two keys left from old BS)
+SC00C::
+    If USER_KEY_1
+    {
+        SendInput %USER_KEY_1%
+    }
+    Else
+    {
+        IncrDecrNumber(-1)
+    }
+    Return
+
+; old num-row "=" (one key left from old BS)
+SC00D::
+    If USER_KEY_2
+    {
+        SendInput %USER_KEY_2%
+    }
+    Else
+    {
+        IncrDecrNumber(1)
+    }
+    Return
+
+; esc
+SC001::
+    If ESC_AS_CAPS
+    {
+        SetCapsLockState, % (t:=!t) ?  "On" :  "Off"
+    }
+    Else
+    {
+        SendInput {%A_ThisHotkey%}
+    }
+    Return
+
 
 ;===============================================================================================
 ;============================="Send symbol" key assignments=====================================
@@ -863,7 +929,7 @@ SC039::
     SendInput +{Space}
     Return
 
-
+;home row "sh-i"
 +~SC021::
     If DOTLESS_I_SWAP
     {
@@ -877,35 +943,3 @@ SC039::
         }
     }
     Return
-
-SC00C::
-    If USER_KEY_1
-    {
-        SendInput %USER_KEY_1%
-    }
-    Else
-    {
-        IncrDecrNumber(-1)
-    }
-    Return
-
-SC00D::
-    If USER_KEY_2
-    {
-        SendInput %USER_KEY_2%
-    }
-    Else
-    {
-        IncrDecrNumber(1)
-    }
-    Return
-
-SC001::
-    If ESC_AS_CAPS
-    {
-        SetCapsLockState, % (t:=!t) ?  "On" :  "Off"
-    }
-    Else
-    {
-        SendInput {%A_ThisHotkey%}
-    }
