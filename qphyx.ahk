@@ -14,8 +14,7 @@ IfExist, %icon%
     Menu, Tray, Icon, %icon%, , 1
 }
 
-Global EXT := A_IsCompiled ? 1 : 0
-Process, Close, % "qphyx" . [".exe", ".ahk"][EXT + 1]
+Global EXT := A_IsCompiled ? ".exe" : ".ahk"
 
 ;global config.ini variables
 Global USER_KEY_1
@@ -54,7 +53,7 @@ Else
     IniWrite, 0.15,                     %INI%, Configuration, QphyxLongTime
     IniWrite, 0,                        %INI%, Configuration, EscAsCaps
     FileAppend, `n[AltApps]`n, %INI%
-    QphyxRestart()
+    Run, qphyx%EXT%
 }
 
 If ESC_AS_CAPS
@@ -73,14 +72,7 @@ Try
 ;let menu override ViATc
 Try
 {
-    IfExist % menu_path . "menu" . [".ahk", ".exe"][EXT + 1]
-    {
-        Run % menu_path . "menu" . [".ahk", ".exe"][EXT + 1], %menu_path%
-    }
-    Else
-    {
-        Run % menu_path . "menu" . [".ahk", ".exe"][!EXT + 1], %menu_path%
-    }
+    Run % menu_path . "menu" . EXT, %menu_path%
 }
 
 
@@ -421,10 +413,6 @@ IncrDecrNumber(n)
 ;================================================Auxiliary======================================
 ;===============================================================================================
 
-QphyxRestart()
-{
-    Run % "qphyx" . [".ahk", ".exe"][EXT + 1]
-}
 
 ;detect current spotify process
 SpotifyDetectProcessId()
@@ -524,12 +512,12 @@ For ind, pair in StrSplit(section, "`n")
 
 ;tilde
 ^+SC029::
-    QphyxRestart()
+    Run, qphyx%EXT%
     Return
 
 +SC029::
     IniWrite % !QPHYX_DISABLE, %INI%, Configuration, QphyxDisable
-    QphyxRestart()
+    Run, qphyx%EXT%
     Return
 
 

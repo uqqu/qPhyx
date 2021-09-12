@@ -350,7 +350,7 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
 6. *(optional)* If you use or are going to use a related project [menu](https://github.com/uqqu/menu):
     1. In `config.ini` beside `qphyx.*` set path to `menu` folder;
     2. In `config.ini` beside `menu.*`, after first launch, set path to `qphyx` folder;
-    3. Restart `qphyx.*`. If both paths set correctly `qphyx` will restart `menu` itself, and the latter, in his turn, after restarting will get an option `Qphyx settings` in `message menu`;
+    3. Restart `qphyx.*`. If both paths set correctly `qphyx` will restart `menu` itself, and the latter, in his turn, after restarting will get an option `Qphyx settings` in `message menu`. Note that `qphyx.*` will try to run `menu.*` with the same extension, and conversely, so use the same versions;
 7. Familiarize yourself with the use and functionality;
 8. *(optional)* Add `qphyx.*` to autostart (don't add `menu`, if you use it. `qphyx` launch it itself, if the path from 6.1 set correctly).
 
@@ -776,7 +776,7 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
 6. *(опционально)* Если используете или собираетесь использовать смежный проект [menu](https://github.com/uqqu/menu):
     1. В `config.ini` рядом с `qphyx.*` укажите путь к папке `menu`;
     2. В `config.ini` рядом с `menu.*`, после первого запуска, укажите путь к папке `qphyx`;
-    3. Перезапустите `qphyx.*`. Если пути указаны верно, `qphyx` сам перезапустит `menu`, а тот, в свою очередь, после перезапуска обзаведётся пунктом `Qphyx settings` в `message menu`;
+    3. Перезапустите `qphyx.*`. Если пути указаны верно, `qphyx` сам перезапустит `menu`, а тот, в свою очередь, после перезапуска обзаведётся пунктом `Qphyx settings` в `message menu`. Учтите, что `qphyx.*` будет пытаться вызвать версию `menu.*` с тем же расширением, что и у него самого, поэтому используйте версии с одинаковым расширением;
 7. Ознакомьтесь с использованием и функционалом;
 8. *(опционально)* Добавьте `qphyx.*` в автозагрузку (не добавляйте `menu`, если используете. `qphyx` сам вызывает его, если путь из пункта 6.1 указан верно).
 
