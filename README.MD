@@ -5,17 +5,17 @@
 
 **qPhyx** is a unified universal phonetic biscripted keyboard layout with the best possible scores of typing convenience and a set of additions to the usual method of typing.
 
-Project began as an alternate phonetic bilingual layout. In the aftermath many features went beyond the usual layout and now it became something more. It can be logically divided into three parts:
+The project began as an alternate phonetic bilingual layout. In the aftermath, many features went beyond the usual layout, and now it became something more. It can be logically divided into three parts:
 1. Default letter layout;
 2. Symbol layout with some features;
 3. Arisen in the process add-on with many features.
 
-The first two depend on each other and are in this repository. Third can be used as such and moved to [a separate repository](https://github.com/uqqu/menu), but planned and once was as a part of one-piece project.
+The first two depend on each other and are in this repository. Third can be used as such and moved to [a separate repository](https://github.com/uqqu/menu), but planned and once was a part of one-piece project.
 
 Benefits:
 1. A unified typing system, both for current supported scripts and for future ones;
 2. Full support for Latin and Cyrillic languages with all features without separate language layouts for each of them;
-3. Support for language mods that retain all of the benefits of a unified system, while at the same time removing all of the limitations of unification for individual languages;
+3. Support for language mods that retain all the benefits of a unified system, while at the same time removing all the limitations of unification for individual languages;
 4. Extended symbol support;
 5. The best objective scores for the convenience of typing;
 6. Additional internal and external ([menu](https://github.com/uqqu/menu)) functionality.
@@ -27,7 +27,7 @@ To fully understand what the project is, it is highly recommended that you read 
 
 ## Letter layer
 
-> For a better understanding of this part it is recommended to have a look at the [external/calculation.xlsx](https://github.com/uqqu/layout/blob/master/external/calculation.xlsx)
+> For a better understanding of this part it is recommended to look at the [external/calculation.xlsx](https://github.com/uqqu/layout/blob/master/external/calculation.xlsx)
 
 The arrangement of the letters was as objective as possible.
 
@@ -74,9 +74,9 @@ For Russian, the following bigram analyses were selected for paired letter frequ
 
 To objectively evaluate the ease of use of the layout, it is necessary to allocate the appropriate criteria. They are:
   * hand alteration (the probability that both hands will be used to type any random pair of letters)
-  * even handload
-  * even fingerload
-  * minimum chance for double sequentially usage of the same finger (bearing in mind base key repeating)
+  * even hand load
+  * even finger load
+  * minimum chance to double sequentially usage of the same finger (bearing in mind base key repeating)
   * maximum usage on the most convenience groups (see below)
 
 For the latter criteria letter-part of default non-ergonomic keyboard were divided into 6(7) groups by convenience:
@@ -92,7 +92,7 @@ For the latter criteria letter-part of default non-ergonomic keyboard were divid
 Past points have been systematized and automated in [external/calculation.xlsx](https://github.com/uqqu/layout/blob/master/external/calculation.xlsx) to further create the layout.
 > You can also try to change the current layout or create your own in this file. All scores change dynamically, depending on the current view.
 
-Many variations have been tried for both languages. Some were extremely successful, and are still on the sheet <code>[en/ru] archive</code>. However, the final form of layouts must skillfully balance between all criteria. And also in view of the original purpose of the phonetic layout, it is necessary to take into account the phonetic dependence of the layouts of the two languages. After much ordeal, such a double layout became the following parts:
+Many variations have been tried for both languages. Some were extremely successful, and are still on the sheet <code>[en/ru] archive</code>. However, the final form of layouts must skillfully balance between all criteria. And also, in view of the original purpose of the phonetic layout, it is necessary to take into account the phonetic dependence of the layouts of the two languages. After much ordeal, such a double layout became the following parts:
 
 ![Latin letter layout](https://github.com/uqqu/layout/blob/master/external/readme_images/letters_lat.png "Latin letter layout")
 
@@ -102,24 +102,24 @@ Many variations have been tried for both languages. Some were extremely successf
 
 I'll list it all:
   * hand alteration – 67.73% (en) and 73.32% (ru)
-  * handload – 49.69/50.31% and 50.64/49.36%
+  * hand load – 49.69/50.31% and 50.64/49.36%
   * maximum difference of finger load – 3.86% and 7.48%
-  * chance for double sequentially usage of the same finger – 3.38% and 4.37%
+  * chance to double sequentially usage of the same finger – 3.38% and 4.37%
   * "home" group usage – 64.01% and 57.72%
 <br><sub>and also a nice look and mnemonic rows</sub>
 
 ### Existing alternative layouts
 
-One more clarification – you can still compare these layouts directly with each other, but you can not with the "topic-starter" – they are conceptually different. All numbers below are just a general idea (and a little bit to show how bad the standard <code>qwerty</code> and <code>йцукен</code> are).
-> Only letters are counted in the calculations! The rates of symbol-oriented layouts on the base layer may be somewhat inaccurate. But only "somewhat," as one should not overestimate the frequency of non-alphabetic characters, especially for English.
+One more clarification – you can still compare these layouts directly with each other, but you cannot compare it with the "topic-starter" – they are conceptually different. All numbers below are just a general idea (and a little to show how bad the standard <code>qwerty</code> and <code>йцукен</code> are).
+> Only letters are counted in the calculations! The rates of symbol-oriented layouts on the base layer may be somewhat inaccurate. However only "somewhat," as one should not overestimate the frequency of non-alphabetic characters, especially for English.
 
 <details>
   <summary>qwerty (en)</summary>
   <ul>
     <li>hand alteration – 51.68%</li>
-    <li>handload – 58.47/41.53%</li>
+    <li>hand load – 58.47/41.53%</li>
     <li>maximum difference of finger load – 19.99%</li>
-    <li>chance for double sequentially usage of the same finger – 7.29%</li>
+    <li>chance to double sequentially usage of the same finger – 7.29%</li>
     <li>"home" group usage – 26.09%</li>
   </ul>
 </details>
@@ -127,9 +127,9 @@ One more clarification – you can still compare these layouts directly with eac
   <summary>workman (en)</summary>
   <ul>
     <li>hand alteration – 54.89%</li>
-    <li>handload – 51.70/48.30%</li>
+    <li>hand load – 51.70/48.30%</li>
     <li>maximum difference of finger load – 11.28%</li>
-    <li>chance for double sequentially usage of the same finger – 3.15%</li>
+    <li>chance to double sequentially usage of the same finger – 3.15%</li>
     <li>"home" group usage – 62.73%</li>
   </ul>
 </details>
@@ -137,9 +137,9 @@ One more clarification – you can still compare these layouts directly with eac
   <summary>colemak (en)</summary>
   <ul>
     <li>hand alteration – 57.23%</li>
-    <li>handload – 48.31/51.69%</li>
+    <li>hand load – 48.31/51.69%</li>
     <li>maximum difference of finger load – 12.48%</li>
-    <li>chance for double sequentially usage of the same finger – 1.84%</li>
+    <li>chance to double sequentially usage of the same finger – 1.84%</li>
     <li>"home" group usage – 64.01%</li>
   </ul>
 </details>
@@ -147,9 +147,9 @@ One more clarification – you can still compare these layouts directly with eac
   <summary>dvorak (en)</summary>
   <ul>
     <li>hand alteration – 68.19%</li>
-    <li>handload – 43.33/56.67%</li>
+    <li>hand load – 43.33/56.67%</li>
     <li>maximum difference of finger load – 9.83%</li>
-    <li>chance for double sequentially usage of the same finger – 2.97%</li>
+    <li>chance to double sequentially usage of the same finger – 2.97%</li>
     <li>"home" group usage – 58.33%</li>
   </ul>
 </details>
@@ -157,9 +157,9 @@ One more clarification – you can still compare these layouts directly with eac
   <summary>qwpr (en)</summary>
   <ul>
     <li>hand alteration – 57.23%</li>
-    <li>handload – 48.31/51.69%</li>
+    <li>hand load – 48.31/51.69%</li>
     <li>maximum difference of finger load – 14.06%</li>
-    <li>chance for double sequentially usage of the same finger – 4.41%</li>
+    <li>chance to double sequentially usage of the same finger – 4.41%</li>
     <li>"home" group usage – 61.62%</li>
   </ul>
 </details>
@@ -167,9 +167,9 @@ One more clarification – you can still compare these layouts directly with eac
   <summary>йцукен (ru)</summary>
   <ul>
     <li>hand alteration – 53.54%</li>
-    <li>handload – 53.23/46.63%</li>
+    <li>hand load – 53.23/46.63%</li>
     <li>maximum difference of finger load – 29.51%</li>
-    <li>chance for double sequentially usage of the same finger – 19.79%</li>
+    <li>chance to double sequentially usage of the same finger – 19.79%</li>
     <li>"home" group usage – 33.97%</li>
   </ul>
   <sub>An interesting fact: two-thirds of all presses in the йцукен are on the index fingers. And such a grouping of the most popular characters as a result leads to the fact that and every fifth press will be performed by the same finger. What kind of "ten-finger typing" can we talk about in this situation?</sub>
@@ -179,9 +179,9 @@ One more clarification – you can still compare these layouts directly with eac
   (** only the letters of the main letter block were taken into account)
   <ul>
     <li>hand alteration – 48.36%</li>
-    <li>handload – 50.41/46.84%</li>
+    <li>hand load – 50.41/46.84%</li>
     <li>maximum difference of finger load – 13.24%</li>
-    <li>chance for double sequentially usage of the same finger – 9.38%</li>
+    <li>chance to double sequentially usage of the same finger – 9.38%</li>
     <li>"home" group usage – 61.62%</li>
   </ul>
 </details>
@@ -189,18 +189,18 @@ One more clarification – you can still compare these layouts directly with eac
 > More layouts, and their appearance can be found in [external/calculation.xlsx](https://github.com/uqqu/layout/blob/master/external/calculation.xlsx). Here are listed only the main parameters of the most important layouts to mention.
 
 #### Result
-Let's start with the English layouts: <code>qwerty</code> is frankly bad, if not rougher. Any existing layout (including the ones not listed) is much better. If you look at the opposite result, everything is not so clear, but <code>dvorak</code>, according to the main points, takes the lead.
-I will not fully compare <code>dvorak</code> and <code>qPhyx</code>, because this comparison is incorrect, as I mentioned in the beginning. But even for a general idea you can note that on the whole the numbers of the topic-starter if not better, then at least at the level of the leader.
+Let's start with the English layouts: <code>qwerty</code> is frankly bad, to put it mildly. Any existing layout (including the ones not listed) is much better. If you look at the opposite result, everything is not so clear, but <code>dvorak</code>, according to the main points, takes the lead.
+I will not fully compare <code>dvorak</code> and <code>qPhyx</code>, because this comparison is incorrect, as I mentioned in the beginning. However even for a general idea you can note that on the whole the numbers of the topic-starter if not better, then at least at the level of the leader.
 
 
-And now let's move on to the Russian layouts... Everything is bad. For the Russian language there is simply no sane alternative layouts. The ones that are available are hardly better than the standard <code>йцукен</code>, and this is despite the fact that there are even more questions to <code>йцукен</code> than to its <code>qwerty</code> counterpart.
+And now let's move on to the Russian layouts... Everything is bad. For the Russian language there is simply no sane alternative layouts. The ones that are available are hardly better than the standard <code>йцукен</code>, and this is despite the fact, that there are even more questions to <code>йцукен</code> than to its <code>qwerty</code> counterpart.
 
 <br>
 
 > NB
 
 At this stage it is worth getting a little ahead of ourselves and noting that the English and Russian layouts, in fact, are the common layouts of the Latin and Cyrillic alphabets, which with the help of the extended character diacritics and language modes allows you to write in almost all languages based on the Latin or Cyrillic alphabet.
-<br>Thus, we get a unified system for all Latin- Cyrillic-based languages. By system I mean everything you are now and further reading – all the concepts and everything that follows from them, be it phonetic continuity or symbolic unity... It's worth telling the latter already, isn't it?
+<br>Thus, we get a unified system for all Latin- Cyrillic-based languages. By system, I mean everything you are now and further reading – all the concepts and everything that follows from them, be it phonetic continuity or symbolic unity... It's already worth telling the latter, isn't it?
 
 
 ## Symbol layer
@@ -226,12 +226,12 @@ Let's get acquainted with the result in three (two and a half) stages, fortunate
 ### Lite variant
 
 ![Lite symbol layout](https://github.com/uqqu/layout/blob/master/external/readme_images/symbols_lite.png "Lite symbol layout")
-> First of all – yes this layout suggests to non-standard keyboard usage as `long presses`. I am not going to prove to you that it is a comfortably – if you are convinced otherwise you still won't believe me. But I'm sure if you use this functionality enough to use it automatically, then you will agree with me. We won't mention this subject any more.
+> First of all – yes this layout suggests to non-standard keyboard usage as `long presses`. I am not going to prove to you that it is a comfortably – if you are convinced otherwise, you still won't believe me. However I'm sure if you use this functionality enough to use it automatically, then you will agree with me. We won't mention this subject anymore.
 
-In green are highlighted main symbols, which there are also in the `qwerty` layout; in gray are highlighted additional symbols, which I thought I should add (this is probably the most subjective part). In the corner placed two diacritic symbols primarily for accents.
+In green are highlighted main symbols, which there are also in the `qwerty` layout; in gray are highlighted additional symbols, which I thought I should add (this is probably the most subjective part). In the corner placed two diacritic symbols, primarily for accents.
 
-As you can see, all of the conditions above are met:
-* symbols are the separate layers and these layers is independent of any language
+As you can see, all the conditions above are met:
+* symbols are the separate layers and these layers are independent of any language
 * symbols are grouped (base math, currencies, punctuation, brackets with mirror reflection around the home row)
 * additional symbols with often usage cases
 * most usage symbols/groups placed on the most convenience groups
@@ -248,15 +248,15 @@ Let's see what are changed:
 
 #### Numeric row
 Base numbers are not changed. I don't think that ascending order for them is a bad thing. 
-<br>Under the former `-` and `=` are buttons of user input, which being empty perform the function of increasing or decreasing the number under the cursor <sub>(use them only in text fields. Outside of them – the behavior of the function is uncontrollable).</sub> If defined by the user – sends a character or a combination of characters. Definition is recommended for adding over-all characters (particularly for Abkhazian and Faroese languages).
+<br>Under the former `-` and `=` are buttons of user input, which being empty perform the function of increasing or decreasing the number under the cursor <sub>(use them only in text fields. Outside them – the behavior of the function is uncontrollable).</sub> If defined by the user – sends a character or a combination of characters. Definition is recommended for adding over-all characters (particularly for Abkhazian and Faroese languages).
 
 #### Extended diacritic
-With it, the layout can be used for all languages that have in their alphabet or regularly use diacritics. By the way, with the exception of English, diacritics are used in one way or another by the vast majority of Latin languages. In particular, of the first 15 major languages in this category, only English and Indonesian have no regular diacritics. For illustrative examples, see [external/languages.xlsx](https://github.com/uqqu/layout/blob/master/external/languages.xlsx), sheet `Latin alphabets`.
+With it, the layout can be used for all languages that have in their alphabet or regularly use diacritics. By the way, except for English, diacritics are used in one way or another by the vast majority of Latin languages. In particular, of the first 15 major languages in this category, only English and Indonesian have no regular diacritics. For illustrative examples, see [external/languages.xlsx](https://github.com/uqqu/layout/blob/master/external/languages.xlsx), sheet `Latin alphabets`.
 
 #### Controlling keys are swapped and reassigned
   * `backspace` now used for music control
   * `enter` performs the functions of `backspace` and `delete`
-  * `caps lock` was be replaced by `enter`
+  * `caps lock` was being replaced by `enter`
   * base `tilde` as `esc`
   * `caps lock` function thrown out (it was meant to be)
     * if you want, you can map `caps lock` function on `esc`, but for some cases you still may use `esc`, instead of `tilde` as `esc`
@@ -276,7 +276,7 @@ The simplified set symbols are the same symbols that will change when you select
 
 Here it is worth considering three symbols separately:
   * ñ – Latin n with a diacritic tilde. Belongs to the auxiliary category, but the symbol by itself, without others, opens a simplified set for Spanish and all the languages influenced by the latter. Because of this, it took a vacant place in the modifications in which the set of auxiliary characters ended at four.
-  * ł – Latin l with a diagonal stroke. The situation is mirrored in relation to the previous symbol – the symbol, although it is a letter with diacritics, is self-contained, since it cannot be correctly displayed in the combined diacritic view. It also has a fairly limited use, and other characters do not depend on it. Because of this, in modifications requiring 6 additional characters, the last place was given from "ł". But there are not many such modifications, so this fact is not overly significant.
+  * ł – Latin l with a diagonal stroke. The situation is mirrored in relation to the previous symbol – the symbol, although it is a letter with diacritics, is self-contained, since it cannot be correctly displayed in the combined diacritic view. It also has a fairly limited use, and other characters do not depend on it. Because of this, in modifications requiring 6 additional characters, the last place was given from "ł". However there are not many such modifications, so this fact is not overly significant.
   * đ – Latin d with a stroke. Here we are interested in two specific modifications – Old English/Icelandic and the Mossi language. The point is that the modifications use their own variations of this symbol with their own name and usage. In all modifications, in addition to those mentioned above, it is `đ Đ`, For Old English it is `ð Ð`, for Mossi language – `ɖ Ɖ`. Note that the uppercase variants are different Unicode characters, despite their uniform lettering.
 
 So now we can divide all languages into these categories:
@@ -292,10 +292,10 @@ Languages with extremely rich diacritics, such as Polish, Czech, or Slovak, simp
 
 #### Modifiable supported languages
 Languages, full-featured typing in which is possible only on special modifications. Once again, special modifications retain all typing capabilities in the languages of the previous categories.
-<br><sub>According to <a href="https://w3techs.com/technologies/overview/content_language">w3techs.com</a> there are no languages in this category with more than 0.05% usage in the Internet</sub>
+<br><sub>According to <a href="https://w3techs.com/technologies/overview/content_language">w3techs.com</a>, there are no languages in this category with more than 0.05% usage on the Internet</sub>
 
 #### Unsupported languages
-Languages with a script other than Latin or Cyrillic. For all of them, all romanization options are supported (including those not available in the standard ISO basic latin).
+Languages with a script other than Latin or Cyrillic. For all of them, all Romanization options are supported (including those not available in the standard ISO basic Latin).
 
 This division results in 24 5-character modifications (7 of which contain ñ), 7 6-character modifications, and 5 Cyrillic modifications, which are described below.
 
@@ -305,22 +305,22 @@ The total coverage of the first and second groups, including Cyrillic, was 88.86
 
 And now about the Cyrillic group:
 
-Since there are no single "over-characters" whose use can be claimed from any modification, and considering that all the characters are separate, due to the fact that the combined diacritics are extremely bad with Cyrillic – all 12 places are dynamic. This made it possible to group together a whole set of languages, the final number of which – 4 groups + 1 separate language (Abkhazian, and it even lacked one place). It also affects the fact that there is no "main" modification here, although, in fact, because of the location by demand, its place is taken by the group "Ukrainian, Belarusian, ...". But anyway, in the Cyrillic layout, unlike the Latin one, you will not be interested in other modifications, you just choose once the one that you can use. Therefore, all of these languages have been assigned to the second category of language support, although they belong equally to both the first and the fourth categories.
+Since there are no single "over-characters" whose use can be claimed from any modification, and considering that all the characters are separate, due to the fact that the combined diacritics are terrible with Cyrillic – all 12 places are dynamic. This made it possible to group together a whole set of languages, the final number of which – 4 groups + 1 separate language (Abkhazian, and it even lacked one place). It also affects the fact that there is no "main" modification here, although, in fact, because of the location by demand, its place is taken by the group "Ukrainian, Belarusian, ...". But anyway, in the Cyrillic layout, unlike the Latin one, you will not be interested in other modifications, you just choose once the one that you can use. Therefore, all of these languages have been assigned to the second category of language support, although they belong equally to both the first and the fourth categories.
 
 
 ## Implementation
 
 Omitting a bunch of different attempts: letter layer has been implemented by the native keyboard layout generation tool – [Microsoft Keyboard Layout Creator](https://www.microsoft.com/en-us/download/details.aspx?id=102134), symbol layer and other functionality were realized with [AHK](https://www.autohotkey.com/).
 
-Generated `MKLC` layouts for `Windows` – [external/qphyx_la/](https://github.com/uqqu/layout/tree/master/external/MKLC_qphyx_la), [external/qphy_cyr/](https://github.com/uqqu/layout/tree/master/external/MKLC_qphy_cyr)
+Generated `MKLC` layouts for `Windows` – [external/qphy_lat/](https://github.com/uqqu/layout/tree/master/external/MKLC_qphy_lat), [external/qphy_cyr/](https://github.com/uqqu/layout/tree/master/external/MKLC_qphy_cyr)
 
-AHK script is more variable. Base script functionality is, of course, symbolic layers addition. Base "long press" delay is 0.15s. You can change it in `config.ini` (will generate with first start) or at the appropriate point in the [menu](https://github.com/uqqu/menu). Early on in you may want to increase this value up to 0.2. In the process of getting used to it, you may decrease it up to 0.1 (imho, 0.12 is most optimal value).
+AHK script is more variable. Base script functionality is, of course, symbolic layers addition. Base "long press" delay is 0.15s. You can change it in `config.ini` (will generate with first start) or at the appropriate point in the [menu](https://github.com/uqqu/menu). Early on in, you may want to increase this value up to 0.2. In the process of getting used to it, you may decrease it up to 0.1 (imho, 0.12 is the most optimal value).
 
 
 ## Additional features
 
 * clipboard swap – `Ctrl-Shift-g` (`v` in qwerty-view) – paste clipboard value, save pasted value (if paste in selected area) in clipboard
-* activate/minimize predefined app – `Win-[any key]` – set your favorite apps in the `config.ini` file in the `[AltApps]` section and switch between them. If process does not exist – start it. This way faster, easier and more flexible than `Win-[1-9]`. Pattern for `.ini`:
+* activate/minimize predefined app – `Win-[any key]` – set your favorite apps in the `config.ini` file in the `[AltApps]` section and switch between them. If a process does not exist – start it. This way faster, easier and more flexible than `Win-[1-9]`. Pattern for `.ini`:
 ```
 {scancode}={process_name},{path_to_file}
 ```
@@ -328,14 +328,14 @@ AHK script is more variable. Base script functionality is, of course, symbolic l
 ```
 SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
 ```
-* full arrow replacement with `alt-[mstr]` (with shift/ctrl/shift-ctrl. alt-(sh)-ctrl-[st] used for move to begin or end of line, respectively)
+* full arrow replacement with `alt-[mstr]` (with shift/ctrl/shift-ctrl. alt-(sh)-ctrl-[st] used to move to begin or end of line, respectively)
 * move windows with `Win-(shift)-mstr` (`hjkl` in qwerty-view) as well as with `arrows`
-* increasing/decreasing number by 1 with the user-defined keys (unless another value is assigned). Use it only in text-fields!
+* increasing/decreasing number by one with the user-defined keys (unless another value is assigned). Use it only in text-fields!
 * dotted/dotless i fix – enabling in `config.ini` (or via the appropriate option in the `menu`). Replaced `iI`, in home position to `iİ`, and `ıİ` under `8` to `ıI`. Primarily for Turkish, Azerbaijani, and Kazakh Latin
-* fix `cedilla` to `comma` for Romanian language, to correct common misspellings. Enabled by default. Works only for the Romanian modification. Makes the use of cedilla not possible. Can be disabled in `config.ini`
+* fix `cedilla` to `comma` for Romanian, to correct common misspellings. Enabled by default. Works only for the Romanian modification. Makes the use of cedilla not possible. Can be disabled in `config.ini`
 * if you collide with case, which require some "standard" key behavior – you can toggle script work on air with `Shift-tilde`
 * script restart – `Ctrl-Shift-tilde`
-* and many more features available on `\|` key (ansi-keyboards) with [menu](https://github.com/uqqu/menu) addon!
+* and many more features available on `\|` key (ansi-keyboards) with [menu](https://github.com/uqqu/menu) add-on!
 
 
 ## Installation
@@ -350,7 +350,7 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
 6. *(optional)* If you use or are going to use a related project [menu](https://github.com/uqqu/menu):
     1. In `config.ini` beside `qphyx.*` set path to `menu` folder;
     2. In `config.ini` beside `menu.*`, after first launch, set path to `qphyx` folder;
-    3. Restart `qphyx.*`. If both path set correctly `qphyx` will restart `menu` itself, and the latter, in his turn, after restart will get an option `Qphyx settings` in `message menu`;
+    3. Restart `qphyx.*`. If both paths set correctly `qphyx` will restart `menu` itself, and the latter, in his turn, after restarting will get an option `Qphyx settings` in `message menu`;
 7. Familiarize yourself with the use and functionality;
 8. *(optional)* Add `qphyx.*` to autostart (don't add `menu`, if you use it. `qphyx` launch it itself, if the path from 6.1 set correctly).
 
@@ -383,11 +383,11 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
   <dt>Do I need to install <a href="https://www.autohotkey.com/">AutoHotKey</a>?</dt>
   <dd>Only for using the <code>.ahk</code> version. Using a compiled identical <code>.exe</code> version does not require any additional installations.</dd>
   <dt>What about layout for ergonomic keyboards?</dt>
-  <dd>This project is aimed at standard non-ergonomic keyboards. Porting this layout to any other keyboard it is a special process. I think very highly of ergonomic keyboards and I will be glad realize version for one of them someday, but now there are no any version for keyboards different of standard.</dd>
+  <dd>This project is aimed at standard non-ergonomic keyboards. Porting this layout to any other keyboard it is a special process. I think very highly of ergonomic keyboards and I will be glad to realize version for one of them someday, but now there are no any version for keyboards different of standard.</dd>
   <dt>Can I use it on Linux?</dt>
   <dd>No. As I know, there are only hard ways to realize "long presses" on Linux, and I'm not ready to take on them now. It is possible to implement a version with additional modifier instead of "long" trigger, but it will no longer be the original project.</dd>
   <dt>Can I use it on Mac?</dt>
-  <dd>No, current version can be used only on Windows. I weren't interested in ways to realize it on Mac.</dd>
+  <dd>No, current version can be used only on Windows. I wasn't interested in ways to realize it on Mac.</dd>
   <dt>Can I use it on Android?</dt>
   <dd>Yes, partially. It cannot be done for <code>G.Board</code>, but there is an app with totally customization – <a href="https://play.google.com/store/apps/details?id=kl.ime.oh&hl=en">Multiling O Keyboard</a>. You can find layout pattern for this app with screenshot examples at the <a href="https://github.com/uqqu/layout/tree/master/external/android">external/android/</a>.</dd>
   <dt>Latin layout has empty keys?</dt>
@@ -399,27 +399,27 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
   <dt>Can I use letter layout without symbols?</dt>
   <dd>Unfortunately no. You will be missing base symbols, which were placed on "potential-letter" keys.</dd>
   <dt>So, what languages can I write in exactly?</dt>
-  <dd>If you are already familiar with the categories in <a href="https://github.com/uqqu/layout#%D0%BC%D0%BE%D0%B4%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D0%B8">"Modifications"</a>, check out the <a href="https://github.com/uqqu/layout/blob/master/external/languages.xlsx">external/languages.xlsx</a>. There is answer to your question for more then <b>200</b> languages.</dd>
+  <dd>If you are already familiar with the categories in <a href="https://github.com/uqqu/layout#Modifications">"Modifications"</a>, check out the <a href="https://github.com/uqqu/layout/blob/master/external/languages.xlsx">external/languages.xlsx</a>. There is an answer to your question for more than <b>200</b> languages.</dd>
   <dt>Has this project something to do with touch typing?</dt>
   <dd>Of course! The main goal in maximizing convenience with touch typing and minimizing unnecessary moves (especially, moves that make you have to take your hands off your "home" positions)</dd>
-  <dt>Should I first train with touch typing before use this layout?</dt>
+  <dt>Should I first train with touch typing before the use this layout?</dt>
   <dd>If you are asking yourself this question – you should, regardless of future using this layout. And if you are not experienced in touch typing – maybe it is even better! Pay close attention to the following question for more details.</dd>
-  <dt>I am a grandmaster of <code>colemak</code>/<code>dvorak</code>/<code>workman</code>/etc, will I get any profit from switching to this layout?</dt>
-  <dd>It's up to you, of course. You will get fewer benefits in the letter layout clause, but all the others are not going anywhere. However, if you want to switch, note that the process of switching to any new layout is very long and discomfortable. And the better you mastered the old layout, the more unpleasant the switching to the new one will be. The first time you will be slow and clumsy, and it will be really annoying. Also later you will sometimes have "phantom" typing, when one letter of the entire stream suddenly will typed from old layout. Pretty infuriating thing. I am by no means discouraging you, just that you should be prepared in advance for all the things described.</dd>
-  <dt>...and I'm a grandmaster of <code>qwerty</code>! Will I ge...</dt>
+  <dt>I am a grand master of <code>colemak</code>/<code>dvorak</code>/<code>workman</code>/etc., will I get any profit from switching to this layout?</dt>
+  <dd>It's up to you, of course. You will get fewer benefits in the letter layout clause, but all the others are not going anywhere. However, if you want to switch, note that the process of switching to any new layout is very long and discomfortable. And the better you mastered the old layout, the more unpleasant the switching to the new one will be. The first time you will be slow and clumsy, and it will be really annoying. Also, later you will sometimes have "phantom" typing, when one letter of the entire stream suddenly will type from the old layout. Pretty infuriating thing. I am by no means discouraging you, just that you should be prepared in advance for all the things described.</dd>
+  <dt>...and I'm a grand master of <code>qwerty</code>! Will I ge...</dt>
   <dd>*interrupts* Right now, take any third-party layout. I would be pleased if the layout from the project that is the focus of this entire text was chosen, but even if not, there are many other layouts for Latin, and some of them are very good. But not for the Russian. It is bad there. Anyway, try to give up <code>qwerty</code> and <code>йцукен</code>. These are extremely important layouts for typing history, but leave their use to museum workers.</dd>
   <dt>I can't use <code>arrows</code>/<code>numpad</code>!</dt>
   <dd>That's the way it's supposed to be. If you want to try this layout, you should be used to keep your hands on "home" positions.</dd>
   <dt>I can't "scream" with <code>Caps Lock</code>!</dt>
   <dd>That's great. That's the way it's supposed to be.</dd>
   <dt>... but I need <code>Caps Lock</code> function for my PL or some other case!</dt>
-  <dd>This layout is for general use. In general cases this function is harmful...<br>Okay, you can set <code>EscAsCaps</code> to 1 in <code>config.ini</code> and toggle <code>Caps Lock</code> via <code>Esc</code>. Even additional symbols from numeric row will works with it. But, please, don't overuse it.</dd>
+  <dd>This layout is for general use. And in general cases this function is harmful...<br>Okay, you can set <code>EscAsCaps</code> to 1 in <code>config.ini</code> and toggle <code>Caps Lock</code> via <code>Esc</code>. Even additional symbols from the numeric row will work with it. But, please, don't overuse it.</dd>
   <dt>Is this project relative to <a href="https://github.com/uqqu/menu">menu</a>?</dt>
-  <dd>Yes, once they were an one-piece project, but while the functionality was becoming more and more they were separated in two projects. But they have connections with each other (e.g. you can regulate "long press" delay with <code>menu</code> and some more). For connection between them you should correct path to relative in <code>config.ini</code> for both.</dd>
+  <dd>Yes, once they were a one-piece project, but while the functionality was becoming more and more they were separated in two projects. However they have connections with each other (e.g. you can regulate "long press" delay with <code>menu</code> and some more). For connection between them, you should correct path to relative in <code>config.ini</code> for both.</dd>
   <dt>Some other integrations?</dt>
   <dd>Just start at the right time – <a href="https://github.com/magicstep/ViATc-English">ViATc</a>. If you use it – correct path to <code>ViATc-x.x.xen.ahk</code> in the <code>config.ini</code>. That's all.</dd>
   <dt>Troubles with <code>config.ini</code></dt>
-  <dd>Don't create it yourself, let it be generated at startup, and only then edit it. For functionality with switching between applications arrange your applications according to the appropriate pattern in the <code>[AltApps]</code> section.</dd>
+  <dd>Don't create it yourself, let it be generated at startup, and only then edit it. For functionality with switching between applications, arrange your applications according to the appropriate pattern in the <code>[AltApps]</code> section.</dd>
 </dl>
 
 
@@ -825,12 +825,12 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
   <dt>Могу я использовать буквенную раскладку без символьной?</dt>
   <dd>А вот тут, к сожалению, нет. Вам объективно не будет хватать базовых символов.</dd>
   <dt>И всё-таки, на каких конкретно языках можно писать?</dt>
-  <dd>Если вы уже ознакомились с категориями в разделе <a href="https://github.com/uqqu/layout#%D0%BC%D0%BE%D0%B4%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D0%B8">"Модификации"</a>, загляните в <a href="https://github.com/uqqu/layout/blob/master/external/languages.xlsx">external/languages.xlsx</a>. Там есть ответ на ваш вопрос для <b>200+</b> языков.</dd>
+  <dd>Если вы уже ознакомились с категориями в разделе <a href="https://github.com/uqqu/layout#Модификации">"Модификации"</a>, загляните в <a href="https://github.com/uqqu/layout/blob/master/external/languages.xlsx">external/languages.xlsx</a>. Там есть ответ на ваш вопрос для <b>200+</b> языков.</dd>
   <dt>Связан ли как-то этот проект и метод слепого набора?</dt>
   <dd>Конечно! Одна из целей как раз в максимизации удобства слепого набора и минимизации лишних движений (в особенности – движений отрывающих руки с их домашних позиций).</dd>
   <dt>Нужно ли мне сначала потренироваться в слепом наборе, прежде чем знакомиться с этим проектом?</dt>
   <dd>Если вы уже об этом задумались – однозначно стоит, и вне зависимости от того, собираетесь ли вы потом знакомиться с данным проектом. А если всё-таки собираетесь, то даже лучше сначала ознакомиться с проектом, а уже пользуясь выбранной раскладкой тренироваться в слепом наборе. Следующий вопрос ответит, почему так.</dd>
-  <dt>Я гранд-мастер набора текста на <code>colemak</code>/<code>dvorak</code>/<code>workman</code>/др, есть ли смысл переходить на эту раскладку?</dt>
+  <dt>Я гранд-мастер набора текста на <code>colemak</code>/<code>dvorak</code>/<code>workman</code>/др., есть ли смысл переходить на эту раскладку?</dt>
   <dd>На ваше усмотрение, конечно. Вы получите меньше преимуществ в пункте буквенной раскладки, но все остальные никуда не делись. Однако если вы захотите перейти, учтите, что процесс перехода на любую новую раскладку длителен и дискомфортен. И чем лучше вы владели предыдущей раскладкой, тем больнее будет переход на новую. Первое время вы будете очень медленными и неуклюжими, и это будет бесить. Также потом могут иногда проявляться фантомные нажатия, когда в процессе потокового набора палец на один символ идёт по старому автоматизму. Тоже довольно бесячая вещь. Я ни в коем случае не отговариваю вас, просто вы должны быть заранее готовы ко всему описанному.</dd>
   <dt>...а я гранд-мастер набора текста на <code>qwerty</code>! Есть ли мн...</dt>
   <dd>*перебивает* Прямо сейчас возьмите любую стороннюю раскладку. Мне будет приятно, если выбор остановится на раскладке из проекта, которому посвящён весь данный текст, но даже если нет – существует множество других раскладок для латиницы, и некоторые из них очень даже хороши. Но не для русского. Там всё плохо. Так или иначе, постарайтесь отказаться от <code>qwerty</code> и <code>йцукен</code>. Это крайне важные раскладки для истории набора текста, но оставьте их использование музейным работникам.</dd>
