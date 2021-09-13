@@ -306,116 +306,31 @@ LastMinimizedWindow()
     }
 }
 
-;!be careful with use it on non-textfields
-;don't look at me (；一_一)
+;works on current selected number
 IncrDecrNumber(n)
 {
     BlockInput, On
     saved_value := Clipboard
+    Clipboard := ""
     Send ^{SC02E}
-    If (Clipboard*0 != 0 || Clipboard == saved_value)
+    Sleep, 1
+    If (Clipboard*0 == 0)
     {
-        l_pos := 0
-        r_pos := 0
-        float := 0
-        neg := 0
-        Clipboard := ""
-        last_value := Clipboard
-        Loop 10
-        {
-            l_pos++
-            Send +{Left}
-            Send ^{SC02E}
-            If (("" Clipboard == "" last_value) || !StrLen(Clipboard))
-            {
-                l_pos--
-                Break
-            }
-            Else If (SubStr(Clipboard, 1, 1) == "." && !float)
-            {
-                float := 1
-            }
-            Else If (SubStr(Clipboard, 1, 1) == "-")
-            {
-                neg := 1
-                Break
-            }
-            Else If (SubStr(Clipboard, 1, 1)*0 != 0)
-            {
-                l_pos--
-                Send +{Right}
-                Break
-            }
-            last_value := Clipboard
-        }
-        Send +{Right %l_pos%}
-        Clipboard := ""
-        last_value := Clipboard
-        Loop 10
-        {
-            r_pos++
-            Send +{Right}
-            Send ^{SC02E}
-            If (("" Clipboard == "" last_value) || !StrLen(Clipboard))
-            {
-                r_pos--
-                Break
-            }
-            Else If (SubStr(Clipboard, StrLen(Clipboard), 1) == "." && !float)
-            {
-                float := 1
-            }
-            Else If ((r_pos == 1) && (l_pos == 0) && !neg && (SubStr(Clipboard, 1, 1) == "-"))
-            {
-                neg := 1
-            }
-            Else If (SubStr(Clipboard, StrLen(Clipboard), 1)*0 != 0)
-            {
-                r_pos--
-                Send +{Left}
-                Break
-            }
-            last_value := Clipboard
-        }
-        If (l_pos != 0 || r_pos != 0)
-        {
-            If (r_pos != 0)
-            {
-                Send {Right}
-            }
-            x := l_pos + r_pos
-            Send +{Left %x%}
-            Send ^{SC02E}
-            value := Clipboard
-            If InStr(value, ".") {
-                value := Round(value + 1 * n, StrLen(value) - InStr(value, "."))
-            }
-            Else
-            {
-                value := value + 1 * n
-            }
-            Send % value
-            shift := Min(r_pos, StrLen(value))
-            Send {Left %shift%}
-        }
-    }
-    Else
-    {
-        If InStr(value, ".") {
-            value := Round(value + 1 * n, StrLen(value) - InStr(value, "."))
+        If InStr(Clipboard, ".") {
+            Clipboard := Round(Clipboard + 1 * n, StrLen(Clipboard) - InStr(Clipboard, "."))
         }
         Else
         {
-            value := value + 1 * n
+            Clipboard := Clipboard + 1 * n
         }
-        Send % value
-        new_value_len := StrLen(value)
-        Send {Left %new_value_len%}
+        SendInput % Clipboard
+        new_value_len := StrLen(Clipboard)
+        SendInput {Left %new_value_len%}
         Send +{Right %new_value_len%}
     }
+    Sleep, 1
     Clipboard := saved_value
     BlockInput, Off
-    Return
 }
 
 

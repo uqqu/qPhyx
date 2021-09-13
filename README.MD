@@ -5,12 +5,9 @@
 
 **qPhyx** is a unified universal phonetic biscripted keyboard layout with the best possible scores of typing convenience and a set of additions to the usual method of typing.
 
-The project began as an alternate phonetic bilingual layout. In the aftermath, many features went beyond the usual layout, and now it became something more. It can be logically divided into three parts:
+The project began as an alternate phonetic bilingual layout. In the aftermath, many features went beyond the usual layout, and now it became something more. It can be logically divided into two depended of each other parts:
 1. Default letter layout;
-2. Symbol layout with some features;
-3. Arisen in the process add-on with many features.
-
-The first two depend on each other and are in this repository. Third can be used as such and moved to [a separate repository](https://github.com/uqqu/menu), but planned and once was a part of one-piece project.
+2. Symbol layout with some features.
 
 Benefits:
 1. A unified typing system, both for current supported scripts and for future ones;
@@ -18,7 +15,7 @@ Benefits:
 3. Support for language mods that retain all the benefits of a unified system, while at the same time removing all the limitations of unification for individual languages;
 4. Extended symbol support;
 5. The best objective scores for the convenience of typing;
-6. Additional internal and external ([menu](https://github.com/uqqu/menu)) functionality.
+6. Additional internal and external functionality.
 
 To fully understand what the project is, it is highly recommended that you read a semi-chronological description of it piece by piece below. A description in general terms is fatally incomplete and may give a false impression of it.
 <br>Another good method of familiarizing yourself with a project is to use it.
@@ -248,7 +245,7 @@ Let's see what are changed:
 
 #### Numeric row
 Base numbers are not changed. I don't think that ascending order for them is a bad thing. 
-<br>Under the former `-` and `=` are buttons of user input, which being empty perform the function of increasing or decreasing the number under the cursor <sub>(use them only in text fields. Outside them – the behavior of the function is uncontrollable).</sub> If defined by the user – sends a character or a combination of characters. Definition is recommended for adding over-all characters (particularly for Abkhazian and Faroese languages).
+<br>Under the former `-` and `=` are buttons of user input, which being empty perform the function of increasing or decreasing the current selected number. If defined by the user – sends a character or a combination of characters. Definition is recommended for adding over-all characters (particularly for Abkhazian and Faroese languages).
 
 #### Extended diacritic
 With it, the layout can be used for all languages that have in their alphabet or regularly use diacritics. By the way, except for English, diacritics are used in one way or another by the vast majority of Latin languages. In particular, of the first 15 major languages in this category, only English and Indonesian have no regular diacritics. For illustrative examples, see [external/languages.xlsx](https://github.com/uqqu/layout/blob/master/external/languages.xlsx), sheet `Latin alphabets`.
@@ -268,6 +265,10 @@ Under the `shift` in the numeric row are specific characters for different langu
 
 ### Modifications
 
+> It's worth clarifying beforehand: letters with diacritics in different languages can be either separate alphabetic characters or just letters with added diacritics. For example: `ñ` in Spanish is graphically equivalent to `n` + diacritical tilde, but in the alphabet is fixed as an individual, separate letter.
+<br>The distribution below considers exactly the alphabetic characters as they are enshrined in the official current versions of the languages, with rare exceptions, and only in favor of the languages themselves. Language-specific additional diacritics sets are not listed separately in this text – it has been accounted and covered <b>completely</b> for all supported languages and all Romanization versions for unsupported languages.
+<br>NB. However, for the purpose of unification, such individual alphabetic characters are input exactly in combined form, where possible.
+
 The Latin and Cyrillic sides of the modifications are somewhat different conceptually, which is due to the symbolic peculiarities of the members of these categories. Let us begin with the Latin one:
 
 The 12 available symbols are divided into two categories – standalone symbols and simplified set symbols.
@@ -282,10 +283,13 @@ Here it is worth considering three symbols separately:
 So now we can divide all languages into these categories:
 
 #### Fully supported languages
-Languages that do not require modification for their typing, while having no any restrictions on typing – English, Spanish, French, German, Vietnamese, ...
+Languages that are in no way dependent on the selected modification, and are fully available for writing. English, French, Vietnamese, Portuguese, Italian, Indonesian, ...
 
-#### Diacritically supported languages with optional modification to simplify typing
-Let me give you an example – Turkish: language can be used with any modification (for example, with the main `ñ å ä ö ü`), when typing additional characters in two taps via diacritical symbols, but with the selected Turkish modification (`ç ş ğ ö ü`) the same characters become available through a single press, without losing overall functionality.
+#### Fully supported "out of the box" languages (with simplify writing on the "main" modification)
+Languages available for writing from any modification, while having a simplified writing from the main one. Spanish, German, Swedish, Danish, Finnish, Norwegian, ...
+
+#### Diacritically supported languages with optional modification to simplify writing
+Let me give you an example – Turkish: language can be used with any modification (for example, with the main `ñ å ä ö ü`), when writing additional characters in two taps via diacritical symbols, but with the selected Turkish modification (`ç ş ğ ö ü`) the same characters become available through a single press, without losing overall functionality. This category includes Turkish, Romanian, Croatian (Gaj's Latin alphabet), Slovenian, Estonian, ...
 
 #### Diacritically supported languages with(out/ partial) optional modification to simplify typing
 Languages with extremely rich diacritics, such as Polish, Czech, or Slovak, simply do not fit for simplified typing, but are fully accessible via diacritics with any other modification.
@@ -305,7 +309,7 @@ The total coverage of the first and second groups, including Cyrillic, was 88.86
 
 And now about the Cyrillic group:
 
-Since there are no single "over-characters" whose use can be claimed from any modification, and considering that all the characters are separate, due to the fact that the combined diacritics are terrible with Cyrillic – all 12 places are dynamic. This made it possible to group together a whole set of languages, the final number of which – 4 groups + 1 separate language (Abkhazian, and it even lacked one place). It also affects the fact that there is no "main" modification here, although, in fact, because of the location by demand, its place is taken by the group "Ukrainian, Belarusian, ...". But anyway, in the Cyrillic layout, unlike the Latin one, you will not be interested in other modifications, you just choose once the one that you can use. Therefore, all of these languages have been assigned to the second category of language support, although they belong equally to both the first and the fourth categories.
+Since there are no single "over-characters" whose use can be claimed from any modification, and considering that all the characters are separate, due to the fact that the combined diacritics are terrible with Cyrillic – all 12 places are dynamic. This made it possible to group together a whole set of languages, the final number of which – 4 groups + 1 separate language (Abkhazian, and it even lacked one place). It also affects the fact that there is no "main" modification here, although, in fact, because of the location by demand, its place is taken by the group "Ukrainian, Belarusian, ...". But anyway, in the Cyrillic layout, unlike the Latin one, you will not be interested in other modifications, you just choose once the one that you can use. Therefore, all of these languages have been assigned to the second category of language support, although they belong equally to both the first and the fifth categories.
 
 
 ## Implementation
@@ -330,12 +334,12 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
 ```
 * full arrow replacement with `alt-[mstr]` (with shift/ctrl/shift-ctrl. alt-(sh)-ctrl-[st] used to move to begin or end of line, respectively)
 * move windows with `Win-(shift)-mstr` (`hjkl` in qwerty-view) as well as with `arrows`
-* increasing/decreasing number by one with the user-defined keys (unless another value is assigned). Use it only in text-fields!
-* dotted/dotless i fix – enabling in `config.ini` (or via the appropriate option in the `menu`). Replaced `iI`, in home position to `iİ`, and `ıİ` under `8` to `ıI`. Primarily for Turkish, Azerbaijani, and Kazakh Latin
+* increasing/decreasing selected number by one with the user-defined keys (unless another value is assigned)
+* dotted/dotless i fix – enabling in `config.ini`. Replaced `iI`, in home position to `iİ`, and `ıİ` under `8` to `ıI`. Primarily for Turkish, Azerbaijani, and Kazakh Latin
 * fix `cedilla` to `comma` for Romanian, to correct common misspellings. Enabled by default. Works only for the Romanian modification. Makes the use of cedilla not possible. Can be disabled in `config.ini`
 * if you collide with case, which require some "standard" key behavior – you can toggle script work on air with `Shift-tilde`
 * script restart – `Ctrl-Shift-tilde`
-* and many more features available on `\|` key (ansi-keyboards) with [menu](https://github.com/uqqu/menu) add-on!
+* more "easy data input" features and fast edit `qPhyx` settings are available with related [menu](https://github.com/uqqu/menu) script
 
 
 ## Installation
@@ -415,11 +419,11 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
   <dt>... but I need <code>Caps Lock</code> function for my PL or some other case!</dt>
   <dd>This layout is for general use. And in general cases this function is harmful...<br>Okay, you can set <code>EscAsCaps</code> to 1 in <code>config.ini</code> and toggle <code>Caps Lock</code> via <code>Esc</code>. Even additional symbols from the numeric row will work with it. But, please, don't overuse it.</dd>
   <dt>Is this project relative to <a href="https://github.com/uqqu/menu">menu</a>?</dt>
-  <dd>Yes, once they were a one-piece project, but while the functionality was becoming more and more they were separated in two projects. However they have connections with each other (e.g. you can regulate "long press" delay with <code>menu</code> and some more). For connection between them, you should correct path to relative in <code>config.ini</code> for both.</dd>
+  <dd>Yes, once they were a one-piece project, but while the functionality was becoming more and more they were separated in two projects. However they have connections with each other. E.g. you can regulate "long press" delay with <code>menu</code> via <code>input-box</code> which is invoked by <code>menu</code> and edit "on air" other <code>qPhyx</code> settings. In turn, <code>qPhyx</code> calls <code>menu</code> at the right time to avoid conflicting appointments. For connection between them, you should correct path to relative in <code>config.ini</code> for both.</dd>
   <dt>Some other integrations?</dt>
   <dd>Just start at the right time – <a href="https://github.com/magicstep/ViATc-English">ViATc</a>. If you use it – correct path to <code>ViATc-x.x.xen.ahk</code> in the <code>config.ini</code>. That's all.</dd>
   <dt>Troubles with <code>config.ini</code></dt>
-  <dd>Don't create it yourself, let it be generated at startup, and only then edit it. For functionality with switching between applications, arrange your applications according to the appropriate pattern in the <code>[AltApps]</code> section.</dd>
+  <dd>Don't create it yourself, let it be generated at first start, and only then edit it. For functionality with switching between applications, arrange your applications according to the appropriate pattern in the <code>[AltApps]</code> section.</dd>
 </dl>
 
 
@@ -430,12 +434,9 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
 
 **qPhyx** – единая универсальная фонетическая двускриптовая клавиатурная раскладка с лучшими возможными показателями удобства печати и рядом дополнений к привычному методу набора.
 
-Проект начинался как альтернативная фонетическая двуязычная раскладка. Впоследствии многие функции вышли за рамки обычной раскладки, и проект стал чем-то большим. Его можно логично разделить на три части:
+Проект начинался как альтернативная фонетическая двуязычная раскладка. Впоследствии многие функции вышли за рамки обычной раскладки, и проект стал чем-то большим. Его можно логично разделить на две взаимосвязанные части:
 1. Клавиатурная раскладка стандартного вида;
-2. Символьная раскладка с некоторыми особенностями и функциями;
-3. Возникшее в процессе дополнение, включающее в себя некоторый набор функций.
-
-Первые две части связаны друг с другом, и находятся в этом репозитории. Третья часть, хоть и планировалась как часть цельного проекта, и долгое время ею была, сейчас вынесена в [отдельный репозиторий](https://github.com/uqqu/menu).
+2. Символьная раскладка с некоторыми особенностями и функциями.
 
 Преимущества:
 1. Единая система набора, как для текущих поддерживаемых письменностей, так и для будущих;
@@ -443,7 +444,7 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
 3. Поддержка языковых модов, сохраняющих все преимущества единой системы, и в то же время снимающих все ограничения унификации с отдельных языков;
 4. Расширенная символьная поддержка;
 5. Лучшие объективные показатели удобства набора;
-6. Дополнительный внутренний и внешний ([menu](https://github.com/uqqu/menu)) функционал.
+6. Дополнительный внутренний и внешний функционал.
 
 Для полного понимания, чем является проект, настоятельно рекомендуется ознакомиться с его полухронологическим описанием по частям ниже. Описание общими фразами является фатально неполным и может вызвать ложное представление об оном.
 <br>Также хорошим методом ознакомления с проектом является его использование.
@@ -674,7 +675,7 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
 
 #### Цифровой ряд
 Базовые позиции не изменились. Я не разделяю мнения, что обычный порядок по возрастанию плох, и их нужно перемешивать.
-<br>Под бывшими `-` и `=` расположены кнопки пользовательского ввода, которые будучи пустыми выполняют функцию увеличения или уменьшения числа под курсором <sub>(используйте только в текстовых полях. Вне их – поведение функции неконтролируемо).</sub> Если определены пользователем – отправляют символ или их комбинацию. Определение рекомендуется для добавления сверх-дополнительных символов (в частности, для абхазского и фарерского языков).
+<br>Под бывшими `-` и `=` расположены кнопки пользовательского ввода, которые будучи пустыми выполняют функцию увеличения или уменьшения текущего выделенного числа. Если определены пользователем – отправляют символ или их комбинацию. Определение рекомендуется для добавления сверх-дополнительных символов (в частности, для абхазского и фарерского языков).
 
 #### Расширенная диакритика
 С её помощью раскладка может быть использована для всех языков, имеющих в своём алфавите или регулярно использующих диакритику. К слову, за исключением английского, диакритику в той или иной мере использует абсолютное большинство языков на латинице. В частности, из первых 15 крупнейших языков этой категории регулярная диакритика отсутствует только у непосредственно английского и индонезийского. За наглядными примерами обратитесь к [external/languages.xlsx](https://github.com/uqqu/layout/blob/master/external/languages.xlsx), лист `Latin alphabets`.
@@ -694,6 +695,10 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
 
 ### Модификации
 
+> Стоит предварительно внести ясность: буквы с диакритикой в разных языках могут являться как отдельными алфавитными символами, так и просто буквами с добавленной диакритикой. Пример: `ñ` в испанском языке графически эквивалентна `n` + диакритическая тильда, однако в алфавите закреплена как самостоятельная, отдельная буква.
+<br>В распределении ниже учитываются именно алфавитные символы, как они закреплены в официальных текущих версиях языков, за редкими исключениями, и то, исключительно в пользу самих языков. Оглядка на наборы добавочной диакритики, специфичной для конкретных языков не выносится в данном тексте отдельно – она была учтена и покрыта <b>полностью</b> для всех поддерживаемых языков или версий романизации для неподдерживаемых.
+<br>NB. Однако на ввод, в целях унификации, такие отдельные алфавитные символы подаются именно в комбинированном виде, где это возможно.
+
 Латинская и кириллическая стороны модификаций несколько разнятся концептуально, что обусловлено символьными особенностями участников этих категорий. Начнём с латинской:
 
 12 доступных символов разбиты на две категории – самостоятельные символы и символы упрощённого набора.
@@ -708,10 +713,13 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
 Итак, теперь мы можем разбить все языки на такие категории:
 
 #### Полностью поддерживаемые языки
-Языки, которые для своего набора не требуют изменения модификации, при этом не имея никаких ограничений в наборе – английский, испанский, французский, немецкий, вьетнамский, ...
+Языки, никоим образом не зависящие от выбранной модификации, и полноценно доступные к набору. Английский, французский, вьетнамский, португальский, итальянский, индонезийский, ...
+
+#### Полностью поддерживаемые языки "из коробки" (с упрощённым вводом на основной модификации)
+Языки, доступные к набору из любой модификации, при этом имеющие упрощённый набор из основной. Испанский, немецкий, шведский, датский, финский, норвежский, ...
 
 #### Диакритически поддерживаемые языки с опциональной модификацией для упрощения набора
-Позвольте на примере – турецкий: язык может быть использован с любой модификацией (к примеру, с основной `ñ å ä ö ü`), при наборе дополнительных символов в два нажатия через диакритические символы, но при выбранной турецкой модификации (`ç ş ğ ö ü`) эти же символы становятся доступны через одинарное нажатие, не теряя общей функциональности.
+Позвольте на примере – турецкий: язык может быть использован с любой модификацией (к примеру, с основной `ñ å ä ö ü`), при наборе дополнительных символов в два нажатия через диакритические символы, но при выбранной турецкой модификации (`ç ş ğ ö ü`) эти же символы становятся доступны через одинарное нажатие, не теряя общей функциональности. К этой категории относятся турецкий, румынский, хорватский (гаевица), словенский, эстонский, ...
 
 #### Диакритически поддерживаемые языки (без/с частичной) опциональной модификацией для упрощения набора
 Языки с крайне богатой диакритикой, такие как польский, чешский или словацкий, попросту не помещаются для упрощённого набора, однако полноценно доступны через диакритику с любой модификацией.
@@ -731,7 +739,7 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
 
 А теперь про кириллическую группу:
 
-Так как здесь отсутствуют единые "над-символы", использование которых может быть востребовано из любой модификации, а также учитывая, что все символы являются отдельными, ввиду того факта, что комбинируемая диакритика крайне печально работает с кириллицей – все 12 мест являются динамическими. Это позволило объединить в группах целые ряды языков, итоговое количество которых – 4 группы + 1 отдельный язык (абхазский, и ему даже не хватило одного места). Также это влияет на то, что здесь нет "основной" модификации, хотя, фактически, из-за расположения по востребованности, её место занимает группа "украинский, белорусский, ...". Но так или иначе, в кириллической раскладке, в отличие от латинской, вас не будут интересовать прочие модификации, вы лишь единожды выбираете ту, использование которой вам может пригодиться. Поэтому все данные языки были приравнены ко второй категории поддержки языков, хотя они относятся в равной мере как к первой, так и к четвёртой категориям.
+Так как здесь отсутствуют единые "над-символы", использование которых может быть востребовано из любой модификации, а также учитывая, что все символы являются отдельными, ввиду того факта, что комбинируемая диакритика крайне печально работает с кириллицей – все 12 мест являются динамическими. Это позволило объединить в группах целые ряды языков, итоговое количество которых – 4 группы + 1 отдельный язык (абхазский, и ему даже не хватило одного места). Также это влияет на то, что здесь нет "основной" модификации, хотя, фактически, из-за расположения по востребованности, её место занимает группа "украинский, белорусский, ...". Но так или иначе, в кириллической раскладке, в отличие от латинской, вас не будут интересовать прочие модификации, вы лишь единожды выбираете ту, использование которой вам может пригодиться. Поэтому все данные языки были приравнены ко второй категории поддержки языков, хотя они относятся в равной мере как к первой, так и к пятой категориям.
 
 
 ## Реализация
@@ -756,12 +764,12 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
 ```
 * полная замена стрелок с `alt-[мстр]` (с `shift/ctrl/shift-ctrl`. `Alt-(sh)-ctrl-[ст]` используются для перемещения в начало и конец линии соответственно)
 * перемещение окон с помощью `Win-(shift)-[мстр]` (`[ролд]` в йцукен-виде) так же, как и при помощи `стрелок`
-* инкрементация/декрементация (увеличение/уменьшение числа на 1) клавишами пользовательского определения (если не присвоено другое значение). Используйте исключительно в текстовых полях!
-* исправление dotted/dotless i – включается в `config.ini` (или через соответствующий пункт в `menu`). Заменяет `iI`, в домашней позиции на `iİ`, а `ıİ` под `8` на `ıI`. В первую очередь для турецкого, азербайджанского языков и казахской латиницы
+* инкрементация/декрементация (увеличение/уменьшение на 1) текущего выделенного числа клавишами пользовательского определения (если не присвоено другое значение)
+* исправление dotted/dotless i – включается в `config.ini`. Заменяет `iI`, в домашней позиции на `iİ`, а `ıİ` под `8` на `ıI`. В первую очередь для турецкого, азербайджанского языков и казахской латиницы
 * исправление `седиль` в `кому` для румынского языка, для исправления распространённого ложного написания. Включено по умолчанию. Работает только для румынской модификации. Делает использование седили невозможным. Может быть отключено в `config.ini`
 * если же вы столкнулись со случаем, в котором вам нужно "стандартное" поведение клавиш – вы можете на лету приостановить работу скрипта сочетанием `Shift-tilde`
 * перезапуск скрипта – `Ctrl-Shift-tilde`
-* вся остальная функциональность, в том числе, упрощённая настойка `qphyx` `config.ini`, находится на клавише `\|` (для ansi клавиатур), но работает с помощью [menu](https://github.com/uqqu/menu)
+* больше функций упрощённого ввода данных и быстрая настройка `qPhyx` доступны через родственный [menu](https://github.com/uqqu/menu) скрипт
 
 
 ## Установка
@@ -845,10 +853,9 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
   <dt>Ещё какие-нибудь интеграции?</dt>
   <dd>Просто вызов в нужное время, для исключения конфликтов – <a href="https://github.com/magicstep/ViATc-English">ViATc</a>. Если вы пользуетесь этим проектом, просто укажите путь к основному файлу <code>ViATc-x.x.xen.ahk</code> в <code>config.ini</code>, только и всего.</dd>
   <dt>Проблемы с <code>config.ini</code></dt>
-  <dd>Не создавайте его сами, дайте ему сгенерироваться при запуске, и лишь потом правьте. Для функциональности с переключением между приложениями в секции <code>[AltApps]</code> на отдельных строках располагайте ваши приложения по соответствующему образцу.</dd>
+  <dd>Не создавайте его сами, дайте ему сгенерироваться при первом запуске, и лишь потом правьте. Для функциональности с переключением между приложениями в секции <code>[AltApps]</code> на отдельных строках располагайте ваши приложения по соответствующему образцу.</dd>
 </dl>
 
----
 ---
 
 ## Copyrights
