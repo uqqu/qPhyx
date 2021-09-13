@@ -312,71 +312,80 @@ IncrDecrNumber(n)
 {
     BlockInput, On
     saved_value := Clipboard
-    SendInput ^{SC02E}
-    Sleep, 1
-    value := Clipboard
-    If (value*0 != 0 || value == saved_value)
+    Send ^{SC02E}
+    If (Clipboard*0 != 0 || Clipboard == saved_value)
     {
         l_pos := 0
         r_pos := 0
         float := 0
         neg := 0
-        Loop
+        Clipboard := ""
+        last_value := Clipboard
+        Loop 10
         {
             l_pos++
-            SendInput +{Left}
-            SendInput ^{SC02E}
-            Sleep, 1
-            value := Clipboard
-            If (SubStr(value, 1, 1) == "." && !float)
-            {
-                float := 1
-            }
-            Else If (SubStr(value, 1, 1) == "-")
-            {
-                neg := 1
-                Break
-            }
-            Else If (SubStr(value, 1, 1)*0 != 0)
+            Send +{Left}
+            Send ^{SC02E}
+            If (("" Clipboard == "" last_value) || !StrLen(Clipboard))
             {
                 l_pos--
-                SendInput +{Right}
                 Break
             }
-        }
-        SendInput +{Right %l_pos%}
-        Loop
-        {
-            r_pos++
-            SendInput +{Right}
-            SendInput ^{SC02E}
-            Sleep, 1
-            value := Clipboard
-            If (SubStr(value, StrLen(value), 1) == "." && !float)
+            Else If (SubStr(Clipboard, 1, 1) == "." && !float)
             {
                 float := 1
             }
-            Else If ((r_pos == 1) && (l_pos == 0) && !neg && (SubStr(value, 1, 1) == "-"))
+            Else If (SubStr(Clipboard, 1, 1) == "-")
+            {
+                neg := 1
+                Break
+            }
+            Else If (SubStr(Clipboard, 1, 1)*0 != 0)
+            {
+                l_pos--
+                Send +{Right}
+                Break
+            }
+            last_value := Clipboard
+        }
+        Send +{Right %l_pos%}
+        Clipboard := ""
+        last_value := Clipboard
+        Loop 10
+        {
+            r_pos++
+            Send +{Right}
+            Send ^{SC02E}
+            If (("" Clipboard == "" last_value) || !StrLen(Clipboard))
+            {
+                r_pos--
+                Break
+            }
+            Else If (SubStr(Clipboard, StrLen(Clipboard), 1) == "." && !float)
+            {
+                float := 1
+            }
+            Else If ((r_pos == 1) && (l_pos == 0) && !neg && (SubStr(Clipboard, 1, 1) == "-"))
             {
                 neg := 1
             }
-            Else If (SubStr(value, StrLen(value), 1)*0 != 0)
+            Else If (SubStr(Clipboard, StrLen(Clipboard), 1)*0 != 0)
             {
                 r_pos--
-                SendInput +{Left}
+                Send +{Left}
                 Break
             }
+            last_value := Clipboard
         }
         If (l_pos != 0 || r_pos != 0)
         {
             If (r_pos != 0)
             {
-                SendInput {Right}
+                Send {Right}
             }
             x := l_pos + r_pos
-            SendInput +{Left %x%}
-            SendInput ^{SC02E}
-            Sleep, 1
+            Send +{Left %x%}
+            Send ^{SC02E}
             value := Clipboard
             If InStr(value, ".") {
                 value := Round(value + 1 * n, StrLen(value) - InStr(value, "."))
@@ -385,8 +394,9 @@ IncrDecrNumber(n)
             {
                 value := value + 1 * n
             }
-            SendInput % value
-            SendInput {Left %r_pos%}
+            Send % value
+            shift := Min(r_pos, StrLen(value))
+            Send {Left %shift%}
         }
     }
     Else
@@ -398,10 +408,10 @@ IncrDecrNumber(n)
         {
             value := value + 1 * n
         }
-        SendInput % value
+        Send % value
         new_value_len := StrLen(value)
-        SendInput {Left %new_value_len%}
-        SendInput +{Right %new_value_len%}
+        Send {Left %new_value_len%}
+        Send +{Right %new_value_len%}
     }
     Clipboard := saved_value
     BlockInput, Off
