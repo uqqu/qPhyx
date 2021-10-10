@@ -30,50 +30,58 @@ The arrangement of the letters was as objective as possible.
 
 ### Frequency analyses
 
-First, various frequency analyses were found and stored with their average value *(so this is a meta-analysis?)*. A total of 25 analyses were selected based on different samples. All valid analyses found were taken into account.
+First, various frequency analyses were found and stored with their average value *(so this is a meta-analysis?)*. A total of more than 30 analyses were selected based on different samples. All valid analyses found were taken into account.
 
 For English, the following analyses were included in the final view for the base letter frequency:
 
   * [norvig.com](http://norvig.com/mayzner.html)
-  * [ac.uk](https://core.ac.uk/download/pdf/231084615.pdf)
+  * [core.ac.uk](https://core.ac.uk/download/pdf/231084615.pdf)
+  * [practicalcryptography.com](http://practicalcryptography.com/cryptanalysis/letter-frequencies-various-languages/english-letter-frequencies/)
+  * [github.com/uqqu](https://github.com/uqqu/frequency_analysis/tree/master/examples/multiUN_analysis)
+  * [macfreek.nl](http://www.macfreek.nl/memory/Letter_Distribution)
+  * [viviancook.uk](http://www.viviancook.uk/SpellStats/SingleLetterFrequencies.htm)
+  * [fitaly.com](http://www.fitaly.com/board/domper3/posts/136.html)
   * [sttmedia.com](https://www.sttmedia.com/characterfrequency-english)
-  * [nd.edu](https://www3.nd.edu/~busiforc/handouts/cryptography/letterfrequencies.html)
+  * [mathstats.uncg.edu](https://mathstats.uncg.edu/sites/pauli/112/HTML/secfrequency.html)
   * [pi.math.cornell.edu](http://pi.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html)
-  * [lexico.com](https://www.lexico.com/explore/which-letters-are-used-most)
+  * [math.ucsd.edu](http://www.math.ucsd.edu/~crypto/Projects/MarshaMoreno/TimeComparisonFrequency.pdf)
   * [cs.wellesley.edu](http://cs.wellesley.edu/~fturbak/codman/letterfreq.html)
   * [en.algoritmy.net](http://en.algoritmy.net/article/40379/Letter-frequency-English)
-  * [practicalcryptography.com](http://practicalcryptography.com/cryptanalysis/letter-frequencies-various-languages/english-letter-frequencies/)
 
 For Russian, the following analyses were included for the base letter frequency:
 
   * [dict.ruslang.ru](http://dict.ruslang.ru/freq.php?act=show&dic=freq_letters)
-  * [sttmedia.com](https://www.sttmedia.com/characterfrequency-russian)
-  * [simia.net](http://simia.net/letters/index.html)
-  * [lg--web.chat.ru](http://lg--web.chat.ru/texts.html)
   * [practicalcryptography.com](http://practicalcryptography.com/cryptanalysis/letter-frequencies-various-languages/russian-letter-frequencies/)
-  * Яглом А.М., Яглом И.М., Вероятость и информация, М.: Наука, 1973. / с.238
+  * [github.com/uqqu](https://github.com/uqqu/frequency_analysis/tree/master/examples/annot_opcorpora_analysis)
+  * [lg--web.chat.ru](http://lg--web.chat.ru/texts.html)
+  * [sttmedia.com](https://www.sttmedia.com/characterfrequency-russian)
+  * [dpva.ru](https://dpva.ru/Guide/GuideUnitsAlphabets/Alphabets/FrequencyRuLetters/)
+  * [simia.net](http://simia.net/letters/index.html)
+  * Яглом А.М., Яглом И.М., Вероятность и информация, М.: Наука, 1973 / с.238
 
 For English, the following bigram analyses were selected for paired letter frequency:
 
-  * [joyofdata.de](https://www.joyofdata.de/blog/frequency-of-character-combinations/)
   * [gist.github.com/lydell](https://gist.github.com/lydell/c439049abac2c9226e53)
-  * [homepages.math.uic.edu](http://homepages.math.uic.edu/~leon/mcs425-s08/handouts/char_freq2.pdf)
   * [practicalcryptography.com](http://practicalcryptography.com/cryptanalysis/letter-frequencies-various-languages/english-letter-frequencies/)
+  * [github.com/uqqu](https://github.com/uqqu/frequency_analysis/tree/master/examples/multiUN_analysis)
   * [link.springer.com](https://link.springer.com/content/pdf/10.3758/BF03201360.pdf)
+  * [homepages.math.uic.edu](http://homepages.math.uic.edu/~leon/mcs425-s08/handouts/char_freq2.pdf)
+  * [joyofdata.de](https://www.joyofdata.de/blog/frequency-of-character-combinations/)
 
 For Russian, the following bigram analyses were selected for paired letter frequency:
 
-  * [statistica.ru](http://statistica.ru/local-portals/data-mining/analiz-tekstov/)
-  * [joyofdata.de](https://www.joyofdata.de/blog/frequency-of-character-combinations/)
   * [practicalcryptography.com](http://practicalcryptography.com/cryptanalysis/letter-frequencies-various-languages/russian-letter-frequencies/)
+  * [github.com/uqqu](https://github.com/uqqu/frequency_analysis/tree/master/examples/annot_opcorpora_analysis)
+  * [joyofdata.de](https://www.joyofdata.de/blog/frequency-of-character-combinations/)
+  * [statistica.ru](http://statistica.ru/local-portals/data-mining/analiz-tekstov/)
 
 ### Selection of convenience criteria
 
 To objectively evaluate the ease of use of the layout, it is necessary to allocate the appropriate criteria. They are:
   * hand alteration (the probability that both hands will be used to type any random pair of letters)
+  * minimum chance to double sequentially usage of the same finger (bearing in mind base key repeating)
   * even hand load
   * even finger load
-  * minimum chance to double sequentially usage of the same finger (bearing in mind base key repeating)
   * maximum usage on the most convenience groups (see below)
 
 For the latter criteria letter-part of default non-ergonomic keyboard were divided into 6(7) groups by convenience:
@@ -98,11 +106,11 @@ Many variations have been tried for both languages. Some were extremely successf
 ### Result numbers
 
 I'll list it all:
-  * hand alteration – 67.73% (en) and 73.32% (ru)
-  * hand load – 49.69/50.31% and 50.64/49.36%
-  * maximum difference of finger load – 3.86% and 7.48%
-  * chance to double sequentially usage of the same finger – 3.38% and 4.37%
-  * "home" group usage – 64.01% and 57.72%
+  * hand alteration – 70.58% (en) and 71.23% (ru)
+  * chance to double sequentially usage of the same finger – 2.55% and 4.54%
+  * hand load – 48.36/51.64% and 52.35/47.65%
+  * maximum difference of finger load – 4.86% and 8.98%
+  * "home" group usage – 64.95% and 58.07%
 <br><sub>and also a nice look and mnemonic rows</sub>
 
 ### Existing alternative layouts
@@ -113,61 +121,61 @@ One more clarification – you can still compare these layouts directly with eac
 <details>
   <summary>qwerty (en)</summary>
   <ul>
-    <li>hand alteration – 51.68%</li>
-    <li>hand load – 58.47/41.53%</li>
-    <li>maximum difference of finger load – 19.99%</li>
-    <li>chance to double sequentially usage of the same finger – 7.29%</li>
-    <li>"home" group usage – 26.09%</li>
+    <li>hand alteration – 52.60%</li>
+    <li>chance to double sequentially usage of the same finger – 7.08%</li>
+    <li>hand load – 58.69/41.31%</li>
+    <li>maximum difference of finger load – 20.17%</li>
+    <li>"home" group usage – 25.70%</li>
   </ul>
 </details>
 <details>
   <summary>workman (en)</summary>
   <ul>
-    <li>hand alteration – 54.89%</li>
-    <li>hand load – 51.70/48.30%</li>
-    <li>maximum difference of finger load – 11.28%</li>
-    <li>chance to double sequentially usage of the same finger – 3.15%</li>
-    <li>"home" group usage – 62.73%</li>
+    <li>hand alteration – 55.96%</li>
+    <li>chance to double sequentially usage of the same finger – 2.91%</li>
+    <li>hand load – 51.49/48.51%</li>
+    <li>maximum difference of finger load – 11.14%</li>
+    <li>"home" group usage – 63.71%</li>
   </ul>
 </details>
 <details>
   <summary>colemak (en)</summary>
   <ul>
-    <li>hand alteration – 57.23%</li>
-    <li>hand load – 48.31/51.69%</li>
-    <li>maximum difference of finger load – 12.48%</li>
-    <li>chance to double sequentially usage of the same finger – 1.84%</li>
-    <li>"home" group usage – 64.01%</li>
+    <li>hand alteration – 58.64%</li>
+    <li>chance to double sequentially usage of the same finger – 1.26%</li>
+    <li>hand load – 48.38/51.62%</li>
+    <li>maximum difference of finger load – 12.05%</li>
+    <li>"home" group usage – 64.95%</li>
   </ul>
 </details>
 <details>
   <summary>dvorak (en)</summary>
   <ul>
-    <li>hand alteration – 68.19%</li>
-    <li>hand load – 43.33/56.67%</li>
-    <li>maximum difference of finger load – 9.83%</li>
-    <li>chance to double sequentially usage of the same finger – 2.97%</li>
-    <li>"home" group usage – 58.33%</li>
+    <li>hand alteration – 70.67%</li>
+    <li>chance to double sequentially usage of the same finger – 2.61%</li>
+    <li>hand load – 43.30/56.70%</li>
+    <li>maximum difference of finger load – 9.48%</li>
+    <li>"home" group usage – 58.92%</li>
   </ul>
 </details>
 <details>
   <summary>qwpr (en)</summary>
   <ul>
-    <li>hand alteration – 57.23%</li>
-    <li>hand load – 48.31/51.69%</li>
-    <li>maximum difference of finger load – 14.06%</li>
-    <li>chance to double sequentially usage of the same finger – 4.41%</li>
-    <li>"home" group usage – 61.62%</li>
+    <li>hand alteration – 58.64%</li>
+    <li>chance to double sequentially usage of the same finger – 4.04%</li>
+    <li>hand load – 48.38/51.62%</li>
+    <li>maximum difference of finger load – 14.19%</li>
+    <li>"home" group usage – 62.53%</li>
   </ul>
 </details>
 <details>
   <summary>йцукен (ru)</summary>
   <ul>
-    <li>hand alteration – 53.54%</li>
-    <li>hand load – 53.23/46.63%</li>
-    <li>maximum difference of finger load – 29.51%</li>
-    <li>chance to double sequentially usage of the same finger – 19.79%</li>
-    <li>"home" group usage – 33.97%</li>
+    <li>hand alteration – 53.50%</li>
+    <li>chance to double sequentially usage of the same finger – 19.17%</li>
+    <li>hand load – 53.40/46.47% (without "ё")</li>
+    <li>maximum difference of finger load – 29.72%</li>
+    <li>"home" group usage – 33.86%</li>
   </ul>
   <sub>An interesting fact: two-thirds of all presses in the йцукен are on the index fingers. And such a grouping of the most popular characters as a result leads to the fact that and every fifth press will be performed by the same finger. What kind of "ten-finger typing" can we talk about in this situation?</sub>
 </details>
@@ -175,18 +183,18 @@ One more clarification – you can still compare these layouts directly with eac
   <summary>яверты (ru)</summary>
   (** only the letters of the main letter block were taken into account)
   <ul>
-    <li>hand alteration – 48.36%</li>
-    <li>hand load – 50.41/46.84%</li>
-    <li>maximum difference of finger load – 13.24%</li>
-    <li>chance to double sequentially usage of the same finger – 9.38%</li>
-    <li>"home" group usage – 61.62%</li>
+    <li>hand alteration – 48.11%</li>
+    <li>chance to double sequentially usage of the same finger – 8.98%</li>
+    <li>hand load – 53.40/46.87%</li>
+    <li>maximum difference of finger load – 13.09%</li>
+    <li>"home" group usage – 25.92%</li>
   </ul>
 </details>
 
 > More layouts, and their appearance can be found in [external/calculation.xlsx](https://github.com/uqqu/layout/blob/master/external/calculation.xlsx). Here are listed only the main parameters of the most important layouts to mention.
 
 #### Result
-Let's start with the English layouts: <code>qwerty</code> is frankly bad, to put it mildly. Any existing layout (including the ones not listed) is much better. If you look at the opposite result, everything is not so clear, but <code>dvorak</code>, according to the main points, takes the lead.
+Let's start with the English layouts: <code>qwerty</code> is frankly bad, to put it mildly. Any existing alternative layout (including the ones not listed) is much better. If you look at the opposite result, everything is not so clear, but <code>dvorak</code>, according to the main points, takes the lead.
 I will not fully compare <code>dvorak</code> and <code>qPhyx</code>, because this comparison is incorrect, as I mentioned in the beginning. However even for a general idea you can note that on the whole the numbers of the topic-starter if not better, then at least at the level of the leader.
 
 
@@ -261,7 +269,7 @@ With it, the layout can be used for all languages that have in their alphabet or
 And again – it may look very strange, but these remapping were all done only to increase convenience.
 
 #### Language-specific symbols
-Under the `shift` in the numeric row are specific characters for different languages. These include both stand-alone characters and auxiliary characters, which are standard letters with added diacritics intended for simplified typing for certain languages. The view above shows a view with basic modifications for Latin and Cyrillic. Depending on the user's needs (regular or one-time) they can be changed to one of 30+ for Latin and 5 for Cyrillic modifications. The "language" of the modification depends on the current layout language. Let's take a closer look at the modifications:
+Under the `shift` in the numeric row are specific characters for different languages. These include both stand-alone characters and auxiliary characters, which are standard letters with added diacritics intended for simplified typing for certain languages. The view above shows a view with basic modifications for Latin and Cyrillic. Depending on the user's needs (regular or one-time) they can be changed to one of 30+ for Latin and 5 for Cyrillic modifications. The "language" of the modification depends on the current layout language. Let's take a closer look at the modifications.
 
 ### Modifications
 
@@ -303,7 +311,7 @@ Languages with a script other than Latin or Cyrillic. For all of them, all Roman
 
 This division results in 24 5-character modifications (7 of which contain ñ), 7 6-character modifications, and 5 Cyrillic modifications, which are described below.
 
-The total coverage of the first and second groups, including Cyrillic, was 88.86% of the Internet.
+The total coverage of the first and second groups, including Cyrillic, was 88.75% of the Internet.
 
 > All this is shown in more detail in the file [external/languages.xlsx](https://github.com/uqqu/layout/blob/master/external/languages.xlsx). And a comparison of alphabets, 200+ major world languages, 150+ Niger-Congolese languages.
 
@@ -347,7 +355,7 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
 ### Windows
 
 1. Launch setup files in folders [external/MKLC_qphy_lat](https://github.com/uqqu/layout/blob/master/external/MKLC_qphy_lat) and [external/MKLC_qphy_cyr](https://github.com/uqqu/layout/blob/master/external/MKLC_qphy_cyr);
-2. Select the installed layouts as input languages in your OS settings;
+2. Select the installed layouts as input languages in your OS settings; restart your OS;
 3. *(optional)* Install <a href="https://www.autohotkey.com/">AHK</a>, if you want to use uncompiled version;
 4. Place [modes.ini](https://github.com/uqqu/layout/blob/master/modes.ini) and [qphyx.exe](https://github.com/uqqu/layout/blob/master/qphyx.exe) or its uncompiled counterpart – [qphyx.ahk](https://github.com/uqqu/layout/blob/master/qphyx.ahk) in a folder of your choice;
 5. Launch `qphyx.*` to generate the file `config.ini`;
@@ -371,7 +379,6 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
 ## Future plans
 
  * transposition to other scripts
- * own frequency analysis for Russian (required) and English (optional)
  * letter frequency of other languages (in order of frequency of use)
  * geographical SVG-map with languages coverage
 
@@ -407,9 +414,9 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
   <dt>Has this project something to do with touch typing?</dt>
   <dd>Of course! The main goal in maximizing convenience with touch typing and minimizing unnecessary moves (especially, moves that make you have to take your hands off your "home" positions)</dd>
   <dt>Should I first train with touch typing before the use this layout?</dt>
-  <dd>If you are asking yourself this question – you should, regardless of future using this layout. And if you are not experienced in touch typing – maybe it is even better! Pay close attention to the following question for more details.</dd>
+  <dd>If you are asking yourself this question – you should, regardless of future using this layout. And if you are not experienced in touch typing – maybe it is even better! Because that the process of switching to any new layout is very long and discomfortable. And the better you mastered the old layout, the more unpleasant the switching to the new one will be. The first time you will be slow and clumsy, and it will be really annoying. Also, later you will sometimes have "phantom" typing, when one letter of the entire stream suddenly will type from the old layout. Pretty infuriating thing. I am by no means discouraging you, just that you should be prepared in advance for all the things described, and understand that this is the normal order of transition.</dd>
   <dt>I am a grand master of <code>colemak</code>/<code>dvorak</code>/<code>workman</code>/etc., will I get any profit from switching to this layout?</dt>
-  <dd>It's up to you, of course. You will get fewer benefits in the letter layout clause, but all the others are not going anywhere. However, if you want to switch, note that the process of switching to any new layout is very long and discomfortable. And the better you mastered the old layout, the more unpleasant the switching to the new one will be. The first time you will be slow and clumsy, and it will be really annoying. Also, later you will sometimes have "phantom" typing, when one letter of the entire stream suddenly will type from the old layout. Pretty infuriating thing. I am by no means discouraging you, just that you should be prepared in advance for all the things described.</dd>
+  <dd>It's up to you, of course. You will get fewer benefits in the letter layout clause, but all the others are not going anywhere.</dd>
   <dt>...and I'm a grand master of <code>qwerty</code>! Will I ge...</dt>
   <dd>*interrupts* Right now, take any third-party layout. I would be pleased if the layout from the project that is the focus of this entire text was chosen, but even if not, there are many other layouts for Latin, and some of them are very good. But not for the Russian. It is bad there. Anyway, try to give up <code>qwerty</code> and <code>йцукен</code>. These are extremely important layouts for typing history, but leave their use to museum workers.</dd>
   <dt>I can't use <code>arrows</code>/<code>numpad</code>!</dt>
@@ -459,50 +466,58 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
 
 ### Анализы частотности
 
-Первым делом были отобраны различные анализы частотности букв для интересующих языков, из которых были выведены средние значения *(получается, метаанализ)*. Всего было отобрано 25 анализов, основанных на разных выборках. Учитывались все достоверные найденные анализы.
+Первым делом были отобраны различные анализы частотности букв для интересующих языков, из которых были выведены средние значения *(получается, метаанализ)*. Всего было отобрано более 30 анализов, основанных на разных выборках. Учитывались все достоверные найденные анализы.
 
 Для английского языка для базовой буквенной частотности в финальный вид были включены следующие анализы:
 
   * [norvig.com](http://norvig.com/mayzner.html)
-  * [ac.uk](https://core.ac.uk/download/pdf/231084615.pdf)
+  * [core.ac.uk](https://core.ac.uk/download/pdf/231084615.pdf)
+  * [practicalcryptography.com](http://practicalcryptography.com/cryptanalysis/letter-frequencies-various-languages/english-letter-frequencies/)
+  * [github.com/uqqu](https://github.com/uqqu/frequency_analysis/tree/master/examples/multiUN_analysis)
+  * [macfreek.nl](http://www.macfreek.nl/memory/Letter_Distribution)
+  * [viviancook.uk](http://www.viviancook.uk/SpellStats/SingleLetterFrequencies.htm)
+  * [fitaly.com](http://www.fitaly.com/board/domper3/posts/136.html)
   * [sttmedia.com](https://www.sttmedia.com/characterfrequency-english)
-  * [nd.edu](https://www3.nd.edu/~busiforc/handouts/cryptography/letterfrequencies.html)
+  * [mathstats.uncg.edu](https://mathstats.uncg.edu/sites/pauli/112/HTML/secfrequency.html)
   * [pi.math.cornell.edu](http://pi.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html)
-  * [lexico.com](https://www.lexico.com/explore/which-letters-are-used-most)
+  * [math.ucsd.edu](http://www.math.ucsd.edu/~crypto/Projects/MarshaMoreno/TimeComparisonFrequency.pdf)
   * [cs.wellesley.edu](http://cs.wellesley.edu/~fturbak/codman/letterfreq.html)
   * [en.algoritmy.net](http://en.algoritmy.net/article/40379/Letter-frequency-English)
-  * [practicalcryptography.com](http://practicalcryptography.com/cryptanalysis/letter-frequencies-various-languages/english-letter-frequencies/)
 
 Для русского языка для базовой буквенной частотности были включены следующие анализы:
 
   * [dict.ruslang.ru](http://dict.ruslang.ru/freq.php?act=show&dic=freq_letters)
-  * [sttmedia.com](https://www.sttmedia.com/characterfrequency-russian)
-  * [simia.net](http://simia.net/letters/index.html)
-  * [lg--web.chat.ru](http://lg--web.chat.ru/texts.html)
   * [practicalcryptography.com](http://practicalcryptography.com/cryptanalysis/letter-frequencies-various-languages/russian-letter-frequencies/)
+  * [github.com/uqqu](https://github.com/uqqu/frequency_analysis/tree/master/examples/annot_opcorpora_analysis)
+  * [lg--web.chat.ru](http://lg--web.chat.ru/texts.html)
+  * [sttmedia.com](https://www.sttmedia.com/characterfrequency-russian)
+  * [dpva.ru](https://dpva.ru/Guide/GuideUnitsAlphabets/Alphabets/FrequencyRuLetters/)
+  * [simia.net](http://simia.net/letters/index.html)
   * Яглом А.М., Яглом И.М., Вероятность и информация, М.: Наука, 1973 / с.238
 
 Для английского языка для парной буквенной частотности были отобраны следующие биграммные анализы:
 
-  * [joyofdata.de](https://www.joyofdata.de/blog/frequency-of-character-combinations/)
   * [gist.github.com/lydell](https://gist.github.com/lydell/c439049abac2c9226e53)
-  * [homepages.math.uic.edu](http://homepages.math.uic.edu/~leon/mcs425-s08/handouts/char_freq2.pdf)
   * [practicalcryptography.com](http://practicalcryptography.com/cryptanalysis/letter-frequencies-various-languages/english-letter-frequencies/)
+  * [github.com/uqqu](https://github.com/uqqu/frequency_analysis/tree/master/examples/multiUN_analysis)
   * [link.springer.com](https://link.springer.com/content/pdf/10.3758/BF03201360.pdf)
+  * [homepages.math.uic.edu](http://homepages.math.uic.edu/~leon/mcs425-s08/handouts/char_freq2.pdf)
+  * [joyofdata.de](https://www.joyofdata.de/blog/frequency-of-character-combinations/)
 
 Для русского языка для парной буквенной частотности были отобраны следующие биграммные анализы:
 
-  * [statistica.ru](http://statistica.ru/local-portals/data-mining/analiz-tekstov/)
-  * [joyofdata.de](https://www.joyofdata.de/blog/frequency-of-character-combinations/)
   * [practicalcryptography.com](http://practicalcryptography.com/cryptanalysis/letter-frequencies-various-languages/russian-letter-frequencies/)
+  * [github.com/uqqu](https://github.com/uqqu/frequency_analysis/tree/master/examples/annot_opcorpora_analysis)
+  * [joyofdata.de](https://www.joyofdata.de/blog/frequency-of-character-combinations/)
+  * [statistica.ru](http://statistica.ru/local-portals/data-mining/analiz-tekstov/)
 
 ### Отбор критериев удобства
 
 Для объективной оценки удобства использования раскладки необходимо выделить соответствующие критерии. Ими стали:
   * чередование рук (вероятность, с которой для набора любой случайной пары букв будут задействованы обе руки)
+  * минимизация вероятности использования одного пальца на два набора подряд (с учётом базовой вероятности повтора одной буквы)
   * равномерная нагрузка рук
   * равномерная нагрузка пальцев
-  * минимизация вероятности использования одного пальца на два набора подряд (с учётом базовой вероятности повтора одной буквы)
   * максимальное использование наиболее удобных групп (см. далее)
 
 Для последнего критерия буквенная часть стандартной не эргономичной клавиатуры была разделена на 6(7) групп по удобству.
@@ -527,11 +542,11 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
 ### Так что же, Веничка, что же всё-таки с цифрами? Нам страшно интересно...
 
 Да ведь я понимаю, что интересно. Сейчас, сейчас перечислю:
-  * чередование рук – 67.73% (en) и 73.32% (ru)
-  * равномерность нагрузки рук – 49.69/50.31% и 50.64/49.36%
-  * максимальная разница нагрузки пальцев – 3.86% и 7.48%
-  * вероятность "чистого" повторного нажатия одним пальцем – 3.38% и 4.37%
-  * использование "домашней" группы – 64.01% и 57.72%
+  * чередование рук – 70.58% (en) и 71.23% (ru)
+  * вероятность "чистого" повторного нажатия одним пальцем – 2.55% и 4.54%
+  * равномерность нагрузки рук – 48.36/51.64% и 52.35/47.65%
+  * максимальная разница нагрузки пальцев – 4.86% и 8.98%
+  * использование "домашней" группы – 64.95% и 58.07%
 <br><sub>а ещё приятный внешний вид и мнемонические ряды</sub>
 
 ### Так-так-так, – говорите вы, – а альтернативные раскладки? Ведь всё уже придумано до тебя
@@ -543,61 +558,61 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
 <details>
   <summary>qwerty (en)</summary>
   <ul>
-    <li>чередование рук – 51.68%</li>
-    <li>равномерность нагрузки рук – 58.47/41.53%</li>
-    <li>максимальная разница нагрузки пальцев – 19.99%</li>
-    <li>вероятность "чистого" повторного нажатия одним пальцем – 7.29%</li>
-    <li>использование "домашней" группы – 26.09%</li>
+    <li>чередование рук – 52.60%</li>
+    <li>вероятность "чистого" повторного нажатия одним пальцем – 7.08%</li>
+    <li>равномерность нагрузки рук – 58.69/41.31%</li>
+    <li>максимальная разница нагрузки пальцев – 20.17%</li>
+    <li>использование "домашней" группы – 25.70%</li>
   </ul>
 </details>
 <details>
   <summary>workman (en)</summary>
   <ul>
-    <li>чередование рук – 54.89%</li>
-    <li>равномерность нагрузки рук – 51.70/48.30%</li>
-    <li>максимальная разница нагрузки пальцев – 11.28%</li>
-    <li>вероятность "чистого" повторного нажатия одним пальцем – 3.15%</li>
-    <li>использование "домашней" группы – 62.73%</li>
+    <li>чередование рук – 55.96%</li>
+    <li>вероятность "чистого" повторного нажатия одним пальцем – 2.91%</li>
+    <li>равномерность нагрузки рук – 51.49/48.51%</li>
+    <li>максимальная разница нагрузки пальцев – 11.14%</li>
+    <li>использование "домашней" группы – 63.71%</li>
   </ul>
 </details>
 <details>
   <summary>colemak (en)</summary>
   <ul>
-    <li>чередование рук – 57.23%</li>
-    <li>равномерность нагрузки рук – 48.31/51.69%</li>
-    <li>максимальная разница нагрузки пальцев – 12.48%</li>
-    <li>вероятность "чистого" повторного нажатия одним пальцем – 1.84%</li>
-    <li>использование "домашней" группы – 64.01%</li>
+    <li>чередование рук – 58.64%</li>
+    <li>вероятность "чистого" повторного нажатия одним пальцем – 1.26%</li>
+    <li>равномерность нагрузки рук – 48.38/51.62%</li>
+    <li>максимальная разница нагрузки пальцев – 12.05%</li>
+    <li>использование "домашней" группы – 64.95%</li>
   </ul>
 </details>
 <details>
   <summary>dvorak (en)</summary>
   <ul>
-    <li>чередование рук – 68.19%</li>
-    <li>равномерность нагрузки рук – 43.33/56.67%</li>
-    <li>максимальная разница нагрузки пальцев – 9.83%</li>
-    <li>вероятность "чистого" повторного нажатия одним пальцем – 2.97%</li>
-    <li>использование "домашней" группы – 58.33%</li>
+    <li>чередование рук – 70.67%</li>
+    <li>вероятность "чистого" повторного нажатия одним пальцем – 2.61%</li>
+    <li>равномерность нагрузки рук – 43.30/56.70%</li>
+    <li>максимальная разница нагрузки пальцев – 9.48%</li>
+    <li>использование "домашней" группы – 58.92%</li>
   </ul>
 </details>
 <details>
   <summary>qwpr (en)</summary>
   <ul>
-    <li>чередование рук – 57.23%</li>
-    <li>равномерность нагрузки рук – 48.31/51.69%</li>
-    <li>максимальная разница нагрузки пальцев – 14.06%</li>
-    <li>вероятность "чистого" повторного нажатия одним пальцем – 4.41%</li>
-    <li>использование "домашней" группы – 61.62%</li>
+    <li>чередование рук – 58.64%</li>
+    <li>вероятность "чистого" повторного нажатия одним пальцем – 4.04%</li>
+    <li>равномерность нагрузки рук – 48.38/51.62%</li>
+    <li>максимальная разница нагрузки пальцев – 14.19%</li>
+    <li>использование "домашней" группы – 62.53%</li>
   </ul>
 </details>
 <details>
   <summary>йцукен (ru)</summary>
   <ul>
-    <li>чередование рук – 53.54%</li>
-    <li>равномерность нагрузки рук – 53.23/46.63%</li>
-    <li>максимальная разница нагрузки пальцев – 29.51%</li>
-    <li>вероятность "чистого" повторного нажатия одним пальцем – 19.79%</li>
-    <li>использование "домашней" группы – 33.97%</li>
+    <li>чередование рук – 53.50%</li>
+    <li>вероятность "чистого" повторного нажатия одним пальцем – 19.17%</li>
+    <li>равномерность нагрузки рук – 53.40/46.47% (без "ё")</li>
+    <li>максимальная разница нагрузки пальцев – 29.72%</li>
+    <li>использование "домашней" группы – 33.86%</li>
   </ul>
   <sub>Интересный факт: две трети всех нажатий в йцукен приходятся на указательные пальцы. А подобная сгруппированность популярнейших символов в результате приводит к тому, что и каждое пятое нажатие будет выполняться одним и тем же пальцем. О каком "десятипальцевом наборе" в такой ситуации может идти речь?</sub>
 </details>
@@ -605,18 +620,18 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
   <summary>яверты (ru)</summary>
   (** учитывались только буквы основного буквенного блока)
   <ul>
-    <li>чередование рук – 48.36%</li>
-    <li>равномерность нагрузки рук – 50.41/46.84%</li>
-    <li>максимальная разница нагрузки пальцев – 13.24%</li>
-    <li>вероятность "чистого" повторного нажатия одним пальцем – 9.38%</li>
-    <li>использование "домашней" группы – 61.62%</li>
+    <li>чередование рук – 48.11%</li>
+    <li>вероятность "чистого" повторного нажатия одним пальцем – 8.98%</li>
+    <li>равномерность нагрузки рук – 53.40/46.87%</li>
+    <li>максимальная разница нагрузки пальцев – 13.09%</li>
+    <li>использование "домашней" группы – 25.92%</li>
   </ul>
 </details>
 
 > Больше раскладок, а также их внешний вид можете найти в [external/calculation.xlsx](https://github.com/uqqu/layout/blob/master/external/calculation.xlsx). Здесь перечислены лишь основные показатели наиболее важных к упоминанию раскладок.
 
 #### Результат
-Начнём с английских раскладок: <code>qwerty</code> откровенно плох, если не сказать грубее. Любая существующая раскладка (в том числе из не перечисленных) в разы и разы лучше. Если смотреть на обратный результат, то всё не так однозначно, но <code>dvorak</code>, по основным пунктам, всё-таки забирает первенство.
+Начнём с английских раскладок: <code>qwerty</code> откровенно плох, если не сказать грубее. Любая существующая альтернативная раскладка (в том числе из не перечисленных) в разы и разы лучше. Если смотреть на обратный результат, то всё не так однозначно, но <code>dvorak</code>, по основным пунктам, всё-таки забирает первенство.
 Полноценно сравнивать <code>dvorak</code> и <code>qPhyx</code> я не стану, так как это сравнение некорректно, о чём я обмолвился изначально. Но даже для общего представления вы можете отметить, что в целом цифры топик-стартера если уж не лучше, то как минимум на уровне лидера.
 
 
@@ -686,12 +701,12 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
   * `caps lock` был заменён на `enter`
   *  базовая `tilde` теперь `esc`
   *  функция `caps lock` удалена (так и запланировано)
-    * если сильно понадобится, вы можете определить функцию `caps lock` на `esc`, но в некоторых редких случаях вам может понадобиться "оригинальный" `esc`, а не `tilde` как `esc`
+    * если понадобится, вы можете определить функцию `caps lock` на `esc`, но в некоторых редких случаях вам может понадобиться "оригинальный" `esc`, а не `tilde` как `esc`
 
 Опять же – это выглядит довольно странно, но это сделано исключительно для повышения удобства.
 
 #### Языковые символы
-Под `shift` в цифровом ряду расположены специфичные символы для разных языков. В их числе как самостоятельные символы, так и вспомогательные, являющиеся стандартными символами с добавленной диакритикой, предназначенные для упрощённого ввода для определённых языков. В отображении выше показан вид с основными модификациями для латиницы и кириллицы. В зависимости от потребностей пользователя (регулярных или разовых) они могут быть изменены в одну из 30+ для латиницы и 5 для кириллицы модификаций. "Язык" модификации зависит от текущего языка раскладки. Рассмотрим модификации поподробнее:
+Под `shift` в цифровом ряду расположены специфичные символы для разных языков. В их числе как самостоятельные символы, так и вспомогательные, являющиеся стандартными символами с добавленной диакритикой, предназначенные для упрощённого ввода для определённых языков. В отображении выше показан вид с основными модификациями для латиницы и кириллицы. В зависимости от потребностей пользователя (регулярных или разовых) они могут быть изменены в одну из 30+ для латиницы и 5 для кириллицы модификаций. "Язык" модификации зависит от текущего языка раскладки. Рассмотрим модификации подробнее ниже.
 
 ### Модификации
 
@@ -733,7 +748,7 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
 
 После такого распределения получается 24 5-символьных модификаций (7 из которых содержат ñ), 7 6-символьных модификаций, и 5 кириллических, о которых ниже.
 
-Общий охват первой и второй групп, с учётом кириллических, составил 88.86% интернета.
+Общий охват первой и второй групп, с учётом кириллических, составил 88.75% интернета.
 
 > Более наглядно и детально всё это отражено в файле [external/languages.xlsx](https://github.com/uqqu/layout/blob/master/external/languages.xlsx). А также сравнение алфавитов, 200+ основных мировых языков, 150+ нигеро-конголезских языков.
 
@@ -777,7 +792,7 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
 ### Windows
 
 1. Запустите установочные файлы в папках [external/MKLC_qphy_lat](https://github.com/uqqu/layout/blob/master/external/MKLC_qphy_lat) и [external/MKLC_qphy_cyr](https://github.com/uqqu/layout/blob/master/external/MKLC_qphy_cyr);
-2. Выберите установившиеся раскладки как языки ввода в настройках вашей ОС;
+2. Выберите установившиеся раскладки как языки ввода в настройках вашей ОС и перезагрузите систему;
 3. *(опционально)* Установите <a href="https://www.autohotkey.com/">AHK</a>, если предпочитаете использовать нескомпилированную версию;
 4. Разместите [modes.ini](https://github.com/uqqu/layout/blob/master/modes.ini) и [qphyx.exe](https://github.com/uqqu/layout/blob/master/qphyx.exe) или его нескомпилированный аналог – [qphyx.ahk](https://github.com/uqqu/layout/blob/master/qphyx.ahk) в папке по вашему выбору;
 5. Запустите `qphyx.*` для генерации файла `config.ini`;
@@ -801,7 +816,6 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
 ## Дальнейшие планы
 
  * переложение на другие письменности
- * собственный анализ частотности для русского (обязательно) и английского (возможно)
  * частотность других языков (в порядке используемости)
  * географическая SVG-карта с покрытием языков
 
@@ -837,9 +851,9 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
   <dt>Связан ли как-то этот проект и метод слепого набора?</dt>
   <dd>Конечно! Одна из целей как раз в максимизации удобства слепого набора и минимизации лишних движений (в особенности – движений отрывающих руки с их домашних позиций).</dd>
   <dt>Нужно ли мне сначала потренироваться в слепом наборе, прежде чем знакомиться с этим проектом?</dt>
-  <dd>Если вы уже об этом задумались – однозначно стоит, и вне зависимости от того, собираетесь ли вы потом знакомиться с данным проектом. А если всё-таки собираетесь, то даже лучше сначала ознакомиться с проектом, а уже пользуясь выбранной раскладкой тренироваться в слепом наборе. Следующий вопрос ответит, почему так.</dd>
+  <dd>Если вы уже об этом задумались – однозначно стоит, и вне зависимости от того, собираетесь ли вы потом знакомиться с данным проектом. А если всё-таки собираетесь, то даже лучше сначала ознакомиться с проектом, а уже пользуясь выбранной раскладкой тренироваться в слепом наборе, потому как процесс перехода на любую новую раскладку длителен и дискомфортен. И чем лучше вы владели предыдущей раскладкой, тем больнее будет переход на новую. Первое время вы будете очень медленными и неуклюжими, и это будет бесить. Также потом могут иногда проявляться фантомные нажатия, когда в процессе потокового набора палец на один символ идёт по старому автоматизму. Тоже довольно бесячая вещь. Я ни в коем случае не отговариваю вас, просто вы должны быть заранее готовы к описанному, и понимать, что это естественный порядок перехода.</dd>
   <dt>Я гранд-мастер набора текста на <code>colemak</code>/<code>dvorak</code>/<code>workman</code>/др., есть ли смысл переходить на эту раскладку?</dt>
-  <dd>На ваше усмотрение, конечно. Вы получите меньше преимуществ в пункте буквенной раскладки, но все остальные никуда не делись. Однако если вы захотите перейти, учтите, что процесс перехода на любую новую раскладку длителен и дискомфортен. И чем лучше вы владели предыдущей раскладкой, тем больнее будет переход на новую. Первое время вы будете очень медленными и неуклюжими, и это будет бесить. Также потом могут иногда проявляться фантомные нажатия, когда в процессе потокового набора палец на один символ идёт по старому автоматизму. Тоже довольно бесячая вещь. Я ни в коем случае не отговариваю вас, просто вы должны быть заранее готовы ко всему описанному.</dd>
+  <dd>На ваше усмотрение, конечно. Вы получите меньше преимуществ в пункте буквенной раскладки, но все остальные никуда не делись.</dd>
   <dt>...а я гранд-мастер набора текста на <code>qwerty</code>! Есть ли мн...</dt>
   <dd>*перебивает* Прямо сейчас возьмите любую стороннюю раскладку. Мне будет приятно, если выбор остановится на раскладке из проекта, которому посвящён весь данный текст, но даже если нет – существует множество других раскладок для латиницы, и некоторые из них очень даже хороши. Но не для русского. Там всё плохо. Так или иначе, постарайтесь отказаться от <code>qwerty</code> и <code>йцукен</code>. Это крайне важные раскладки для истории набора текста, но оставьте их использование музейным работникам.</dd>
   <dt>Я не могу использовать <code>стрелки</code> и <code>цифровой блок</code>!</dt>

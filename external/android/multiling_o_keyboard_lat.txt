@@ -21,7 +21,7 @@
 			"[XK:1ñ][XK:2å][XK:3ä][XK:4ö][XK:5ü][4D:[CLIPBOARD][HOME][UP][END][DOWN]][XK:6ł][XK:7đ][XK:8I][XK:9ß][XK:0øæœ]",
 			"qphyxzwdlv[XK: #]",
 			"eaoiumstrnc",
-			"[SHIFT]j[XK: €₽]g[XK: ≈]kf[XK: [RIGHTBRACKET]}]b[XK:[UNDO][REDO]][DEL]",
+			"[SHIFT]j[XK: €₽]k[XK: ≈]gf[XK: [RIGHTBRACKET]}]b[XK:[UNDO][REDO]][DEL]",
 			"[TOOL][ALTGR][SPACE][][][][][][][ENTER][]"
 		],
 
@@ -46,7 +46,7 @@
 			"[XK:1Ñ][XK:2Å][XK:3Ä][XK:4Ö][XK:5Ü][4D:[CLIPBOARD][HOME][UP][END][DOWN]][XK:6Ł][XK:7Đ][XK:8İ][XK:9ß][XK:0ØÆŒ]",
 			"QPHYXZWDLV[XK: #]",
 			"EAOIUMSTRNC",
-			"[SHIFT]J[XK: €₽]G[XK: ≈]KF[XK: [RIGHTBRACKET]}]B[XK:[UNDO][REDO]][DEL]",
+			"[SHIFT]J[XK: €₽]K[XK: ≈]GF[XK: [RIGHTBRACKET]}]B[XK:[UNDO][REDO]][DEL]",
 			"[TOOL][ALTGR][SPACE][][][][][][][ENTER][]"
 		],
 

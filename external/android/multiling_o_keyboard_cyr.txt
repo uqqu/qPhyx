@@ -19,9 +19,9 @@
 	"onScreen":{
 		"main":[
 			"[XK:1ґ][XK:2є][XK:3і][XK:4ї][XK:5ӏ][4D:[CLIPBOARD][HOME][UP][END][DOWN]][XK:6ў][XK:7ѣ][XK:8ѵ][XK:9ѳ][XK:0ӂӕӧ]",
-			"юпхыязшдлвж",
+			"юпхыязшдлвщ",
 			"еаоиумстрнц",
-			"[SHIFT]йэёг[XK:ь≈ъ]кфчщб[XK:[UNDO][REDO]][DEL]",
+			"[SHIFT]йэёк[XK:ь≈ъ]гфжчб[XK:[UNDO][REDO]][DEL]",
 			"[TOOL][ALTGR][SPACE][][][][][][][ENTER][]"
 		],
 
@@ -44,9 +44,9 @@
 
 		"shifted":[
 			"[XK:1Ґ][XK:2Є][XK:3І][XK:4Ї][XK:5Ӏ][4D:[CLIPBOARD][HOME][UP][END][DOWN]][XK:6Ў][XK:7Ѣ][XK:8Ѵ][XK:9Ѳ][XK:0ӁӔӦ]",
-			"ЮПХЫЯЗШДЛВЖ",
+			"ЮПХЫЯЗШДЛВЩ",
 			"ЕАОИУМСТРНЦ",
-			"[SHIFT]ЙЭЁГ[XK:Ь≈Ъ]КФЧЩБ[XK:[UNDO][REDO]][DEL]",
+			"[SHIFT]ЙЭЁК[XK:Ь≈Ъ]ГФЖЧБ[XK:[UNDO][REDO]][DEL]",
 			"[TOOL][ALTGR][SPACE][][][][][][][ENTER][]"
 		],
 
