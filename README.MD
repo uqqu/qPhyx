@@ -420,11 +420,13 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
   <dt>...and I'm a grand master of <code>qwerty</code>! Will I ge...</dt>
   <dd>*interrupts* Right now, take any third-party layout. I would be pleased if the layout from the project that is the focus of this entire text was chosen, but even if not, there are many other layouts for Latin, and some of them are very good. But not for the Russian. It is bad there. Anyway, try to give up <code>qwerty</code> and <code>йцукен</code>. These are extremely important layouts for typing history, but leave their use to museum workers.</dd>
   <dt>I can't use <code>arrows</code>/<code>numpad</code>!</dt>
-  <dd>That's the way it's supposed to be. If you want to try this layout, you should be used to keep your hands on "home" positions.</dd>
+  <dd>That's the way it's supposed to be. If you want to try this layout, you should be used to keep your hands on "home" positions. If you really need a NumPad, you can toggle the <code>NumPad</code> option to <code>1</code> in the <code>config.ini</code> or in the <code>menu</code>.</dd>
   <dt>I can't "scream" with <code>Caps Lock</code>!</dt>
   <dd>That's great. That's the way it's supposed to be.</dd>
   <dt>... but I need <code>Caps Lock</code> function for my PL or some other case!</dt>
   <dd>This layout is for general use. And in general cases this function is harmful...<br>Okay, you can set <code>EscAsCaps</code> to 1 in <code>config.ini</code> and toggle <code>Caps Lock</code> via <code>Esc</code>. Even additional symbols from the numeric row will work with it. But, please, don't overuse it.</dd>
+  <dd>The non-breaking space is more of a hindrance!</dd>
+  <dt>For this case there is also a setting to disable – <code>UnbrSpace</code> in the <code>config.ini</code> or via the <code>menu</code>.</dt>
   <dt>Is this project relative to <a href="https://github.com/uqqu/menu">menu</a>?</dt>
   <dd>Yes, once they were a one-piece project, but while the functionality was becoming more and more they were separated in two projects. However they have connections with each other. E.g. you can regulate "long press" delay with <code>menu</code> via <code>input-box</code> which is invoked by <code>menu</code> and edit "on air" other <code>qPhyx</code> settings. In turn, <code>qPhyx</code> calls <code>menu</code> at the right time to avoid conflicting appointments. For connection between them, you should correct path to relative in <code>config.ini</code> for both.</dd>
   <dt>Some other integrations?</dt>
@@ -857,11 +859,13 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
   <dt>...а я гранд-мастер набора текста на <code>qwerty</code>! Есть ли мн...</dt>
   <dd>*перебивает* Прямо сейчас возьмите любую стороннюю раскладку. Мне будет приятно, если выбор остановится на раскладке из проекта, которому посвящён весь данный текст, но даже если нет – существует множество других раскладок для латиницы, и некоторые из них очень даже хороши. Но не для русского. Там всё плохо. Так или иначе, постарайтесь отказаться от <code>qwerty</code> и <code>йцукен</code>. Это крайне важные раскладки для истории набора текста, но оставьте их использование музейным работникам.</dd>
   <dt>Я не могу использовать <code>стрелки</code> и <code>цифровой блок</code>!</dt>
-  <dd>Так и задумано. Если вы хотите попробовать эту раскладку, как она и планировалась, вам нужно привыкнуть к тому, чтобы поменьше отрывать руки от домашних позиций.</dd>
+  <dd>Так и задумано. Если вы хотите попробовать эту раскладку, как она и планировалась, вам нужно привыкнуть к тому, чтобы поменьше отрывать руки от домашних позиций. Если вам действительно нужен цифровой блок, вы можете переключить настройку <code>NumPad</code> в <code>1</code>, в <code>config.ini</code> или через <code>menu</code>.</dd>
   <dt>Я не могу кричать капсом!</dt>
   <dd>Восхитительно. Так и задумано.</dd>
   <dt>... но мне нужен <code>Caps Lock</code> для моего ЯП или для чего-то ещё!</dt>
   <dd>Эта раскладка для общего пользования. А для общего пользования функция <code>Caps Lock</code> вредна...<br>Ладно, если что, вы можете установить в <code>config.ini</code> параметр <code>EscAsCaps</code> в 1, и переключать состояние <code>Caps Lock</code> через <code>Esc</code>. Даже дополнительные буквенные символы из цифрового ряда будут инвертированы. Только, пожалуйста, не злоупотребляйте этим.</dd>
+  <dd>Неразрывный пробел больше мешает!</dd>
+  <dt>На этот случай также предусмотрена настройка для отключения – <code>UnbrSpace</code> в <code>config.ini</code> или через <code>menu</code>.</dt>
   <dt>Этот проект родственен с <a href="https://github.com/uqqu/menu">menu</a>?</dt>
   <dd>Да, когда-то это был единый проект, но с постоянным добавлением нового функционала было принято решение о его разделении на два проекта. Но и сейчас они тесно связаны друг с другом. К примеру, вы можете выставлять время срабатывания длинного нажатия через <code>input-box</code> вызываемый <code>menu</code>, и управлять прочими пунктами настроек, а <code>qphyx</code> сам вызывает <code>menu</code> в подходящий момент, дабы избежать конфликта назначений. Для связи между ними нужно лишь в <code>config.ini</code> обоих проектов указать путь к родственнику.</dd>
   <dt>Ещё какие-нибудь интеграции?</dt>
