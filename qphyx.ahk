@@ -23,6 +23,8 @@ Global DOTLESS_I_SWAP
 Global QPHYX_DISABLE
 Global QPHYX_LONG_TIME
 Global ESC_AS_CAPS
+Global NUMPAD
+Global UNBR_SPACE
 
 Global INI := "config.ini"
 IfExist, %INI%
@@ -38,6 +40,8 @@ IfExist, %INI%
     IniRead, QPHYX_DISABLE,             %INI%, Configuration, QphyxDisable
     IniRead, QPHYX_LONG_TIME,           %INI%, Configuration, QphyxLongTime
     IniRead, ESC_AS_CAPS,               %INI%, Configuration, EscAsCaps
+    IniRead, NUMPAD,                    %INI%, Configuration, NumPad
+    IniRead, UNBR_SPACE,                %INI%, Configuration, UnbrSpace
 }
 Else
 {
@@ -52,6 +56,8 @@ Else
     IniWrite, 0,                        %INI%, Configuration, QphyxDisable
     IniWrite, 0.15,                     %INI%, Configuration, QphyxLongTime
     IniWrite, 0,                        %INI%, Configuration, EscAsCaps
+    IniWrite, 0,                        %INI%, Configuration, NumPad
+    IniWrite, 1,                        %INI%, Configuration, UnbrSpace
     FileAppend, `n[AltApps]`n, %INI%
     Run, qphyx%EXT%
 }
@@ -129,6 +135,10 @@ IniRead, section, modes.ini, Latin %LATIN_MODE%
 For ind, pair in StrSplit(section, "`n")
 {
     scan_code := SubStr(pair, 1, 5)
+    If scan_code == "name="
+    {
+        Continue
+    }
     values := StrSplit(SubStr(pair, 7), ",")
     NUM_DICT[scan_code].Push(values[1], values[2])
 }
@@ -137,6 +147,10 @@ IniRead, section, modes.ini, Cyrillic %CYRILLIC_MODE%
 For ind, pair in StrSplit(section, "`n")
 {
     scan_code := SubStr(pair, 1, 5)
+    If scan_code == "name="
+    {
+        Continue
+    }
     values := StrSplit(SubStr(pair, 7), ",")
     NUM_DICT[scan_code].Push(values[1], values[2])
 }
@@ -234,11 +248,11 @@ UpNum(this, shift:=0, alt:=0)
 }
 
 ;letter rows interaction
-Down(this)
+Down(this, shift:=0)
 {
     If !DICT[this][1]
     {
-        DICT[this][1] := 1
+        DICT[this][1] := 1 + shift
         KeyWait, %this%, T%QPHYX_LONG_TIME%
         If (ErrorLevel && !DICT[this][2])
         {
@@ -248,11 +262,11 @@ Down(this)
     }
 }
 
-Up(this)
+Up(this, shift:=0)
 {
     If (DICT[this][1] && !DICT[this][2])
     {
-        If GetKeyState("CapsLock", "T") {
+        If (GetKeyState("CapsLock", "T") || DICT[this][1] == 2) {
             SendInput +{%this%}
         }
         Else
@@ -373,65 +387,6 @@ For ind, pair in StrSplit(section, "`n")
 
 
 ;===============================================================================================
-;==============================================Unused scancodes=================================
-;===============================================================================================
-
-;;;same
-;SC001:: esc
-;SC00F:: tab
-;SC01D:: lctrl
-;SC02A:: lshift
-;SC038:: lalt
-;SC03B:: f1
-;SC03C:: f2
-;SC03D:: f3
-;SC03E:: f4
-;SC03F:: f5
-;SC040:: f6
-;SC041:: f7
-;SC042:: f8
-;SC043:: f9
-;SC044:: f10
-;SC045:: pause
-;SC046:: scroll lock
-;SC057:: f11
-;SC058:: f12
-;SC110:: media prev
-;SC119:: media next
-;SC11D:: rctrl
-;SC120:: volume mute
-;SC121:: calculator
-;SC122:: media play/pause
-;SC124:: media stop
-;SC12E:: volume down
-;SC130:: volume up
-;SC132:: browser (new window or homepage on active browser window active tab)
-;SC136:: rshift
-;SC137:: print screen
-;SC138:: ralt
-;SC147:: home
-;SC149:: page up
-;SC14F:: end
-;SC151:: page down
-;SC152:: insert
-;SC15B:: lwin
-;SC15D:: apps key
-;SC169:: browser forward
-;SC16A:: browser back
-;SC16D:: media player
-
-;;;other (not found)
-;SC036:: rshift ??? (136)
-;SC054:: (Alt-SysRq) on a 84+ key keyboard
-;SC055:: is less common; occurs e.g. as F11 on a Cherry G80-0777 keyboard,
-    ;as F12 on a Telerate keyboard, as PF1 on a Focus 9000 keyboard, as FN on an IBM ThinkPad
-;SC056:: mostly on non-US keyboards.
-    ;It is often an unlabelled key to the left or to the right of the left Alt key
-
-;SC02B:: (\|), on a 102-key keyboards is a default key for menu.*
-
-
-;===============================================================================================
 ;===========================================Controlling assignments=============================
 ;===============================================================================================
 
@@ -451,42 +406,6 @@ For ind, pair in StrSplit(section, "`n")
  SC029:: SendInput  {SC001}
 !SC029:: SendInput !{SC001}
 ^SC029:: SendInput ^{SC001}
-
-
-;;;Return
-;numpad mult (*)
-    *SC037::
-;numpad 789-
-    *SC047::
-    *SC048::
-    *SC049::
-    *SC04A::
-;numpad 456+
-    *SC04B::
-    *SC04C::
-    *SC04D::
-    *SC04E::
-;numpad 1230.
-    *SC04F::
-    *SC050::
-    *SC051::
-    *SC052::
-    *SC053::
-;numpad enter
-    *SC11C::
-;numpad div (/)
-    *SC135::
-;num lock
-    *SC145::
-;arrows up/left/right/down
-    *SC148::
-    *SC14B::
-    *SC14D::
-    *SC150::
-;delete
-    *SC153::
-        Return
-
 
 ;backspace
  SC00E:: SendInput {SC122}
@@ -717,6 +636,45 @@ SC035::
     Down(A_ThisHotkey)
     Return
 
+;top letters row
++SC010::
++SC011::
++SC012::
++SC013::
++SC014::
++SC015::
++SC016::
++SC017::
++SC018::
++SC019::
++SC01A::
++SC01B::
+;home letters row
++SC01E::
++SC01F::
++SC020::
+; +SC021:: exception (separate control command)
++SC022::
++SC023::
++SC024::
++SC025::
++SC026::
++SC027::
++SC028::
+;bottom letters row
++SC02C::
++SC02D::
++SC02E::
++SC02F::
++SC030::
++SC031::
++SC032::
++SC033::
++SC034::
++SC035::
+    Down(SubStr(A_ThisHotkey, 2), 1)
+    Return
+
 ;numeric row
 +SC002 up::
 +SC003 up::
@@ -788,6 +746,45 @@ SC035 up::
     Return
 
 ;top letters row
++SC010 up::
++SC011 up::
++SC012 up::
++SC013 up::
++SC014 up::
++SC015 up::
++SC016 up::
++SC017 up::
++SC018 up::
++SC019 up::
++SC01A up::
++SC01B up::
+;home letters row
++SC01E up::
++SC01F up::
++SC020 up::
++SC021 up::
++SC022 up::
++SC023 up::
++SC024 up::
++SC025 up::
++SC026 up::
++SC027 up::
++SC028 up::
+;bottom letters row
++SC02C up::
++SC02D up::
++SC02E up::
++SC02F up::
++SC030 up::
++SC031 up::
++SC032 up::
++SC033 up::
++SC034 up::
++SC035 up::
+    Up(SubStr(A_ThisHotkey, 2, 5), 1)
+    Return
+
+;top letters row
 !SC010::
 !SC011::
 !SC012::
@@ -818,6 +815,22 @@ SC035 up::
     SendInput % "{Text}" DICT[SubStr(A_ThisHotkey, 2)][4]
     Return
 
+;home row "sh-i"
++SC021::
+    Down(SubStr(A_ThisHotkey, 2), 1)
+    If (DOTLESS_I_SWAP && !DICT["SC021"][2])
+    {
+        SetFormat, Integer, H
+        lang := % DllCall("GetKeyboardLayout", Int
+            , DllCall("GetWindowThreadProcessId", int, WinActive("A"), Int, 0))
+        SetFormat, Integer, D
+        If (lang == -0xF3EFBF7)
+        {
+            SendInput ̇
+        }
+    }
+    Return
+
 ;space
 SC039::
     For k in DICT
@@ -839,20 +852,114 @@ SC039::
             DICT[k][2] := 1
         }
     }
-    SendInput +{Space}
-    Return
-
-;home row "sh-i"
-+~SC021::
-    If DOTLESS_I_SWAP
+    If UNBR_SPACE {
+        SendInput +{Space}
+    }
+    Else
     {
-        SetFormat, Integer, H
-        lang := % DllCall("GetKeyboardLayout", Int
-            , DllCall("GetWindowThreadProcessId", int, WinActive("A"), Int, 0))
-        SetFormat, Integer, D
-        If (lang == -0xF3EFBF7)
-        {
-            SendInput ̇
-        }
+        SendInput {Space}
     }
     Return
+
+
+;===============================================================================================
+;==============================================Disable==========================================
+;===============================================================================================
+
+;;;Return
+;arrows up/left/right/down
+    *SC148::
+    *SC14B::
+    *SC14D::
+    *SC150::
+        Return
+
+;delete
+    *SC153::
+        Return
+
+#If !NUMPAD
+
+;numpad mult (*)
+    *SC037::
+;numpad 789-
+    *SC047::
+    *SC048::
+    *SC049::
+    *SC04A::
+;numpad 456+
+    *SC04B::
+    *SC04C::
+    *SC04D::
+    *SC04E::
+;numpad 1230.
+    *SC04F::
+    *SC050::
+    *SC051::
+    *SC052::
+    *SC053::
+;numpad enter
+    *SC11C::
+;numpad div (/)
+    *SC135::
+;num lock
+    *SC145::
+        Return
+
+
+;===============================================================================================
+;==============================================Unused scancodes=================================
+;===============================================================================================
+
+;SC001:: esc
+;SC00F:: tab
+;SC01D:: lctrl
+;SC02A:: lshift
+;SC038:: lalt
+;SC03B:: f1
+;SC03C:: f2
+;SC03D:: f3
+;SC03E:: f4
+;SC03F:: f5
+;SC040:: f6
+;SC041:: f7
+;SC042:: f8
+;SC043:: f9
+;SC044:: f10
+;SC045:: pause
+;SC046:: scroll lock
+;SC057:: f11
+;SC058:: f12
+;SC110:: media prev
+;SC119:: media next
+;SC11D:: rctrl
+;SC120:: volume mute
+;SC121:: calculator
+;SC122:: media play/pause
+;SC124:: media stop
+;SC12E:: volume down
+;SC130:: volume up
+;SC132:: browser (new window or homepage on active browser window active tab)
+;SC136:: rshift
+;SC137:: print screen
+;SC138:: ralt
+;SC147:: home
+;SC149:: page up
+;SC14F:: end
+;SC151:: page down
+;SC152:: insert
+;SC15B:: lwin
+;SC15D:: apps key
+;SC169:: browser forward
+;SC16A:: browser back
+;SC16D:: media player
+
+;;;other (not found)
+;SC036:: rshift ??? (136)
+;SC054:: (Alt-SysRq) on a 84+ key keyboard
+;SC055:: is less common; occurs e.g. as F11 on a Cherry G80-0777 keyboard,
+    ;as F12 on a Telerate keyboard, as PF1 on a Focus 9000 keyboard, as FN on an IBM ThinkPad
+;SC056:: mostly on non-US keyboards.
+    ;It is often an unlabelled key to the left or to the right of the left Alt key
+
+;SC02B:: (\|), on a 102-key keyboards is a default key for menu.*
