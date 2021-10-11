@@ -425,8 +425,8 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
   <dd>That's great. That's the way it's supposed to be.</dd>
   <dt>... but I need <code>Caps Lock</code> function for my PL or some other case!</dt>
   <dd>This layout is for general use. And in general cases this function is harmful...<br>Okay, you can set <code>EscAsCaps</code> to 1 in <code>config.ini</code> and toggle <code>Caps Lock</code> via <code>Esc</code>. Even additional symbols from the numeric row will work with it. But, please, don't overuse it.</dd>
-  <dd>The non-breaking space is more of a hindrance!</dd>
-  <dt>For this case there is also a setting to disable – <code>UnbrSpace</code> in the <code>config.ini</code> or via the <code>menu</code>.</dt>
+  <dt>The non-breaking space is more of a hindrance!</dt>
+  <dd>For this case there is also a setting to disable – <code>UnbrSpace</code> in the <code>config.ini</code> or via the <code>menu</code>.</dd>
   <dt>Is this project relative to <a href="https://github.com/uqqu/menu">menu</a>?</dt>
   <dd>Yes, once they were a one-piece project, but while the functionality was becoming more and more they were separated in two projects. However they have connections with each other. E.g. you can regulate "long press" delay with <code>menu</code> via <code>input-box</code> which is invoked by <code>menu</code> and edit "on air" other <code>qPhyx</code> settings. In turn, <code>qPhyx</code> calls <code>menu</code> at the right time to avoid conflicting appointments. For connection between them, you should correct path to relative in <code>config.ini</code> for both.</dd>
   <dt>Some other integrations?</dt>
@@ -864,8 +864,8 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
   <dd>Восхитительно. Так и задумано.</dd>
   <dt>... но мне нужен <code>Caps Lock</code> для моего ЯП или для чего-то ещё!</dt>
   <dd>Эта раскладка для общего пользования. А для общего пользования функция <code>Caps Lock</code> вредна...<br>Ладно, если что, вы можете установить в <code>config.ini</code> параметр <code>EscAsCaps</code> в 1, и переключать состояние <code>Caps Lock</code> через <code>Esc</code>. Даже дополнительные буквенные символы из цифрового ряда будут инвертированы. Только, пожалуйста, не злоупотребляйте этим.</dd>
-  <dd>Неразрывный пробел больше мешает!</dd>
-  <dt>На этот случай также предусмотрена настройка для отключения – <code>UnbrSpace</code> в <code>config.ini</code> или через <code>menu</code>.</dt>
+  <dt>Неразрывный пробел больше мешает!</dt>
+  <dd>На этот случай также предусмотрена настройка для отключения – <code>UnbrSpace</code> в <code>config.ini</code> или через <code>menu</code>.</dd>
   <dt>Этот проект родственен с <a href="https://github.com/uqqu/menu">menu</a>?</dt>
   <dd>Да, когда-то это был единый проект, но с постоянным добавлением нового функционала было принято решение о его разделении на два проекта. Но и сейчас они тесно связаны друг с другом. К примеру, вы можете выставлять время срабатывания длинного нажатия через <code>input-box</code> вызываемый <code>menu</code>, и управлять прочими пунктами настроек, а <code>qphyx</code> сам вызывает <code>menu</code> в подходящий момент, дабы избежать конфликта назначений. Для связи между ними нужно лишь в <code>config.ini</code> обоих проектов указать путь к родственнику.</dd>
   <dt>Ещё какие-нибудь интеграции?</dt>
