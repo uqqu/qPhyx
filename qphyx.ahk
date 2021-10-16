@@ -7,13 +7,6 @@
 
 SetCapsLockState AlwaysOff
 
-;set icon
-icon := "qphyx.ico"
-IfExist, %icon%
-{
-    Menu, Tray, Icon, %icon%, , 1
-}
-
 Global EXT := A_IsCompiled ? ".exe" : ".ahk"
 
 ;global config.ini variables
@@ -60,6 +53,13 @@ Else
     IniWrite, 1,                        %INI%, Configuration, UnbrSpace
     FileAppend, `n[AltApps]`n, %INI%
     Run, qphyx%EXT%
+}
+
+;set icon
+icon := QPHYX_DISABLE ? "disabled.ico" : "qphyx.ico"
+IfExist, %icon%
+{
+    Menu, Tray, Icon, %icon%, , 1
 }
 
 If ESC_AS_CAPS
