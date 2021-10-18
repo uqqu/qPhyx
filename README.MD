@@ -12,7 +12,7 @@ The project began as an alternate phonetic bilingual layout. In the aftermath, m
 Benefits:
 1. A unified typing system, both for current supported scripts and for future ones;
 2. Full support for Latin and Cyrillic languages with all features without separate language layouts for each of them;
-3. Support for language mods that retain all the benefits of a unified system, while at the same time removing all the limitations of unification for individual languages;
+3. Support for language modifications that retain all the benefits of a unified system, while at the same time removing all the limitations of unification for individual languages;
 4. Extended symbol support;
 5. The best objective scores for the convenience of typing;
 6. Additional internal and external functionality.
@@ -80,8 +80,7 @@ For Russian, the following bigram analyses were selected for paired letter frequ
 To objectively evaluate the ease of use of the layout, it is necessary to allocate the appropriate criteria. They are:
   * hand alteration (the probability that both hands will be used to type any random pair of letters)
   * minimum chance to double sequentially usage of the same finger (bearing in mind base key repeating)
-  * even hand load
-  * even finger load
+  * even hand and finger load
   * maximum usage on the most convenience groups (see below)
 
 For the latter criteria letter-part of default non-ergonomic keyboard were divided into 6(7) groups by convenience:
@@ -99,9 +98,9 @@ Past points have been systematized and automated in [external/calculation.xlsx](
 
 Many variations have been tried for both languages. Some were extremely successful, and are still on the sheet <code>[en/ru] archive</code>. However, the final form of layouts must skillfully balance between all criteria. And also, in view of the original purpose of the phonetic layout, it is necessary to take into account the phonetic dependence of the layouts of the two languages. After much ordeal, such a double layout became the following parts:
 
-![Latin letter layout](https://github.com/uqqu/layout/blob/master/external/readme_images/letters_lat.png "Latin letter layout")
+![Letter layout](https://github.com/uqqu/layout/blob/master/external/readme_images/letters.png "Letter layout")
 
-![Cyrillic letter layout](https://github.com/uqqu/layout/blob/master/external/readme_images/letters_cyr.png "Cyrillic letter layout")
+The name of the layout was composed, with a slight stylization, by the first characters of the upper row – «qPhyx».
 
 ### Result numbers
 
@@ -233,6 +232,8 @@ Let's get acquainted with the result in three (two and a half) stages, fortunate
 ![Lite symbol layout](https://github.com/uqqu/layout/blob/master/external/readme_images/symbols_lite.png "Lite symbol layout")
 > First of all – yes this layout suggests to non-standard keyboard usage as `long presses`. I am not going to prove to you that it is a comfortably – if you are convinced otherwise, you still won't believe me. However I'm sure if you use this functionality enough to use it automatically, then you will agree with me. We won't mention this subject anymore.
 
+The second character modifier is `alt`, under which is mainly located the layer of auxiliary and navigation-control commands.
+
 In green are highlighted main symbols, which there are also in the `qwerty` layout; in gray are highlighted additional symbols, which I thought I should add (this is probably the most subjective part). In the corner placed two diacritic symbols, primarily for accents.
 
 As you can see, all the conditions above are met:
@@ -293,7 +294,7 @@ So now we can divide all languages into these categories:
 #### Fully supported languages
 Languages that are in no way dependent on the selected modification, and are fully available for writing. English, French, Vietnamese, Portuguese, Italian, Indonesian, ...
 
-#### Fully supported "out of the box" languages (with simplify writing on the "main" modification)
+#### Fully supported "out of the box" languages
 Languages available for writing from any modification, while having a simplified writing from the main one. Spanish, German, Swedish, Danish, Finnish, Norwegian, ...
 
 #### Diacritically supported languages with optional modification to simplify writing
@@ -311,7 +312,7 @@ Languages with a script other than Latin or Cyrillic. For all of them, all Roman
 
 This division results in 24 5-character modifications (7 of which contain ñ), 7 6-character modifications, and 5 Cyrillic modifications, which are described below.
 
-The total coverage of the first and second groups, including Cyrillic, was 88.75% of the Internet.
+The total coverage of the first and second groups, including Cyrillic, was 88.95% of the Internet.
 
 > All this is shown in more detail in the file [external/languages.xlsx](https://github.com/uqqu/layout/blob/master/external/languages.xlsx). And a comparison of alphabets, 200+ major world languages, 150+ Niger-Congolese languages.
 
@@ -380,7 +381,6 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
 
  * transposition to other scripts
  * letter frequency of other languages (in order of frequency of use)
- * geographical SVG-map with languages coverage
 
 
  * ? diacritical hooks in Unicode
@@ -449,8 +449,8 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
 
 Преимущества:
 1. Единая система набора, как для текущих поддерживаемых письменностей, так и для будущих;
-2. Полная поддержка всех языков латинской и кириллической письменности со всеми особенностями без отдельных языковых раскладок;
-3. Поддержка языковых модов, сохраняющих все преимущества единой системы, и в то же время снимающих все ограничения унификации с отдельных языков;
+2. Полная поддержка всех языков латинской и кириллической письменностей, со всеми особенностями, без отдельных языковых раскладок;
+3. Поддержка языковых модификаций, сохраняющих все преимущества единой системы, и в то же время снимающих все ограничения унификации с отдельных языков;
 4. Расширенная символьная поддержка;
 5. Лучшие объективные показатели удобства набора;
 6. Дополнительный внутренний и внешний функционал.
@@ -518,8 +518,7 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
 Для объективной оценки удобства использования раскладки необходимо выделить соответствующие критерии. Ими стали:
   * чередование рук (вероятность, с которой для набора любой случайной пары букв будут задействованы обе руки)
   * минимизация вероятности использования одного пальца на два набора подряд (с учётом базовой вероятности повтора одной буквы)
-  * равномерная нагрузка рук
-  * равномерная нагрузка пальцев
+  * равномерная нагрузка рук и пальцев
   * максимальное использование наиболее удобных групп (см. далее)
 
 Для последнего критерия буквенная часть стандартной не эргономичной клавиатуры была разделена на 6(7) групп по удобству.
@@ -537,9 +536,9 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
 
 Было опробовано множество вариантов для обоих языков. Некоторые оказались крайне удачными, и до сих пор хранятся на листе <code>[en/ru] archive</code>. Однако финальный вид раскладок должен умело балансировать между всеми критериями. А также ввиду изначальной цели создания фонетической раскладки, необходимо учитывать фонетическую зависимость раскладок двух языков. Спустя многие мытарства такой двойной раскладкой стали следующие части:
 
-![Latin letter layout](https://github.com/uqqu/layout/blob/master/external/readme_images/letters_lat.png "Latin letter layout")
+![Letter layout](https://github.com/uqqu/layout/blob/master/external/readme_images/letters.png "Letter layout")
 
-![Cyrillic letter layout](https://github.com/uqqu/layout/blob/master/external/readme_images/letters_cyr.png "Cyrillic letter layout")
+Название раскладки составилось, с небольшой стилизацией, по первым символам верхнего ряда – «qPhyx».
 
 ### Так что же, Веничка, что же всё-таки с цифрами? Нам страшно интересно...
 
@@ -672,7 +671,9 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
 ![Облегчённый символьный вариант](https://github.com/uqqu/layout/blob/master/external/readme_images/symbols_lite.png "Облегчённый символьный вариант")
 > Перво-наперво – да, эта раскладка предполагает нестандартное использование компьютерной клавиатуры, а именно – `длинные` или `долгие нажатия`. Я не собираюсь доказывать, что это удобно – если вы убеждены в обратном, вы всё равно мне не поверите. Могу лишь сказать, что если вы переведёте эту функциональность в автоматизм (в процессе использования, конечно же), тогда вы со мной согласитесь. А этот процесс абсолютно не сложен. За сим всё, больше мы этот вопрос поднимать не будем.
 
-Зелёным выделены основные символы, знакомые всем со стандартной `qwerty` раскладки. Серым выделены дополнительные символы, которыми я счёл нужным дополнить раскладку (пожалуй, это самая субъективная часть всего проекта). В углу, под извечным `Ъ` расположились акут и гравис, в первую очередь как маркёры основного и побочного ударений.
+Вторым символьным модификатором выступает `alt`, под которым, в основном, расположен слой вспомогательных и навигационно-управляющих команд.
+
+Зелёным выделены основные символы, знакомые всем со стандартной `qwerty` раскладки. Серым выделены дополнительные символы, которыми я счёл нужным дополнить раскладку (пожалуй, это самая субъективная часть всего проекта). В углу, под извечным `Ъ` расположились комбинируемые акут и гравис, в первую очередь как маркёры основного и побочного ударений.
 
 Как видно, все условия соблюдены:
 * символы образуют собственный, независимый от какого бы то ни было языка слой
@@ -732,7 +733,7 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
 #### Полностью поддерживаемые языки
 Языки, никоим образом не зависящие от выбранной модификации, и полноценно доступные к набору. Английский, французский, вьетнамский, португальский, итальянский, индонезийский, ...
 
-#### Полностью поддерживаемые языки "из коробки" (с упрощённым вводом на основной модификации)
+#### Полностью поддерживаемые языки "из коробки"
 Языки, доступные к набору из любой модификации, при этом имеющие упрощённый набор из основной. Испанский, немецкий, шведский, датский, финский, норвежский, ...
 
 #### Диакритически поддерживаемые языки с опциональной модификацией для упрощения набора
@@ -750,7 +751,7 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
 
 После такого распределения получается 24 5-символьных модификаций (7 из которых содержат ñ), 7 6-символьных модификаций, и 5 кириллических, о которых ниже.
 
-Общий охват первой и второй групп, с учётом кириллических, составил 88.75% интернета.
+Общий охват первой и второй групп, с учётом кириллических, составил 88.95% интернета.
 
 > Более наглядно и детально всё это отражено в файле [external/languages.xlsx](https://github.com/uqqu/layout/blob/master/external/languages.xlsx). А также сравнение алфавитов, 200+ основных мировых языков, 150+ нигеро-конголезских языков.
 
@@ -819,7 +820,6 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
 
  * переложение на другие письменности
  * частотность других языков (в порядке используемости)
- * географическая SVG-карта с покрытием языков
 
 
  * ? диакритические хуки в юникоде
