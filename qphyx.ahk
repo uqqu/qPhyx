@@ -28,6 +28,7 @@ IfExist, %INI%
     IniRead, cyrillic_mode,             %INI%, Configuration, CyrillicMode
     IniRead, menu_path,                 %INI%, Configuration, MenuPath
     IniRead, viatc_file,                %INI%, Configuration, ViatcFile
+    IniRead, paired_brackets,           %INI%, Configuration, PairedBrackets
     IniRead, romanian_cedilla_to_comma, %INI%, Configuration, RomanianCedillaToComma
     IniRead, DOTLESS_I_SWAP,            %INI%, Configuration, DotlessISwap
     IniRead, QPHYX_DISABLE,             %INI%, Configuration, QphyxDisable
@@ -44,6 +45,7 @@ Else
     IniWrite, 0,                        %INI%, Configuration, CyrillicMode
     IniWrite, c:\menu\,                 %INI%, Configuration, MenuPath
     IniWrite, c:\ViATc\ViATc.ahk,       %INI%, Configuration, ViatcFile
+    IniWrite, 0,                        %INI%, Configuration, PairedBrackets
     IniWrite, 1,                        %INI%, Configuration, RomanianCedillaToComma
     IniWrite, 0,                        %INI%, Configuration, DotlessISwap
     IniWrite, 0,                        %INI%, Configuration, QphyxDisable
@@ -97,39 +99,47 @@ Global NUM_DICT := {scan_code: ["releasing", "sended", "alt", "alt_long"]
     , SC00D: [0, 0, "̛", "✕"]} ; alt – ơ
 
 Global DICT := {scan_code: ["releasing", "sended", "long", "alt"]
-    , SC010: [0, 0, "~", "°"]
-    , SC011: [0, 0, "–", "—"]
-    , SC012: [0, 0, "'", "’"]
-    , SC013: [0, 0, "\", "&"]
-    , SC014: [0, 0, "@", "§"]
-    , SC015: [0, 0, "<", "«"]
-    , SC016: [0, 0, "(", "" ] ; alt – back
-    , SC017: [0, 0, "[", "" ] ; alt - forward
-    , SC018: [0, 0, "{", "“"]
-    , SC019: [0, 0, "!", "¡"]
-    , SC01A: [0, 0, "#", "№"]
-    , SC01B: [0, 0, "́" , "̀" ] ; long – diacritic acute; alt – diacritic grave
-    , SC01E: [0, 0, "+", "±"]
-    , SC01F: [0, 0, "-", "−"]
-    , SC020: [0, 0, "*", "×"]
-    , SC021: [0, 0, "/", "÷"]
-    , SC022: [0, 0, "=", "≠"]
-    , SC023: [0, 0, "%", "" ] ; alt - left
-    , SC024: [0, 0, """", ""] ; alt - down
-    , SC025: [0, 0, ".", "" ] ; alt - up
-    , SC026: [0, 0, ",", "" ] ; alt - right
-    , SC027: [0, 0, ":", "^"]
-    , SC028: [0, 0, ";","``"]
-    , SC02C: [0, 0, "$", "¥"]
-    , SC02D: [0, 0, "€", "£"]
-    , SC02E: [0, 0, "₽", "¤"]
-    , SC02F: [0, 0, "_", "|"]
-    , SC030: [0, 0, "≈", "≟"]
-    , SC031: [0, 0, ">", "»"]
-    , SC032: [0, 0, ")", "" ] ; alt - undo
-    , SC033: [0, 0, "]", "" ] ; alt - redo
-    , SC034: [0, 0, "}", "”"]
-    , SC035: [0, 0, "?", "¿"]}
+    , SC010: [0, 0, "{Text}~", "°"]
+    , SC011: [0, 0, "{Text}–", "—"]
+    , SC012: [0, 0, "{Text}'", "’"]
+    , SC013: [0, 0, "{Text}\", "&"]
+    , SC014: [0, 0, "{Text}@", "§"]
+    , SC015: [0, 0, "{Text}<", "«"]
+    , SC016: [0, 0, "{Text}(", "" ] ; alt – back
+    , SC017: [0, 0, "{Text}[", "" ] ; alt - forward
+    , SC018: [0, 0, "{Text}{", "“"]
+    , SC019: [0, 0, "{Text}!", "¡"]
+    , SC01A: [0, 0, "{Text}#", "№"]
+    , SC01B: [0, 0, "́{Text}" , "̀" ] ; long – diacritic acute; alt – diacritic grave
+    , SC01E: [0, 0, "{Text}+", "±"]
+    , SC01F: [0, 0, "{Text}-", "−"]
+    , SC020: [0, 0, "{Text}*", "×"]
+    , SC021: [0, 0, "{Text}/", "÷"]
+    , SC022: [0, 0, "{Text}=", "≠"]
+    , SC023: [0, 0, "{Text}%", "" ] ; alt - left
+    , SC024: [0, 0, "{Text}""", ""] ; alt - down
+    , SC025: [0, 0, "{Text}.", "" ] ; alt - up
+    , SC026: [0, 0, "{Text},", "" ] ; alt - right
+    , SC027: [0, 0, "{Text}:", "^"]
+    , SC028: [0, 0, "{Text};","``"]
+    , SC02C: [0, 0, "{Text}$", "¥"]
+    , SC02D: [0, 0, "{Text}€", "£"]
+    , SC02E: [0, 0, "{Text}₽", "¤"]
+    , SC02F: [0, 0, "{Text}_", "|"]
+    , SC030: [0, 0, "{Text}≈", "≟"]
+    , SC031: [0, 0, "{Text}>", "»"]
+    , SC032: [0, 0, "{Text})", "" ] ; alt - undo
+    , SC033: [0, 0, "{Text}]", "" ] ; alt - redo
+    , SC034: [0, 0, "{Text}}", "”"]
+    , SC035: [0, 0, "{Text}?", "¿"]}
+
+If paired_brackets
+{
+    DICT["SC015"][3] := "<>{Left}"
+    DICT["SC016"][3] := "(){Left}"
+    DICT["SC017"][3] := "[]{Left}"
+    DICT["SC018"][3] := "{{}{}}{Left}"
+}
 
 IniRead, section, modes.ini, Latin %LATIN_MODE%
 For ind, pair in StrSplit(section, "`n")
@@ -257,7 +267,7 @@ Down(this, shift:=0)
         If (ErrorLevel && !DICT[this][2])
         {
             DICT[this][2] := 1
-            SendInput % "{Text}" . DICT[this][3]
+            SendInput % DICT[this][3]
         }
     }
 }
