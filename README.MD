@@ -189,15 +189,32 @@ One more clarification – you can still compare these layouts directly with eac
     <li>"home" group usage – 25.92%</li>
   </ul>
 </details>
+<details>
+  <summary>диктор (ru)</summary>
+  <ul>
+    <li>hand alteration – 74.75%</li>
+    <li>chance to double sequentially usage of the same finger – 3.14%</li>
+    <li>hand load – 45.48/54.36%</li>
+    <li>maximum difference of finger load – 18.75%</li>
+    <li>"home" group usage – 52.59%</li>
+  </ul>
+</details>
+<details>
+  <summary>раскладка Зубачёва (ru)</summary>
+  <ul>
+    <li>hand alteration – 74.21%</li>
+    <li>chance to double sequentially usage of the same finger – 2.74%</li>
+    <li>hand load – 46.43/53.45%</li>
+    <li>maximum difference of finger load – 16.79%</li>
+    <li>"home" group usage – 48.50%</li>
+  </ul>
+</details>
 
 > More layouts, and their appearance can be found in [external/calculation.xlsx](https://github.com/uqqu/layout/blob/master/external/calculation.xlsx). Here are listed only the main parameters of the most important layouts to mention.
 
 #### Result
-Let's start with the English layouts: <code>qwerty</code> is frankly bad, to put it mildly. Any existing alternative layout (including the ones not listed) is much better. If you look at the opposite result, everything is not so clear, but <code>dvorak</code>, according to the main points, takes the lead.
-I will not fully compare <code>dvorak</code> and <code>qPhyx</code>, because this comparison is incorrect, as I mentioned in the beginning. However even for a general idea you can note that on the whole the numbers of the topic-starter if not better, then at least at the level of the leader.
-
-
-And now let's move on to the Russian layouts... Everything is bad. For the Russian language there is simply no sane alternative layouts. The ones that are available are hardly better than the standard <code>йцукен</code>, and this is despite the fact, that there are even more questions to <code>йцукен</code> than to its <code>qwerty</code> counterpart.
+As you can see, <code>qwerty</code> and <code>йцукен</code> are frankly bad, to put it mildly. Any existing alternative layout (including the ones not listed) is much better. If you look at the opposite result, <code>dvorak</code> and <code>диктор</code>, according to the main points, take the lead in their languages.
+I will not fully compare <code>dvorak</code>/<code>диктор</code> and <code>qPhyx</code>, because this comparison is incorrect, as I mentioned in the beginning. However even for a general idea you can note that on the whole the numbers of the topic-starter if not better, then at least at the level of the leaders.
 
 <br>
 
@@ -344,6 +361,7 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
 * full arrow replacement with `alt-[mstr]` (with shift/ctrl/shift-ctrl. alt-(sh)-ctrl-[st] used to move to begin or end of line, respectively)
 * move windows with `Win-(shift)-mstr` (`hjkl` in qwerty-view) as well as with `arrows`
 * increasing/decreasing selected number by one with the user-defined keys (unless another value is assigned)
+* autocomplete paired brackets/quotes. It can be turned on in `config.ini`
 * dotted/dotless i fix – enabling in `config.ini`. Replaced `iI`, in home position to `iİ`, and `ıİ` under `8` to `ıI`. Primarily for Turkish, Azerbaijani, and Kazakh Latin
 * fix `cedilla` to `comma` for Romanian, to correct common misspellings. Enabled by default. Works only for the Romanian modification. Makes the use of cedilla not possible. Can be disabled in `config.ini`
 * if you collide with case, which require some "standard" key behavior – you can toggle script work on air with `Shift-tilde`
@@ -628,15 +646,32 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
     <li>использование "домашней" группы – 25.92%</li>
   </ul>
 </details>
+<details>
+  <summary>диктор (ru)</summary>
+  <ul>
+    <li>чередование рук – 74.75%</li>
+    <li>вероятность "чистого" повторного нажатия одним пальцем – 3.14%</li>
+    <li>равномерность нагрузки рук – 45.48/54.36%</li>
+    <li>максимальная разница нагрузки пальцев – 18.75%</li>
+    <li>использование "домашней" группы – 52.59%</li>
+  </ul>
+</details>
+<details>
+  <summary>раскладка Зубачёва (ru)</summary>
+  <ul>
+    <li>чередование рук – 74.21%</li>
+    <li>вероятность "чистого" повторного нажатия одним пальцем – 2.74%</li>
+    <li>равномерность нагрузки рук – 46.43/53.45%</li>
+    <li>максимальная разница нагрузки пальцев – 16.79%</li>
+    <li>использование "домашней" группы – 48.50%</li>
+  </ul>
+</details>
 
 > Больше раскладок, а также их внешний вид можете найти в [external/calculation.xlsx](https://github.com/uqqu/layout/blob/master/external/calculation.xlsx). Здесь перечислены лишь основные показатели наиболее важных к упоминанию раскладок.
 
 #### Результат
-Начнём с английских раскладок: <code>qwerty</code> откровенно плох, если не сказать грубее. Любая существующая альтернативная раскладка (в том числе из не перечисленных) в разы и разы лучше. Если смотреть на обратный результат, то всё не так однозначно, но <code>dvorak</code>, по основным пунктам, всё-таки забирает первенство.
-Полноценно сравнивать <code>dvorak</code> и <code>qPhyx</code> я не стану, так как это сравнение некорректно, о чём я обмолвился изначально. Но даже для общего представления вы можете отметить, что в целом цифры топик-стартера если уж не лучше, то как минимум на уровне лидера.
-
-
-А теперь перейдём к русским раскладкам... Всё очень плохо. Для русского языка попросту отсутствуют вменяемые альтернативные раскладки. Те, что есть, едва ли лучше стандартного <code>йцукен</code>, и это при том, что к <code>йцукен</code> вопросов ещё больше, чем к его собрату <code>qwerty</code>.
+Как видно, <code>qwerty</code> и <code>йцукен</code> откровенно плохи, если не сказать грубее. Любые существующие альтернативные раскладки (в том числе из не перечисленных) в разы и разы лучше. Если смотреть на обратный результат, то <code>dvorak</code> и <code>диктор</code>, забирают первенство в своих языках.
+Полноценно сравнивать <code>dvorak</code>/<code>диктор</code> и <code>qPhyx</code> я не стану, так как это сравнение некорректно, о чём я обмолвился изначально. Но даже для общего представления вы можете отметить, что в целом цифры топик-стартера если уж не лучше, то как минимум на уровне лидеров.
 
 <br>
 
@@ -783,6 +818,7 @@ SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
 * полная замена стрелок с `alt-[мстр]` (с `shift/ctrl/shift-ctrl`. `Alt-(sh)-ctrl-[ст]` используются для перемещения в начало и конец линии соответственно)
 * перемещение окон с помощью `Win-(shift)-[мстр]` (`[ролд]` в йцукен-виде) так же, как и при помощи `стрелок`
 * инкрементация/декрементация (увеличение/уменьшение на 1) текущего выделенного числа клавишами пользовательского определения (если не присвоено другое значение)
+* автодополнение парных скобок/кавычек. Может быть включено в `config.ini`
 * исправление dotted/dotless i – включается в `config.ini`. Заменяет `iI`, в домашней позиции на `iİ`, а `ıİ` под `8` на `ıI`. В первую очередь для турецкого, азербайджанского языков и казахской латиницы
 * исправление `седиль` в `кому` для румынского языка, для исправления распространённого ложного написания. Включено по умолчанию. Работает только для румынской модификации. Делает использование седили невозможным. Может быть отключено в `config.ini`
 * если же вы столкнулись со случаем, в котором вам нужно "стандартное" поведение клавиш – вы можете на лету приостановить работу скрипта сочетанием `Shift-tilde`

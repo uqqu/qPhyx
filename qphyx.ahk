@@ -99,46 +99,49 @@ Global NUM_DICT := {scan_code: ["releasing", "sended", "alt", "alt_long"]
     , SC00D: [0, 0, "̛", "✕"]} ; alt – ơ
 
 Global DICT := {scan_code: ["releasing", "sended", "long", "alt"]
-    , SC010: [0, 0, "{Text}~", "°"]
-    , SC011: [0, 0, "{Text}–", "—"]
-    , SC012: [0, 0, "{Text}'", "’"]
-    , SC013: [0, 0, "{Text}\", "&"]
-    , SC014: [0, 0, "{Text}@", "§"]
-    , SC015: [0, 0, "{Text}<", "«"]
-    , SC016: [0, 0, "{Text}(", "" ] ; alt – back
-    , SC017: [0, 0, "{Text}[", "" ] ; alt - forward
-    , SC018: [0, 0, "{Text}{", "“"]
-    , SC019: [0, 0, "{Text}!", "¡"]
-    , SC01A: [0, 0, "{Text}#", "№"]
-    , SC01B: [0, 0, "́{Text}" , "̀" ] ; long – diacritic acute; alt – diacritic grave
-    , SC01E: [0, 0, "{Text}+", "±"]
-    , SC01F: [0, 0, "{Text}-", "−"]
-    , SC020: [0, 0, "{Text}*", "×"]
-    , SC021: [0, 0, "{Text}/", "÷"]
-    , SC022: [0, 0, "{Text}=", "≠"]
-    , SC023: [0, 0, "{Text}%", "" ] ; alt - left
-    , SC024: [0, 0, "{Text}""", ""] ; alt - down
-    , SC025: [0, 0, "{Text}.", "" ] ; alt - up
-    , SC026: [0, 0, "{Text},", "" ] ; alt - right
-    , SC027: [0, 0, "{Text}:", "^"]
-    , SC028: [0, 0, "{Text};","``"]
-    , SC02C: [0, 0, "{Text}$", "¥"]
-    , SC02D: [0, 0, "{Text}€", "£"]
-    , SC02E: [0, 0, "{Text}₽", "¤"]
-    , SC02F: [0, 0, "{Text}_", "|"]
-    , SC030: [0, 0, "{Text}≈", "≟"]
-    , SC031: [0, 0, "{Text}>", "»"]
-    , SC032: [0, 0, "{Text})", "" ] ; alt - undo
-    , SC033: [0, 0, "{Text}]", "" ] ; alt - redo
-    , SC034: [0, 0, "{Text}}", "”"]
-    , SC035: [0, 0, "{Text}?", "¿"]}
+    , SC010: [0, 0, "{Text}~", "{Text}°"]
+    , SC011: [0, 0, "{Text}–", "{Text}—"]
+    , SC012: [0, 0, "{Text}'", "{Text}’"]
+    , SC013: [0, 0, "{Text}\", "{Text}&"]
+    , SC014: [0, 0, "{Text}@", "{Text}§"]
+    , SC015: [0, 0, "{Text}<", "{Text}«"]
+    , SC016: [0, 0, "{Text}(", ""       ] ; alt – back
+    , SC017: [0, 0, "{Text}[", ""       ] ; alt - forward
+    , SC018: [0, 0, "{Text}{", "{Text}“"]
+    , SC019: [0, 0, "{Text}!", "{Text}¡"]
+    , SC01A: [0, 0, "{Text}#", "{Text}№"]
+    , SC01B: [0, 0, "́"       , "̀"       ] ; long – diacritic acute; alt – diacritic grave
+    , SC01E: [0, 0, "{Text}+", "{Text}±"]
+    , SC01F: [0, 0, "{Text}-", "{Text}−"]
+    , SC020: [0, 0, "{Text}*", "{Text}×"]
+    , SC021: [0, 0, "{Text}/", "{Text}÷"]
+    , SC022: [0, 0, "{Text}=", "{Text}≠"]
+    , SC023: [0, 0, "{Text}%", ""       ] ; alt - left
+    , SC024: [0, 0, "{Text}""",""       ] ; alt - down
+    , SC025: [0, 0, "{Text}.", ""       ] ; alt - up
+    , SC026: [0, 0, "{Text},", ""       ] ; alt - right
+    , SC027: [0, 0, "{Text}:", "{Text}^"]
+    , SC028: [0, 0, "{Text};","{Text}``"]
+    , SC02C: [0, 0, "{Text}$", "{Text}¥"]
+    , SC02D: [0, 0, "{Text}€", "{Text}£"]
+    , SC02E: [0, 0, "{Text}₽", "{Text}¤"]
+    , SC02F: [0, 0, "{Text}_", "{Text}|"]
+    , SC030: [0, 0, "{Text}≈", "{Text}≟"]
+    , SC031: [0, 0, "{Text}>", "{Text}»"]
+    , SC032: [0, 0, "{Text})", ""       ] ; alt - undo
+    , SC033: [0, 0, "{Text}]", ""       ] ; alt - redo
+    , SC034: [0, 0, "{Text}}", "{Text}”"]
+    , SC035: [0, 0, "{Text}?", "{Text}¿"]}
 
 If paired_brackets
 {
     DICT["SC015"][3] := "<>{Left}"
+    DICT["SC015"][4] := "«»{Left}"
     DICT["SC016"][3] := "(){Left}"
     DICT["SC017"][3] := "[]{Left}"
     DICT["SC018"][3] := "{{}{}}{Left}"
+    DICT["SC018"][4] := "“”{Left}"
+    DICT["SC024"][3] := """""{Left}"
 }
 
 IniRead, section, modes.ini, Latin %LATIN_MODE%
@@ -822,7 +825,7 @@ SC035 up::
 !SC031::
 !SC034::
 !SC035::
-    SendInput % "{Text}" DICT[SubStr(A_ThisHotkey, 2)][4]
+    SendInput % DICT[SubStr(A_ThisHotkey, 2)][4]
     Return
 
 ;home row "sh-i"
