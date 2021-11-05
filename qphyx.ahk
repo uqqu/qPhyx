@@ -5,72 +5,64 @@
 #SingleInstance Force
 #UseHook On
 
-SetCapsLockState AlwaysOff
-
-Global EXT := A_IsCompiled ? ".exe" : ".ahk"
-
 ;global config.ini variables
+Global DISABLED
+Global LONG_PRESS_TIME
+Global LATIN_MODE
+Global CYRILLIC_MODE
 Global USER_KEY_1
 Global USER_KEY_2
+Global PAIRED_BRACKETS
+Global UNBR_SPACE
+Global ROMANIAN_CEDILLA_TO_COMMA
 Global DOTLESS_I_SWAP
-Global QPHYX_DISABLE
-Global QPHYX_LONG_TIME
 Global ESC_AS_CAPS
 Global NUMPAD
-Global UNBR_SPACE
-
+Global EXT := A_IsCompiled ? ".exe" : ".ahk"
 Global INI := "config.ini"
 IfExist, %INI%
 {
+    IniRead, DISABLED,                  %INI%, Configuration, Disabled
+    IniRead, LONG_PRESS_TIME,           %INI%, Configuration, LongPressTime
+    IniRead, LATIN_MODE,                %INI%, Configuration, LatinMode
+    IniRead, CYRILLIC_MODE,             %INI%, Configuration, CyrillicMode
     IniRead, USER_KEY_1,                %INI%, Configuration, UserKey1
     IniRead, USER_KEY_2,                %INI%, Configuration, UserKey2
-    IniRead, latin_mode,                %INI%, Configuration, LatinMode
-    IniRead, cyrillic_mode,             %INI%, Configuration, CyrillicMode
-    IniRead, menu_path,                 %INI%, Configuration, MenuPath
-    IniRead, viatc_file,                %INI%, Configuration, ViatcFile
-    IniRead, paired_brackets,           %INI%, Configuration, PairedBrackets
-    IniRead, romanian_cedilla_to_comma, %INI%, Configuration, RomanianCedillaToComma
+    IniRead, PAIRED_BRACKETS,           %INI%, Configuration, PairedBrackets
+    IniRead, UNBR_SPACE,                %INI%, Configuration, UnbrSpace
+    IniRead, ROMANIAN_CEDILLA_TO_COMMA, %INI%, Configuration, RomanianCedillaToComma
     IniRead, DOTLESS_I_SWAP,            %INI%, Configuration, DotlessISwap
-    IniRead, QPHYX_DISABLE,             %INI%, Configuration, QphyxDisable
-    IniRead, QPHYX_LONG_TIME,           %INI%, Configuration, QphyxLongTime
     IniRead, ESC_AS_CAPS,               %INI%, Configuration, EscAsCaps
     IniRead, NUMPAD,                    %INI%, Configuration, NumPad
-    IniRead, UNBR_SPACE,                %INI%, Configuration, UnbrSpace
+    IniRead, menu_path,                 %INI%, Configuration, MenuPath
+    IniRead, viatc_file,                %INI%, Configuration, ViatcFile
 }
 Else
 {
-    IniWrite % "",                      %INI%, Configuration, UserKey1
-    IniWrite % "",                      %INI%, Configuration, UserKey2
+    IniWrite, 0,                        %INI%, Configuration, Disabled
+    IniWrite, 0.15,                     %INI%, Configuration, LongPressTime
     IniWrite, 0,                        %INI%, Configuration, LatinMode
     IniWrite, 0,                        %INI%, Configuration, CyrillicMode
-    IniWrite, c:\menu\,                 %INI%, Configuration, MenuPath
-    IniWrite, c:\ViATc\ViATc.ahk,       %INI%, Configuration, ViatcFile
+    IniWrite % "",                      %INI%, Configuration, UserKey1
+    IniWrite % "",                      %INI%, Configuration, UserKey2
     IniWrite, 0,                        %INI%, Configuration, PairedBrackets
+    IniWrite, 1,                        %INI%, Configuration, UnbrSpace
     IniWrite, 1,                        %INI%, Configuration, RomanianCedillaToComma
     IniWrite, 0,                        %INI%, Configuration, DotlessISwap
-    IniWrite, 0,                        %INI%, Configuration, QphyxDisable
-    IniWrite, 0.15,                     %INI%, Configuration, QphyxLongTime
     IniWrite, 0,                        %INI%, Configuration, EscAsCaps
     IniWrite, 0,                        %INI%, Configuration, NumPad
-    IniWrite, 1,                        %INI%, Configuration, UnbrSpace
+    IniWrite, c:\menu\,                 %INI%, Configuration, MenuPath
+    IniWrite, c:\ViATc\ViATc.ahk,       %INI%, Configuration, ViatcFile
     FileAppend, `n[AltApps]`n, %INI%
     Run, qphyx%EXT%
 }
 
 ;set icon
-icon := QPHYX_DISABLE ? "disabled.ico" : "qphyx.ico"
+icon := DISABLED ? "disabled.ico" : "qphyx.ico"
 IfExist, %icon%
 {
     Menu, Tray, Icon, %icon%, , 1
 }
-
-If ESC_AS_CAPS
-{
-    SetCapsLockState Off
-}
-
-Global SPOTIFY
-SpotifyDetectProcessId()
 
 ;let ViATc override hotkeys (only for TC)
 Try
@@ -83,20 +75,26 @@ Try
     Run % menu_path . "menu" . EXT, %menu_path%
 }
 
+SetCapsLockState % (ESC_AS_CAPS ? "Off" : "AlwaysOff")
+
+
+;===============================================================================================
+;=====================================Symbol assignments========================================
+;===============================================================================================
 
 Global NUM_DICT := {scan_code: ["releasing", "sended", "alt", "alt_long"]
-    , SC002: [0, 0, "̃", "̧"]   ; alt – õ ; alt_long – o̧
-    , SC003: [0, 0, "̊", "̥"]   ; alt – o̊ ; alt_long – o̥
-    , SC004: [0, 0, "̈", "̤"]   ; alt – ö ; alt_long – o̤
-    , SC005: [0, 0, "̇", "̣"]   ; alt – ȯ ; alt_long – ọ
-    , SC006: [0, 0, "̆", "̮"]   ; alt – ŏ ; alt_long – o̮
-    , SC007: [0, 0, "̄", "̱"]   ; alt – ō ; alt_long – o̱
-    , SC008: [0, 0, "̂", "̭"]   ; alt – ô ; alt_long – o̭
-    , SC009: [0, 0, "̌", "̦"]   ; alt – ǒ ; alt_long – o̦
-    , SC00A: [0, 0, "͗", "̳"]   ; alt – o͗ ; alt_long – o̳
-    , SC00B: [0, 0, "̉", "̨"]   ; alt – ỏ ; alt_long – ǫ
-    , SC00C: [0, 0, "̋", "✓"]  ; alt – ő
-    , SC00D: [0, 0, "̛", "✕"]} ; alt – ơ
+    , SC002: [0, 0, "̃", "̧"]   ; tilde; cedilla
+    , SC003: [0, 0, "̊", "̥"]   ; ring above; ring below
+    , SC004: [0, 0, "̈", "̤"]   ; diaeresis above; diaeresis below
+    , SC005: [0, 0, "̇", "̣"]   ; dot above; dot below
+    , SC006: [0, 0, "̆", "̮"]   ; breve above; breve below
+    , SC007: [0, 0, "̄", "̱"]   ; macron above; macron below
+    , SC008: [0, 0, "̂", "̭"]   ; circumflex above; circumflex below
+    , SC009: [0, 0, "̌", "̦"]   ; caron; comma
+    , SC00A: [0, 0, "͗", "̳"]   ; right half ring above; double low line
+    , SC00B: [0, 0, "̉", "̨"]   ; hook; ogonek
+    , SC00C: [0, 0, "̋", "✓"]  ; double acute
+    , SC00D: [0, 0, "̛", "✕"]} ; horn
 
 Global DICT := {scan_code: ["releasing", "sended", "long", "alt"]
     , SC010: [0, 0, "{Text}~", "{Text}°"]
@@ -105,8 +103,8 @@ Global DICT := {scan_code: ["releasing", "sended", "long", "alt"]
     , SC013: [0, 0, "{Text}\", "{Text}&"]
     , SC014: [0, 0, "{Text}@", "{Text}§"]
     , SC015: [0, 0, "{Text}<", "{Text}«"]
-    , SC016: [0, 0, "{Text}(", ""       ] ; alt – back
-    , SC017: [0, 0, "{Text}[", ""       ] ; alt - forward
+    , SC016: [0, 0, "{Text}(", "{SC16A}"] ; alt – back
+    , SC017: [0, 0, "{Text}[", "{SC169}"] ; alt - forward
     , SC018: [0, 0, "{Text}{", "{Text}“"]
     , SC019: [0, 0, "{Text}!", "{Text}¡"]
     , SC01A: [0, 0, "{Text}#", "{Text}№"]
@@ -128,12 +126,12 @@ Global DICT := {scan_code: ["releasing", "sended", "long", "alt"]
     , SC02F: [0, 0, "{Text}_", "{Text}|"]
     , SC030: [0, 0, "{Text}≈", "{Text}≟"]
     , SC031: [0, 0, "{Text}>", "{Text}»"]
-    , SC032: [0, 0, "{Text})", ""       ] ; alt - undo
-    , SC033: [0, 0, "{Text}]", ""       ] ; alt - redo
+    , SC032: [0, 0, "{Text})", "^{SC02C}"] ; alt - undo
+    , SC033: [0, 0, "{Text}]", "^{SC015}"] ; alt - redo
     , SC034: [0, 0, "{Text}}", "{Text}”"]
     , SC035: [0, 0, "{Text}?", "{Text}¿"]}
 
-If paired_brackets
+If PAIRED_BRACKETS
 {
     DICT["SC015"][3] := "<>{Left}"
     DICT["SC015"][4] := "«»{Left}"
@@ -155,7 +153,6 @@ For ind, pair in StrSplit(section, "`n")
     values := StrSplit(SubStr(pair, 7), ",")
     NUM_DICT[scan_code].Push(values[1], values[2])
 }
-
 IniRead, section, modes.ini, Cyrillic %CYRILLIC_MODE%
 For ind, pair in StrSplit(section, "`n")
 {
@@ -172,7 +169,7 @@ For ind, pair in StrSplit(section, "`n")
 ;Default on. If you know what you're doing
 ;   and you want to type cedilla, you can disable this behavior in config.ini
 ;This also influences to the cyrillic layout. (Only with selected Romanian mode, ofc)
-If (latin_mode == 3 && romanian_cedilla_to_comma)
+If (LATIN_MODE == 3 && ROMANIAN_CEDILLA_TO_COMMA)
 {
     NUM_DICT["SC002"][4] := "̦"
 }
@@ -188,6 +185,83 @@ If DOTLESS_I_SWAP
    ;+SC021::I+̇
 }
 
+Global SPOTIFY
+SpotifyDetectProcessId()
+
+
+;===============================================================================================
+;================================================Tray menu======================================
+;===============================================================================================
+
+IniRead, sections, modes.ini
+Global LAT_MODE_LIST := []
+Global CYR_MODE_LIST := []
+For _, section in StrSplit(sections, "`n") {
+    IniRead, name, modes.ini, %section%, name
+    If SubStr(section, 1, 5) == "Latin"
+    {
+        LAT_MODE_LIST.Push(name)
+    }
+    Else
+    {
+        CYR_MODE_LIST.Push(name)
+    }
+}
+
+Menu, Tray, Add, qPhyx, TrayMenu
+Menu, Tray, Default, qPhyx
+Menu, Tray, Click, 1
+Menu, Tray, Disable, qPhyx
+Menu, Tray, Tip, % "qPhyx" EXT " – " (DISABLED ? "disabled" : "enabled")
+Menu, Tray, NoStandard
+For _, wording in LAT_MODE_LIST
+{
+    Menu, LatModes, Add, %wording%, LatModeChange
+}
+For _, wording in CYR_MODE_LIST
+{
+    Menu, CyrModes, Add, %wording%, CyrModeChange
+}
+    Menu, LatModes, Check, % LAT_MODE_LIST[LATIN_MODE+1]
+    Menu, CyrModes, Check, % CYR_MODE_LIST[CYRILLIC_MODE+1]
+Menu, Tray, UseErrorLevel
+Menu, Tray, Add, Change la&tin mode, :LatModes
+Menu, Tray, Add, Change &cyrillic mode, :CyrModes
+    Menu, SubSettings, Add, Toggle "&Paired brackets" feature, PairedBracketsToggle
+    If PAIRED_BRACKETS
+    {
+        Menu, SubSettings, Check, Toggle "&Paired brackets" feature
+    }
+    Menu, SubSettings, Add, Toggle "Dotless &i" feature, DotlessIToggle
+    If DOTLESS_I_SWAP
+    {
+        Menu, SubSettings, Check, Toggle "Dotless &i" feature
+    }
+    Menu, SubSettings, Add, Toggle "No-&Break Space" on Sh-Space, UnbrSpaceToggle
+    If UNBR_SPACE
+    {
+        Menu, SubSettings, Check, Toggle "No-&Break Space" on Sh-Space
+    }
+    Menu, SubSettings, Add, Toggle "&Esc as Caps Lock" feature, EscAsCapsToggle
+    If ESC_AS_CAPS
+    {
+        Menu, SubSettings, Check, Toggle "&Esc as Caps Lock" feature
+    }
+    Menu, SubSettings, Add, Toggle &NumPad availability, NumPadToggle
+    If NUMPAD
+    {
+        Menu, SubSettings, Check, Toggle &NumPad availability
+    }
+    key1 := (USER_KEY_1 != "") ? USER_KEY_1 : "empty"
+    key2 := (USER_KEY_2 != "") ? USER_KEY_2 : "empty"
+    Menu, SubSettings, Add, Change &first user-defined key (now is %key1%), ChangeUserKey
+    Menu, SubSettings, Add, Change &second user-defined key (now is %key2%), ChangeUserKey
+Menu, Tray, Add, &Other settings, :SubSettings
+Menu, Tray, Add, &Long press delay (now is %LONG_PRESS_TIME%s), LongPressTimeChange
+state := DISABLED ? "En" : "Dis"
+Menu, Tray, Add, %state%a&ble qPhyx (sh+tilde to toggle), DisableToggle
+Menu, Tray, Add, &Exit, Exit
+
 
 ;===============================================================================================
 ;=========================================Main layout functions=================================
@@ -199,7 +273,7 @@ DownNum(this, alt:=0)
     If !NUM_DICT[this][1]
     {
         NUM_DICT[this][1] := 1
-        KeyWait, %this%, T%QPHYX_LONG_TIME%
+        KeyWait, %this%, T%LONG_PRESS_TIME%
         If ErrorLevel
         {
             NUM_DICT[this][2] := 1
@@ -266,7 +340,7 @@ Down(this, shift:=0)
     If !DICT[this][1]
     {
         DICT[this][1] := 1 + shift
-        KeyWait, %this%, T%QPHYX_LONG_TIME%
+        KeyWait, %this%, T%LONG_PRESS_TIME%
         If (ErrorLevel && !DICT[this][2])
         {
             DICT[this][2] := 1
@@ -279,7 +353,10 @@ Up(this, shift:=0)
 {
     If (DICT[this][1] && !DICT[this][2])
     {
-        If (GetKeyState("CapsLock", "T") || DICT[this][1] == 2) {
+        If (GetKeyState("CapsLock", "T") && DICT[this][1] == 2) {
+            SendInput {%this%}
+        }
+        Else If (GetKeyState("CapsLock", "T") || DICT[this][1] == 2) {
             SendInput +{%this%}
         }
         Else
@@ -300,7 +377,6 @@ Up(this, shift:=0)
 Alt(proc_name, path)
 {
     proc := (proc_name == "Spotify.exe" && SPOTIFY) ? "ahk_id " . SPOTIFY : "ahk_exe " . proc_name
-
     If WinExist(proc)
     {
         WinGetTitle, title, %proc%
@@ -362,9 +438,109 @@ IncrDecrNumber(n)
 
 
 ;===============================================================================================
-;================================================Auxiliary======================================
+;===============================================Menu functions==================================
 ;===============================================================================================
 
+LatModeChange(_, item_pos)
+{
+    IniWrite % item_pos-1, config.ini, Configuration, LatinMode
+    Menu, LatModes, Uncheck, % LAT_MODE_LIST[LATIN_MODE+1]
+    Menu, LatModes, Check, % LAT_MODE_LIST[item_pos]
+    Run, qphyx%EXT%
+}
+
+CyrModeChange(_, item_pos)
+{
+    IniWrite % item_pos-1, config.ini, Configuration, CyrillicMode
+    Menu, CyrModes, Uncheck, % CYR_MODE_LIST[CYRILLIC_MODE+1]
+    Menu, CyrModes, Check, % CYR_MODE_LIST[item_pos]
+    Run, qphyx%EXT%
+}
+
+PairedBracketsToggle()
+{
+    IniWrite % !PAIRED_BRACKETS, config.ini, Configuration, PairedBrackets
+    Run, qphyx%EXT%
+}
+
+DotlessIToggle()
+{
+    IniWrite % !DOTLESS_I_SWAP, config.ini, Configuration, DotlessISwap
+    Run, qphyx%EXT%
+}
+
+UnbrSpaceToggle()
+{
+    IniWrite % !UNBR_SPACE, config.ini, Configuration, UnbrSpace
+    Run, qphyx%EXT%
+}
+
+EscAsCapsToggle()
+{
+    IniWrite % !ESC_AS_CAPS, config.ini, Configuration, EscAsCaps
+    Run, qphyx%EXT%
+}
+
+NumPadToggle()
+{
+    IniWrite % !NUMPAD, config.ini, Configuration, NumPad
+    Run, qphyx%EXT%
+}
+
+ChangeUserKey(item_name)
+{
+    message =
+    (
+        New value (recommended is currency symbol or code). It can be several symbols.
+If empty – works as decrement/increment number (be careful with use it on non-textfields!).
+    )
+    InputBox, user_input, Set new value for user-defined key (two left keys from old backspace)
+        , %message%
+        , , 611, 160
+    If !ErrorLevel
+    {
+        key_pos := (SubStr(item_name, 8, 1) == "f") ? 1 : 2
+        IniWrite, %user_input%, config.ini, Configuration, UserKey%key_pos%
+        Run, qphyx%EXT%
+    }
+}
+
+LongPressTimeChange()
+{
+    InputBox, user_input, Set new long press delay
+        , New value in seconds (e.g. 0.15), , 444, 130
+    If !ErrorLevel
+    {
+        If user_input is number
+        {
+            old_value = %LONG_PRESS_TIME%
+            IniWrite, %user_input%, config.ini, Configuration, LongPressTime
+            LONG_PRESS_TIME := user_input
+            Menu, Tray, Rename, &Long press delay (now is %old_value%s)
+                , &Long press delay (now is %LONG_PRESS_TIME%s)
+            Run, qphyx%EXT%
+        }
+        Else
+        {
+            MsgBox, 53, Incorrect value, The input must be a number!
+            IfMsgBox Retry
+            {
+                LongPressTimeChange()
+            }
+        }
+    }
+}
+
+DisableToggle()
+{
+    IniWrite % !DISABLED, config.ini, Configuration, Disabled
+    Run, qphyx%EXT%
+}
+
+
+;===============================================================================================
+;================================================Auxiliary======================================
+;===============================================================================================
 
 ;detect current spotify process
 SpotifyDetectProcessId()
@@ -387,7 +563,6 @@ SpotifyDetectProcessId()
     }
 }
 
-
 ;swap between opened predefined apps
 IniRead, section, %INI%, AltApps
 For ind, pair in StrSplit(section, "`n")
@@ -397,7 +572,14 @@ For ind, pair in StrSplit(section, "`n")
     option%ind% := Func("Alt").Bind(values[1], values[2])
     Hotkey, LWin & %scan_code%, % option%ind%
 }
+Return
 
+TrayMenu:
+    Menu, Tray, Show
+    Return
+
+Exit:
+    ExitApp
 
 ;===============================================================================================
 ;===========================================Controlling assignments=============================
@@ -407,14 +589,12 @@ For ind, pair in StrSplit(section, "`n")
 ^+SC029::
     Run, qphyx%EXT%
     Return
-
 +SC029::
-    IniWrite % !QPHYX_DISABLE, %INI%, Configuration, QphyxDisable
-    Run, qphyx%EXT%
+    DisableToggle()
     Return
 
 
-#If !QPHYX_DISABLE
+#If !DISABLED
 
  SC029:: SendInput  {SC001}
 !SC029:: SendInput !{SC001}
@@ -423,7 +603,7 @@ For ind, pair in StrSplit(section, "`n")
 ;backspace
  SC00E:: SendInput {SC122}
 !SC00E::
-    KeyWait, SC00E, T%QPHYX_LONG_TIME%
+    KeyWait, SC00E, T%LONG_PRESS_TIME%
     If ErrorLevel
     {
         SendInput {SC110}
@@ -435,7 +615,7 @@ For ind, pair in StrSplit(section, "`n")
     KeyWait, SC00E
     Return
 +SC00E::
-    KeyWait, SC00E, T%QPHYX_LONG_TIME%
+    KeyWait, SC00E, T%LONG_PRESS_TIME%
     If ErrorLevel
     {
         SendInput {SC119}
@@ -453,7 +633,7 @@ For ind, pair in StrSplit(section, "`n")
  ^SC01C:: SendInput ^{SC00E}
 +^SC01C:: SendInput ^{SC153}
  #SC01C::
-    KeyWait, SC01C, T%QPHYX_LONG_TIME%
+    KeyWait, SC01C, T%LONG_PRESS_TIME%
     If ErrorLevel
     {
         WinMinimizeAllUndo
@@ -474,12 +654,6 @@ For ind, pair in StrSplit(section, "`n")
 +SC03A:: SendInput +{SC01C}
 !SC03A:: SendInput !{SC01C}
 ^SC03A:: SendInput ^{SC01C}
-
-;uim, гшьб (wdf] шдфч)
-!SC016:: SendInput  {SC16A}
-!SC017:: SendInput  {SC169}
-!SC032:: SendInput ^{SC02C}
-!SC033:: SendInput ^{SC015}
 
 ;nav hjkl ролд (mstr мстр)
     ;base nav
@@ -566,7 +740,7 @@ SC00D::
 SC001::
     If ESC_AS_CAPS
     {
-        SetCapsLockState, % (t:=!t) ?  "On" :  "Off"
+        SetCapsLockState % (t:=!t) ?  "On" :  "Off"
     }
     Else
     {
@@ -839,7 +1013,7 @@ SC035 up::
         SetFormat, Integer, D
         If (lang == -0xF3EFBF7)
         {
-            SendInput ̇
+            SendInput {̇}
         }
     }
     Return
@@ -876,7 +1050,7 @@ SC039::
 
 
 ;===============================================================================================
-;==============================================Disable==========================================
+;===========================================Disabled keys=======================================
 ;===============================================================================================
 
 ;;;Return
