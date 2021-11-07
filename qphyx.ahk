@@ -260,7 +260,58 @@ Menu, Tray, Add, &Other settings, :SubSettings
 Menu, Tray, Add, &Long press delay (now is %LONG_PRESS_TIME%s), LongPressTimeChange
 state := DISABLED ? "En" : "Dis"
 Menu, Tray, Add, %state%a&ble qPhyx (sh+tilde to toggle), DisableToggle
+Menu, Tray, Add, &Help (cheatsheet), Cheatsheet
 Menu, Tray, Add, &Exit, Exit
+
+
+;===============================================================================================
+;=============================================GUI cheatsheet====================================
+;===============================================================================================
+
+val := [["A.qwerty","esc","1","2","3","4","5","6","7","8","9","0","incr","decr","media"
+        ,"tab","q","w","e","r","t","y","u","i","o","p","","",""
+        ,"enter","a","s","d","f","g","h","j","k","l","","","backspace"
+        ,"shift","z","x","c","v","b","n","m","","","","shift"]
+    ,["Long","esc","1","2","3","4","5","6","7","8","9","0","incr","decr","media"
+        ,"tab","~","–","'","\","@","<","(","[","{","!","#","ó","\"
+        ,"enter","+","-","*","/","=","%","""",".",",",":",";","backspace"
+        ,"shift","$","€","₽","_","≈",">",")","]","}","?","shift"]
+    ,["Alt/A.long","esc"
+        ,"õ/o̧","o̊/o̥","ö/o̤","ȯ/ọ","ŏ/o̮","ō/o̱","ô/o̭","ǒ/o̦","o͗/o̳","ỏ/ǫ","ő/✓","ơ/✕","media"
+        ,"tab","°","—","’","&&","§","«","backw","forw","“","¡","№","ò",""
+        ,"enter","±","−","×","÷","≠","left","down","up","right","^","``","collapse all/un"
+        ,"shift","¥","£","¤","|","≟","»","undo","redo","”","¿","shift"]]
+Gui, Add, Tab3, w730 h190, A.qwerty|Long|Alt/A.long|Lang.mods
+Loop, 3
+{
+    Gui, Tab, % val[A_Index][1]
+    outer_ind := A_Index
+    Gui, Font, s11, Calibri
+    Gui, Add, Button, % "x15 y30 w50 h40 vSC029" . outer_ind, % val[outer_ind][2]
+    GuiControl, Disable, % "SC029" . outer_ind
+    Loop, 12
+    {
+        Gui, Add, Button, % "x" . A_Index*50+15 . " y30 w50 h40", % val[outer_ind][A_Index+2]
+    }
+    Gui, Add, Button, x665 y30 w65 h40, % val[outer_ind][15]
+    Gui, Add, Button, x15 y70 w65 h40, % val[outer_ind][16]
+    Loop, 13
+    {
+        Gui, Add, Button, % "x" . A_Index*50+30 . " y70 w50 h40", % val[outer_ind][A_Index+16]
+    }
+    Gui, Add, Button, x15 y110 w80 h40, % val[outer_ind][30]
+    Loop, 11
+    {
+        Gui, Add, Button, % "x" . A_Index*50+45 . " y110 w50 h40", % val[outer_ind][A_Index+30]
+    }
+    Gui, Add, Button, x645 y110 w85 h40, % val[outer_ind][42]
+    Gui, Add, Button, x15 y150 w100 h40, % val[outer_ind][43]
+    Loop, 10
+    {
+        Gui, Add, Button, % "x" . A_Index*50+65 . " y150 w50 h40", % val[outer_ind][A_Index+43]
+    }
+    Gui, Add, Button, x615 y150 w115 h40, % val[outer_ind][54]
+}
 
 
 ;===============================================================================================
@@ -576,6 +627,10 @@ Return
 
 TrayMenu:
     Menu, Tray, Show
+    Return
+
+Cheatsheet:
+    Gui, Show, h200 w750
     Return
 
 Exit:
