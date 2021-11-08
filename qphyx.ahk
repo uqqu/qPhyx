@@ -146,7 +146,7 @@ IniRead, section, modes.ini, Latin %LATIN_MODE%
 For ind, pair in StrSplit(section, "`n")
 {
     scan_code := SubStr(pair, 1, 5)
-    If scan_code == "name="
+    If (scan_code == "name=")
     {
         Continue
     }
@@ -157,7 +157,7 @@ IniRead, section, modes.ini, Cyrillic %CYRILLIC_MODE%
 For ind, pair in StrSplit(section, "`n")
 {
     scan_code := SubStr(pair, 1, 5)
-    If scan_code == "name="
+    If (scan_code == "name=")
     {
         Continue
     }
@@ -198,7 +198,7 @@ Global LAT_MODE_LIST := []
 Global CYR_MODE_LIST := []
 For _, section in StrSplit(sections, "`n") {
     IniRead, name, modes.ini, %section%, name
-    If SubStr(section, 1, 5) == "Latin"
+    If (SubStr(section, 1, 5) == "Latin")
     {
         LAT_MODE_LIST.Push(name)
     }
@@ -281,36 +281,70 @@ val := [["A.qwerty","esc","1","2","3","4","5","6","7","8","9","0","incr","decr",
         ,"tab","°","—","’","&&","§","«","backw","forw","“","¡","№","ò",""
         ,"enter","±","−","×","÷","≠","left","down","up","right","^","``","collapse all/un"
         ,"shift","¥","£","¤","|","≟","»","undo","redo","”","¿","shift"]]
-Gui, Add, Tab3, w730 h190, A.qwerty|Long|Alt/A.long|Lang.mods
+Gui, Add, Tab3, w720 h185 x-2 y-2, A.qwerty|Long|Alt/A.long|Lang.modes
+Gui -Border -Caption
 Loop, 3
 {
     Gui, Tab, % val[A_Index][1]
     outer_ind := A_Index
     Gui, Font, s11, Calibri
-    Gui, Add, Button, % "x15 y30 w50 h40 vSC029" . outer_ind, % val[outer_ind][2]
+    Gui, Add, Button, % "x0 y20 w50 h40 vSC029" . outer_ind, % val[outer_ind][2]
     GuiControl, Disable, % "SC029" . outer_ind
     Loop, 12
     {
-        Gui, Add, Button, % "x" . A_Index*50+15 . " y30 w50 h40", % val[outer_ind][A_Index+2]
+        Gui, Add, Button, % "x" . A_Index*50 . " y20 w50 h40", % val[outer_ind][A_Index+2]
     }
-    Gui, Add, Button, x665 y30 w65 h40, % val[outer_ind][15]
-    Gui, Add, Button, x15 y70 w65 h40, % val[outer_ind][16]
+    Gui, Add, Button, x650 y20 w65 h40, % val[outer_ind][15]
+    Gui, Add, Button, x0 y60 w65 h40, % val[outer_ind][16]
     Loop, 13
     {
-        Gui, Add, Button, % "x" . A_Index*50+30 . " y70 w50 h40", % val[outer_ind][A_Index+16]
+        Gui, Add, Button, % "x" . A_Index*50+15 . " y60 w50 h40", % val[outer_ind][A_Index+16]
     }
-    Gui, Add, Button, x15 y110 w80 h40, % val[outer_ind][30]
+    Gui, Add, Button, x0 y100 w80 h40, % val[outer_ind][30]
     Loop, 11
     {
-        Gui, Add, Button, % "x" . A_Index*50+45 . " y110 w50 h40", % val[outer_ind][A_Index+30]
+        Gui, Add, Button, % "x" . A_Index*50+30 . " y100 w50 h40", % val[outer_ind][A_Index+30]
     }
-    Gui, Add, Button, x645 y110 w85 h40, % val[outer_ind][42]
-    Gui, Add, Button, x15 y150 w100 h40, % val[outer_ind][43]
+    Gui, Add, Button, x630 y100 w85 h40, % val[outer_ind][42]
+    Gui, Add, Button, x0 y140 w100 h40, % val[outer_ind][43]
     Loop, 10
     {
-        Gui, Add, Button, % "x" . A_Index*50+65 . " y150 w50 h40", % val[outer_ind][A_Index+43]
+        Gui, Add, Button, % "x" . A_Index*50+50 . " y140 w50 h40", % val[outer_ind][A_Index+43]
     }
-    Gui, Add, Button, x615 y150 w115 h40, % val[outer_ind][54]
+    Gui, Add, Button, x600 y140 w115 h40, % val[outer_ind][54]
+}
+Gui, Tab, Lang.modes
+Gui, Add, ListView, r19 w715 h165 x0 y18 gLangModes,  |№|Group|Mode|1|2|3|4|5|6|7|8|9|0|+1|+2
+For _, script in [["Latin", LAT_MODE_LIST], ["Cyrillic", CYR_MODE_LIST]]
+{
+    For mode_ind, wording in script[2]
+    {
+        t := []
+        chosen := ""
+        IniRead, section, modes.ini, % script[1] " " mode_ind-1
+        For ind, pair in StrSplit(section, "`n")
+        {
+            If (ind == 1)
+            {
+                Continue
+            }
+            t.Push(StrReplace(SubStr(pair, 7, 2), ","))
+        }
+        If (script[1] == "Latin" && mode_ind = LATIN_MODE+1
+            || script[1] == "Cyrillic" && mode_ind = CYRILLIC_MODE+1)
+        {
+            chosen := "✓"
+        }
+        LV_Add("", chosen, mode_ind, script[1], StrReplace(wording, "&")
+            , t[1], t[2], t[3], t[4], t[5], t[6], t[7], t[8], t[9], t[10], t[11], t[12])
+    }
+}
+LV_ModifyCol()
+LV_ModifyCol(2, "Integer AutoHdr Center")
+LV_ModifyCol(4, 285)
+Loop, 12
+{
+    LV_ModifyCol(A_Index+4, "AutoHdr Center")
 }
 
 
@@ -497,7 +531,21 @@ LatModeChange(_, item_pos)
     IniWrite % item_pos-1, config.ini, Configuration, LatinMode
     Menu, LatModes, Uncheck, % LAT_MODE_LIST[LATIN_MODE+1]
     Menu, LatModes, Check, % LAT_MODE_LIST[item_pos]
-    Run, qphyx%EXT%
+    LV_Modify(LATIN_MODE+1, , "")
+    LV_Modify(item_pos, , "✓")
+    LATIN_MODE := item_pos-1
+    IniRead, section, modes.ini, Latin %LATIN_MODE%
+    For ind, pair in StrSplit(section, "`n")
+    {
+        scan_code := SubStr(pair, 1, 5)
+        If (scan_code == "name=")
+        {
+            Continue
+        }
+        values := StrSplit(SubStr(pair, 7), ",")
+        NUM_DICT[scan_code][5] := values[1]
+        NUM_DICT[scan_code][6] := values[2]
+    }
 }
 
 CyrModeChange(_, item_pos)
@@ -505,7 +553,21 @@ CyrModeChange(_, item_pos)
     IniWrite % item_pos-1, config.ini, Configuration, CyrillicMode
     Menu, CyrModes, Uncheck, % CYR_MODE_LIST[CYRILLIC_MODE+1]
     Menu, CyrModes, Check, % CYR_MODE_LIST[item_pos]
-    Run, qphyx%EXT%
+    LV_Modify(LAT_MODE_LIST.MaxIndex() + CYRILLIC_MODE + 1, , "")
+    LV_Modify(LAT_MODE_LIST.MaxIndex() + item_pos, , "✓")
+    CYRILLIC_MODE := item_pos - 1
+    IniRead, section, modes.ini, Cyrillic %CYRILLIC_MODE%
+    For ind, pair in StrSplit(section, "`n")
+    {
+        scan_code := SubStr(pair, 1, 5)
+        If (scan_code == "name=")
+        {
+            Continue
+        }
+        values := StrSplit(SubStr(pair, 7), ",")
+        NUM_DICT[scan_code][7] := values[1]
+        NUM_DICT[scan_code][8] := values[2]
+    }
 }
 
 PairedBracketsToggle()
@@ -562,7 +624,7 @@ LongPressTimeChange()
         , New value in seconds (e.g. 0.15), , 444, 130
     If !ErrorLevel
     {
-        If user_input is number
+        If (user_input is number)
         {
             old_value = %LONG_PRESS_TIME%
             IniWrite, %user_input%, config.ini, Configuration, LongPressTime
@@ -630,7 +692,23 @@ TrayMenu:
     Return
 
 Cheatsheet:
-    Gui, Show, h200 w750
+    Gui, Show, h180 w715
+    Return
+
+LangModes:
+    If (A_GuiEvent == "DoubleClick")
+    {
+        LV_GetText(mode_num, A_EventInfo, 2)
+        LV_GetText(mode_script, A_EventInfo, 3)
+        If (mode_script == "Latin")
+        {
+            LatModeChange(_, mode_num)
+        }
+        Else
+        {
+            CyrModeChange(_, mode_num)
+        }
+    }
     Return
 
 Exit:
