@@ -5,35 +5,35 @@
 #SingleInstance Force
 #UseHook On
 
-;global config.ini variables
-Global DISABLED
-Global LONG_PRESS_TIME
-Global LATIN_MODE
-Global CYRILLIC_MODE
-Global USER_KEY_1
-Global USER_KEY_2
-Global PAIRED_BRACKETS
-Global UNBR_SPACE
-Global ROMANIAN_CEDILLA_TO_COMMA
-Global DOTLESS_I_SWAP
-Global ESC_AS_CAPS
-Global NUMPAD
 Global EXT := A_IsCompiled ? ".exe" : ".ahk"
 Global INI := "config.ini"
+;global config.ini variables
+Global DISABLED := 0
+Global LONG_PRESS_TIME := 0.15
+Global LATIN_MODE := 0
+Global CYRILLIC_MODE := 0
+Global PAIRED_BRACKETS := 0
+Global UNBR_SPACE := 1
+Global ESC_AS_CAPS := 0
+Global NUMPAD := 0
+Global DOTLESS_I_SWAP := 0
+Global ROMANIAN_CEDILLA_TO_COMMA := 1
+Global USER_KEY_1 := ""
+Global USER_KEY_2 := ""
 IfExist, %INI%
 {
     IniRead, DISABLED,                  %INI%, Configuration, Disabled
     IniRead, LONG_PRESS_TIME,           %INI%, Configuration, LongPressTime
     IniRead, LATIN_MODE,                %INI%, Configuration, LatinMode
     IniRead, CYRILLIC_MODE,             %INI%, Configuration, CyrillicMode
-    IniRead, USER_KEY_1,                %INI%, Configuration, UserKey1
-    IniRead, USER_KEY_2,                %INI%, Configuration, UserKey2
     IniRead, PAIRED_BRACKETS,           %INI%, Configuration, PairedBrackets
     IniRead, UNBR_SPACE,                %INI%, Configuration, UnbrSpace
-    IniRead, ROMANIAN_CEDILLA_TO_COMMA, %INI%, Configuration, RomanianCedillaToComma
-    IniRead, DOTLESS_I_SWAP,            %INI%, Configuration, DotlessISwap
     IniRead, ESC_AS_CAPS,               %INI%, Configuration, EscAsCaps
     IniRead, NUMPAD,                    %INI%, Configuration, NumPad
+    IniRead, DOTLESS_I_SWAP,            %INI%, Configuration, DotlessISwap
+    IniRead, ROMANIAN_CEDILLA_TO_COMMA, %INI%, Configuration, RomanianCedillaToComma
+    IniRead, USER_KEY_1,                %INI%, Configuration, UserKey1
+    IniRead, USER_KEY_2,                %INI%, Configuration, UserKey2
     IniRead, menu_path,                 %INI%, Configuration, MenuPath
     IniRead, viatc_file,                %INI%, Configuration, ViatcFile
 }
@@ -43,18 +43,17 @@ Else
     IniWrite, 0.15,                     %INI%, Configuration, LongPressTime
     IniWrite, 0,                        %INI%, Configuration, LatinMode
     IniWrite, 0,                        %INI%, Configuration, CyrillicMode
-    IniWrite % "",                      %INI%, Configuration, UserKey1
-    IniWrite % "",                      %INI%, Configuration, UserKey2
     IniWrite, 0,                        %INI%, Configuration, PairedBrackets
     IniWrite, 1,                        %INI%, Configuration, UnbrSpace
-    IniWrite, 1,                        %INI%, Configuration, RomanianCedillaToComma
-    IniWrite, 0,                        %INI%, Configuration, DotlessISwap
     IniWrite, 0,                        %INI%, Configuration, EscAsCaps
     IniWrite, 0,                        %INI%, Configuration, NumPad
+    IniWrite, 0,                        %INI%, Configuration, DotlessISwap
+    IniWrite, 1,                        %INI%, Configuration, RomanianCedillaToComma
+    IniWrite, % "",                     %INI%, Configuration, UserKey1
+    IniWrite, % "",                     %INI%, Configuration, UserKey2
     IniWrite, c:\menu\,                 %INI%, Configuration, MenuPath
     IniWrite, c:\ViATc\ViATc.ahk,       %INI%, Configuration, ViatcFile
     FileAppend, `n[AltApps]`n, %INI%
-    Run, qphyx%EXT%
 }
 
 ;set icon
@@ -72,16 +71,17 @@ Try
 ;let menu override ViATc
 Try
 {
-    Run % menu_path . "menu" . EXT, %menu_path%
+    Run, % menu_path . "menu" . EXT, %menu_path%
 }
 
-SetCapsLockState % (ESC_AS_CAPS ? "Off" : "AlwaysOff")
+SetCapsLockState, % (ESC_AS_CAPS ? "Off" : "AlwaysOff")
 
 
 ;===============================================================================================
 ;=====================================Symbol assignments========================================
 ;===============================================================================================
 
+;num row
 Global NUM_DICT := {scan_code: ["releasing", "sended", "alt", "alt_long"]
     , SC002: [0, 0, "̃", "̧"]   ; tilde; cedilla
     , SC003: [0, 0, "̊", "̥"]   ; ring above; ring below
@@ -96,6 +96,7 @@ Global NUM_DICT := {scan_code: ["releasing", "sended", "alt", "alt_long"]
     , SC00C: [0, 0, "̋", "✓"]  ; double acute
     , SC00D: [0, 0, "̛", "✕"]} ; horn
 
+;letter region
 Global DICT := {scan_code: ["releasing", "sended", "long", "alt"]
     , SC010: [0, 0, "{Text}~", "{Text}°"]
     , SC011: [0, 0, "{Text}–", "{Text}—"]
@@ -131,6 +132,42 @@ Global DICT := {scan_code: ["releasing", "sended", "long", "alt"]
     , SC034: [0, 0, "{Text}}", "{Text}”"]
     , SC035: [0, 0, "{Text}?", "{Text}¿"]}
 
+;language modes read
+IniRead, sections, modes.ini
+Global LAT_MODE_LIST := []
+Global CYR_MODE_LIST := []
+For _, section in StrSplit(sections, "`n") {
+    IniRead, name, modes.ini, %section%, name
+    t := {name: name}
+    Loop, 12
+    {
+        scan_code := "SC00" Format("{:X}", A_Index+1)
+        IniRead, values, modes.ini, %section%, %scan_code%
+        t[scan_code] := StrSplit(values, ",")
+    }
+    If (SubStr(section, 1, 5) == "Latin")
+    {
+        LAT_MODE_LIST.Push(t)
+    }
+    Else
+    {
+        CYR_MODE_LIST.Push(t)
+    }
+}
+
+;;set chosen language modes (shift and shift-long layers on the num row)
+For i, script in [LAT_MODE_LIST[LATIN_MODE+1], CYR_MODE_LIST[CYRILLIC_MODE+1]]
+{
+    Loop, 12
+    {
+        scan_code := "SC00" Format("{:X}", A_Index+1)
+        NUM_DICT[scan_code][5+(i-1)*2] := script[scan_code][1]
+        NUM_DICT[scan_code][6+(i-1)*2] := script[scan_code][2]
+    }
+}
+
+;other settings
+;;autopaste closing brackets
 If PAIRED_BRACKETS
 {
     DICT["SC015"][3] := "<>{Left}"
@@ -142,49 +179,29 @@ If PAIRED_BRACKETS
     DICT["SC024"][3] := """""{Left}"
 }
 
-IniRead, section, modes.ini, Latin %LATIN_MODE%
-For ind, pair in StrSplit(section, "`n")
-{
-    scan_code := SubStr(pair, 1, 5)
-    If (scan_code == "name=")
-    {
-        Continue
-    }
-    values := StrSplit(SubStr(pair, 7), ",")
-    NUM_DICT[scan_code].Push(values[1], values[2])
-}
-IniRead, section, modes.ini, Cyrillic %CYRILLIC_MODE%
-For ind, pair in StrSplit(section, "`n")
-{
-    scan_code := SubStr(pair, 1, 5)
-    If (scan_code == "name=")
-    {
-        Continue
-    }
-    values := StrSplit(SubStr(pair, 7), ",")
-    NUM_DICT[scan_code].Push(values[1], values[2])
-}
 
-;https://www.wikiwand.com/en/Romanian_alphabet#/Comma-below_(ș_and_ț)_versus_cedilla_(ş_and_ţ)
-;Default on. If you know what you're doing
-;   and you want to type cedilla, you can disable this behavior in config.ini
-;This also influences to the cyrillic layout. (Only with selected Romanian mode, ofc)
+;;paste comma instead of the cedilla for the chosen romanian mode
+;;https://www.wikiwand.com/en/Romanian_alphabet#/Comma-below_(ș_and_ț)_versus_cedilla_(ş_and_ţ)
+;;Default on. If you know what you're doing
+;;   and you want to type cedilla, you can disable this behavior in config.ini
+;;This also influences to the cyrillic layout. (Only with selected Romanian mode, ofc)
 If (LATIN_MODE == 3 && ROMANIAN_CEDILLA_TO_COMMA)
 {
     NUM_DICT["SC002"][4] := "̦"
 }
 
-;Turkish, Kazakh latin, Azerbajani latin, ..., mode feature
-;Default i = dotted i (iİ); num-row i <sh-long-8> = dotless i (ıI)
-;Stay calm with third-party bindings. <Sh-i> will be detect as I. Diacr. dot will be added later
-;With this mode you can type I as <sh-i>+<bs> or as <sh-long-8>, how you want it
-;This option is not depends on selected latin mode, because you may want to use it with any mode
+;;Default i = dotted i (iİ); num-row i <sh-long-8> = dotless i (ıI)
+;;Turkish, Kazakh latin, Azerbajani latin, ..., mode feature
+;;Stay calm with third-party bindings. <Sh-i> will be detect as I. Diacr. dot will be added later
+;;With this mode you can type I as <sh-i>+<bs> or as <sh-long-8>, how you want it
+;;This option is not depends on selected latin mode, because you may want to use it with any mode
 If DOTLESS_I_SWAP
 {
     NUM_DICT["SC009"][6] := "I"
    ;+SC021::I+̇
 }
 
+;read correct spotify process (if exists) for the proper swap between apps
 Global SPOTIFY
 SpotifyDetectProcessId()
 
@@ -193,49 +210,29 @@ SpotifyDetectProcessId()
 ;================================================Tray menu======================================
 ;===============================================================================================
 
-IniRead, sections, modes.ini
-Global LAT_MODE_LIST := []
-Global CYR_MODE_LIST := []
-For _, section in StrSplit(sections, "`n") {
-    IniRead, name, modes.ini, %section%, name
-    If (SubStr(section, 1, 5) == "Latin")
-    {
-        LAT_MODE_LIST.Push(name)
-    }
-    Else
-    {
-        CYR_MODE_LIST.Push(name)
-    }
-}
-
 Menu, Tray, Add, qPhyx, TrayMenu
 Menu, Tray, Default, qPhyx
 Menu, Tray, Click, 1
 Menu, Tray, Disable, qPhyx
-Menu, Tray, Tip, % "qPhyx" EXT " – " (DISABLED ? "disabled" : "enabled")
+Menu, Tray, Tip, % "qPhyx" . EXT . " – " . (DISABLED ? "disabled" : "enabled")
 Menu, Tray, NoStandard
 For _, wording in LAT_MODE_LIST
 {
-    Menu, LatModes, Add, %wording%, LatModeChange
+    Menu, LatModes, Add, % wording["name"], LatModeChange
 }
 For _, wording in CYR_MODE_LIST
 {
-    Menu, CyrModes, Add, %wording%, CyrModeChange
+    Menu, CyrModes, Add, % wording["name"], CyrModeChange
 }
-    Menu, LatModes, Check, % LAT_MODE_LIST[LATIN_MODE+1]
-    Menu, CyrModes, Check, % CYR_MODE_LIST[CYRILLIC_MODE+1]
+    Menu, LatModes, Check, % LAT_MODE_LIST[LATIN_MODE+1]["name"]
+    Menu, CyrModes, Check, % CYR_MODE_LIST[CYRILLIC_MODE+1]["name"]
 Menu, Tray, UseErrorLevel
-Menu, Tray, Add, Change la&tin mode, :LatModes
+Menu, Tray, Add, Change &latin mode, :LatModes
 Menu, Tray, Add, Change &cyrillic mode, :CyrModes
     Menu, SubSettings, Add, Toggle "&Paired brackets" feature, PairedBracketsToggle
     If PAIRED_BRACKETS
     {
         Menu, SubSettings, Check, Toggle "&Paired brackets" feature
-    }
-    Menu, SubSettings, Add, Toggle "Dotless &i" feature, DotlessIToggle
-    If DOTLESS_I_SWAP
-    {
-        Menu, SubSettings, Check, Toggle "Dotless &i" feature
     }
     Menu, SubSettings, Add, Toggle "No-&Break Space" on Sh-Space, UnbrSpaceToggle
     If UNBR_SPACE
@@ -252,14 +249,24 @@ Menu, Tray, Add, Change &cyrillic mode, :CyrModes
     {
         Menu, SubSettings, Check, Toggle &NumPad availability
     }
-    key1 := (USER_KEY_1 != "") ? USER_KEY_1 : "empty"
-    key2 := (USER_KEY_2 != "") ? USER_KEY_2 : "empty"
+    Menu, SubSettings, Add, Toggle "Dotless &i" feature, DotlessIToggle
+    If DOTLESS_I_SWAP
+    {
+        Menu, SubSettings, Check, Toggle "Dotless &i" feature
+    }
+    Menu, SubSettings, Add, Toggle "Romanian &cedilla to comma" feature, RomanianCedillaToCommaToggle
+    If ROMANIAN_CEDILLA_TO_COMMA
+    {
+        Menu, SubSettings, Check, Toggle "Romanian &cedilla to comma" feature
+    }
+    key1 := (USER_KEY_1 == "") ? "empty" : USER_KEY_1
+    key2 := (USER_KEY_2 == "") ? "empty" : USER_KEY_2
     Menu, SubSettings, Add, Change &first user-defined key (now is %key1%), ChangeUserKey
     Menu, SubSettings, Add, Change &second user-defined key (now is %key2%), ChangeUserKey
 Menu, Tray, Add, &Other settings, :SubSettings
-Menu, Tray, Add, &Long press delay (now is %LONG_PRESS_TIME%s), LongPressTimeChange
+Menu, Tray, Add, Long press &delay (now is %LONG_PRESS_TIME%s), LongPressTimeChange
 state := DISABLED ? "En" : "Dis"
-Menu, Tray, Add, %state%a&ble qPhyx (sh+tilde to toggle), DisableToggle
+Menu, Tray, Add, %state%a&ble qPhyx (sh+tilde to toggle), DisabledToggle
 Menu, Tray, Add, &Help (cheatsheet), Cheatsheet
 Menu, Tray, Add, &Exit, Exit
 
@@ -289,7 +296,7 @@ Loop, 3
     outer_ind := A_Index
     Gui, Font, s11, Calibri
     Gui, Add, Button, % "x0 y20 w50 h40 vSC029" . outer_ind, % val[outer_ind][2]
-    GuiControl, Disable, % "SC029" . outer_ind
+    ;GuiControl, Disable, % "SC029" . outer_ind
     Loop, 12
     {
         Gui, Add, Button, % "x" . A_Index*50 . " y20 w50 h40", % val[outer_ind][A_Index+2]
@@ -314,38 +321,48 @@ Loop, 3
     Gui, Add, Button, x600 y140 w115 h40, % val[outer_ind][54]
 }
 Gui, Tab, Lang.modes
-Gui, Add, ListView, r19 w715 h165 x0 y18 gLangModes,  |№|Group|Mode|1|2|3|4|5|6|7|8|9|0|+1|+2
+Gui, Add, ListView, r19 w715 h165 x0 y18 gLangModes, |№|Group|Mode|1|2|3|4|5|6|7|8|9|0|+1|+2
 For _, script in [["Latin", LAT_MODE_LIST], ["Cyrillic", CYR_MODE_LIST]]
 {
-    For mode_ind, wording in script[2]
+    For mode_ind, values in script[2]
     {
-        t := []
         chosen := ""
-        IniRead, section, modes.ini, % script[1] " " mode_ind-1
-        For ind, pair in StrSplit(section, "`n")
-        {
-            If (ind == 1)
-            {
-                Continue
-            }
-            t.Push(StrReplace(SubStr(pair, 7, 2), ","))
-        }
-        If (script[1] == "Latin" && mode_ind = LATIN_MODE+1
-            || script[1] == "Cyrillic" && mode_ind = CYRILLIC_MODE+1)
+        If (script[1] == "Latin" && mode_ind == LATIN_MODE+1
+            || script[1] == "Cyrillic" && mode_ind == CYRILLIC_MODE+1)
         {
             chosen := "✓"
         }
-        LV_Add("", chosen, mode_ind, script[1], StrReplace(wording, "&")
-            , t[1], t[2], t[3], t[4], t[5], t[6], t[7], t[8], t[9], t[10], t[11], t[12])
+        t := []
+        For key, symbol in values
+        {
+            If (key == "name")
+            {
+                Continue
+            }
+            t.Push(symbol[1])
+        }
+        LV_Add("", chosen, mode_ind, script[1], StrReplace(values["name"], "&"), t*)
     }
 }
 LV_ModifyCol()
+LV_ModifyCol(1, "Desc")
 LV_ModifyCol(2, "Integer AutoHdr Center")
+LV_ModifyCol(3, "Desc")
 LV_ModifyCol(4, 285)
 Loop, 12
 {
     LV_ModifyCol(A_Index+4, "AutoHdr Center")
 }
+
+IniRead, section, %INI%, AltApps
+For ind, pair in StrSplit(section, "`n")
+{
+    scan_code := SubStr(pair, 1, 5)
+    values := StrSplit(SubStr(pair, 7), ",")
+    option%ind% := Func("Alt").Bind(values[1], values[2])
+    Hotkey, LWin & %scan_code%, % option%ind%
+}
+Return
 
 
 ;===============================================================================================
@@ -364,7 +381,7 @@ DownNum(this, alt:=0)
             NUM_DICT[this][2] := 1
             If alt
             {
-                SendInput % NUM_DICT[this][4]
+                SendInput, % NUM_DICT[this][4]
             }
             Else
             {
@@ -375,11 +392,11 @@ DownNum(this, alt:=0)
                 SetFormat, Integer, D
                 If (lang == -0xF3EFBF7)
                 {
-                    SendInput % NUM_DICT[this][6-caps_lock]
+                    SendInput, % NUM_DICT[this][6-caps_lock]
                 }
                 Else If (lang == -0xF3FFBE7)
                 {
-                    SendInput % NUM_DICT[this][8-caps_lock]
+                    SendInput, % NUM_DICT[this][8-caps_lock]
                 }
             }
         }
@@ -392,7 +409,7 @@ UpNum(this, shift:=0, alt:=0)
     {
         If alt
         {
-            SendInput % NUM_DICT[this][3]
+            SendInput, % NUM_DICT[this][3]
         }
         Else If shift
         {
@@ -403,11 +420,11 @@ UpNum(this, shift:=0, alt:=0)
             SetFormat, Integer, D
             If (lang == -0xF3EFBF7)
             {
-                SendInput % NUM_DICT[this][5+caps_lock]
+                SendInput, % NUM_DICT[this][5+caps_lock]
             }
             Else If (lang == -0xF3FFBE7)
             {
-                SendInput % NUM_DICT[this][7+caps_lock]
+                SendInput, % NUM_DICT[this][7+caps_lock]
             }
         }
         Else
@@ -424,12 +441,13 @@ Down(this, shift:=0)
 {
     If !DICT[this][1]
     {
-        DICT[this][1] := 1 + shift
+        DICT[this][1] := 1+shift
         KeyWait, %this%, T%LONG_PRESS_TIME%
         If (ErrorLevel && !DICT[this][2])
         {
             DICT[this][2] := 1
-            SendInput % DICT[this][3]
+            Send, % DICT[this][3]
+            ;SendInput, % DICT[this][3] ; ?
         }
     }
 }
@@ -486,7 +504,7 @@ LastMinimizedWindow()
     WinGet, windows, List
     Loop, %windows%
     {
-        WinGet, win_state, MinMax, % "ahk_id" windows%A_Index%
+        WinGet, win_state, MinMax, % "ahk_id" . windows%A_Index%
         If (win_state == -1)
         {
             Return windows%A_Index%
@@ -505,13 +523,13 @@ IncrDecrNumber(n)
     If (Clipboard*0 == 0)
     {
         If InStr(Clipboard, ".") {
-            Clipboard := Round(Clipboard + 1 * n, StrLen(Clipboard) - InStr(Clipboard, "."))
+            Clipboard := Round(Clipboard+1*n, StrLen(Clipboard) - InStr(Clipboard, "."))
         }
         Else
         {
-            Clipboard := Clipboard + 1 * n
+            Clipboard := Clipboard+1*n
         }
-        SendInput % Clipboard
+        SendInput, % Clipboard
         new_value_len := StrLen(Clipboard)
         SendInput {Left %new_value_len%}
         Send +{Right %new_value_len%}
@@ -526,78 +544,149 @@ IncrDecrNumber(n)
 ;===============================================Menu functions==================================
 ;===============================================================================================
 
+DisabledToggle()
+{
+    DISABLED := !DISABLED
+    IniWrite, % DISABLED, config.ini, Configuration, Disabled
+    icon := DISABLED ? "disabled.ico" : "qphyx.ico"
+    IfExist, %icon%
+    {
+        Menu, Tray, Icon, %icon%, , 1
+    }
+    Menu, Tray, Tip, % "qPhyx" . EXT . " – " . (DISABLED ? "disabled" : "enabled")
+    w := ["Dis", "En"]
+    Menu, Tray, Rename, % w[!DISABLED+1] . "a&ble qPhyx (sh+tilde to toggle)"
+        , % w[DISABLED+1] . "a&ble qPhyx (sh+tilde to toggle)"
+}
+
+LongPressTimeChange()
+{
+    InputBox, user_input, Set new long press delay
+        , New value in seconds (e.g. 0.15), , 444, 130
+    If !ErrorLevel
+    {
+        If (user_input is number)
+        {
+            old_value := LONG_PRESS_TIME
+            IniWrite, %user_input%, config.ini, Configuration, LongPressTime
+            LONG_PRESS_TIME := user_input
+            Menu, Tray, Rename, Long press &delay (now is %old_value%s)
+                , Long press &delay (now is %LONG_PRESS_TIME%s)
+        }
+        Else
+        {
+            MsgBox, 53, Incorrect value, The input must be a number!
+            IfMsgBox Retry
+            {
+                LongPressTimeChange()
+            }
+        }
+    }
+}
+
 LatModeChange(_, item_pos)
 {
-    IniWrite % item_pos-1, config.ini, Configuration, LatinMode
+    IniWrite, % item_pos-1, config.ini, Configuration, LatinMode
     Menu, LatModes, Uncheck, % LAT_MODE_LIST[LATIN_MODE+1]
     Menu, LatModes, Check, % LAT_MODE_LIST[item_pos]
     LV_Modify(LATIN_MODE+1, , "")
     LV_Modify(item_pos, , "✓")
     LATIN_MODE := item_pos-1
-    IniRead, section, modes.ini, Latin %LATIN_MODE%
-    For ind, pair in StrSplit(section, "`n")
+    Loop, 12
     {
-        scan_code := SubStr(pair, 1, 5)
-        If (scan_code == "name=")
-        {
-            Continue
-        }
-        values := StrSplit(SubStr(pair, 7), ",")
-        NUM_DICT[scan_code][5] := values[1]
-        NUM_DICT[scan_code][6] := values[2]
+        scan_code := "SC00" Format("{:X}", A_Index+1)
+        NUM_DICT[scan_code][5] := LAT_MODE_LIST[item_pos][scan_code][1]
+        NUM_DICT[scan_code][6] := LAT_MODE_LIST[item_pos][scan_code][2]
     }
 }
 
 CyrModeChange(_, item_pos)
 {
-    IniWrite % item_pos-1, config.ini, Configuration, CyrillicMode
+    IniWrite, % item_pos-1, config.ini, Configuration, CyrillicMode
     Menu, CyrModes, Uncheck, % CYR_MODE_LIST[CYRILLIC_MODE+1]
     Menu, CyrModes, Check, % CYR_MODE_LIST[item_pos]
-    LV_Modify(LAT_MODE_LIST.MaxIndex() + CYRILLIC_MODE + 1, , "")
+    LV_Modify(LAT_MODE_LIST.MaxIndex() + CYRILLIC_MODE+1, , "")
     LV_Modify(LAT_MODE_LIST.MaxIndex() + item_pos, , "✓")
-    CYRILLIC_MODE := item_pos - 1
-    IniRead, section, modes.ini, Cyrillic %CYRILLIC_MODE%
-    For ind, pair in StrSplit(section, "`n")
+    CYRILLIC_MODE := item_pos-1
+    Loop, 12
     {
-        scan_code := SubStr(pair, 1, 5)
-        If (scan_code == "name=")
-        {
-            Continue
-        }
-        values := StrSplit(SubStr(pair, 7), ",")
-        NUM_DICT[scan_code][7] := values[1]
-        NUM_DICT[scan_code][8] := values[2]
+        scan_code := "SC00" Format("{:X}", A_Index+1)
+        NUM_DICT[scan_code][7] := CYR_MODE_LIST[item_pos][scan_code][1]
+        NUM_DICT[scan_code][8] := CYR_MODE_LIST[item_pos][scan_code][2]
     }
 }
 
 PairedBracketsToggle()
 {
-    IniWrite % !PAIRED_BRACKETS, config.ini, Configuration, PairedBrackets
-    Run, qphyx%EXT%
-}
-
-DotlessIToggle()
-{
-    IniWrite % !DOTLESS_I_SWAP, config.ini, Configuration, DotlessISwap
-    Run, qphyx%EXT%
+    PAIRED_BRACKETS := !PAIRED_BRACKETS
+    IniWrite, % PAIRED_BRACKETS, config.ini, Configuration, PairedBrackets
+    If PAIRED_BRACKETS
+    {
+        DICT["SC015"][3] := "<>{Left}"
+        DICT["SC015"][4] := "«»{Left}"
+        DICT["SC016"][3] := "(){Left}"
+        DICT["SC017"][3] := "[]{Left}"
+        DICT["SC018"][3] := "{{}{}}{Left}"
+        DICT["SC018"][4] := "“”{Left}"
+        DICT["SC024"][3] := """""{Left}"
+    }
+    Else
+    {
+        DICT["SC015"][3] := "{Text}<"
+        DICT["SC015"][4] := "{Text}«"
+        DICT["SC016"][3] := "{Text}("
+        DICT["SC017"][3] := "{Text}["
+        DICT["SC018"][3] := "{Text}{"
+        DICT["SC018"][4] := "{Text}“"
+        DICT["SC024"][3] := "{Text}"""
+    }
 }
 
 UnbrSpaceToggle()
 {
-    IniWrite % !UNBR_SPACE, config.ini, Configuration, UnbrSpace
-    Run, qphyx%EXT%
+    UNBR_SPACE := !UNBR_SPACE
+    IniWrite, % UNBR_SPACE, config.ini, Configuration, UnbrSpace
 }
 
 EscAsCapsToggle()
 {
-    IniWrite % !ESC_AS_CAPS, config.ini, Configuration, EscAsCaps
-    Run, qphyx%EXT%
+    ESC_AS_CAPS := !ESC_AS_CAPS
+    IniWrite, % ESC_AS_CAPS, config.ini, Configuration, EscAsCaps
+    SetCapsLockState, % (ESC_AS_CAPS ? "Off" : "AlwaysOff")
 }
 
 NumPadToggle()
 {
-    IniWrite % !NUMPAD, config.ini, Configuration, NumPad
-    Run, qphyx%EXT%
+    NUMPAD := !NUMPAD
+    IniWrite, % NUMPAD, config.ini, Configuration, NumPad
+}
+
+DotlessIToggle()
+{
+    DOTLESS_I_SWAP := !DOTLESS_I_SWAP
+    IniWrite, % DOTLESS_I_SWAP, config.ini, Configuration, DotlessISwap
+    If DOTLESS_I_SWAP
+    {
+        NUM_DICT["SC009"][6] := "I"
+    }
+    Else
+    {
+        NUM_DICT["SC009"][6] := LAT_MODE_LIST[LATIN_MODE]["SC009"][2]
+    }
+}
+
+RomanianCedillaToCommaToggle()
+{
+    ROMANIAN_CEDILLA_TO_COMMA := !ROMANIAN_CEDILLA_TO_COMMA
+    IniWrite, % ROMANIAN_CEDILLA_TO_COMMA, config.ini, Configuration, RomanianCedillaToComma
+    If (LATIN_MODE == 3 && ROMANIAN_CEDILLA_TO_COMMA)
+    {
+        NUM_DICT["SC002"][4] := "̦"
+    }
+    Else
+    {
+        NUM_DICT["SC002"][4] := "̣"
+    }
 }
 
 ChangeUserKey(item_name)
@@ -612,42 +701,16 @@ If empty – works as decrement/increment number (be careful with use it on non-
         , , 611, 160
     If !ErrorLevel
     {
-        key_pos := (SubStr(item_name, 8, 1) == "f") ? 1 : 2
+        key_pos := (SubStr(item_name, 9, 1) == "f") ? 1 : 2
         IniWrite, %user_input%, config.ini, Configuration, UserKey%key_pos%
-        Run, qphyx%EXT%
+        repr_pos := (key_pos == 1) ? "first" : "second"
+        pos_value := (USER_KEY_%key_pos% == "") ? "empty" : USER_KEY_%key_pos%
+        input_value := (user_input == "") ? "empty" : user_input
+        Menu, SubSettings, Rename
+            , % "Change &" . repr_pos . " user-defined key (now is " . pos_value . ")"
+            , % "Change &" . repr_pos . " user-defined key (now is " . input_value . ")"
+        USER_KEY_%key_pos% := user_input
     }
-}
-
-LongPressTimeChange()
-{
-    InputBox, user_input, Set new long press delay
-        , New value in seconds (e.g. 0.15), , 444, 130
-    If !ErrorLevel
-    {
-        If (user_input is number)
-        {
-            old_value = %LONG_PRESS_TIME%
-            IniWrite, %user_input%, config.ini, Configuration, LongPressTime
-            LONG_PRESS_TIME := user_input
-            Menu, Tray, Rename, &Long press delay (now is %old_value%s)
-                , &Long press delay (now is %LONG_PRESS_TIME%s)
-            Run, qphyx%EXT%
-        }
-        Else
-        {
-            MsgBox, 53, Incorrect value, The input must be a number!
-            IfMsgBox Retry
-            {
-                LongPressTimeChange()
-            }
-        }
-    }
-}
-
-DisableToggle()
-{
-    IniWrite % !DISABLED, config.ini, Configuration, Disabled
-    Run, qphyx%EXT%
 }
 
 
@@ -662,8 +725,8 @@ SpotifyDetectProcessId()
     Loop, %id%
     {
         this_id := id%A_Index%
-        WinGet, proc, ProcessName, ahk_id %this_id%
-        WinGetTitle, title, ahk_id %this_id%
+        WinGet, proc, ProcessName, ahk_id . %this_id%
+        WinGetTitle, title, ahk_id . %this_id%
         If (title && proc == "Spotify.exe")
         {
             SPOTIFY := this_id
@@ -675,17 +738,6 @@ SpotifyDetectProcessId()
         SetTimer, SpotifyDetectProcessId, -66666
     }
 }
-
-;swap between opened predefined apps
-IniRead, section, %INI%, AltApps
-For ind, pair in StrSplit(section, "`n")
-{
-    scan_code := SubStr(pair, 1, 5)
-    values := StrSplit(SubStr(pair, 7), ",")
-    option%ind% := Func("Alt").Bind(values[1], values[2])
-    Hotkey, LWin & %scan_code%, % option%ind%
-}
-Return
 
 TrayMenu:
     Menu, Tray, Show
@@ -723,7 +775,7 @@ Exit:
     Run, qphyx%EXT%
     Return
 +SC029::
-    DisableToggle()
+    DisabledToggle()
     Return
 
 
@@ -809,7 +861,6 @@ Exit:
 +^!SC024:: SendInput  +{SC147}
 +^!SC025:: SendInput  +{SC14F}
 +^!SC026:: SendInput +^{SC14D}
-
     ;move window
   #SC023:: SendInput  #{SC14B}
   #SC024:: SendInput  #{SC150}
@@ -831,7 +882,7 @@ Exit:
     WinRestore, %title%
     Return
 
-; ctrl-sh-g (qphyx-view). clipboard swap (paste and save replaced text as a new clipboard text)
+;ctrl-sh-g (qphyx-view). clipboard swap (paste and save replaced text as a new clipboard text)
 +^SC02F::
     saved_value := Clipboard
     Clipboard := ""
@@ -845,7 +896,7 @@ Exit:
     Clipboard := saved_value2
     Return
 
-; old num-row "-" (two keys left from old BS)
+;old num-row "-" and "=" (two keys left from old BS)
 SC00C::
     If USER_KEY_1
     {
@@ -856,8 +907,6 @@ SC00C::
         IncrDecrNumber(-1)
     }
     Return
-
-; old num-row "=" (one key left from old BS)
 SC00D::
     If USER_KEY_2
     {
@@ -869,11 +918,11 @@ SC00D::
     }
     Return
 
-; esc
+;esc
 SC001::
     If ESC_AS_CAPS
     {
-        SetCapsLockState % (t:=!t) ?  "On" :  "Off"
+        SetCapsLockState, % (t:=!t) ?  "On" :  "Off"
     }
     Else
     {
@@ -1132,7 +1181,7 @@ SC035 up::
 !SC031::
 !SC034::
 !SC035::
-    SendInput % DICT[SubStr(A_ThisHotkey, 2)][4]
+    SendInput, % DICT[SubStr(A_ThisHotkey, 2)][4]
     Return
 
 ;home row "sh-i"
@@ -1186,7 +1235,6 @@ SC039::
 ;===========================================Disabled keys=======================================
 ;===============================================================================================
 
-;;;Return
 ;arrows up/left/right/down
     *SC148::
     *SC14B::
@@ -1226,6 +1274,7 @@ SC039::
     *SC145::
         Return
 
+#If True ;fix eof accessibility for properly Hotkey command work (used by alt apps switch) /wtf/
 
 ;===============================================================================================
 ;==============================================Unused scancodes=================================
