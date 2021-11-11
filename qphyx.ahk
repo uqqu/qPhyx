@@ -219,7 +219,7 @@ For ind, pair in StrSplit(section, "`n")
 ;================================================Tray menu======================================
 ;===============================================================================================
 
-Menu, Tray, Add, qPhyx, TrayMenu
+Menu, Tray, Add, qPhyx, Cheatsheet
 Menu, Tray, Default, qPhyx
 Menu, Tray, Click, 1
 Menu, Tray, Disable, qPhyx
@@ -282,8 +282,8 @@ Menu, Tray, Add, Change &cyrillic mode, :CyrModes
 Menu, Tray, Add, &Other settings, :SubSettings
 Menu, Tray, Add, Long press &delay (now is %LONG_PRESS_TIME%s), LongPressTimeChange
 state := DISABLED ? "En" : "Dis"
-Menu, Tray, Add, %state%a&ble qPhyx (sh+tilde to toggle), DisabledToggle
-Menu, Tray, Add, &Help cheatsheet (alt+f1 to toggle), Cheatsheet
+Menu, Tray, Add, %state%a&ble qPhyx, DisabledToggle
+Menu, Tray, Add, &Help cheatsheet, Cheatsheet
 Menu, Tray, Add, &Exit, Exit
 
 
@@ -302,41 +302,53 @@ val := [["A.qwerty","esc","1","2","3","4","5","6","7","8","9","0","incr","decr",
     ,["Alt/A.long","esc"
         ,"õ/o̧","o̊/o̥","ö/o̤","ȯ/ọ","ŏ/o̮","ō/o̱","ô/o̭","ǒ/o̦","o͗/o̳","ỏ/ǫ","ő/✓","ơ/✕","media"
         ,"tab","°","—","’","&&","§","«","backw","forw","“","¡","№","ò",""
-        ,"enter","±","−","×","÷","≠","left","down","up","right","^","``","collapse all/un"
-        ,"shift","¥","£","¤","|","≟","»","undo","redo","”","¿","shift"]]
+        ,"enter","±","−","×","÷","≠","left","down","up","right","^","``",""
+        ,"shift","¥","£","¤","|","≟","»","undo","redo","”","¿","shift"]
+    ,["VK",192,49,50,51,52,53,54,55,56,57,48,189,187,8
+        ,9,81,87,69,82,84,89,85,73,79,80,219,221,220
+        ,,65,83,68,70,71,72,74,75,76,186,222,13
+        ,16,90,88,67,86,66,78,77,188,190,191,666]]
 Gui -Border -Caption -Theme
 Gui, Add, Button, x698 y-1 w19 h19 gCheatsheet, ✕
 Gui, Add, Tab3, w720 h185 x-2 y-2, A.qwerty|Long|Alt/A.long|Lang.modes|Hotkeys
 Gui, Font, s11, Calibri
+AddButton(i, oi, x:=0, y:=20, w:=50, h:=40)
+{
+    Global
+    Gui, Add, Button, % "x" . x . " y" . y . " w" . w . " h" . h . " v"
+        . Format("{:03.f}", val[4][i]) . oi, % val[oi][i]
+}
 Loop, 3
 {
     Gui, Tab, % val[A_Index][1]
     outer_ind := A_Index
-    Gui, Add, Button, % "x0 y20 w50 h40 vSC029" . outer_ind, % val[outer_ind][2]
+    AddButton(2, outer_ind)
     Loop, 12
     {
-        Gui, Add, Button, % "x" . A_Index*50 . " y20 w50 h40", % val[outer_ind][A_Index+2]
+        AddButton(A_Index+2, outer_ind, A_Index*50)
     }
-    Gui, Add, Button, x650 y20 w65 h40, % val[outer_ind][15]
-    Gui, Add, Button, x0 y60 w65 h40, % val[outer_ind][16]
+    AddButton(15, outer_ind, 650, , 65)
+    AddButton(16, outer_ind, , 60, 65)
     Loop, 13
     {
-        Gui, Add, Button, % "x" . A_Index*50+15 . " y60 w50 h40", % val[outer_ind][A_Index+16]
+        AddButton(A_Index+16, outer_ind, A_Index*50+15, 60)
     }
-    Gui, Add, Button, x0 y100 w80 h40, % val[outer_ind][30]
+    AddButton(30, outer_ind, , 100, 80)
     Loop, 11
     {
-        Gui, Add, Button, % "x" . A_Index*50+30 . " y100 w50 h40", % val[outer_ind][A_Index+30]
+        AddButton(A_Index+30, outer_ind, A_Index*50+30, 100)
     }
-    Gui, Add, Button, x630 y100 w85 h40, % val[outer_ind][42]
-    Gui, Add, Button, x0 y140 w100 h40, % val[outer_ind][43]
+    AddButton(42, outer_ind, 630, 100, 85)
+    AddButton(43, outer_ind, , 140, 100)
     Loop, 10
     {
-        Gui, Add, Button, % "x" . A_Index*50+50 . " y140 w50 h40", % val[outer_ind][A_Index+43]
+        AddButton(A_Index+43, outer_ind, A_Index*50+50, 140)
     }
-    Gui, Add, Button, x600 y140 w115 h40, % val[outer_ind][54]
+    AddButton(54, outer_ind, 600, 140, 115)
 }
 Gui, +Theme
+OnMessage(0x100, "GuiKeyPress")
+OnMessage(0x104, "GuiKeyPress")
 
 Gui, Tab, Lang.modes
 Gui, Add, ListView, r19 w716 h165 x-1 y18 LV1 gLangModes vLangModes
@@ -375,7 +387,7 @@ Loop, 12
 
 Gui, Tab, Hotkeys
 Gui, Add, ListView, r19 w716 h165 x-1 y18 LV1, Item|Hotkey
-LV_Add(, "Toggle this gui visibility", "Alt+F1")
+LV_Add(, "Toggle this gui", "Alt+F1")
 LV_Add(, "Show menu", "LWin+F1")
 LV_Add(, "Pause/restore qPhyx", "Shift+Tilde")
 LV_Add(, "Restart qPhyx", "Ctrl+Shift+Tilde")
@@ -396,7 +408,6 @@ LV_Add(, "<Enter>", "CapsLock")
 LV_Add(, "<Esc>", "Tilde")
 
 LV_ModifyCol()
-
 
 Return
 
@@ -591,8 +602,8 @@ DisabledToggle()
     }
     Menu, Tray, Tip, % "qPhyx" . EXT . " – " . (DISABLED ? "disabled" : "enabled")
     w := ["Dis", "En"]
-    Menu, Tray, Rename, % w[!DISABLED+1] . "a&ble qPhyx (sh+tilde to toggle)"
-        , % w[DISABLED+1] . "a&ble qPhyx (sh+tilde to toggle)"
+    Menu, Tray, Rename, % w[!DISABLED+1] . "a&ble qPhyx"
+        , % w[DISABLED+1] . "a&ble qPhyx"
 }
 
 LongPressTimeChange()
@@ -627,7 +638,6 @@ LatModeChange(_, item_pos)
     Menu, LatModes, Check, % LAT_MODE_LIST[item_pos]["name"]
     LV_Modify(LATIN_MODE+1, , "")
     LV_Modify(item_pos, , "✓")
-    Menu, SubSettings, UseErrorLevel, 1
     If item_pos not in 2,21,25
     {
         Menu, SubSettings, Delete, Toggle "Dotless &i" feature
@@ -809,6 +819,13 @@ SpotifyDetectProcessId()
     }
 }
 
+GuiKeyPress(wp, lp, msg, hwnd)
+{
+    GuiControl, Focus, % Format("{:03.f}", wp) . "1"
+    GuiControl, Focus, % Format("{:03.f}", wp) . "2"
+    GuiControl, Focus, % Format("{:03.f}", wp) . "3"
+}
+
 TrayMenu:
     Menu, Tray, Show
     Return
@@ -856,20 +873,21 @@ Exit:
     DisabledToggle()
     Return
 
-
-#If !DISABLED
-
- SC029::
-    Gui, Hide
-    SendInput  {SC001}
-    Return
-!SC029:: SendInput !{SC001}
-^SC029:: SendInput ^{SC001}
-
 ;alt-f1 cheatsheet
 !SC03B:: GoTo, Cheatsheet
 ;LWin-f1 menu
 <#SC03B:: Menu, Tray, Show
+
+#If WinActive("ahk_class AutoHotkeyGUI")
+;esc
+SC001:: Gui, Hide
+SC029:: Gui, Hide
+
+#If !DISABLED && !WinActive("ahk_class AutoHotkeyGUI")
+
+ SC029:: SendInput  {SC001}
+!SC029:: SendInput !{SC001}
+^SC029:: SendInput ^{SC001}
 
 ;backspace
  SC00E:: SendInput {SC122}
@@ -1012,7 +1030,6 @@ SC001::
     }
     Else
     {
-        Gui, Hide
         SendInput {%A_ThisHotkey%}
     }
     Return
@@ -1361,7 +1378,7 @@ SC039::
     *SC145::
         Return
 
-#If True ;fix eof accessibility for properly Hotkey command work (used by alt apps switch) /wtf/
+#If ;fix eof accessibility for properly Hotkey command work (used by alt apps switch) /wtf/
 
 ;===============================================================================================
 ;==============================================Unused scancodes=================================
