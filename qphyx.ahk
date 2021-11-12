@@ -10,8 +10,9 @@ Global INI := "config.ini"
 ;global config.ini variables
 Global DISABLED := 0
 Global LONG_PRESS_TIME := 0.15
-Global LATIN_MODE := 0
-Global CYRILLIC_MODE := 0
+Global LATIN_MODE := 1
+Global CYRILLIC_MODE := 1
+Global CONTROLLING_KEYS := 1
 Global DOTLESS_I_SWAP := 0
 Global ROMANIAN_CEDILLA_TO_COMMA := 1
 Global PAIRED_BRACKETS := 0
@@ -26,6 +27,7 @@ IfExist, %INI%
     IniRead, LONG_PRESS_TIME,           %INI%, Configuration, LongPressTime
     IniRead, LATIN_MODE,                %INI%, Configuration, LatinMode
     IniRead, CYRILLIC_MODE,             %INI%, Configuration, CyrillicMode
+    IniRead, CONTROLLING_KEYS,          %INI%, Configuration, ControllingKeys
     IniRead, DOTLESS_I_SWAP,            %INI%, Configuration, DotlessISwap
     IniRead, ROMANIAN_CEDILLA_TO_COMMA, %INI%, Configuration, RomanianCedillaToComma
     IniRead, PAIRED_BRACKETS,           %INI%, Configuration, PairedBrackets
@@ -41,8 +43,9 @@ Else
 {
     IniWrite, 0,                        %INI%, Configuration, Disabled
     IniWrite, 0.15,                     %INI%, Configuration, LongPressTime
-    IniWrite, 0,                        %INI%, Configuration, LatinMode
-    IniWrite, 0,                        %INI%, Configuration, CyrillicMode
+    IniWrite, 1,                        %INI%, Configuration, LatinMode
+    IniWrite, 1,                        %INI%, Configuration, CyrillicMode
+    IniWrite, 1,                        %INI%, Configuration, ControllingKeys
     IniWrite, 0,                        %INI%, Configuration, DotlessISwap
     IniWrite, 1,                        %INI%, Configuration, RomanianCedillaToComma
     IniWrite, 0,                        %INI%, Configuration, PairedBrackets
@@ -156,7 +159,7 @@ For _, section in StrSplit(sections, "`n") {
 }
 
 ;;set chosen language modes (shift and shift-long layers on the num row)
-For i, script in [LAT_MODE_LIST[LATIN_MODE+1], CYR_MODE_LIST[CYRILLIC_MODE+1]]
+For i, script in [LAT_MODE_LIST[LATIN_MODE], CYR_MODE_LIST[CYRILLIC_MODE]]
 {
     Loop, 12
     {
@@ -182,7 +185,7 @@ If DOTLESS_I_SWAP
 ;;Default on. If you know what you're doing
 ;;   and you want to type cedilla, you can disable this behavior in config.ini
 ;;This also influences to the cyrillic layout. (Only with selected Romanian mode, ofc)
-If (LATIN_MODE == 3 && ROMANIAN_CEDILLA_TO_COMMA)
+If (LATIN_MODE == 4 && ROMANIAN_CEDILLA_TO_COMMA)
 {
     NUM_DICT["SC002"][4] := "̦"
 }
@@ -233,12 +236,17 @@ For _, mode in CYR_MODE_LIST
 {
     Menu, CyrModes, Add, % mode["name"], CyrModeChange
 }
-    Menu, LatModes, Check, % LAT_MODE_LIST[LATIN_MODE+1]["name"]
-    Menu, CyrModes, Check, % CYR_MODE_LIST[CYRILLIC_MODE+1]["name"]
+    Menu, LatModes, Check, % LAT_MODE_LIST[LATIN_MODE]["name"]
+    Menu, CyrModes, Check, % CYR_MODE_LIST[CYRILLIC_MODE]["name"]
 Menu, Tray, UseErrorLevel
 Menu, Tray, Add, Change &latin mode, :LatModes
 Menu, Tray, Add, Change &cyrillic mode, :CyrModes
-    If LATIN_MODE in 1,20,24
+    Menu, SubSettings, Add, Toggle controlling &keys remap, ControllingKeysToggle
+    If CONTROLLING_KEYS
+    {
+        Menu, SubSettings, Check, Toggle controlling &keys remap
+    }
+    If LATIN_MODE in 2,21,25
     {
         Menu, SubSettings, Add, Toggle "Dotless &i" feature, DotlessIToggle
         If DOTLESS_I_SWAP
@@ -246,7 +254,7 @@ Menu, Tray, Add, Change &cyrillic mode, :CyrModes
             Menu, SubSettings, Check, Toggle "Dotless &i" feature
         }
     }
-    If (LATIN_MODE == 3)
+    If (LATIN_MODE == 4)
     {
         Menu, SubSettings, Add, Toggle "Romanian &cedilla to comma" feature
             , RomanianCedillaToCommaToggle
@@ -291,26 +299,37 @@ Menu, Tray, Add, &Exit, Exit
 ;=============================================GUI cheatsheet====================================
 ;===============================================================================================
 
-val := [["A.qwerty","esc","1","2","3","4","5","6","7","8","9","0","incr","decr","media"
+Global TABS := ["A.qwerty", "Long", "Alt/AltLong", "Lang.modes", "Hotkeys"]
+val := [["esc","1","2","3","4","5","6","7","8","9","0","incr","decr","media"
         ,"tab","q","w","e","r","t","y","u","i","o","p","","",""
         ,"enter","a","s","d","f","g","h","j","k","l","","","backspace"
         ,"shift","z","x","c","v","b","n","m","","","","shift"]
-    ,["Long","esc","1","2","3","4","5","6","7","8","9","0","incr","decr","media"
+    ,["esc","1","2","3","4","5","6","7","8","9","0","incr","decr","media"
         ,"tab","~","–","'","\","@","<","(","[","{","!","#","ó","\"
         ,"enter","+","-","*","/","=","%","""",".",",",":",";","backspace"
         ,"shift","$","€","₽","_","≈",">",")","]","}","?","shift"]
-    ,["Alt/A.long","esc"
-        ,"õ/o̧","o̊/o̥","ö/o̤","ȯ/ọ","ŏ/o̮","ō/o̱","ô/o̭","ǒ/o̦","o͗/o̳","ỏ/ǫ","ő/✓","ơ/✕","media"
+    ,["esc","õ/o̧","o̊/o̥","ö/o̤","ȯ/ọ","ŏ/o̮","ō/o̱","ô/o̭","ǒ/o̦","o͗/o̳","ỏ/ǫ","ő/✓","ơ/✕","media"
         ,"tab","°","—","’","&&","§","«","backw","forw","“","¡","№","ò",""
-        ,"enter","±","−","×","÷","≠","left","down","up","right","^","``",""
+        ,"enter","±","−","×","÷","≠","left","down","up","right","^","``","backspace"
         ,"shift","¥","£","¤","|","≟","»","undo","redo","”","¿","shift"]
-    ,["VK",192,49,50,51,52,53,54,55,56,57,48,189,187,8
+    ,[192,49,50,51,52,53,54,55,56,57,48,189,187,8
         ,9,81,87,69,82,84,89,85,73,79,80,219,221,220
-        ,,65,83,68,70,71,72,74,75,76,186,222,13
-        ,16,90,88,67,86,66,78,77,188,190,191,666]]
+        ,666,65,83,68,70,71,72,74,75,76,186,222,13
+        ,16,90,88,67,86,66,78,77,188,190,191]]
+If !CONTROLLING_KEYS
+{
+    Loop 3
+    {
+        val[A_Index][1] := "tilde"
+        val[A_Index][14] := "BS"
+        val[A_Index][29] := "capslock"
+        val[A_Index][41] := "enter"
+    }
+}
 Gui -Border -Caption -Theme
 Gui, Add, Button, x698 y-1 w19 h19 gCheatsheet, ✕
-Gui, Add, Tab3, w720 h185 x-2 y-2, A.qwerty|Long|Alt/A.long|Lang.modes|Hotkeys
+Gui, Add, Tab3, w720 h185 x-2 y-2 vGuiTabs
+    , % TABS[1] . "|" . TABS[2] . "|" . TABS[3] . "|" . TABS[4] . "|" . TABS[5]
 Gui, Font, s11, Calibri
 AddButton(i, oi, x:=0, y:=20, w:=50, h:=40)
 {
@@ -320,46 +339,46 @@ AddButton(i, oi, x:=0, y:=20, w:=50, h:=40)
 }
 Loop, 3
 {
-    Gui, Tab, % val[A_Index][1]
+    Gui, Tab, % TABS[A_Index]
     outer_ind := A_Index
-    AddButton(2, outer_ind)
+    AddButton(1, outer_ind)
     Loop, 12
     {
-        AddButton(A_Index+2, outer_ind, A_Index*50)
+        AddButton(A_Index+1, outer_ind, A_Index*50)
     }
-    AddButton(15, outer_ind, 650, , 65)
-    AddButton(16, outer_ind, , 60, 65)
+    AddButton(14, outer_ind, 650, , 65)
+    AddButton(15, outer_ind, , 60, 65)
     Loop, 13
     {
-        AddButton(A_Index+16, outer_ind, A_Index*50+15, 60)
+        AddButton(A_Index+15, outer_ind, A_Index*50+15, 60)
     }
-    AddButton(30, outer_ind, , 100, 80)
+    AddButton(29, outer_ind, , 100, 80)
     Loop, 11
     {
-        AddButton(A_Index+30, outer_ind, A_Index*50+30, 100)
+        AddButton(A_Index+29, outer_ind, A_Index*50+30, 100)
     }
-    AddButton(42, outer_ind, 630, 100, 85)
-    AddButton(43, outer_ind, , 140, 100)
+    AddButton(41, outer_ind, 630, 100, 85)
+    AddButton(42, outer_ind, , 140, 100)
     Loop, 10
     {
-        AddButton(A_Index+43, outer_ind, A_Index*50+50, 140)
+        AddButton(A_Index+42, outer_ind, A_Index*50+50, 140)
     }
-    AddButton(54, outer_ind, 600, 140, 115)
+    AddButton(53, outer_ind, 600, 140, 115)
 }
 Gui, +Theme
 OnMessage(0x100, "GuiKeyPress")
 OnMessage(0x104, "GuiKeyPress")
 
-Gui, Tab, Lang.modes
-Gui, Add, ListView, r19 w716 h165 x-1 y18 LV1 gLangModes vLangModes
+Gui, Tab, % TABS[4]
+Gui, Add, ListView, r19 w716 h165 x-1 y18 LV3 gLangModes vLangModes
     , |№|Group|Mode|1|2|3|4|5|6|7|8|9|0|+1|+2
 For _, script in [["Latin", LAT_MODE_LIST], ["Cyrillic", CYR_MODE_LIST]]
 {
     For mode_ind, values in script[2]
     {
         chosen := ""
-        If (script[1] == "Latin" && mode_ind == LATIN_MODE+1
-            || script[1] == "Cyrillic" && mode_ind == CYRILLIC_MODE+1)
+        If (script[1] == "Latin" && mode_ind == LATIN_MODE
+            || script[1] == "Cyrillic" && mode_ind == CYRILLIC_MODE)
         {
             chosen := "✓"
         }
@@ -385,8 +404,8 @@ Loop, 12
     LV_ModifyCol(A_Index+4, "AutoHdr Center")
 }
 
-Gui, Tab, Hotkeys
-Gui, Add, ListView, r19 w716 h165 x-1 y18 LV1, Item|Hotkey
+Gui, Tab, % TABS[5]
+Gui, Add, ListView, r19 w716 h165 x-1 y18 LV3, Item|Hotkey
 LV_Add(, "Toggle this gui", "Alt+F1")
 LV_Add(, "Show menu", "LWin+F1")
 LV_Add(, "Pause/restore qPhyx", "Shift+Tilde")
@@ -633,16 +652,16 @@ LongPressTimeChange()
 
 LatModeChange(_, item_pos)
 {
-    IniWrite, % item_pos-1, config.ini, Configuration, LatinMode
-    Menu, LatModes, Uncheck, % LAT_MODE_LIST[LATIN_MODE+1]["name"]
+    IniWrite, % item_pos, config.ini, Configuration, LatinMode
+    Menu, LatModes, Uncheck, % LAT_MODE_LIST[LATIN_MODE]["name"]
     Menu, LatModes, Check, % LAT_MODE_LIST[item_pos]["name"]
-    LV_Modify(LATIN_MODE+1, , "")
+    LV_Modify(LATIN_MODE, , "")
     LV_Modify(item_pos, , "✓")
     If item_pos not in 2,21,25
     {
         Menu, SubSettings, Delete, Toggle "Dotless &i" feature
     }
-    Else If LATIN_MODE not in 1,20,24
+    Else If LATIN_MODE not in 2,21,25
     {
         Menu, SubSettings, Insert, Toggle "&Paired brackets" feature
             , Toggle "Dotless &i" feature, DotlessIToggle
@@ -655,7 +674,7 @@ LatModeChange(_, item_pos)
     {
         Menu, SubSettings, Delete, Toggle "Romanian &cedilla to comma" feature
     }
-    Else If (LATIN_MODE != 3)
+    Else If (LATIN_MODE != 4)
     {
         Menu, SubSettings, Insert, Toggle "&Paired brackets" feature
             , Toggle "Romanian &cedilla to comma" feature, RomanianCedillaToCommaToggle
@@ -664,7 +683,7 @@ LatModeChange(_, item_pos)
             Menu, SubSettings, Check, Toggle "Romanian &cedilla to comma" feature
         }
     }
-    LATIN_MODE := item_pos-1
+    LATIN_MODE := item_pos
     Loop, 12
     {
         scan_code := "SC00" Format("{:X}", A_Index+1)
@@ -675,18 +694,34 @@ LatModeChange(_, item_pos)
 
 CyrModeChange(_, item_pos)
 {
-    IniWrite, % item_pos-1, config.ini, Configuration, CyrillicMode
-    Menu, CyrModes, Uncheck, % CYR_MODE_LIST[CYRILLIC_MODE+1]["name"]
+    IniWrite, % item_pos, config.ini, Configuration, CyrillicMode
+    Menu, CyrModes, Uncheck, % CYR_MODE_LIST[CYRILLIC_MODE]["name"]
     Menu, CyrModes, Check, % CYR_MODE_LIST[item_pos]["name"]
-    LV_Modify(LAT_MODE_LIST.MaxIndex() + CYRILLIC_MODE+1, , "")
+    LV_Modify(LAT_MODE_LIST.MaxIndex() + CYRILLIC_MODE, , "")
     LV_Modify(LAT_MODE_LIST.MaxIndex() + item_pos, , "✓")
-    CYRILLIC_MODE := item_pos-1
+    CYRILLIC_MODE := item_pos
     Loop, 12
     {
         scan_code := "SC00" Format("{:X}", A_Index+1)
         NUM_DICT[scan_code][7] := CYR_MODE_LIST[item_pos][scan_code][1]
         NUM_DICT[scan_code][8] := CYR_MODE_LIST[item_pos][scan_code][2]
     }
+}
+
+ControllingKeysToggle()
+{
+    CONTROLLING_KEYS := !CONTROLLING_KEYS
+    IniWrite, %CONTROLLING_KEYS%, config.ini, Configuration, ControllingKeys
+    keys := CONTROLLING_KEYS
+        ? ["esc", "media", "enter", "backspace"] : ["tilde", "BS", "capslock", "enter"]
+    Loop 3
+    {
+        GuiControl, Text, % "192" . A_Index, % keys[1]
+        GuiControl, Text, % "008" . A_Index, % keys[2]
+        GuiControl, Text, % "666" . A_Index, % keys[3]
+        GuiControl, Text, % "013" . A_Index, % keys[4]
+    }
+    Menu, SubSettings, % CONTROLLING_KEYS ? "Check" : "Uncheck", Toggle controlling &keys remap
 }
 
 DotlessIToggle()
@@ -708,7 +743,7 @@ RomanianCedillaToCommaToggle()
 {
     ROMANIAN_CEDILLA_TO_COMMA := !ROMANIAN_CEDILLA_TO_COMMA
     IniWrite, %ROMANIAN_CEDILLA_TO_COMMA%, config.ini, Configuration, RomanianCedillaToComma
-    If (LATIN_MODE == 3 && ROMANIAN_CEDILLA_TO_COMMA)
+    If (LATIN_MODE == 4 && ROMANIAN_CEDILLA_TO_COMMA)
     {
         NUM_DICT["SC002"][4] := "̦"
     }
@@ -821,9 +856,10 @@ SpotifyDetectProcessId()
 
 GuiKeyPress(wp, lp, msg, hwnd)
 {
-    GuiControl, Focus, % Format("{:03.f}", wp) . "1"
-    GuiControl, Focus, % Format("{:03.f}", wp) . "2"
-    GuiControl, Focus, % Format("{:03.f}", wp) . "3"
+    Loop, 3
+    {
+        GuiControl, Focus, % Format("{:03.f}", wp) . A_Index
+    }
 }
 
 TrayMenu:
@@ -882,9 +918,16 @@ Exit:
 ;esc
 SC001:: Gui, Hide
 SC029:: Gui, Hide
+;F1-F5
+SC03B:: GuiControl, Choose, GuiTabs, % TABS[1]
+SC03C:: GuiControl, Choose, GuiTabs, % TABS[2]
+SC03D:: GuiControl, Choose, GuiTabs, % TABS[3]
+SC03E:: GuiControl, Choose, GuiTabs, % TABS[4]
+SC03F:: GuiControl, Choose, GuiTabs, % TABS[5]
 
-#If !DISABLED && !WinActive("ahk_class AutoHotkeyGUI")
+#If !DISABLED && CONTROLLING_KEYS && !WinActive("ahk_class AutoHotkeyGUI")
 
+;tilde
  SC029:: SendInput  {SC001}
 !SC029:: SendInput !{SC001}
 ^SC029:: SendInput ^{SC001}
@@ -944,6 +987,20 @@ SC029:: Gui, Hide
 !SC03A:: SendInput !{SC01C}
 ^SC03A:: SendInput ^{SC01C}
 
+;esc
+SC001::
+    If ESC_AS_CAPS
+    {
+        SetCapsLockState, % (t:=!t) ?  "On" :  "Off"
+    }
+    Else
+    {
+        SendInput {%A_ThisHotkey%}
+    }
+    Return
+
+#If !DISABLED
+
 ;nav hjkl ролд (mstr мстр)
     ;base nav
   !SC023:: SendInput   {SC14B}
@@ -986,6 +1043,8 @@ SC029:: Gui, Hide
     WinRestore, %title%
     Return
 
+#If !DISABLED && !WinActive("ahk_class AutoHotkeyGUI")
+
 ;ctrl-sh-g (qphyx-view). clipboard swap (paste and save replaced text as a new clipboard text)
 +^SC02F::
     saved_value := Clipboard
@@ -1019,18 +1078,6 @@ SC00D::
     Else
     {
         IncrDecrNumber(1)
-    }
-    Return
-
-;esc
-SC001::
-    If ESC_AS_CAPS
-    {
-        SetCapsLockState, % (t:=!t) ?  "On" :  "Off"
-    }
-    Else
-    {
-        SendInput {%A_ThisHotkey%}
     }
     Return
 
@@ -1264,6 +1311,8 @@ SC035 up::
 !SC013::
 !SC014::
 !SC015::
+!SC016::
+!SC017::
 !SC018::
 !SC019::
 !SC01A::
@@ -1283,6 +1332,8 @@ SC035 up::
 !SC02F::
 !SC030::
 !SC031::
+!SC032::
+!SC033::
 !SC034::
 !SC035::
     SendInput, % DICT[SubStr(A_ThisHotkey, 2)][4]
@@ -1339,6 +1390,8 @@ SC039::
 ;===========================================Disabled keys=======================================
 ;===============================================================================================
 
+#If !NUMPAD && !DISABLED
+
 ;arrows up/left/right/down
     *SC148::
     *SC14B::
@@ -1349,8 +1402,6 @@ SC039::
 ;delete
     *SC153::
         Return
-
-#If !NUMPAD
 
 ;numpad mult (*)
     *SC037::
