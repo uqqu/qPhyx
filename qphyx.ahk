@@ -12,6 +12,7 @@ Global DISABLED := 0
 Global LONG_PRESS_TIME := 0.15
 Global LATIN_MODE := 1
 Global CYRILLIC_MODE := 1
+Global COMBINED_VIEW := 1
 Global CONTROLLING_KEYS := 1
 Global DOTLESS_I_SWAP := 0
 Global ROMANIAN_CEDILLA_TO_COMMA := 1
@@ -27,6 +28,7 @@ IfExist, %INI%
     IniRead, LONG_PRESS_TIME,           %INI%, Configuration, LongPressTime
     IniRead, LATIN_MODE,                %INI%, Configuration, LatinMode
     IniRead, CYRILLIC_MODE,             %INI%, Configuration, CyrillicMode
+    IniRead, COMBINED_VIEW,             %INI%, Configuration, CombinedView
     IniRead, CONTROLLING_KEYS,          %INI%, Configuration, ControllingKeys
     IniRead, DOTLESS_I_SWAP,            %INI%, Configuration, DotlessISwap
     IniRead, ROMANIAN_CEDILLA_TO_COMMA, %INI%, Configuration, RomanianCedillaToComma
@@ -45,6 +47,7 @@ Else
     IniWrite, 0.15,                     %INI%, Configuration, LongPressTime
     IniWrite, 1,                        %INI%, Configuration, LatinMode
     IniWrite, 1,                        %INI%, Configuration, CyrillicMode
+    IniWrite, 1,                        %INI%, Configuration, CombinedView
     IniWrite, 1,                        %INI%, Configuration, ControllingKeys
     IniWrite, 0,                        %INI%, Configuration, DotlessISwap
     IniWrite, 1,                        %INI%, Configuration, RomanianCedillaToComma
@@ -78,6 +81,14 @@ Try
 }
 
 SetCapsLockState, % (ESC_AS_CAPS ? "Off" : "AlwaysOff")
+
+;black-list apps (in which qPhyx switch to disabled state)
+IniRead, section, %INI%, BlackList
+For ind, pair in StrSplit(section, "`n")
+{
+    values := StrSplit(pair, "=")
+    GroupAdd, BlackList, % "ahk_exe " . values[2]
+}
 
 
 ;===============================================================================================
@@ -164,8 +175,8 @@ For i, script in [LAT_MODE_LIST[LATIN_MODE], CYR_MODE_LIST[CYRILLIC_MODE]]
     Loop, 12
     {
         scan_code := "SC00" Format("{:X}", A_Index+1)
-        NUM_DICT[scan_code][5+(i-1)*2] := script[scan_code][1]
-        NUM_DICT[scan_code][6+(i-1)*2] := script[scan_code][2]
+        NUM_DICT[scan_code][5+(i-1)*2] := script[scan_code][1+COMBINED_VIEW*2]
+        NUM_DICT[scan_code][6+(i-1)*2] := script[scan_code][2+COMBINED_VIEW*2]
     }
 }
 
@@ -241,6 +252,11 @@ For _, mode in CYR_MODE_LIST
 Menu, Tray, UseErrorLevel
 Menu, Tray, Add, Change &latin mode, :LatModes
 Menu, Tray, Add, Change &cyrillic mode, :CyrModes
+    Menu, SubSettings, Add, Preferably combined &view for lang mode symbols, CombinedViewToggle
+    If COMBINED_VIEW
+    {
+        Menu, SubSettings, Check, Preferably combined &view for lang mode symbols
+    }
     Menu, SubSettings, Add, Toggle controlling &keys remap, ControllingKeysToggle
     If CONTROLLING_KEYS
     {
@@ -320,7 +336,7 @@ If !CONTROLLING_KEYS
 {
     Loop 3
     {
-        val[A_Index][1] := "tilde"
+        val[A_Index][1]  := "tilde"
         val[A_Index][14] := "BS"
         val[A_Index][29] := "capslock"
         val[A_Index][41] := "enter"
@@ -344,7 +360,16 @@ Loop, 3
     AddButton(1, outer_ind)
     Loop, 12
     {
-        AddButton(A_Index+1, outer_ind, A_Index*50)
+        AddButton(A_Index+1, outer_ind, A_Index*50, , , (outer_ind == 3) ? 40 : 20)
+    }
+    If (outer_ind != 3)
+    {
+        Loop, 12
+        {
+            Gui, Add, Button, % "x" . A_Index*50 . " y40 w50 h20 vLM" . A_Index . outer_ind
+                , % NUM_DICT["SC00" . Format("{:X}", A_Index+1)][5] . " "
+                    . NUM_DICT["SC00" . Format("{:X}", A_Index+1)][7]
+        }
     }
     AddButton(14, outer_ind, 650, , 65)
     AddButton(15, outer_ind, , 60, 65)
@@ -389,7 +414,7 @@ For _, script in [["Latin", LAT_MODE_LIST], ["Cyrillic", CYR_MODE_LIST]]
             {
                 Continue
             }
-            t.Push(symbol[1])
+            t.Push(symbol[3])
         }
         LV_Add(, chosen, mode_ind, script[1], StrReplace(values["name"], "&"), t*)
     }
@@ -405,8 +430,9 @@ Loop, 12
 }
 
 Gui, Tab, % TABS[5]
-Gui, Add, ListView, r19 w716 h165 x-1 y18 LV3, Item|Hotkey
+Gui, Add, ListView, r19 w716 h165 x-1 y18 LV3 vHotkeys, Item|Hotkey
 LV_Add(, "Toggle this gui", "Alt+F1")
+LV_Add(, "GUI tab navigation", "F1-F5")
 LV_Add(, "Show menu", "LWin+F1")
 LV_Add(, "Pause/restore qPhyx", "Shift+Tilde")
 LV_Add(, "Restart qPhyx", "Ctrl+Shift+Tilde")
@@ -416,6 +442,11 @@ LV_Add(, "Restore windows state", "LWin+LongEnter")
 LV_Add(, "Non-break space", "Shift+Space")
 LV_Add(, "Lowercase lang mode symbol", "Shift+<num>")
 LV_Add(, "Uppercase lang mode symbol", "Shift+Long<num>")
+LV_Add(, "Begin of line ('home' key)", "Alt+Ctrl+j")
+LV_Add(, "End of line ('end' key)", "Alt+Ctrl+k")
+LV_Add(, "Move window left/right", "LWin+(h/l)")
+LV_Add(, "Move window to the left/right screen", "LWin+Shift+(h/l)")
+LV_Add(, "Maximize/minimize window", "LWin(+Shift)+(j/k)")
 LV_Add(, "Media play/pause", "Backspace")
 LV_Add(, "Volume up", "Shift+Backspace")
 LV_Add(, "Volume down", "Alt+Backspace")
@@ -435,7 +466,7 @@ Return
 ;=========================================Main layout functions=================================
 ;===============================================================================================
 
-;numerical row interaction
+;num row interaction
 DownNum(this, alt:=0)
 {
     If !NUM_DICT[this][1]
@@ -578,7 +609,7 @@ LastMinimizedWindow()
     }
 }
 
-;works on current selected number
+;incr/decr func works on current selected (marked) number
 IncrDecrNumber(n)
 {
     BlockInput, On
@@ -655,6 +686,18 @@ LatModeChange(_, item_pos)
     IniWrite, % item_pos, config.ini, Configuration, LatinMode
     Menu, LatModes, Uncheck, % LAT_MODE_LIST[LATIN_MODE]["name"]
     Menu, LatModes, Check, % LAT_MODE_LIST[item_pos]["name"]
+    Loop, 12
+    {
+        scan_code := "SC00" Format("{:X}", A_Index+1)
+        i := A_Index
+        Loop, 2
+        {
+            GuiControl, Text, % "LM" . i . A_Index
+            , % LAT_MODE_LIST[item_pos][scan_code][3] . " "
+            . CYR_MODE_LIST[CYRILLIC_MODE][scan_code][3]
+        }
+    }
+    Gui, ListView, LangModes
     LV_Modify(LATIN_MODE, , "")
     LV_Modify(item_pos, , "✓")
     If item_pos not in 2,21,25
@@ -687,8 +730,8 @@ LatModeChange(_, item_pos)
     Loop, 12
     {
         scan_code := "SC00" Format("{:X}", A_Index+1)
-        NUM_DICT[scan_code][5] := LAT_MODE_LIST[item_pos][scan_code][1]
-        NUM_DICT[scan_code][6] := LAT_MODE_LIST[item_pos][scan_code][2]
+        NUM_DICT[scan_code][5] := LAT_MODE_LIST[item_pos][scan_code][1+COMBINED_VIEW*2]
+        NUM_DICT[scan_code][6] := LAT_MODE_LIST[item_pos][scan_code][2+COMBINED_VIEW*2]
     }
 }
 
@@ -697,15 +740,37 @@ CyrModeChange(_, item_pos)
     IniWrite, % item_pos, config.ini, Configuration, CyrillicMode
     Menu, CyrModes, Uncheck, % CYR_MODE_LIST[CYRILLIC_MODE]["name"]
     Menu, CyrModes, Check, % CYR_MODE_LIST[item_pos]["name"]
+    Loop, 12
+    {
+        scan_code := "SC00" Format("{:X}", A_Index+1)
+        i := A_Index
+        Loop, 2
+        {
+            GuiControl, Text, % "LM" . i . A_Index
+            , % LAT_MODE_LIST[LATIN_MODE][scan_code][3] . " "
+            . CYR_MODE_LIST[item_pos][scan_code][3]
+        }
+    }
+    Gui, ListView, LangModes
     LV_Modify(LAT_MODE_LIST.MaxIndex() + CYRILLIC_MODE, , "")
     LV_Modify(LAT_MODE_LIST.MaxIndex() + item_pos, , "✓")
     CYRILLIC_MODE := item_pos
     Loop, 12
     {
         scan_code := "SC00" Format("{:X}", A_Index+1)
-        NUM_DICT[scan_code][7] := CYR_MODE_LIST[item_pos][scan_code][1]
-        NUM_DICT[scan_code][8] := CYR_MODE_LIST[item_pos][scan_code][2]
+        NUM_DICT[scan_code][7] := CYR_MODE_LIST[item_pos][scan_code][1+COMBINED_VIEW*2]
+        NUM_DICT[scan_code][8] := CYR_MODE_LIST[item_pos][scan_code][2+COMBINED_VIEW*2]
     }
+}
+
+CombinedViewToggle()
+{
+    COMBINED_VIEW := !COMBINED_VIEW
+    IniWrite, %COMBINED_VIEW%, config.ini, Configuration, CombinedView
+    Menu, SubSettings, % COMBINED_VIEW ? "Check" : "Uncheck"
+        , Preferably combined &view for lang mode symbols
+    LatModeChange("", LATIN_MODE)
+    CyrModeChange("", CYRILLIC_MODE)
 }
 
 ControllingKeysToggle()
@@ -925,7 +990,8 @@ SC03D:: GuiControl, Choose, GuiTabs, % TABS[3]
 SC03E:: GuiControl, Choose, GuiTabs, % TABS[4]
 SC03F:: GuiControl, Choose, GuiTabs, % TABS[5]
 
-#If !DISABLED && CONTROLLING_KEYS && !WinActive("ahk_class AutoHotkeyGUI")
+#If !DISABLED && CONTROLLING_KEYS
+    && !WinActive("ahk_class AutoHotkeyGUI") && !WinActive("ahk_group BlackList")
 
 ;tilde
  SC029:: SendInput  {SC001}
@@ -999,7 +1065,7 @@ SC001::
     }
     Return
 
-#If !DISABLED
+#If !DISABLED && !WinActive("ahk_group BlackList")
 
 ;nav hjkl ролд (mstr мстр)
     ;base nav
@@ -1043,7 +1109,7 @@ SC001::
     WinRestore, %title%
     Return
 
-#If !DISABLED && !WinActive("ahk_class AutoHotkeyGUI")
+#If !DISABLED && !WinActive("ahk_class AutoHotkeyGUI") && !WinActive("ahk_group BlackList")
 
 ;ctrl-sh-g (qphyx-view). clipboard swap (paste and save replaced text as a new clipboard text)
 +^SC02F::
@@ -1390,7 +1456,7 @@ SC039::
 ;===========================================Disabled keys=======================================
 ;===============================================================================================
 
-#If !NUMPAD && !DISABLED
+#If !NUMPAD && !DISABLED && !WinActive("ahk_group BlackList")
 
 ;arrows up/left/right/down
     *SC148::
