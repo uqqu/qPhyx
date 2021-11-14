@@ -22,6 +22,7 @@ Global ESC_AS_CAPS := 0
 Global NUMPAD := 0
 Global USER_KEY_1 := ""
 Global USER_KEY_2 := ""
+Global USER_ASSIGNMENTS := {}
 IfExist, %INI%
 {
     IniRead, DISABLED,                  %INI%, Configuration, Disabled
@@ -59,7 +60,15 @@ Else
     IniWrite, % "",                     %INI%, Configuration, UserKey2
     IniWrite, c:\menu\,                 %INI%, Configuration, MenuPath
     IniWrite, c:\ViATc\ViATc.ahk,       %INI%, Configuration, ViatcFile
-    FileAppend, `n[AltApps]`n, %INI%
+    FileAppend, `n[AdditionalAssignments]`n`n[AltApps]`n`n[BlackList]`n, %INI%
+}
+
+;additional assignments set
+IniRead, section, %INI%, AdditionalAssignments
+For ind, string in StrSplit(section, "`n")
+{
+    pair := StrSplit(string, "=")
+    USER_ASSIGNMENTS[pair[1]] := pair[2]
 }
 
 ;set icon
@@ -80,8 +89,6 @@ Try
     Run, % menu_path . "menu" . EXT, %menu_path%
 }
 
-SetCapsLockState, % (ESC_AS_CAPS ? "Off" : "AlwaysOff")
-
 ;black-list apps (in which qPhyx switch to disabled state)
 IniRead, section, %INI%, BlackList
 For ind, pair in StrSplit(section, "`n")
@@ -90,6 +97,7 @@ For ind, pair in StrSplit(section, "`n")
     GroupAdd, BlackList, % "ahk_exe " . values[2]
 }
 
+SetCapsLockState, % (ESC_AS_CAPS ? "Off" : "AlwaysOff")
 
 ;===============================================================================================
 ;=====================================Symbol assignments========================================
@@ -220,12 +228,12 @@ SpotifyDetectProcessId()
 
 ;switch between alt apps with LWin+<key>
 IniRead, section, %INI%, AltApps
-For ind, pair in StrSplit(section, "`n")
+For ind, string in StrSplit(section, "`n")
 {
-    scan_code := SubStr(pair, 1, 5)
-    values := StrSplit(SubStr(pair, 7), ",")
+    pair := StrSplit(string, "=")
+    values := StrSplit(pair[2], ",")
     option%ind% := Func("Alt").Bind(values[1], values[2])
-    Hotkey, LWin & %scan_code%, % option%ind%
+    Hotkey, % "LWin & " . pair[1], % option%ind%
 }
 
 
@@ -315,8 +323,8 @@ Menu, Tray, Add, &Exit, Exit
 ;=============================================GUI cheatsheet====================================
 ;===============================================================================================
 
-Global TABS := ["A.qwerty", "Long", "Alt/AltLong", "Lang.modes", "Hotkeys"]
-val := [["esc","1","2","3","4","5","6","7","8","9","0","incr","decr","media"
+Global TABS := ["A.qwerty", "Long", "Alt/AltLong", "Scan codes", "Lang. modes", "Hotkeys"]
+values := [["esc","1","2","3","4","5","6","7","8","9","0","incr","decr","media"
         ,"tab","q","w","e","r","t","y","u","i","o","p","","",""
         ,"enter","a","s","d","f","g","h","j","k","l","","","backspace"
         ,"shift","z","x","c","v","b","n","m","","","","shift"]
@@ -328,41 +336,45 @@ val := [["esc","1","2","3","4","5","6","7","8","9","0","incr","decr","media"
         ,"tab","°","—","’","&&","§","«","backw","forw","“","¡","№","ò",""
         ,"enter","±","−","×","÷","≠","left","down","up","right","^","``","backspace"
         ,"shift","¥","£","¤","|","≟","»","undo","redo","”","¿","shift"]
-    ,[192,49,50,51,52,53,54,55,56,57,48,189,187,8
-        ,9,81,87,69,82,84,89,85,73,79,80,219,221,220
-        ,666,65,83,68,70,71,72,74,75,76,186,222,13
-        ,16,90,88,67,86,66,78,77,188,190,191]]
+    ,["029","002","003","004","005","006","007","008","009","00A","00B","00C","00D","00E"
+        ,"00F","010","011","012","013","014","015","016","017","018","019","01A","01B","02B"
+        ,"03A","01E","01F","020","021","022","023","024","025","026","027","028","01C"
+        ,"02A","02C","02D","02E","02F","030","031","032","033","034","035","136"]]
+vk_codes := ["192","049","050","051","052","053","054","055","056","057","048","189","187","008"
+    ,"009","081","087","069","082","084","089","085","073","079","080","219","221","220"
+    ,"666","065","083","068","070","071","072","074","075","076","186","222","013"
+    ,"016","090","088","067","086","066","078","077","188","190","191"]
 If !CONTROLLING_KEYS
 {
     Loop 3
     {
-        val[A_Index][1]  := "tilde"
-        val[A_Index][14] := "BS"
-        val[A_Index][29] := "capslock"
-        val[A_Index][41] := "enter"
+        values[A_Index][1]  := "tilde"
+        values[A_Index][14] := "BS"
+        values[A_Index][29] := "capslock"
+        values[A_Index][41] := "enter"
     }
 }
 Gui -Border -Caption -Theme
 Gui, Add, Button, x698 y-1 w19 h19 gCheatsheet, ✕
 Gui, Add, Tab3, w720 h185 x-2 y-2 vGuiTabs
-    , % TABS[1] . "|" . TABS[2] . "|" . TABS[3] . "|" . TABS[4] . "|" . TABS[5]
+    , % TABS[1] . "|" . TABS[2] . "|" . TABS[3] . "|" . TABS[4] . "|" . TABS[5] . "|" . TABS[6]
 Gui, Font, s11, Calibri
 AddButton(i, oi, x:=0, y:=20, w:=50, h:=40)
 {
     Global
     Gui, Add, Button, % "x" . x . " y" . y . " w" . w . " h" . h . " v"
-        . Format("{:03.f}", val[4][i]) . oi, % val[oi][i]
+        . vk_codes[i] . oi, % values[oi][i]
 }
-Loop, 3
+Loop, 4
 {
     Gui, Tab, % TABS[A_Index]
     outer_ind := A_Index
     AddButton(1, outer_ind)
     Loop, 12
     {
-        AddButton(A_Index+1, outer_ind, A_Index*50, , , (outer_ind == 3) ? 40 : 20)
+        AddButton(A_Index+1, outer_ind, A_Index*50, , , (outer_ind > 2) ? 40 : 20)
     }
-    If (outer_ind != 3)
+    If (outer_ind < 3)
     {
         Loop, 12
         {
@@ -394,7 +406,7 @@ Gui, +Theme
 OnMessage(0x100, "GuiKeyPress")
 OnMessage(0x104, "GuiKeyPress")
 
-Gui, Tab, % TABS[4]
+Gui, Tab, % TABS[5]
 Gui, Add, ListView, r19 w716 h165 x-1 y18 LV3 gLangModes vLangModes
     , |№|Group|Mode|1|2|3|4|5|6|7|8|9|0|+1|+2
 For _, script in [["Latin", LAT_MODE_LIST], ["Cyrillic", CYR_MODE_LIST]]
@@ -429,10 +441,10 @@ Loop, 12
     LV_ModifyCol(A_Index+4, "AutoHdr Center")
 }
 
-Gui, Tab, % TABS[5]
+Gui, Tab, % TABS[6]
 Gui, Add, ListView, r19 w716 h165 x-1 y18 LV3 vHotkeys, Item|Hotkey
 LV_Add(, "Toggle this gui", "Alt+F1")
-LV_Add(, "GUI tab navigation", "F1-F5")
+LV_Add(, "GUI tab navigation", "F1-F6")
 LV_Add(, "Show menu", "LWin+F1")
 LV_Add(, "Pause/restore qPhyx", "Shift+Tilde")
 LV_Add(, "Restart qPhyx", "Ctrl+Shift+Tilde")
@@ -452,10 +464,7 @@ LV_Add(, "Volume up", "Shift+Backspace")
 LV_Add(, "Volume down", "Alt+Backspace")
 LV_Add(, "Media next", "Shift+LongBackspace")
 LV_Add(, "Media previous", "Alt+LongBackspace")
-LV_Add(, "<Backspace>", "Enter")
 LV_Add(, "<Delete>", "Shift+Enter")
-LV_Add(, "<Enter>", "CapsLock")
-LV_Add(, "<Esc>", "Tilde")
 
 LV_ModifyCol()
 
@@ -526,7 +535,7 @@ UpNum(this, shift:=0, alt:=0)
         }
         Else
         {
-            SendInput {%this%}
+            SendInput, {%this%}
         }
     }
     NUM_DICT[this][1] := 0
@@ -534,17 +543,16 @@ UpNum(this, shift:=0, alt:=0)
 }
 
 ;letter rows interaction
-Down(this, shift:=0)
+Down(this)
 {
     If !DICT[this][1]
     {
-        DICT[this][1] := 1+shift
+        DICT[this][1] := 1
         KeyWait, %this%, T%LONG_PRESS_TIME%
         If (ErrorLevel && !DICT[this][2])
         {
             DICT[this][2] := 1
             Send, % DICT[this][3]
-            ;SendInput, % DICT[this][3] ; ?
         }
     }
 }
@@ -553,16 +561,22 @@ Up(this, shift:=0)
 {
     If (DICT[this][1] && !DICT[this][2])
     {
-        If (GetKeyState("CapsLock", "T") && DICT[this][1] == 2) {
-            SendInput {%this%}
-        }
-        Else If (GetKeyState("CapsLock", "T") || DICT[this][1] == 2) {
-            SendInput +{%this%}
-        }
-        Else
+        upper := shift ^ GetKeyState("CapsLock", "T")
+        If (USER_ASSIGNMENTS.haskey((upper ? "+" : "") . this))
         {
-            SendInput {%this%}
+            SetFormat, Integer, H
+            lang := % DllCall("GetKeyboardLayout", Int
+                , DllCall("GetWindowThreadProcessId", int, WinActive("A"), Int, 0))
+            SetFormat, Integer, D
+            If (lang == -0xF3EFBF7)
+            {
+                SendInput, % USER_ASSIGNMENTS[(upper ? "+" : "") . this]
+                DICT[this][1] := 0
+                DICT[this][2] := 0
+                Return
+            }
         }
+        SendInput, % (upper ? "+" : "") . "{" . this . "}"
     }
     DICT[this][1] := 0
     DICT[this][2] := 0
@@ -615,7 +629,7 @@ IncrDecrNumber(n)
     BlockInput, On
     saved_value := Clipboard
     Clipboard := ""
-    Send ^{SC02E}
+    Send, ^{SC02E}
     Sleep, 1
     If (Clipboard*0 == 0)
     {
@@ -628,8 +642,8 @@ IncrDecrNumber(n)
         }
         SendInput, % Clipboard
         new_value_len := StrLen(Clipboard)
-        SendInput {Left %new_value_len%}
-        Send +{Right %new_value_len%}
+        SendInput, {Left %new_value_len%}
+        Send, +{Right %new_value_len%}
     }
     Sleep, 1
     Clipboard := saved_value
@@ -921,7 +935,7 @@ SpotifyDetectProcessId()
 
 GuiKeyPress(wp, lp, msg, hwnd)
 {
-    Loop, 3
+    Loop, 4
     {
         GuiControl, Focus, % Format("{:03.f}", wp) . A_Index
     }
@@ -979,36 +993,39 @@ Exit:
 ;LWin-f1 menu
 <#SC03B:: Menu, Tray, Show
 
+#If WinActive("ahk_class AutoHotkeyGUI") && CONTROLLING_KEYS && !DISABLED
+SC029:: Gui, Hide
+
 #If WinActive("ahk_class AutoHotkeyGUI")
 ;esc
 SC001:: Gui, Hide
-SC029:: Gui, Hide
-;F1-F5
+;F1-F6
 SC03B:: GuiControl, Choose, GuiTabs, % TABS[1]
 SC03C:: GuiControl, Choose, GuiTabs, % TABS[2]
 SC03D:: GuiControl, Choose, GuiTabs, % TABS[3]
 SC03E:: GuiControl, Choose, GuiTabs, % TABS[4]
 SC03F:: GuiControl, Choose, GuiTabs, % TABS[5]
+SC040:: GuiControl, Choose, GuiTabs, % TABS[6]
 
 #If !DISABLED && CONTROLLING_KEYS
     && !WinActive("ahk_class AutoHotkeyGUI") && !WinActive("ahk_group BlackList")
 
 ;tilde
- SC029:: SendInput  {SC001}
-!SC029:: SendInput !{SC001}
-^SC029:: SendInput ^{SC001}
+ SC029:: SendInput,  {SC001}
+!SC029:: SendInput, !{SC001}
+^SC029:: SendInput, ^{SC001}
 
 ;backspace
- SC00E:: SendInput {SC122}
+ SC00E:: SendInput, {SC122}
 !SC00E::
     KeyWait, SC00E, T%LONG_PRESS_TIME%
     If ErrorLevel
     {
-        SendInput {SC110}
+        SendInput, {SC110}
     }
     Else
     {
-        SendInput {SC12E}
+        SendInput, {SC12E}
     }
     KeyWait, SC00E
     Return
@@ -1016,20 +1033,20 @@ SC03F:: GuiControl, Choose, GuiTabs, % TABS[5]
     KeyWait, SC00E, T%LONG_PRESS_TIME%
     If ErrorLevel
     {
-        SendInput {SC119}
+        SendInput, {SC119}
     }
     Else
     {
-        SendInput {SC130}
+        SendInput, {SC130}
     }
     KeyWait, SC00E
     Return
 
 ;enter
-  SC01C:: SendInput  {SC00E}
- +SC01C:: SendInput  {SC153}
- ^SC01C:: SendInput ^{SC00E}
-+^SC01C:: SendInput ^{SC153}
+  SC01C:: SendInput,  {SC00E}
+ +SC01C:: SendInput,  {SC153}
+ ^SC01C:: SendInput, ^{SC00E}
++^SC01C:: SendInput, ^{SC153}
  #SC01C::
     KeyWait, SC01C, T%LONG_PRESS_TIME%
     If ErrorLevel
@@ -1048,10 +1065,10 @@ SC03F:: GuiControl, Choose, GuiTabs, % TABS[5]
     Return
 
 ;caps lock
- SC03A:: SendInput  {SC01C}
-+SC03A:: SendInput +{SC01C}
-!SC03A:: SendInput !{SC01C}
-^SC03A:: SendInput ^{SC01C}
+ SC03A:: SendInput,  {SC01C}
++SC03A:: SendInput, +{SC01C}
+!SC03A:: SendInput, !{SC01C}
+^SC03A:: SendInput, ^{SC01C}
 
 ;esc
 SC001::
@@ -1061,7 +1078,7 @@ SC001::
     }
     Else
     {
-        SendInput {%A_ThisHotkey%}
+        SendInput, {%A_ThisHotkey%}
     }
     Return
 
@@ -1069,32 +1086,32 @@ SC001::
 
 ;nav hjkl ролд (mstr мстр)
     ;base nav
-  !SC023:: SendInput   {SC14B}
-  !SC024:: SendInput   {SC150}
-  !SC025:: SendInput   {SC148}
-  !SC026:: SendInput   {SC14D}
+  !SC023:: SendInput,   {SC14B}
+  !SC024:: SendInput,   {SC150}
+  !SC025:: SendInput,   {SC148}
+  !SC026:: SendInput,   {SC14D}
     ;nav with select
- +!SC023:: SendInput  +{SC14B}
- +!SC024:: SendInput  +{SC150}
- +!SC025:: SendInput  +{SC148}
- +!SC026:: SendInput  +{SC14D}
+ +!SC023:: SendInput,  +{SC14B}
+ +!SC024:: SendInput,  +{SC150}
+ +!SC025:: SendInput,  +{SC148}
+ +!SC026:: SendInput,  +{SC14D}
     ;ctrl nav (left-right move by words; up-down as home-end)
- ^!SC023:: SendInput  ^{SC14B}
- ^!SC024:: SendInput   {SC147}
- ^!SC025:: SendInput   {SC14F}
- ^!SC026:: SendInput  ^{SC14D}
+ ^!SC023:: SendInput,  ^{SC14B}
+ ^!SC024:: SendInput,   {SC147}
+ ^!SC025:: SendInput,   {SC14F}
+ ^!SC026:: SendInput,  ^{SC14D}
     ;ctrl nav with select
-+^!SC023:: SendInput +^{SC14B}
-+^!SC024:: SendInput  +{SC147}
-+^!SC025:: SendInput  +{SC14F}
-+^!SC026:: SendInput +^{SC14D}
++^!SC023:: SendInput, +^{SC14B}
++^!SC024:: SendInput,  +{SC147}
++^!SC025:: SendInput,  +{SC14F}
++^!SC026:: SendInput, +^{SC14D}
     ;move window
-  #SC023:: SendInput  #{SC14B}
-  #SC024:: SendInput  #{SC150}
-  #SC025:: SendInput  #{SC148}
-  #SC026:: SendInput  #{SC14D}
- #+SC023:: SendInput #+{SC14B}
- #+SC026:: SendInput #+{SC14D}
+  #SC023:: SendInput,  #{SC14B}
+  #SC024:: SendInput,  #{SC150}
+  #SC025:: SendInput,  #{SC148}
+  #SC026:: SendInput,  #{SC14D}
+ #+SC023:: SendInput, #+{SC14B}
+ #+SC026:: SendInput, #+{SC14D}
  #+SC024::
     WinGetActiveTitle, title
     If title
@@ -1115,7 +1132,7 @@ SC001::
 +^SC02F::
     saved_value := Clipboard
     Clipboard := ""
-    SendInput ^{SC02E}
+    SendInput, ^{SC02E}
     ClipWait
     saved_value2 := Clipboard
     Clipboard := ""
@@ -1129,7 +1146,7 @@ SC001::
 SC00C::
     If USER_KEY_1
     {
-        SendInput %USER_KEY_1%
+        SendInput, %USER_KEY_1%
     }
     Else
     {
@@ -1139,7 +1156,7 @@ SC00C::
 SC00D::
     If USER_KEY_2
     {
-        SendInput %USER_KEY_2%
+        SendInput, %USER_KEY_2%
     }
     Else
     {
@@ -1258,7 +1275,7 @@ SC035::
 +SC033::
 +SC034::
 +SC035::
-    Down(SubStr(A_ThisHotkey, 2), 1)
+    Down(SubStr(A_ThisHotkey, 2))
     Return
 
 ;numeric row
@@ -1407,7 +1424,7 @@ SC035 up::
 
 ;home row "sh-i"
 +SC021::
-    Down(SubStr(A_ThisHotkey, 2), 1)
+    Down(SubStr(A_ThisHotkey, 2))
     If (DOTLESS_I_SWAP && !DICT["SC021"][2])
     {
         SetFormat, Integer, H
@@ -1416,7 +1433,7 @@ SC035 up::
         SetFormat, Integer, D
         If (lang == -0xF3EFBF7)
         {
-            SendInput {̇}
+            SendInput, {̇}
         }
     }
     Return
@@ -1431,7 +1448,7 @@ SC039::
             DICT[k][2] := 1
         }
     }
-    SendInput {Space}
+    SendInput, {Space}
     Return
 +SC039::
     For k in DICT
@@ -1443,11 +1460,11 @@ SC039::
         }
     }
     If UNBR_SPACE {
-        SendInput +{Space}
+        SendInput, +{Space}
     }
     Else
     {
-        SendInput {Space}
+        SendInput, {Space}
     }
     Return
 
