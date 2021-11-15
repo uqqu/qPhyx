@@ -7,6 +7,7 @@
 
 Global EXT := A_IsCompiled ? ".exe" : ".ahk"
 Global INI := "config.ini"
+Global SHIFT_COUNTER := 0
 ;global config.ini variables
 Global DISABLED := 0
 Global LONG_PRESS_TIME := 0.15
@@ -650,6 +651,63 @@ IncrDecrNumber(n)
     BlockInput, Off
 }
 
+ShiftPress()
+{
+    If (SHIFT_COUNTER > 1)
+    {
+        BlockInput, On
+        saved_value := Clipboard
+        Clipboard := ""
+        Send, ^{SC02E}
+        Sleep, 1
+        If (StrLen(Clipboard) > 0)
+        {
+            If GetKeyState("Ctrl")
+            {
+                StringUpper, result, Clipboard
+            }
+            Else If GetKeyState("Alt")
+            {
+                StringLower, result, Clipboard
+            }
+            Else
+            {
+                result := ""
+                Loop % StrLen(Clipboard)
+                {
+                    curr := Asc(SubStr(Clipboard, A_Index, 1))
+                    If ((curr > 64) && (curr < 91)) || ((curr > 1039) && (curr < 1071))
+                    {
+                        result := result . Chr(curr+32)
+                    }
+                    Else If ((curr > 96) && (curr < 123)) || ((curr > 1071) && (curr < 1104))
+                    {
+                        result := result . Chr(curr-32)
+                    }
+                    Else If (curr == 1025)
+                    {
+                        result := result . Chr(1105)
+                    }
+                    Else If (curr == 1105)
+                    {
+                        result := result . Chr(1025)
+                    }
+                    Else
+                    {
+                        result := result . Chr(curr)
+                    }
+                }
+            }
+            SendInput, %result%
+        }
+        Sleep, 1
+        Clipboard := saved_value
+        BlockInput, Off
+        SHIFT_COUNTER := 0
+        SetTimer, ShiftCounterDrop, Off
+    }
+}
+
 
 ;===============================================================================================
 ;===============================================Menu functions==================================
@@ -973,6 +1031,11 @@ LangModes:
     }
     Return
 
+ShiftCounterDrop:
+    SHIFT_COUNTER := 0
+    SetTimer, ShiftCounterDrop, Off
+    Return
+
 Exit:
     ExitApp
 
@@ -1162,6 +1225,14 @@ SC00D::
     {
         IncrDecrNumber(1)
     }
+    Return
+
+;double shift press = invert case; +ctrl = upper case; +alt = lower case
+~*SC02A up::
+~*SC136 up::
+    SHIFT_COUNTER++
+    ShiftPress()
+    SetTimer, ShiftCounterDrop, % LONG_PRESS_TIME*2000
     Return
 
 
