@@ -21,8 +21,6 @@ Global PAIRED_BRACKETS := 0
 Global UNBR_SPACE := 1
 Global ESC_AS_CAPS := 0
 Global NUMPAD := 0
-Global USER_KEY_1 := ""
-Global USER_KEY_2 := ""
 Global USER_ASSIGNMENTS := {}
 IfExist, config.ini
 {
@@ -39,8 +37,6 @@ IfExist, config.ini
     IniRead, UNBR_SPACE,                config.ini, Configuration, UnbrSpace
     IniRead, ESC_AS_CAPS,               config.ini, Configuration, EscAsCaps
     IniRead, NUMPAD,                    config.ini, Configuration, NumPad
-    IniRead, USER_KEY_1,                config.ini, Configuration, UserKey1
-    IniRead, USER_KEY_2,                config.ini, Configuration, UserKey2
     IniRead, menu_path,                 config.ini, Configuration, MenuPath
     IniRead, viatc_file,                config.ini, Configuration, ViatcFile
 }
@@ -59,11 +55,10 @@ Else
     IniWrite, 1,                        config.ini, Configuration, UnbrSpace
     IniWrite, 0,                        config.ini, Configuration, EscAsCaps
     IniWrite, 0,                        config.ini, Configuration, NumPad
-    IniWrite, % "",                     config.ini, Configuration, UserKey1
-    IniWrite, % "",                     config.ini, Configuration, UserKey2
     IniWrite, c:\menu\,                 config.ini, Configuration, MenuPath
     IniWrite, c:\ViATc\ViATc.ahk,       config.ini, Configuration, ViatcFile
-    FileAppend, `n[AdditionalAssignments]`n`n[AltApps]`n`n[BlackList]`n, config.ini
+    FileAppend, `n[AdditionalAssignments]`nSC00C=`nSC00D=`n`n[AltApps]`n`n`n[BlackList]`n
+        , config.ini
 }
 
 ;additional assignments set
@@ -122,40 +117,40 @@ Global NUM_DICT := {scan_code: ["releasing", "sended", "alt", "alt_long"]
     , SC00D: [0, 0, "̛", "✕"]} ; horn
 
 ;letter region
-Global DICT := {scan_code: ["releasing", "sended", "long", "alt"]
-    , SC010: [0, 0, "{Text}~", "{Text}°"]
-    , SC011: [0, 0, "{Text}–", "{Text}—"]
-    , SC012: [0, 0, "{Text}'", "{Text}’"]
-    , SC013: [0, 0, "{Text}\", "{Text}&"]
-    , SC014: [0, 0, "{Text}@", "{Text}§"]
-    , SC015: [0, 0, "{Text}<", "{Text}«"]
-    , SC016: [0, 0, "{Text}(", "{SC16A}"] ; alt – back
-    , SC017: [0, 0, "{Text}[", "{SC169}"] ; alt - forward
-    , SC018: [0, 0, "{Text}{", "{Text}“"]
-    , SC019: [0, 0, "{Text}!", "{Text}¡"]
-    , SC01A: [0, 0, "{Text}#", "{Text}№"]
-    , SC01B: [0, 0, "́"       , "̀"       ] ; long – diacritic acute; alt – diacritic grave
-    , SC01E: [0, 0, "{Text}+", "{Text}±"]
-    , SC01F: [0, 0, "{Text}-", "{Text}−"]
-    , SC020: [0, 0, "{Text}*", "{Text}×"]
-    , SC021: [0, 0, "{Text}/", "{Text}÷"]
-    , SC022: [0, 0, "{Text}=", "{Text}≠"]
-    , SC023: [0, 0, "{Text}%", ""       ] ; alt - left
-    , SC024: [0, 0, "{Text}""",""       ] ; alt - down
-    , SC025: [0, 0, "{Text}.", ""       ] ; alt - up
-    , SC026: [0, 0, "{Text},", ""       ] ; alt - right
-    , SC027: [0, 0, "{Text}:", "{Text}^"]
-    , SC028: [0, 0, "{Text};","{Text}``"]
-    , SC02C: [0, 0, "{Text}$", "{Text}¥"]
-    , SC02D: [0, 0, "{Text}€", "{Text}£"]
-    , SC02E: [0, 0, "{Text}₽", "{Text}¤"]
-    , SC02F: [0, 0, "{Text}_", "{Text}|"]
-    , SC030: [0, 0, "{Text}≈", "{Text}≟"]
-    , SC031: [0, 0, "{Text}>", "{Text}»"]
-    , SC032: [0, 0, "{Text})", "^{SC02C}"] ; alt - undo
-    , SC033: [0, 0, "{Text}]", "^{SC015}"] ; alt - redo
-    , SC034: [0, 0, "{Text}}", "{Text}”"]
-    , SC035: [0, 0, "{Text}?", "{Text}¿"]}
+Global DICT := {scan_code: ["releasing", "sended", "long", "alt", "alt_long"]
+    , SC010: [0, 0, "{Text}~", "{Text}°", "{Text}∑"]
+    , SC011: [0, 0, "{Text}–", "{Text}—", "{Text}²"]
+    , SC012: [0, 0, "{Text}'", "{Text}’", "{Text}³"]
+    , SC013: [0, 0, "{Text}\", "{Text}&", "{Text}π"]
+    , SC014: [0, 0, "{Text}@", "{Text}§", "{Text}¬"]
+    , SC015: [0, 0, "{Text}<", "{Text}«", "{Text}‰"]
+    , SC016: [0, 0, "{Text}(", "{SC16A}", ""       ] ; alt – back
+    , SC017: [0, 0, "{Text}[", "{SC169}", ""       ] ; alt - forward
+    , SC018: [0, 0, "{Text}{", "{Text}“", "{Text}∞"]
+    , SC019: [0, 0, "{Text}!", "{Text}¡", "{Text}‽"]
+    , SC01A: [0, 0, "{Text}#", "{Text}№", "{Text}※"]
+    , SC01B: [0, 0, "́"       , "̀"       , "{Text}♡"] ; long – comb. acute; alt – comb. grave
+    , SC01E: [0, 0, "{Text}+", "{Text}±", "{Text}½"]
+    , SC01F: [0, 0, "{Text}-", "{Text}−", "{Text}⅓"]
+    , SC020: [0, 0, "{Text}*", "{Text}×", "{Text}¼"]
+    , SC021: [0, 0, "{Text}/", "{Text}÷", "{Text}⅔"]
+    , SC022: [0, 0, "{Text}=", "{Text}≠", "{Text}¾"]
+    , SC023: [0, 0, "{Text}%", ""       , ""       ] ; alt - left
+    , SC024: [0, 0, "{Text}""",""       , ""       ] ; alt - down
+    , SC025: [0, 0, "{Text}.", ""       , ""       ] ; alt - up
+    , SC026: [0, 0, "{Text},", ""       , ""       ] ; alt - right
+    , SC027: [0, 0, "{Text}:", "{Text}^", "{Text}•"]
+    , SC028: [0, 0, "{Text};", "{Text}``","{Text}…"]
+    , SC02C: [0, 0, "{Text}$", "{Text}¥", "{Text}¢"]
+    , SC02D: [0, 0, "{Text}€", "{Text}£", "{Text}₿"]
+    , SC02E: [0, 0, "{Text}₽", "{Text}¤", "{Text}₱"]
+    , SC02F: [0, 0, "{Text}_", "{Text}|", "{Text}©"]
+    , SC030: [0, 0, "{Text}≈", "{Text}≟", "{Text}®"]
+    , SC031: [0, 0, "{Text}>", "{Text}»", "{Text}™"]
+    , SC032: [0, 0, "{Text})", "^{SC02C}",""       ] ; alt - undo
+    , SC033: [0, 0, "{Text}]", "^{SC015}",""       ] ; alt - redo
+    , SC034: [0, 0, "{Text}}", "{Text}”", "{Text}∴"]
+    , SC035: [0, 0, "{Text}?", "{Text}¿", "{Text}∵"]}
 
 ;language modes read
 IniRead, sections, modes.ini
@@ -314,8 +309,8 @@ Menu, Tray, Add, Change &cyrillic mode, :CyrModes
     {
         Menu, SubSettings, Check, Toggle &NumPad availability
     }
-    key1 := (USER_KEY_1 == "") ? "empty" : USER_KEY_1
-    key2 := (USER_KEY_2 == "") ? "empty" : USER_KEY_2
+    key1 := (USER_ASSIGNMENTS["SC00C"] == "") ? "empty" : USER_ASSIGNMENTS["SC00C"]
+    key2 := (USER_ASSIGNMENTS["SC00D"] == "") ? "empty" : USER_ASSIGNMENTS["SC00D"]
     Menu, SubSettings, Add, Change &first user-defined key (now is %key1%), ChangeUserKey
     Menu, SubSettings, Add, Change &second user-defined key (now is %key2%), ChangeUserKey
 Menu, Tray, Add, &Other settings, :SubSettings
@@ -330,55 +325,27 @@ Menu, Tray, Add, &Exit, Exit
 ;=============================================GUI cheatsheet====================================
 ;===============================================================================================
 
-Global TABS := ["Base", "Long", "Alt/AltLong", "Scan codes", "Lang. modes", "Hotkeys"]
-values := [["esc","1","2","3","4","5","6","7","8","9","0","incr","decr","media"
-        ,"tab","q","w","e","r","t","y","u","i","o","p","","",""
-        ,"enter","a","s","d","f","g","h","j","k","l","","","backspace"
-        ,"shift","z","x","c","v","b","n","m","","","","shift"]
-    ,["esc","1","2","3","4","5","6","7","8","9","0","incr","decr","media"
-        ,"tab","~","–","'","\","@","<","(","[","{","!","#","ó","\"
-        ,"enter","+","-","*","/","=","%","""",".",",",":",";","backspace"
-        ,"shift","$","€","₽","_","≈",">",")","]","}","?","shift"]
-    ,["esc","õ/o̧","o̊/o̥","ö/o̤","ȯ/ọ","ŏ/o̮","ō/o̱","ô/o̭","ǒ/o̦","o͗/o̳","ỏ/ǫ","ő/✓","ơ/✕","media"
-        ,"tab","°","—","’","&&","§","«","backw","forw","“","¡","№","ò",""
-        ,"enter","±","−","×","÷","≠","left","down","up","right","^","``","backspace"
-        ,"shift","¥","£","¤","|","≟","»","undo","redo","”","¿","shift"]
-    ,["029","002","003","004","005","006","007","008","009","00A","00B","00C","00D","00E"
-        ,"00F","010","011","012","013","014","015","016","017","018","019","01A","01B","02B"
-        ,"03A","01E","01F","020","021","022","023","024","025","026","027","028","01C"
-        ,"02A","02C","02D","02E","02F","030","031","032","033","034","035","136"]]
-For _, line in [[13,15], [11,29], [10,42]]
-{
-    Loop, % line[1]
-    {
-        values[1][line[2]+A_Index] := GetKeyName("SC" . values[4][line[2]+A_Index])
-    }
-}
-If !CONTROLLING_KEYS
-{
-    Loop 3
-    {
-        values[A_Index][1]  := "tilde"
-        values[A_Index][14] := "BS"
-        values[A_Index][29] := "capslock"
-        values[A_Index][41] := "enter"
-    }
-}
+Global TABS := ["Base", "Long", "Alt", "Alt long", "Scan codes", "Lang. modes", "Hotkeys"]
+Global SCAN_CODES := ["SC029","SC002","SC003","SC004","SC005","SC006","SC007","SC008","SC009"
+    ,  "SC00A","SC00B","SC00C","SC00D","SC00E","SC00F","SC010","SC011","SC012","SC013","SC014"
+    ,  "SC015","SC016","SC017","SC018","SC019","SC01A","SC01B","SC02B","SC03A","SC01E","SC01F"
+    ,  "SC020","SC021","SC022","SC023","SC024","SC025","SC026","SC027","SC028","SC01C","SC02A"
+    ,  "SC02C","SC02D","SC02E","SC02F","SC030","SC031","SC032","SC033","SC034","SC035","SC136"]
 Gui -Border -Caption -Theme
 Gui, Add, Button, x698 y-1 w19 h19 gCheatsheet, ✕
-Gui, Add, Tab3, w720 h185 x-2 y-2 vGuiTabs
-    , % TABS[1] . "|" . TABS[2] . "|" . TABS[3] . "|" . TABS[4] . "|" . TABS[5] . "|" . TABS[6]
+Gui, Add, Tab3, w720 h185 x-2 y-2 vGuiTabs, % TABS[1] . "|" . TABS[2] . "|" . TABS[3] . "|"
+        . TABS[4] . "|" . TABS[5] . "|" . TABS[6] . "|" . TABS[7]
 Gui, Font, s11, Calibri
+
 AddButton(i, oi, x:=0, y:=20, w:=50, h:=40)
 {
     Global
-    Gui, Add, Button, % "x" . x . " y" . y . " w" . w . " h" . h . " v"
-        . values[4][i] . oi, % values[oi][i]
+    Gui, Add, Button, % "x" . x . " y" . y . " w" . w . " h" . h . " v" . SCAN_CODES[i] . oi
 }
-Loop, 4
+Loop, 5
 {
-    Gui, Tab, % TABS[A_Index]
     outer_ind := A_Index
+    Gui, Tab, % TABS[outer_ind]
     AddButton(1, outer_ind)
     Loop, 12
     {
@@ -412,11 +379,17 @@ Loop, 4
     }
     AddButton(53, outer_ind, 600, 140, 115)
 }
+
 Gui, +Theme
 OnMessage(0x100, "GuiKeyPress")
 OnMessage(0x104, "GuiKeyPress")
+Loop, 53
+{
+    GuiControl, Text, % SCAN_CODES[A_Index] . 5, % SCAN_CODES[A_Index]
+}
+GuiFillValues()
 
-Gui, Tab, % TABS[5]
+Gui, Tab, % TABS[6]
 Gui, Add, ListView, r19 w716 h165 x-1 y18 LV3 gLangModes vLangModes
     , |№|Group|Mode|1|2|3|4|5|6|7|8|9|0|+1|+2
 For _, script in [["Latin", LAT_MODE_LIST], ["Cyrillic", CYR_MODE_LIST]]
@@ -451,10 +424,10 @@ Loop, 12
     LV_ModifyCol(A_Index+4, "AutoHdr Center")
 }
 
-Gui, Tab, % TABS[6]
+Gui, Tab, % TABS[7]
 Gui, Add, ListView, r19 w716 h165 x-1 y18 LV3 vHotkeys, Item|Hotkey
 LV_Add(, "Toggle this gui", "Alt+F1")
-LV_Add(, "GUI tab navigation", "F1-F6")
+LV_Add(, "GUI tab navigation", "F1-F7")
 LV_Add(, "Show menu", "LWin+F1")
 LV_Add(, "Pause/restore qPhyx", "Shift+Tilde")
 LV_Add(, "Restart qPhyx", "Ctrl+Shift+Tilde")
@@ -556,7 +529,7 @@ UpNum(this, shift:=0, alt:=0)
 }
 
 ;letter rows interaction
-Down(this)
+Down(this, alt:=0)
 {
     If !DICT[this][1]
     {
@@ -565,37 +538,51 @@ Down(this)
         If (ErrorLevel && !DICT[this][2])
         {
             DICT[this][2] := 1
-            Send, % DICT[this][3]
+            If alt
+            {
+                SendInput, % DICT[this][5]
+            }
+            Else
+            {
+                SendInput, % DICT[this][3]
+            }
         }
     }
 }
 
-Up(this, shift:=0)
+Up(this, shift:=0, alt:=0)
 {
     If (DICT[this][1] && !DICT[this][2])
     {
-        upper := shift ^ GetKeyState("CapsLock", "T")
-        If (USER_ASSIGNMENTS.haskey((upper ? "+" : "") . this))
+        If alt
         {
-            SetFormat, Integer, H
-            lang := % DllCall("GetKeyboardLayout", Int
-                , DllCall("GetWindowThreadProcessId", int, WinActive("A"), Int, 0))
-            SetFormat, Integer, D
-            If (lang == -0xF3EFBF7)
-            {
-                SendInput, % USER_ASSIGNMENTS[(upper ? "+" : "") . this]
-                DICT[this][1] := 0
-                DICT[this][2] := 0
-                Return
-            }
+            SendInput, % DICT[this][4]
         }
-        SendInput, % (upper ? "+" : "") . "{" . this . "}"
-        ;dotted/dotless I feature
-        If (upper && (GetKeyName(this) == "i") && DOTLESS_I_SWAP)
+        Else
         {
-            If LATIN_MODE in 2,21,25
+            upper := shift ^ GetKeyState("CapsLock", "T")
+            If (USER_ASSIGNMENTS.haskey((upper ? "+" : "") . this))
             {
-                SendInput, {̇}
+                SetFormat, Integer, H
+                lang := % DllCall("GetKeyboardLayout", Int
+                    , DllCall("GetWindowThreadProcessId", int, WinActive("A"), Int, 0))
+                SetFormat, Integer, D
+                If (lang == -0xF3EFBF7)
+                {
+                    SendInput, % USER_ASSIGNMENTS[(upper ? "+" : "") . this]
+                    DICT[this][1] := 0
+                    DICT[this][2] := 0
+                    Return
+                }
+            }
+            SendInput, % (upper ? "+" : "") . "{" . this . "}"
+            ;dotted/dotless I feature
+            If (upper && (GetKeyName(this) == "i") && DOTLESS_I_SWAP)
+            {
+                If LATIN_MODE in 2,21,25
+                {
+                    SendInput, {̇}
+                }
             }
         }
     }
@@ -761,8 +748,8 @@ LatModeChange(_, item_pos)
         Loop, 2
         {
             GuiControl, Text, % "LM" . i . A_Index
-            , % LAT_MODE_LIST[item_pos][scan_code][3] . " "
-            . CYR_MODE_LIST[CYRILLIC_MODE][scan_code][3]
+                , % LAT_MODE_LIST[item_pos][scan_code][3] . " "
+                    . CYR_MODE_LIST[CYRILLIC_MODE][scan_code][3]
         }
     }
     Gui, ListView, LangModes
@@ -815,8 +802,8 @@ CyrModeChange(_, item_pos)
         Loop, 2
         {
             GuiControl, Text, % "LM" . i . A_Index
-            , % LAT_MODE_LIST[LATIN_MODE][scan_code][3] . " "
-            . CYR_MODE_LIST[item_pos][scan_code][3]
+                , % LAT_MODE_LIST[LATIN_MODE][scan_code][3] . " "
+                    . CYR_MODE_LIST[item_pos][scan_code][3]
         }
     }
     Gui, ListView, LangModes
@@ -846,13 +833,13 @@ ControllingKeysToggle()
     CONTROLLING_KEYS := !CONTROLLING_KEYS
     IniWrite, %CONTROLLING_KEYS%, config.ini, Configuration, ControllingKeys
     keys := CONTROLLING_KEYS
-        ? ["esc", "media", "enter", "backspace"] : ["tilde", "BS", "capslock", "enter"]
-    Loop 3
+        ? ["Esc", "Media", "Enter", "Backspace"] : ["Tilde", "BS", "Caps Lock", "Enter"]
+    Loop 4
     {
-        GuiControl, Text, % "029" . A_Index, % keys[1]
-        GuiControl, Text, % "00E" . A_Index, % keys[2]
-        GuiControl, Text, % "03A" . A_Index, % keys[3]
-        GuiControl, Text, % "01C" . A_Index, % keys[4]
+        GuiControl, Text, % "SC029" . A_Index, % keys[1]
+        GuiControl, Text, % "SC00E" . A_Index, % keys[2]
+        GuiControl, Text, % "SC03A" . A_Index, % keys[3]
+        GuiControl, Text, % "SC01C" . A_Index, % keys[4]
     }
     Menu, SubSettings, % CONTROLLING_KEYS ? "Check" : "Uncheck", Toggle controlling &keys remap
 }
@@ -903,22 +890,36 @@ PairedBracketsToggle()
     If PAIRED_BRACKETS
     {
         DICT["SC015"][3] := "<>{Left}"
-        DICT["SC015"][4] := "«»{Left}"
         DICT["SC016"][3] := "(){Left}"
         DICT["SC017"][3] := "[]{Left}"
         DICT["SC018"][3] := "{{}{}}{Left}"
-        DICT["SC018"][4] := "“”{Left}"
         DICT["SC024"][3] := """""{Left}"
+        DICT["SC015"][4] := "«»{Left}"
+        DICT["SC018"][4] := "“”{Left}"
+        GuiControl, Text, SC0152, <>
+        GuiControl, Text, SC0162, ()
+        GuiControl, Text, SC0172, []
+        GuiControl, Text, SC0182, {}
+        GuiControl, Text, SC0242, ""
+        GuiControl, Text, SC0153, «»
+        GuiControl, Text, SC0183, “”
     }
     Else
     {
         DICT["SC015"][3] := "{Text}<"
-        DICT["SC015"][4] := "{Text}«"
         DICT["SC016"][3] := "{Text}("
         DICT["SC017"][3] := "{Text}["
         DICT["SC018"][3] := "{Text}{"
-        DICT["SC018"][4] := "{Text}“"
         DICT["SC024"][3] := "{Text}"""
+        DICT["SC015"][4] := "{Text}«"
+        DICT["SC018"][4] := "{Text}“"
+        GuiControl, Text, SC0152, <
+        GuiControl, Text, SC0162, (
+        GuiControl, Text, SC0172, [
+        GuiControl, Text, SC0182, {
+        GuiControl, Text, SC0242, "
+        GuiControl, Text, SC0153, «
+        GuiControl, Text, SC0183, “
     }
     Menu, SubSettings, % PAIRED_BRACKETS ? "Check" : "Uncheck", Toggle "&Paired brackets" feature
 }
@@ -952,20 +953,29 @@ ChangeUserKey(item_name)
         New value (recommended is currency symbol or code). It can be several symbols.
 If empty – works as decrement/increment number (be careful with use it on non-textfields!).
     )
-    InputBox, user_input, Set new value for user-defined key (two left keys from old backspace)
+    InputBox, user_input, Set new value for user-defined key (two left keys from backspace)
         , %message%
         , , 611, 160
     If !ErrorLevel
     {
-        key_pos := (SubStr(item_name, 9, 1) == "f") ? 1 : 2
-        IniWrite, %user_input%, config.ini, Configuration, UserKey%key_pos%
-        repr_pos := (key_pos == 1) ? "first" : "second"
-        pos_value := (USER_KEY_%key_pos% == "") ? "empty" : USER_KEY_%key_pos%
-        input_value := (user_input == "") ? "empty" : user_input
+        key := ((SubStr(item_name, 9, 1) == "f") ? [1, "SC00C", "first"] : [0, "SC00D", "second"])
+        IniWrite, %user_input%, config.ini, AdditionalAssignments, % key[2]
+        old_value := ((USER_ASSIGNMENTS[key[2]] == "") ? "empty" : USER_ASSIGNMENTS[key[2]])
+        new_value := (user_input == "") ? "empty" : user_input
         Menu, SubSettings, Rename
-            , % "Change &" . repr_pos . " user-defined key (now is " . pos_value . ")"
-            , % "Change &" . repr_pos . " user-defined key (now is " . input_value . ")"
-        USER_KEY_%key_pos% := user_input
+            , % "Change &" . key[3] . " user-defined key (now is " . old_value . ")"
+            , % "Change &" . key[3] . " user-defined key (now is " . new_value . ")"
+        USER_ASSIGNMENTS[key[2]] := user_input
+        GuiControl, Text, % key[2] . 1, % user_input
+        If (user_input == "")
+        {
+            GuiControl, Text, % key[2] . 1, % ((key[2] == "SC00C") ? "decr" : "incr")
+            GuiControl, Text, % key[2] . 2, % ((key[2] == "SC00C") ? "decr" : "incr")
+        }
+        Else
+        {
+            GuiControl, Text, % key[2] . 2, % user_input
+        }
     }
 }
 
@@ -995,10 +1005,88 @@ SpotifyDetectProcessId()
     }
 }
 
+GuiFillValues()
+{
+    ;read user layout (first tab) and global qphyx dict (second to fourth tabs)
+    Loop, 53
+    {
+        values := DICT[SCAN_CODES[A_Index]]
+        GuiControl, Text, % SCAN_CODES[A_Index] . 1, % GetKeyName(SCAN_CODES[A_Index])
+        GuiControl, Text, % SCAN_CODES[A_Index] . 2, % RegExReplace(values[3], "\{.+\}")
+        GuiControl, Text, % SCAN_CODES[A_Index] . 3, % RegExReplace(values[4], "\{.+\}")
+        GuiControl, Text, % SCAN_CODES[A_Index] . 4, % RegExReplace(values[5], "\{.+\}")
+    }
+
+    ;set optional values and fix some broken names
+    repl := ["SC029", "SC00E", "SC03A", "SC01C", "SC00F", "SC02A", "SC136"
+        , "SC023", "SC024", "SC025", "SC026", "SC016", "SC017", "SC032", "SC033"]
+    keys := CONTROLLING_KEYS
+        ? ["Esc", "Media", "Enter", "Backspace"] : ["Tilde", "BS", "Caps Lock", "Enter"]
+    keys.Push("Tab", "RShift", "LShift"
+        , "left", "down", "up", "right", "forw", "backw", "undo", "redo")
+    Loop, 4
+    {
+        outer_ind := A_Index
+        For i, sc in repl
+        {
+            If ((outer_ind < 3) && (i > 7))
+            {
+                Break
+            }
+            GuiControl, Text, % sc . outer_ind, % keys[i]
+        }
+    }
+    GuiControl, Text, SC0182, % PAIRED_BRACKETS ? "{}" : "{"
+    GuiControl, Text, SC0342, }
+    GuiControl, Text, SC0133, &&
+    GuiControl, Text, SC01B2, ó
+    GuiControl, Text, SC01B3, ò
+    GuiControl, Text, SC01B4, ♥
+
+    ;fill second tab numrow
+    Loop, 10
+    {
+        GuiControlGet, base, , % SCAN_CODES[A_Index+1] . 1
+        GuiControl, Text, % SCAN_CODES[A_Index+1] . 2, % base
+    }
+
+    ;fill diacritics
+    For sc, values in NUM_DICT
+    {
+        GuiControl, Text, % sc . 3, % "o" . values[3]
+        GuiControl, Text, % sc . 4, % "o" . values[4]
+    }
+    GuiControl, Text, SC00C4, % NUM_DICT["SC00C"][4]
+    GuiControl, Text, SC00D4, % NUM_DICT["SC00D"][4]
+
+    ;apply user-defined keys
+    For key, value in USER_ASSIGNMENTS
+    {
+        If value != ""
+        {
+            GuiControl, Text, % key . 1, % value
+        }
+    }
+    ;;... and fix numrow user-defined keys to incr/decr func, if empty
+    For _, key in [["C", "decr"], ["D", "incr"]]
+    {
+        GuiControlGet, user_numkey, , % "SC00" . key[1] . 1
+        If (user_numkey == "")
+        {
+            GuiControl, Text, % "SC00" . key[1] . 1, % key[2]
+            GuiControl, Text, % "SC00" . key[1] . 2, % key[2]
+        }
+        Else
+        {
+            GuiControl, Text, % "SC00" . key[1] . 2, % user_numkey
+        }
+    }
+}
+
 GuiKeyPress(wp, lp, msg, hwnd)
 {
-    key := Format("{:03X}", GetKeySC("vk" . Format("{:X}", wp)))
-    Loop, 4
+    key := "SC" . Format("{:03X}", GetKeySC("vk" . Format("{:X}", wp)))
+    Loop, 5
     {
         GuiControl, Focus, % key . A_Index
     }
@@ -1015,7 +1103,7 @@ Cheatsheet:
     }
     Else
     {
-        Gui, Show, h180 w715
+        Gui, Show, h179 w714
     }
     Return
 
@@ -1067,13 +1155,14 @@ SC029:: Gui, Hide
 #If WinActive("ahk_class AutoHotkeyGUI")
 ;esc
 SC001:: Gui, Hide
-;F1-F6
+;F1-F7
 SC03B:: GuiControl, Choose, GuiTabs, % TABS[1]
 SC03C:: GuiControl, Choose, GuiTabs, % TABS[2]
 SC03D:: GuiControl, Choose, GuiTabs, % TABS[3]
 SC03E:: GuiControl, Choose, GuiTabs, % TABS[4]
 SC03F:: GuiControl, Choose, GuiTabs, % TABS[5]
 SC040:: GuiControl, Choose, GuiTabs, % TABS[6]
+SC041:: GuiControl, Choose, GuiTabs, % TABS[7]
 
 #If !DISABLED && CONTROLLING_KEYS
     && !WinActive("ahk_class AutoHotkeyGUI") && !WinActive("ahk_group BlackList")
@@ -1140,7 +1229,7 @@ SC040:: GuiControl, Choose, GuiTabs, % TABS[6]
 
 ;esc
 SC001::
-    If ESC_AS_CAPS
+    If (ESC_AS_CAPS && CONTROLLING_KEYS)
     {
         SetCapsLockState, % (t:=!t) ?  "On" :  "Off"
     }
@@ -1222,9 +1311,9 @@ SC001::
 
 ;two keys left from BS ("-/_", "=/+")
 SC00C::
-    If USER_KEY_1
+    If USER_ASSIGNMENTS["SC00C"]
     {
-        SendInput, %USER_KEY_1%
+        SendInput, % USER_ASSIGNMENTS["SC00C"]
     }
     Else
     {
@@ -1234,7 +1323,7 @@ SC00C::
 SC00D::
     If USER_KEY_2
     {
-        SendInput, %USER_KEY_2%
+        SendInput, % USER_ASSIGNMENTS["SC00D"]
     }
     Else
     {
@@ -1276,6 +1365,36 @@ SC00D::
 !SC00C::
 !SC00D::
     DownNum(SubStr(A_ThisHotkey, 2), 1)
+    Return
+
++SC002 up::
++SC003 up::
++SC004 up::
++SC005 up::
++SC006 up::
++SC007 up::
++SC008 up::
++SC009 up::
++SC00A up::
++SC00B up::
++SC00C up::
++SC00D up::
+    UpNum(SubStr(A_ThisHotkey, 2, 5), 1)
+    Return
+
+!SC002 up::
+!SC003 up::
+!SC004 up::
+!SC005 up::
+!SC006 up::
+!SC007 up::
+!SC008 up::
+!SC009 up::
+!SC00A up::
+!SC00B up::
+!SC00C up::
+!SC00D up::
+    UpNum(SubStr(A_ThisHotkey, 2, 5), , 1)
     Return
 
 ;top letters row
@@ -1356,35 +1475,43 @@ SC035::
     Down(SubStr(A_ThisHotkey, 2))
     Return
 
-;numeric row
-+SC002 up::
-+SC003 up::
-+SC004 up::
-+SC005 up::
-+SC006 up::
-+SC007 up::
-+SC008 up::
-+SC009 up::
-+SC00A up::
-+SC00B up::
-+SC00C up::
-+SC00D up::
-    UpNum(SubStr(A_ThisHotkey, 2, 5), 1)
-    Return
-
-!SC002 up::
-!SC003 up::
-!SC004 up::
-!SC005 up::
-!SC006 up::
-!SC007 up::
-!SC008 up::
-!SC009 up::
-!SC00A up::
-!SC00B up::
-!SC00C up::
-!SC00D up::
-    UpNum(SubStr(A_ThisHotkey, 2, 5), , 1)
+;top letters row
+!SC010::
+!SC011::
+!SC012::
+!SC013::
+!SC014::
+!SC015::
+!SC016::
+!SC017::
+!SC018::
+!SC019::
+!SC01A::
+!SC01B::
+;home letters row
+!SC01E::
+!SC01F::
+!SC020::
+!SC021::
+!SC022::
+!SC023::
+!SC024::
+!SC025::
+!SC026::
+!SC027::
+!SC028::
+;bottom letters row
+!SC02C::
+!SC02D::
+!SC02E::
+!SC02F::
+!SC030::
+!SC031::
+!SC032::
+!SC033::
+!SC034::
+!SC035::
+    Down(SubStr(A_ThisHotkey, 2), 1)
     Return
 
 ;top letters row
@@ -1466,38 +1593,42 @@ SC035 up::
     Return
 
 ;top letters row
-!SC010::
-!SC011::
-!SC012::
-!SC013::
-!SC014::
-!SC015::
-!SC016::
-!SC017::
-!SC018::
-!SC019::
-!SC01A::
-!SC01B::
+!SC010 up::
+!SC011 up::
+!SC012 up::
+!SC013 up::
+!SC014 up::
+!SC015 up::
+!SC016 up::
+!SC017 up::
+!SC018 up::
+!SC019 up::
+!SC01A up::
+!SC01B up::
 ;home letters row
-!SC01E::
-!SC01F::
-!SC020::
-!SC021::
-!SC022::
-!SC027::
-!SC028::
+!SC01E up::
+!SC01F up::
+!SC020 up::
+!SC021 up::
+!SC022 up::
+!SC023 up::
+!SC024 up::
+!SC025 up::
+!SC026 up::
+!SC027 up::
+!SC028 up::
 ;bottom letters row
-!SC02C::
-!SC02D::
-!SC02E::
-!SC02F::
-!SC030::
-!SC031::
-!SC032::
-!SC033::
-!SC034::
-!SC035::
-    SendInput, % DICT[SubStr(A_ThisHotkey, 2)][4]
+!SC02C up::
+!SC02D up::
+!SC02E up::
+!SC02F up::
+!SC030 up::
+!SC031 up::
+!SC032 up::
+!SC033 up::
+!SC034 up::
+!SC035 up::
+    Up(SubStr(A_ThisHotkey, 2, 5), , 1)
     Return
 
 ;space
