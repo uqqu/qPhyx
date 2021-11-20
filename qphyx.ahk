@@ -118,11 +118,11 @@ Global NUM_DICT := {scan_code: ["releasing", "sended", "alt", "alt_long"]
 
 ;letter region
 Global DICT := {scan_code: ["releasing", "sended", "long", "alt", "alt_long"]
-    , SC010: [0, 0, "{Text}~", "{Text}°", "{Text}∑"]
+    , SC010: [0, 0, "{Text}~", "{Text}°", "{Text}¬"]
     , SC011: [0, 0, "{Text}–", "{Text}—", "{Text}²"]
     , SC012: [0, 0, "{Text}'", "{Text}’", "{Text}³"]
     , SC013: [0, 0, "{Text}\", "{Text}&", "{Text}π"]
-    , SC014: [0, 0, "{Text}@", "{Text}§", "{Text}¬"]
+    , SC014: [0, 0, "{Text}@", "{Text}§", "{Text}∑"]
     , SC015: [0, 0, "{Text}<", "{Text}«", "{Text}‰"]
     , SC016: [0, 0, "{Text}(", "{SC16A}", ""       ] ; alt – back
     , SC017: [0, 0, "{Text}[", "{SC169}", ""       ] ; alt - forward
@@ -141,16 +141,16 @@ Global DICT := {scan_code: ["releasing", "sended", "long", "alt", "alt_long"]
     , SC026: [0, 0, "{Text},", ""       , ""       ] ; alt - right
     , SC027: [0, 0, "{Text}:", "{Text}^", "{Text}•"]
     , SC028: [0, 0, "{Text};", "{Text}``","{Text}…"]
-    , SC02C: [0, 0, "{Text}$", "{Text}¥", "{Text}¢"]
-    , SC02D: [0, 0, "{Text}€", "{Text}£", "{Text}₿"]
-    , SC02E: [0, 0, "{Text}₽", "{Text}¤", "{Text}₱"]
+    , SC02C: [0, 0, "{Text}$", "{Text}¢", "{Text}₿"]
+    , SC02D: [0, 0, "{Text}€", "{Text}£", "{Text}₱"]
+    , SC02E: [0, 0, "{Text}₽", "{Text}¥", "{Text}¤"]
     , SC02F: [0, 0, "{Text}_", "{Text}|", "{Text}©"]
     , SC030: [0, 0, "{Text}≈", "{Text}≟", "{Text}®"]
     , SC031: [0, 0, "{Text}>", "{Text}»", "{Text}™"]
     , SC032: [0, 0, "{Text})", "^{SC02C}",""       ] ; alt - undo
     , SC033: [0, 0, "{Text}]", "^{SC015}",""       ] ; alt - redo
-    , SC034: [0, 0, "{Text}}", "{Text}”", "{Text}∴"]
-    , SC035: [0, 0, "{Text}?", "{Text}¿", "{Text}∵"]}
+    , SC034: [0, 0, "{Text}}", "{Text}”", "{Text}∵"]
+    , SC035: [0, 0, "{Text}?", "{Text}¿", "{Text}∴"]}
 
 ;language modes read
 IniRead, sections, modes.ini
@@ -577,7 +577,7 @@ Up(this, shift:=0, alt:=0)
             }
             SendInput, % (upper ? "+" : "") . "{" . this . "}"
             ;dotted/dotless I feature
-            If (upper && (GetKeyName(this) == "i") && DOTLESS_I_SWAP)
+            If (upper && DOTLESS_I_SWAP && (GetKeyName(this) == "i"))
             {
                 If LATIN_MODE in 2,21,25
                 {
@@ -1331,305 +1331,275 @@ SC00D::
     }
     Return
 
+;backward, forward, undo, redo
+!SC016:: SendInput,  {SC16A}
+!SC017:: SendInput,  {SC169}
+!SC032:: SendInput, ^{SC02C}
+!SC033:: SendInput, ^{SC015}
+
 
 ;===============================================================================================
 ;============================="Send symbol" key assignments=====================================
 ;===============================================================================================
 
 ;numeric row
-+SC002::
-+SC003::
-+SC004::
-+SC005::
-+SC006::
-+SC007::
-+SC008::
-+SC009::
-+SC00A::
-+SC00B::
-+SC00C::
-+SC00D::
-    DownNum(SubStr(A_ThisHotkey, 2))
-    Return
++SC002:: DownNum("SC002")
++SC003:: DownNum("SC003")
++SC004:: DownNum("SC004")
++SC005:: DownNum("SC005")
++SC006:: DownNum("SC006")
++SC007:: DownNum("SC007")
++SC008:: DownNum("SC008")
++SC009:: DownNum("SC009")
++SC00A:: DownNum("SC00A")
++SC00B:: DownNum("SC00B")
++SC00C:: DownNum("SC00C")
++SC00D:: DownNum("SC00D")
 
-!SC002::
-!SC003::
-!SC004::
-!SC005::
-!SC006::
-!SC007::
-!SC008::
-!SC009::
-!SC00A::
-!SC00B::
-!SC00C::
-!SC00D::
-    DownNum(SubStr(A_ThisHotkey, 2), 1)
-    Return
+!SC002:: DownNum("SC002", 1)
+!SC003:: DownNum("SC003", 1)
+!SC004:: DownNum("SC004", 1)
+!SC005:: DownNum("SC005", 1)
+!SC006:: DownNum("SC006", 1)
+!SC007:: DownNum("SC007", 1)
+!SC008:: DownNum("SC008", 1)
+!SC009:: DownNum("SC009", 1)
+!SC00A:: DownNum("SC00A", 1)
+!SC00B:: DownNum("SC00B", 1)
+!SC00C:: DownNum("SC00C", 1)
+!SC00D:: DownNum("SC00D", 1)
 
-+SC002 up::
-+SC003 up::
-+SC004 up::
-+SC005 up::
-+SC006 up::
-+SC007 up::
-+SC008 up::
-+SC009 up::
-+SC00A up::
-+SC00B up::
-+SC00C up::
-+SC00D up::
-    UpNum(SubStr(A_ThisHotkey, 2, 5), 1)
-    Return
++SC002 up:: UpNum("SC002", 1)
++SC003 up:: UpNum("SC003", 1)
++SC004 up:: UpNum("SC004", 1)
++SC005 up:: UpNum("SC005", 1)
++SC006 up:: UpNum("SC006", 1)
++SC007 up:: UpNum("SC007", 1)
++SC008 up:: UpNum("SC008", 1)
++SC009 up:: UpNum("SC009", 1)
++SC00A up:: UpNum("SC00A", 1)
++SC00B up:: UpNum("SC00B", 1)
++SC00C up:: UpNum("SC00C", 1)
++SC00D up:: UpNum("SC00D", 1)
 
-!SC002 up::
-!SC003 up::
-!SC004 up::
-!SC005 up::
-!SC006 up::
-!SC007 up::
-!SC008 up::
-!SC009 up::
-!SC00A up::
-!SC00B up::
-!SC00C up::
-!SC00D up::
-    UpNum(SubStr(A_ThisHotkey, 2, 5), , 1)
-    Return
+!SC002 up:: UpNum("SC002", , 1)
+!SC003 up:: UpNum("SC003", , 1)
+!SC004 up:: UpNum("SC004", , 1)
+!SC005 up:: UpNum("SC005", , 1)
+!SC006 up:: UpNum("SC006", , 1)
+!SC007 up:: UpNum("SC007", , 1)
+!SC008 up:: UpNum("SC008", , 1)
+!SC009 up:: UpNum("SC009", , 1)
+!SC00A up:: UpNum("SC00A", , 1)
+!SC00B up:: UpNum("SC00B", , 1)
+!SC00C up:: UpNum("SC00C", , 1)
+!SC00D up:: UpNum("SC00D", , 1)
 
 ;top letters row
-SC010::
-SC011::
-SC012::
-SC013::
-SC014::
-SC015::
-SC016::
-SC017::
-SC018::
-SC019::
-SC01A::
-SC01B::
+SC010:: Down("SC010")
+SC011:: Down("SC011")
+SC012:: Down("SC012")
+SC013:: Down("SC013")
+SC014:: Down("SC014")
+SC015:: Down("SC015")
+SC016:: Down("SC016")
+SC017:: Down("SC017")
+SC018:: Down("SC018")
+SC019:: Down("SC019")
+SC01A:: Down("SC01A")
+SC01B:: Down("SC01B")
 ;home letters row
-SC01E::
-SC01F::
-SC020::
-SC021::
-SC022::
-SC023::
-SC024::
-SC025::
-SC026::
-SC027::
-SC028::
+SC01E:: Down("SC01E")
+SC01F:: Down("SC01F")
+SC020:: Down("SC020")
+SC021:: Down("SC021")
+SC022:: Down("SC022")
+SC023:: Down("SC023")
+SC024:: Down("SC024")
+SC025:: Down("SC025")
+SC026:: Down("SC026")
+SC027:: Down("SC027")
+SC028:: Down("SC028")
 ;bottom letters row
-SC02C::
-SC02D::
-SC02E::
-SC02F::
-SC030::
-SC031::
-SC032::
-SC033::
-SC034::
-SC035::
-    Down(A_ThisHotkey)
-    Return
+SC02C:: Down("SC02C")
+SC02D:: Down("SC02D")
+SC02E:: Down("SC02E")
+SC02F:: Down("SC02F")
+SC030:: Down("SC030")
+SC031:: Down("SC031")
+SC032:: Down("SC032")
+SC033:: Down("SC033")
+SC034:: Down("SC034")
+SC035:: Down("SC035")
 
 ;top letters row
-+SC010::
-+SC011::
-+SC012::
-+SC013::
-+SC014::
-+SC015::
-+SC016::
-+SC017::
-+SC018::
-+SC019::
-+SC01A::
-+SC01B::
++SC010:: Down("SC010")
++SC011:: Down("SC011")
++SC012:: Down("SC012")
++SC013:: Down("SC013")
++SC014:: Down("SC014")
++SC015:: Down("SC015")
++SC016:: Down("SC016")
++SC017:: Down("SC017")
++SC018:: Down("SC018")
++SC019:: Down("SC019")
++SC01A:: Down("SC01A")
++SC01B:: Down("SC01B")
 ;home letters row
-+SC01E::
-+SC01F::
-+SC020::
-+SC021::
-+SC022::
-+SC023::
-+SC024::
-+SC025::
-+SC026::
-+SC027::
-+SC028::
++SC01E:: Down("SC01E")
++SC01F:: Down("SC01F")
++SC020:: Down("SC020")
++SC021:: Down("SC021")
++SC022:: Down("SC022")
++SC023:: Down("SC023")
++SC024:: Down("SC024")
++SC025:: Down("SC025")
++SC026:: Down("SC026")
++SC027:: Down("SC027")
++SC028:: Down("SC028")
 ;bottom letters row
-+SC02C::
-+SC02D::
-+SC02E::
-+SC02F::
-+SC030::
-+SC031::
-+SC032::
-+SC033::
-+SC034::
-+SC035::
-    Down(SubStr(A_ThisHotkey, 2))
-    Return
++SC02C:: Down("SC02C")
++SC02D:: Down("SC02D")
++SC02E:: Down("SC02E")
++SC02F:: Down("SC02F")
++SC030:: Down("SC030")
++SC031:: Down("SC031")
++SC032:: Down("SC032")
++SC033:: Down("SC033")
++SC034:: Down("SC034")
++SC035:: Down("SC035")
 
 ;top letters row
-!SC010::
-!SC011::
-!SC012::
-!SC013::
-!SC014::
-!SC015::
-!SC016::
-!SC017::
-!SC018::
-!SC019::
-!SC01A::
-!SC01B::
+!SC010:: Down("SC010", 1)
+!SC011:: Down("SC011", 1)
+!SC012:: Down("SC012", 1)
+!SC013:: Down("SC013", 1)
+!SC014:: Down("SC014", 1)
+!SC015:: Down("SC015", 1)
+!SC018:: Down("SC018", 1)
+!SC019:: Down("SC019", 1)
+!SC01A:: Down("SC01A", 1)
+!SC01B:: Down("SC01B", 1)
 ;home letters row
-!SC01E::
-!SC01F::
-!SC020::
-!SC021::
-!SC022::
-!SC023::
-!SC024::
-!SC025::
-!SC026::
-!SC027::
-!SC028::
+!SC01E:: Down("SC01E", 1)
+!SC01F:: Down("SC01F", 1)
+!SC020:: Down("SC020", 1)
+!SC021:: Down("SC021", 1)
+!SC022:: Down("SC022", 1)
+!SC027:: Down("SC027", 1)
+!SC028:: Down("SC028", 1)
 ;bottom letters row
-!SC02C::
-!SC02D::
-!SC02E::
-!SC02F::
-!SC030::
-!SC031::
-!SC032::
-!SC033::
-!SC034::
-!SC035::
-    Down(SubStr(A_ThisHotkey, 2), 1)
-    Return
+!SC02C:: Down("SC02C", 1)
+!SC02D:: Down("SC02D", 1)
+!SC02E:: Down("SC02E", 1)
+!SC02F:: Down("SC02F", 1)
+!SC030:: Down("SC030", 1)
+!SC031:: Down("SC031", 1)
+!SC034:: Down("SC034", 1)
+!SC035:: Down("SC035", 1)
 
 ;top letters row
-SC010 up::
-SC011 up::
-SC012 up::
-SC013 up::
-SC014 up::
-SC015 up::
-SC016 up::
-SC017 up::
-SC018 up::
-SC019 up::
-SC01A up::
-SC01B up::
+SC010 up:: Up("SC010")
+SC011 up:: Up("SC011")
+SC012 up:: Up("SC012")
+SC013 up:: Up("SC013")
+SC014 up:: Up("SC014")
+SC015 up:: Up("SC015")
+SC016 up:: Up("SC016")
+SC017 up:: Up("SC017")
+SC018 up:: Up("SC018")
+SC019 up:: Up("SC019")
+SC01A up:: Up("SC01A")
+SC01B up:: Up("SC01B")
 ;home letters row
-SC01E up::
-SC01F up::
-SC020 up::
-SC021 up::
-SC022 up::
-SC023 up::
-SC024 up::
-SC025 up::
-SC026 up::
-SC027 up::
-SC028 up::
+SC01E up:: Up("SC01E")
+SC01F up:: Up("SC01F")
+SC020 up:: Up("SC020")
+SC021 up:: Up("SC021")
+SC022 up:: Up("SC022")
+SC023 up:: Up("SC023")
+SC024 up:: Up("SC024")
+SC025 up:: Up("SC025")
+SC026 up:: Up("SC026")
+SC027 up:: Up("SC027")
+SC028 up:: Up("SC028")
 ;bottom letters row
-SC02C up::
-SC02D up::
-SC02E up::
-SC02F up::
-SC030 up::
-SC031 up::
-SC032 up::
-SC033 up::
-SC034 up::
-SC035 up::
-    Up(SubStr(A_ThisHotkey, 1, 5))
-    Return
+SC02C up:: Up("SC02C")
+SC02D up:: Up("SC02D")
+SC02E up:: Up("SC02E")
+SC02F up:: Up("SC02F")
+SC030 up:: Up("SC030")
+SC031 up:: Up("SC031")
+SC032 up:: Up("SC032")
+SC033 up:: Up("SC033")
+SC034 up:: Up("SC034")
+SC035 up:: Up("SC035")
 
 ;top letters row
-+SC010 up::
-+SC011 up::
-+SC012 up::
-+SC013 up::
-+SC014 up::
-+SC015 up::
-+SC016 up::
-+SC017 up::
-+SC018 up::
-+SC019 up::
-+SC01A up::
-+SC01B up::
++SC010 up:: Up("SC010", 1)
++SC011 up:: Up("SC011", 1)
++SC012 up:: Up("SC012", 1)
++SC013 up:: Up("SC013", 1)
++SC014 up:: Up("SC014", 1)
++SC015 up:: Up("SC015", 1)
++SC016 up:: Up("SC016", 1)
++SC017 up:: Up("SC017", 1)
++SC018 up:: Up("SC018", 1)
++SC019 up:: Up("SC019", 1)
++SC01A up:: Up("SC01A", 1)
++SC01B up:: Up("SC01B", 1)
 ;home letters row
-+SC01E up::
-+SC01F up::
-+SC020 up::
-+SC021 up::
-+SC022 up::
-+SC023 up::
-+SC024 up::
-+SC025 up::
-+SC026 up::
-+SC027 up::
-+SC028 up::
++SC01E up:: Up("SC01E", 1)
++SC01F up:: Up("SC01F", 1)
++SC020 up:: Up("SC020", 1)
++SC021 up:: Up("SC021", 1)
++SC022 up:: Up("SC022", 1)
++SC023 up:: Up("SC023", 1)
++SC024 up:: Up("SC024", 1)
++SC025 up:: Up("SC025", 1)
++SC026 up:: Up("SC026", 1)
++SC027 up:: Up("SC027", 1)
++SC028 up:: Up("SC028", 1)
 ;bottom letters row
-+SC02C up::
-+SC02D up::
-+SC02E up::
-+SC02F up::
-+SC030 up::
-+SC031 up::
-+SC032 up::
-+SC033 up::
-+SC034 up::
-+SC035 up::
-    Up(SubStr(A_ThisHotkey, 2, 5), 1)
-    Return
++SC02C up:: Up("SC02C", 1)
++SC02D up:: Up("SC02D", 1)
++SC02E up:: Up("SC02E", 1)
++SC02F up:: Up("SC02F", 1)
++SC030 up:: Up("SC030", 1)
++SC031 up:: Up("SC031", 1)
++SC032 up:: Up("SC032", 1)
++SC033 up:: Up("SC033", 1)
++SC034 up:: Up("SC034", 1)
++SC035 up:: Up("SC035", 1)
 
 ;top letters row
-!SC010 up::
-!SC011 up::
-!SC012 up::
-!SC013 up::
-!SC014 up::
-!SC015 up::
-!SC016 up::
-!SC017 up::
-!SC018 up::
-!SC019 up::
-!SC01A up::
-!SC01B up::
+!SC010 up:: Up("SC010", , 1)
+!SC011 up:: Up("SC011", , 1)
+!SC012 up:: Up("SC012", , 1)
+!SC013 up:: Up("SC013", , 1)
+!SC014 up:: Up("SC014", , 1)
+!SC015 up:: Up("SC015", , 1)
+!SC018 up:: Up("SC018", , 1)
+!SC019 up:: Up("SC019", , 1)
+!SC01A up:: Up("SC01A", , 1)
+!SC01B up:: Up("SC01B", , 1)
 ;home letters row
-!SC01E up::
-!SC01F up::
-!SC020 up::
-!SC021 up::
-!SC022 up::
-!SC023 up::
-!SC024 up::
-!SC025 up::
-!SC026 up::
-!SC027 up::
-!SC028 up::
+!SC01E up:: Up("SC01E", , 1)
+!SC01F up:: Up("SC01F", , 1)
+!SC020 up:: Up("SC020", , 1)
+!SC021 up:: Up("SC021", , 1)
+!SC022 up:: Up("SC022", , 1)
+!SC027 up:: Up("SC027", , 1)
+!SC028 up:: Up("SC028", , 1)
 ;bottom letters row
-!SC02C up::
-!SC02D up::
-!SC02E up::
-!SC02F up::
-!SC030 up::
-!SC031 up::
-!SC032 up::
-!SC033 up::
-!SC034 up::
-!SC035 up::
-    Up(SubStr(A_ThisHotkey, 2, 5), , 1)
-    Return
+!SC02C up:: Up("SC02C", , 1)
+!SC02D up:: Up("SC02D", , 1)
+!SC02E up:: Up("SC02E", , 1)
+!SC02F up:: Up("SC02F", , 1)
+!SC030 up:: Up("SC030", , 1)
+!SC031 up:: Up("SC031", , 1)
+!SC034 up:: Up("SC034", , 1)
+!SC035 up:: Up("SC035", , 1)
 
 ;space
 SC039::
