@@ -1,0 +1,61 @@
+{
+	"title":"qwerty+main",
+
+	"topBar":[
+		"<…>",
+		"(…)",
+		"[…]",
+		"{…}",
+		"'…'",
+		"\"…\"",
+		"‚…’",
+		"„…”",
+		"«…»",
+		"{{h:mm a}}",
+		"{{MMM dd}}",
+		"{{MMM dd, yyyy}}"
+	],
+
+	"onScreen":{
+		"main":[
+			"[XK:1ñ][XK:2å][XK:3ä][XK:4ö][XK:5ü][4D:[CLIPBOARD][HOME][UP][END][DOWN]][XK:6ł][XK:7đ][XK:8I][XK:9ß][XK:0øæœ]",
+			"qwertyuiop[XK: #]",
+			"asdfghjkl[XK: \:;]",
+			"[SHIFT]zxcvbn[XK:m)[RIGHTBRACKET]}?][XK:[UNDO][REDO]][DEL]",
+			"[TOOL][ALTGR][SPACE][][][][][][][ENTER][]"
+		],
+
+		"sym":[
+			"",
+			"~–'\\@<([{!#",
+			"+-*/=%\".,[MC: :[U+0589] ;]",
+			" $€₽_≈>[MC: :) [RIGHTBRACKET] } ?][REDO]",
+			""
+		],
+
+		"altGr":[
+			"̃̊̈̇̆̄̂̌̉̋́̀",
+			"̧̨̛̥̤̣̮̱̭̦̳",
+			"°—’&§«✓✕“¡№",
+			"±−×÷≠←↓↑→^`",
+			"[SHIFT]¢£¥|≟»”¿[XK:[UNDO][REDO]][DEL]",
+			"[TOOL][LOCK][SPACE][][][][][][][ENTER][]"
+		],
+
+		"shifted":[
+			"[XK:1Ñ][XK:2Å][XK:3Ä][XK:4Ö][XK:5Ü][4D:[CLIPBOARD][HOME][UP][END][DOWN]][XK:6Ł][XK:7Đ][XK:8İ][XK:9ß][XK:0ØÆŒ]",
+			"QWERTYUIOP[XK: #]",
+			"ASDFGHJKL[XK: \:;]",
+			"[SHIFT]ZXCVBN[XK:M)[RIGHTBRACKET]}?][XK:[UNDO][REDO]][DEL]",
+			"[TOOL][ALTGR][SPACE][][][][][][][ENTER][]"
+		],
+
+		"symShifted":[
+			"ÑÅÄÖÜ ŁĐİẞ[MC: :Ø Æ Œ]",
+			"~–'\\@<([{!#",
+			"+-*/=%\".,[MC: :[U+0589] ;]",
+			" $€₽_≈>[MC: :) [RIGHTBRACKET] } ?][REDO]",
+			""
+		]
+	}
+}
