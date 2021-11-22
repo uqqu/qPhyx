@@ -1,914 +1,1744 @@
 # qPhyx
-## ↓ English part
+# ↓ English part
 
-> Remark: my English is really far from perfect. If you are able to read Russian, you should look at the [appropriate section](#-russian-part)
+> Remark: if you are able to read Russian, you should look at the [appropriate section](#-russian-part)
 
-**qPhyx** is a unified universal phonetic biscripted keyboard layout with the best possible scores of typing convenience and a set of additions to the usual method of typing.
+> Letter layout was divided from project to [separate repository](https://github.com/uqqu/layout)
 
-The project began as an alternate phonetic bilingual layout. In the aftermath, many features went beyond the usual layout, and now it became something more. It can be logically divided into two depended of each other parts:
-1. Default letter layout;
-2. Symbol layout with some features.
+**qPhyx** is a layout supplement script to the keyboard layout that transform latter into a multilingual layout with extended symbol support and a few extra features.
 
 Benefits:
-1. A unified typing system, both for current supported scripts and for future ones;
-2. Full support for Latin and Cyrillic languages with all features without separate language layouts for each of them;
-3. Support for language modifications that retain all the benefits of a unified system, while at the same time removing all the limitations of unification for individual languages;
-4. Extended symbol support;
-5. The best objective scores for the convenience of typing;
-6. Additional internal and external functionality.
+1. Unified symbol and language typing system
+2. Full support for all languages in Latin and Cyrillic scripts, with all features, without separate language layouts
+3. Extended symbol support
+4. Additional internal and external functionality.
 
-To fully understand what the project is, it is highly recommended that you read a semi-chronological description of it piece by piece below. A description in general terms is fatally incomplete and may give a false impression of it.
-<br>Another good method of familiarizing yourself with a project is to use it.
-<br>Even better, both of them.
+> The best way to get to know a project is to use it.
 
 
-## Letter layer
-
-> For a better understanding of this part it is recommended to look at the [external/calculation.xlsx](https://github.com/uqqu/layout/blob/master/external/calculation.xlsx)
-
-The arrangement of the letters was as objective as possible.
-
-### Frequency analyses
-
-First, various frequency analyses were found and stored with their average value *(so this is a meta-analysis?)*. A total of more than 30 analyses were selected based on different samples. All valid analyses found were taken into account.
-
-For English, the following analyses were included in the final view for the base letter frequency:
-
-  * [norvig.com](http://norvig.com/mayzner.html)
-  * [core.ac.uk](https://core.ac.uk/download/pdf/231084615.pdf)
-  * [practicalcryptography.com](http://practicalcryptography.com/cryptanalysis/letter-frequencies-various-languages/english-letter-frequencies/)
-  * [github.com/uqqu](https://github.com/uqqu/frequency_analysis/tree/master/examples/multiUN_analysis)
-  * [macfreek.nl](http://www.macfreek.nl/memory/Letter_Distribution)
-  * [viviancook.uk](http://www.viviancook.uk/SpellStats/SingleLetterFrequencies.htm)
-  * [fitaly.com](http://www.fitaly.com/board/domper3/posts/136.html)
-  * [sttmedia.com](https://www.sttmedia.com/characterfrequency-english)
-  * [mathstats.uncg.edu](https://mathstats.uncg.edu/sites/pauli/112/HTML/secfrequency.html)
-  * [pi.math.cornell.edu](http://pi.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html)
-  * [math.ucsd.edu](http://www.math.ucsd.edu/~crypto/Projects/MarshaMoreno/TimeComparisonFrequency.pdf)
-  * [cs.wellesley.edu](http://cs.wellesley.edu/~fturbak/codman/letterfreq.html)
-  * [en.algoritmy.net](http://en.algoritmy.net/article/40379/Letter-frequency-English)
-
-For Russian, the following analyses were included for the base letter frequency:
-
-  * [dict.ruslang.ru](http://dict.ruslang.ru/freq.php?act=show&dic=freq_letters)
-  * [practicalcryptography.com](http://practicalcryptography.com/cryptanalysis/letter-frequencies-various-languages/russian-letter-frequencies/)
-  * [github.com/uqqu](https://github.com/uqqu/frequency_analysis/tree/master/examples/annot_opcorpora_analysis)
-  * [lg--web.chat.ru](http://lg--web.chat.ru/texts.html)
-  * [sttmedia.com](https://www.sttmedia.com/characterfrequency-russian)
-  * [dpva.ru](https://dpva.ru/Guide/GuideUnitsAlphabets/Alphabets/FrequencyRuLetters/)
-  * [simia.net](http://simia.net/letters/index.html)
-  * Яглом А.М., Яглом И.М., Вероятность и информация, М.: Наука, 1973 / с.238
-
-For English, the following bigram analyses were selected for paired letter frequency:
-
-  * [gist.github.com/lydell](https://gist.github.com/lydell/c439049abac2c9226e53)
-  * [practicalcryptography.com](http://practicalcryptography.com/cryptanalysis/letter-frequencies-various-languages/english-letter-frequencies/)
-  * [github.com/uqqu](https://github.com/uqqu/frequency_analysis/tree/master/examples/multiUN_analysis)
-  * [link.springer.com](https://link.springer.com/content/pdf/10.3758/BF03201360.pdf)
-  * [homepages.math.uic.edu](http://homepages.math.uic.edu/~leon/mcs425-s08/handouts/char_freq2.pdf)
-  * [joyofdata.de](https://www.joyofdata.de/blog/frequency-of-character-combinations/)
-
-For Russian, the following bigram analyses were selected for paired letter frequency:
-
-  * [practicalcryptography.com](http://practicalcryptography.com/cryptanalysis/letter-frequencies-various-languages/russian-letter-frequencies/)
-  * [github.com/uqqu](https://github.com/uqqu/frequency_analysis/tree/master/examples/annot_opcorpora_analysis)
-  * [joyofdata.de](https://www.joyofdata.de/blog/frequency-of-character-combinations/)
-  * [statistica.ru](http://statistica.ru/local-portals/data-mining/analiz-tekstov/)
-
-### Selection of convenience criteria
-
-To objectively evaluate the ease of use of the layout, it is necessary to allocate the appropriate criteria. They are:
-  * hand alteration (the probability that both hands will be used to type any random pair of letters)
-  * minimum chance to double sequentially usage of the same finger (bearing in mind base key repeating)
-  * even hand and finger load
-  * maximum usage on the most convenience groups (see below)
-
-For the latter criteria letter-part of default non-ergonomic keyboard were divided into 6(7) groups by convenience:
-> Despite the fact that such a division itself is somewhat subjective, the allocation of the first group does not cause any questions – these are home finger positions, where you do not need to make any movements, only pressing. In future scores, the focus of this criterion will be on the first group, as the most objective.
-
-> *Hereinafter in "excel-view"*
-
-![Groups of keys by convenience](https://github.com/uqqu/layout/blob/master/external/readme_images/groups_animated.gif "Groups of keys by convenience")
-<br>[Last frame](https://github.com/uqqu/layout/blob/master/external/readme_images/groups.png)
-
-### Layout creation
-
-Past points have been systematized and automated in [external/calculation.xlsx](https://github.com/uqqu/layout/blob/master/external/calculation.xlsx) to further create the layout.
-> You can also try to change the current layout or create your own in this file. All scores change dynamically, depending on the current view.
-
-Many variations have been tried for both languages. Some were extremely successful, and are still on the sheet <code>[en/ru] archive</code>. However, the final form of layouts must skillfully balance between all criteria. And also, in view of the original purpose of the phonetic layout, it is necessary to take into account the phonetic dependence of the layouts of the two languages. After much ordeal, such a double layout became the following parts:
-
-![Letter layout](https://github.com/uqqu/layout/blob/master/external/readme_images/letters.png "Letter layout")
-
-The name of the layout was composed, with a slight stylization, by the first characters of the upper row – «qPhyx».
-
-### Result numbers
-
-I'll list it all:
-  * hand alteration – 70.58% (en) and 71.23% (ru)
-  * chance to double sequentially usage of the same finger – 2.55% and 4.54%
-  * hand load – 48.36/51.64% and 52.35/47.65%
-  * maximum difference of finger load – 4.86% and 8.98%
-  * "home" group usage – 64.95% and 58.07%
-<br><sub>and also a nice look and mnemonic rows</sub>
-
-### Existing alternative layouts
-
-One more clarification – you can still compare these layouts directly with each other, but you cannot compare it with the "topic-starter" – they are conceptually different. All numbers below are just a general idea (and a little to show how bad the standard <code>qwerty</code> and <code>йцукен</code> are).
-> Only letters are counted in the calculations! The rates of symbol-oriented layouts on the base layer may be somewhat inaccurate. However only "somewhat," as one should not overestimate the frequency of non-alphabetic characters, especially for English.
+## Letter layouts
 
 <details>
-  <summary>qwerty (en)</summary>
-  <ul>
-    <li>hand alteration – 52.60%</li>
-    <li>chance to double sequentially usage of the same finger – 7.08%</li>
-    <li>hand load – 58.69/41.31%</li>
-    <li>maximum difference of finger load – 20.17%</li>
-    <li>"home" group usage – 25.70%</li>
-  </ul>
+    <summary>tl;dr</summary>
+    You can use any letter layout, but it is preferable to use [adapted versions](https://github.com/uqqu/qPhyx/tree/master/external/layouts), which have been cleared of non-alphabetic characters, beause they are fully provided by the described script.
 </details>
+
+One of the goals pursued by the project is the complete separation of the layers. To do this, the following conditions must be met:
+* the alphabetic characters of the main script are completely arranged in the letter part of the keyboard, with the condition of upper case at the modifier `Shift` (an obvious condition, which, however, is neglected by some Cyrillic keyboard layouts);
+* numeric characters are completely arranged in the numeric row;
+* all other symbols are completely arranged in their own layers.
+
+This division of responsibilities, in other words – a modular system, allows you to use each of the parts independently of the others. In the existing layouts, however, these layers are chaotically jumbled between each other, putting a lot of restrictions on each of the parts, which also leads to the fact that for the smallest change the entire likeness of the system must be changed and used as a fork of the original layout version, with potential unnecessary cascading reassignments.
+
+In order to separate layers, many popular keyboard layouts have been modified into adapted forms. In the adapted layouts there were no changes in the positioning of the alphabetic characters located in the alphabetic part of the keyboard, which allows you to use them as before. The auxiliary characters as well as the alphabetic characters that are outside the alphabetic part have been changed.
+
+The alphabetic characters in the main part have deliberately not been repositioned, in order to keep the original look and typing skills of their users, even though, after adaptation, many of the alphabetic characters can be assigned to more convenient positions.
+
+Adapted layouts for Latin and Cyrillic, ready to install and use, are in the folder [external/layouts](https://github.com/uqqu/qPhyx/tree/master/external/layouts).
+
+
+## Symbol layers
+
 <details>
-  <summary>workman (en)</summary>
-  <ul>
-    <li>hand alteration – 55.96%</li>
-    <li>chance to double sequentially usage of the same finger – 2.91%</li>
-    <li>hand load – 51.49/48.51%</li>
-    <li>maximum difference of finger load – 11.14%</li>
-    <li>"home" group usage – 63.71%</li>
-  </ul>
-</details>
-<details>
-  <summary>colemak (en)</summary>
-  <ul>
-    <li>hand alteration – 58.64%</li>
-    <li>chance to double sequentially usage of the same finger – 1.26%</li>
-    <li>hand load – 48.38/51.62%</li>
-    <li>maximum difference of finger load – 12.05%</li>
-    <li>"home" group usage – 64.95%</li>
-  </ul>
-</details>
-<details>
-  <summary>dvorak (en)</summary>
-  <ul>
-    <li>hand alteration – 70.67%</li>
-    <li>chance to double sequentially usage of the same finger – 2.61%</li>
-    <li>hand load – 43.30/56.70%</li>
-    <li>maximum difference of finger load – 9.48%</li>
-    <li>"home" group usage – 58.92%</li>
-  </ul>
-</details>
-<details>
-  <summary>qwpr (en)</summary>
-  <ul>
-    <li>hand alteration – 58.64%</li>
-    <li>chance to double sequentially usage of the same finger – 4.04%</li>
-    <li>hand load – 48.38/51.62%</li>
-    <li>maximum difference of finger load – 14.19%</li>
-    <li>"home" group usage – 62.53%</li>
-  </ul>
-</details>
-<details>
-  <summary>йцукен (ru)</summary>
-  <ul>
-    <li>hand alteration – 53.50%</li>
-    <li>chance to double sequentially usage of the same finger – 19.17%</li>
-    <li>hand load – 53.40/46.47% (without "ё")</li>
-    <li>maximum difference of finger load – 29.72%</li>
-    <li>"home" group usage – 33.86%</li>
-  </ul>
-  <sub>An interesting fact: two-thirds of all presses in the йцукен are on the index fingers. And such a grouping of the most popular characters as a result leads to the fact that and every fifth press will be performed by the same finger. What kind of "ten-finger typing" can we talk about in this situation?</sub>
-</details>
-<details>
-  <summary>яверты (ru)</summary>
-  (** only the letters of the main letter block were taken into account)
-  <ul>
-    <li>hand alteration – 48.11%</li>
-    <li>chance to double sequentially usage of the same finger – 8.98%</li>
-    <li>hand load – 53.40/46.87%</li>
-    <li>maximum difference of finger load – 13.09%</li>
-    <li>"home" group usage – 25.92%</li>
-  </ul>
-</details>
-<details>
-  <summary>диктор (ru)</summary>
-  <ul>
-    <li>hand alteration – 74.75%</li>
-    <li>chance to double sequentially usage of the same finger – 3.14%</li>
-    <li>hand load – 45.48/54.36%</li>
-    <li>maximum difference of finger load – 18.75%</li>
-    <li>"home" group usage – 52.59%</li>
-  </ul>
-</details>
-<details>
-  <summary>раскладка Зубачёва (ru)</summary>
-  <ul>
-    <li>hand alteration – 74.21%</li>
-    <li>chance to double sequentially usage of the same finger – 2.74%</li>
-    <li>hand load – 46.43/53.45%</li>
-    <li>maximum difference of finger load – 16.79%</li>
-    <li>"home" group usage – 48.50%</li>
-  </ul>
+    <summary>tl;dr</summary>
+    There are three layers – under `Alt`, under "long" presses (base 0.15s, can be changed by user), and under their combination. All three layers are located in the alphabetic part of the keyboard + numeric row with diacritical symbols. Total coverage – 83 auxiliary characters + 24 diacritics + 8 control commands. All characters are grouped into logical categories and arranged with maximum typing convenience.
 </details>
 
-> More layouts, and their appearance can be found in [external/calculation.xlsx](https://github.com/uqqu/layout/blob/master/external/calculation.xlsx). Here are listed only the main parameters of the most important layouts to mention.
+The following requirements were specified for the symbol layers:
+* extended symbol support
+* auxiliary diacritics support
+* division by logical categories
+* adding control commands to minimize unnecessary movements
+* location within the standard 60% ANSI keyboard
+* maximizing the usability of each part of the project.
 
-#### Result
-As you can see, <code>qwerty</code> and <code>йцукен</code> are frankly bad, to put it mildly. Any existing alternative layout (including the ones not listed) is much better. If you look at the opposite result, <code>dvorak</code> and <code>диктор</code>, according to the main points, take the lead in their languages.
-I will not fully compare <code>dvorak</code>/<code>диктор</code> and <code>qPhyx</code>, because this comparison is incorrect, as I mentioned in the beginning. However even for a general idea you can note that on the whole the numbers of the topic-starter if not better, then at least at the level of the leaders.
-
-<br>
-
-> NB
-
-At this stage it is worth getting a little ahead of ourselves and noting that the English and Russian layouts, in fact, are the common layouts of the Latin and Cyrillic alphabets, which with the help of the extended character diacritics and language modes allows you to write in almost all languages based on the Latin or Cyrillic alphabet.
-<br>Thus, we get a unified system for all Latin- Cyrillic-based languages. By system, I mean everything you are now and further reading – all the concepts and everything that follows from them, be it phonetic continuity or symbolic unity... It's already worth telling the latter, isn't it?
-
-
-## Symbol layer
-
-> One of the reason of making *"one more"* layout – symbol mismatch in different languages and their limited number.
-
-The following requirements were imposed on the symbol layer:
-* symbols unity on the any letter layout
-* a clear delineation between symbol and letter layers
-* group symbols in the logical categories
-* more symbols, add diacritic
-* it is necessary to keep in mind the convenience groups for symbols too
-* all of this should fit in the 60% ANSI-keyboard (see below for example)
-* it should contain main (and maybe some more) controlling commands
-* solving the issue of specific language characters/letters other than standard Latin or Russian Cyrillic
-
-![60% keyboard explanation](https://cdn.thewirecutter.com/wp-content/media/2021/05/20210527_mech-keyboard_layout.png "60% keyboard explanation")
+![An explanation of what a 60% keyboard is](https://cdn.thewirecutter.com/wp-content/media/2021/05/20210527_mech-keyboard_layout.png "An explanation of what a 60% keyboard is")
 <sub>Source: [nytimes.com](https://www.nytimes.com/wirecutter/blog/how-to-shop-for-a-mechanical-keyboard/); Illustration: Sarah Macreading, Dana Davis</sub>
 
+### Layer modifiers
 
-Let's get acquainted with the result in three (two and a half) stages, fortunately, there is something to tell at each of them.
+There are two ways to typing symbols on the layers:
+* select the layer to be typed directly at the moment of input, by pressing the modifier
+* switching between layers with subsequent typing.
 
-### Lite variant
+This project uses the first way, as it minimizes intermediate actions.
 
-![Lite symbol layout](https://github.com/uqqu/layout/blob/master/external/readme_images/symbols_lite.png "Lite symbol layout")
-> First of all – yes this layout suggests to non-standard keyboard usage as `long presses`. I am not going to prove to you that it is a comfortably – if you are convinced otherwise, you still won't believe me. However I'm sure if you use this functionality enough to use it automatically, then you will agree with me. We won't mention this subject anymore.
+When selecting the "obvious" modifiers, excluding the combined held modifiers due to the inconvenience of this kind of modifiers, `Shift` and `Ctrl` due to their own use, as well as `AltGr`, for its ambiguous use, only `Alt` was left.
 
-The second character modifier is `alt`, under which is mainly located the layer of auxiliary and navigation-control commands.
+The non-obvious modifier chosen was "long press". Yes, it is somewhat different from the usual method of interaction with the keyboard, but, I assure you, this modifier is much more convenient than even the usual `Alt/Ctrl/Shift`, and you can see for yourself once you get used to this functionality, turning it into automatism.
 
-In green are highlighted main symbols, which there are also in the `qwerty` layout; in gray are highlighted additional symbols, which I thought I should add (this is probably the most subjective part). In the corner placed two diacritic symbols, primarily for accents.
+As a small confirmation of these words – after many trials and comparisons, the most popular symbols are located under the long press modifier, precisely because of its convenience, compared to the others.
 
-As you can see, all the conditions above are met:
-* symbols are the separate layers and these layers are independent of any language
-* symbols are grouped (base math, currencies, punctuation, brackets with mirror reflection around the home row)
-* additional symbols with often usage cases
-* most usage symbols/groups placed on the most convenience groups
-* all these within 60% keyboard (even less so far)
-* there are controlling (navigation) commands
+The basic value of the trigger time for this modifier is 0.15s. It can be reassigned by the user to a more comfortable value at any time. After introducing it into automatism it is likely to be a comfortable value of about 0.11s.
 
-### Complete variant
+So we got two layers of single modifiers, and one layer of their combination - a long press with `Alt`, which is not equivalent to the combination of two held modifiers, for the reasons described in the last paragraph.
 
-![Complete symbol layout](https://github.com/uqqu/layout/blob/master/external/readme_images/symbols_complete.png "Complete symbol layout")
+### Symbol allocation
 
-> It may look very strange and very unfamiliar, but I assure – it's only because it's unfamiliar.
+As mentioned earlier, the most demanded symbols were located under the long-press modifier; alternate views and symbols with less demand were located under `Alt`; an auxiliary set of symbols were located under their `AltLong` combination.
 
-Let's see what are changed:
+#### Main symbol set (long presses)
+![Main symbol set](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/symbols_long.png "Main symbol set")
 
-#### Numeric row
-Base numbers are not changed. I don't think that ascending order for them is a bad thing. 
-<br>Under the former `-` and `=` are buttons of user input, which being empty perform the function of increasing or decreasing the current selected number. If defined by the user – sends a character or a combination of characters. Definition is recommended for adding over-all characters (particularly for Abkhazian and Faroese languages).
+As you can see, there are mostly symbols that are familiar to everyone from the standard layouts.
+* symbols are grouped into categories – basic math, punctuation, currencies, brackets
+* the first two categories, as the most demanded of all, are located at the home finger positions
+* graphically and/or logically close symbols are on vertically adjacent positions
+* brackets are mirrored around the home row – opening at the top, closing at the bottom
+* in the upper right corner is the most demanded diacritic combining symbol "acute" primarily as a marker of the main accent.
 
-#### Extended diacritic
-With it, the layout can be used for all languages that have in their alphabet or regularly use diacritics. By the way, except for English, diacritics are used in one way or another by the vast majority of Latin languages. In particular, of the first 15 major languages in this category, only English and Indonesian have no regular diacritics. For illustrative examples, see [external/languages.xlsx](https://github.com/uqqu/layout/blob/master/external/languages.xlsx), sheet `Latin alphabets`.
+Looking ahead to the additional functionality section, the `decr` and `incr` keys in the numeric row are responsible for decreasing/increasing the highlighted number by 1, but can be reassigned by the user to enter additional symbols.
 
-#### Controlling keys are swapped and reassigned
-  * `backspace` now used for music control
-  * `enter` performs the functions of `backspace` and `delete`
-  * `caps lock` was being replaced by `enter`
-  * base `tilde` as `esc`
-  * `caps lock` function thrown out (it was meant to be)
-    * if you want, you can map `caps lock` function on `esc`, but for some cases you still may use `esc`, instead of `tilde` as `esc`
+#### Alternative symbol set (`Alt`)
+![Alternative symbol set](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/symbols_alt.png "Alternative symbol set")
 
-And again – it may look very strange, but these remapping were all done only to increase convenience.
+Half of the symbols in this set are alternate representations of the main set symbols at the same positions:
+* hyphen (used as a minus) and minus
+* asterisk (as multiplication) and multiplication symbol
+* middle dash and long dash
+* acute (main accent) and grave (secondary accent)
+* exclamation mark and inverted counterpart
+* single quote (used as apostrophe) and apostrophe
+* …
 
-#### Language-specific symbols
-Under the `shift` in the numeric row are specific characters for different languages. These include both stand-alone characters and auxiliary characters, which are standard letters with added diacritics intended for simplified typing for certain languages. The view above shows a view with basic modifications for Latin and Cyrillic. Depending on the user's needs (regular or one-time) they can be changed to one of 30+ for Latin and 5 for Cyrillic modifications. The "language" of the modification depends on the current layout language. Let's take a closer look at the modifications.
+The inheritance of logical category positions is also followed for symbols that have no alternative representation.
 
-### Modifications
+The right hand finger home positions have "arrow" navigation, to minimize hand tearing to press them. Here, on either side of the home row are also the "forward"/"backward" and "undo"/"redo" commands.
 
-> It's worth clarifying beforehand: letters with diacritics in different languages can be either separate alphabetic characters or just letters with added diacritics. For example: `ñ` in Spanish is graphically equivalent to `n` + diacritical tilde, but in the alphabet is fixed as an individual, separate letter.
-<br>The distribution below considers exactly the alphabetic characters as they are enshrined in the official current versions of the languages, with rare exceptions, and only in favor of the languages themselves. Language-specific additional diacritics sets are not listed separately in this text – it has been accounted and covered <b>completely</b> for all supported languages and all Romanization versions for unsupported languages.
-<br>NB. However, for the purpose of unification, such individual alphabetic characters are input exactly in combined form, where possible.
+The numeric row contains all the used superscript combined diacritics (apart from acute and grave, which have their own position in the alphabetic part of the keyboard).
 
-The Latin and Cyrillic sides of the modifications are somewhat different conceptually, which is due to the symbolic peculiarities of the members of these categories. Let us begin with the Latin one:
+#### Auxiliary symbol set (`AltLong`)
+![Auxiliary symbol set](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/symbols_alt_long.png "Auhiliary symbol set")
 
-The 12 available symbols are divided into two categories – standalone symbols and simplified set symbols.
-Standalone symbols – `ł đ ı ß ø æ œ`, with a small caveat by the paragraph below, are accessible from any modification, which consequently allows the use of languages that they also access from any modifications.
-The simplified set symbols are the same symbols that will change when you select another modification, depending on the needs of the selected language.
+This layer contains the less demanded symbols of different categories. The inheritance of the positions of the logical categories is followed as much as possible.
 
-Here it is worth considering three symbols separately:
-  * ñ – Latin n with a diacritic tilde. Belongs to the auxiliary category, but the symbol by itself, without others, opens a simplified set for Spanish and all the languages influenced by the latter. Because of this, it took a vacant place in the modifications in which the set of auxiliary characters ended at four.
-  * ł – Latin l with a diagonal stroke. The situation is mirrored in relation to the previous symbol – the symbol, although it is a letter with diacritics, is self-contained, since it cannot be correctly displayed in the combined diacritic view. It also has a fairly limited use, and other characters do not depend on it. Because of this, in modifications requiring 6 additional characters, the last place was given from "ł". However there are not many such modifications, so this fact is not overly significant.
-  * đ – Latin d with a stroke. Here we are interested in two specific modifications – Old English/Icelandic and the Mossi language. The point is that the modifications use their own variations of this symbol with their own name and usage. In all modifications, in addition to those mentioned above, it is `đ Đ`, For Old English it is `ð Ð`, for Mossi language – `ɖ Ɖ`. Note that the uppercase variants are different Unicode characters, despite their uniform lettering.
+The keys that contain the control commands on the alternate layer have no assignments on the `AltLong` layer, in order to preserve the ability to repeat the command through key-holding.
 
-So now we can divide all languages into these categories:
-
-#### Fully supported languages
-Languages that are in no way dependent on the selected modification, and are fully available for writing. English, French, Vietnamese, Portuguese, Italian, Indonesian, ...
-
-#### Fully supported "out of the box" languages
-Languages available for writing from any modification, while having a simplified writing from the main one. Spanish, German, Swedish, Danish, Finnish, Norwegian, ...
-
-#### Diacritically supported languages with optional modification to simplify writing
-Let me give you an example – Turkish: language can be used with any modification (for example, with the main `ñ å ä ö ü`), when writing additional characters in two taps via diacritical symbols, but with the selected Turkish modification (`ç ş ğ ö ü`) the same characters become available through a single press, without losing overall functionality. This category includes Turkish, Romanian, Croatian (Gaj's Latin alphabet), Slovenian, Estonian, ...
-
-#### Diacritically supported languages with(out/ partial) optional modification to simplify typing
-Languages with extremely rich diacritics, such as Polish, Czech, or Slovak, simply do not fit for simplified typing, but are fully accessible via diacritics with any other modification.
-
-#### Modifiable supported languages
-Languages, full-featured typing in which is possible only on special modifications. Once again, special modifications retain all typing capabilities in the languages of the previous categories.
-<br><sub>According to <a href="https://w3techs.com/technologies/overview/content_language">w3techs.com</a>, there are no languages in this category with more than 0.05% usage on the Internet</sub>
-
-#### Unsupported languages
-Languages with a script other than Latin or Cyrillic. For all of them, all Romanization options are supported (including those not available in the standard ISO basic Latin).
-
-This division results in 24 5-character modifications (7 of which contain ñ), 7 6-character modifications, and 5 Cyrillic modifications, which are described below.
-
-The total coverage of the first and second groups, including Cyrillic, was 88.95% of the Internet.
-
-> All this is shown in more detail in the file [external/languages.xlsx](https://github.com/uqqu/layout/blob/master/external/languages.xlsx). And a comparison of alphabets, 200+ major world languages, 150+ Niger-Congolese languages.
-
-And now about the Cyrillic group:
-
-Since there are no single "over-characters" whose use can be claimed from any modification, and considering that all the characters are separate, due to the fact that the combined diacritics are terrible with Cyrillic – all 12 places are dynamic. This made it possible to group together a whole set of languages, the final number of which – 4 groups + 1 separate language (Abkhazian, and it even lacked one place). It also affects the fact that there is no "main" modification here, although, in fact, because of the location by demand, its place is taken by the group "Ukrainian, Belarusian, ...". But anyway, in the Cyrillic layout, unlike the Latin one, you will not be interested in other modifications, you just choose once the one that you can use. Therefore, all of these languages have been assigned to the second category of language support, although they belong equally to both the first and the fifth categories.
+In the numeric row there is a subscript combined diacritic, which in half of the cases is a subscript variant of a similar symbol from the previous layer. The two remaining places in the numeric row after the allocation were given to auxiliary symbols.
 
 
-## Implementation
+## Language layer
 
-Omitting a bunch of different attempts: letter layer has been implemented by the native keyboard layout generation tool – [Microsoft Keyboard Layout Creator](https://www.microsoft.com/en-us/download/details.aspx?id=102134), symbol layer and other functionality were realized with [AHK](https://www.autohotkey.com/).
+<details>
+    <summary>tl;dr</summary>
+    The numeric row below `Shift` contains a number of specific language characters. This set can be selected from many preset ones, depending on the user's needs. Each set provides access to a number of languages, as they are grouped to provide maximum coverage for each set. The character set is selectable separately for Cyrillic (Russian) and Latin (English) layouts. The minimal total coverage of any pair of sets is 78% of the languages of the Internet (share of use), the maximum (the main sets) is 85% of the Internet. Switching between sets, if necessary, is performed "on the fly" in three presses.
+</details>
 
-Generated `MKLC` layouts for `Windows` – [external/qphy_lat/](https://github.com/uqqu/layout/tree/master/external/MKLC_qphy_lat), [external/qphy_cyr/](https://github.com/uqqu/layout/tree/master/external/MKLC_qphy_cyr)
+Don't worry, we won't need any new modifiers. Perhaps you noticed that the numeric row has no option with `Shift`? That is where the language layer is located.
 
-AHK script is more variable. Base script functionality is, of course, symbolic layers addition. Base "long press" delay is 0.15s. You can change it in `config.ini` (will generate with first start) or at the appropriate point in the [menu](https://github.com/uqqu/menu). Early on in, you may want to increase this value up to 0.2. In the process of getting used to it, you may decrease it up to 0.1 (imho, 0.12 is the most optimal value).
+You may notice that this is not the most convenient location, and you would be partly right. It is worth noting, however, that if you do a comparative analysis of the alphabets of languages of the same script, for example Latin, you will find that each language differs from the main script language (English in our example) by an average of only one additional character of its own and a few settled characters with an additional diacritic. And at the same time, the overall look of the letter frequencies is preserved from language to language, and the unique language symbols are often at the end of this list. It follows from all this that the placement of such additional characters in the numeric row is quite insignificant, especially considering that even in existing layouts such a placement is used universally without any objection, including in the layouts of specific languages.
+
+The main idea of the language layer is that it acts as an open access to typing in **any** writing language, with no ties to a particular language, no cascading restrictions on typing, and no effect on the convenience of typing for those users who do not use it, although the latter may have a rare need for it someday, too.
+
+But back to the layer. Of course, it is not possible to fit all the available additional language characters in 12 positions, so this layer/module gives the end user a choice of preset language character positions, separately for Cyrillic and Latin (the character set depends on the language of the current active layout).
+Basically, the "main" sets are chosen for each script that have the greatest potential use and coverage. The user can switch to any other set as they use it, either for one-time needs or for further primary use.
+Pressing the corresponding key in the numeric row with pressed `Shift` will pass the character in lowercase, and the already familiar "long" press with `Shift` will enter its version in uppercase.
+
+### Character allocation to sets
+
+The allocation of characters to the sets was designed to provide maximum coverage for each set.
+
+Symbols from the language layer sets can be logically divided into two categories:
+* independent, graphically unique symbols
+* graphically equivalent characters of the basic writing script with added diacritics.
+
+From the characters of the first category, opening access to typing in the most popular languages of the Latin script, a core set was formed, present in all Latin character sets.
+
+Characters in the second category are potentially available for typing even without the use of a language layer, through an additional diacritic that fully covers the needs of all minimally used languages.
+However, it is necessary to provide input of such characters through a single press, without additional diacritics input, which we will call "simplified typing" hereafter.
+
+The modifiable parts of the character sets consist of just the simplified character set, to increase the convenience of the users of these languages.
+
+There are also graphically unique characters in the modifiable part of character sets that are not available to input from other character sets, but which have limited relevance and are of interest only to speakers of such languages.
+
+It follows that each character set, in addition to language-specific characters (be they unique characters or simplified characters), always provides access to text input in a range of the most popular languages that can be accessed from any character set.
+
+The situation is somewhat different for Cyrillic sets:
+* most Cyrillic languages have a fairly extensive set of additional characters, different from the base script
+* almost all specific characters are graphically unique, and those rare ones that can potentially be displayed in a combined diacritic form cannot be displayed correctly in the majority of fonts
+* in Cyrillic sets it is not possible to identify a core set of potentially most popular characters – each set is of interest to its own group of users
+
+In connection with the above, Cyrillic sets are fully dynamic, and each of them contains its own unique set of characters.
+
+#### Examples
+Let's look at the main character sets for Latin and Cyrillic.
+
+Latin main set – `ñ å ä ö ü ł đ ı ß ø æ œ`
+
+The first 5 characters are dynamic and in this combination are present only in this set. The remaining 7 characters, with a small caveat below, are stably present in all sets, extending their coverage to them.
+
+This character set opens up access to full-fledged typing in the following languages: Spanish *(and several dozen other languages it has influenced)*, German, French, Vietnamese, Swedish, Danish, Finnish, and Norwegian.
+Also, a set of unique graphical characters opens up basic typing capability (with input of other specific characters via diacritics) to Turkish, Polish, and Slovenian.
+
+This does not list the myriad languages available for typing (both in basic script and via diacritics) without using a language layer – their support is self-evidently implied.
+
+The Latin sets are divided into two categories:
+* supportive – which provide simplified typing: Turkish, Polish, Romanian, Hungarian, and 20 other sets, totaling more than 40 languages
+* allowing – sets with unique graphic characters necessary for a language that can only be typed in a given set: Icelandic/Old English, Maltese, Kazakh, Azerbaijani, a number of African languages (Hausa, Mossi, Fula, Yoruba, etc.), …
+
+<details>
+    <summary>Some clarifications and attention to the specifics of languages</summary>
+    <ul>
+        <li>in sets based on the Turkish variant of the Latin alphabet, there is a small optional repositioning of the characters `iI` and `ıİ`, for more logical typing – `iİ` and `ıI` (switchable setting)</li>
+        <li>when selecting the Romanian language set, there is an optional replacement of the diacritical cedilla with a comma, to correct a popular misuse of the first one (switchable setting)</li>
+        <li>in the "Icelandic/Old English" and "Mossi" sets, the symbol `đĐ` is replaced by the variants of the lettering used in these languages – `ðÐ` and `ɖƉ`, respectively</li>
+        <li>in sets in which the number of dynamic characters was restricted to 4, `ñ` was added, not even related to the main language of the set, as a character with maximum extension of coverage, without dependence on other characters</li>
+        <li>in some sets, in which the number of dynamic characters required 6 positions, additional place was sacrificed from `ł`</li>
+        <li>the Polish, Lithuanian, Latvian, and Hungarian sets have only partially simplified typing, due to the extremely widespread use of diacritics in these languages. Simplified typing, if possible, covers characters with different diacritics, leaving for combined typing letters with a single diacritical symbol (acute for Polish and Hungarian, ogonek for Lithuanian)</li>
+        <li>depending on the user's needs (switchable setting), the simplified characters can be input as in a combined form (two characters – letter+diacritics), or as a single Unicode character</li>
+        <li>the same dynamic characters occurring in different sets are located in the same positions, where possible</li>
+    </ul>
+</details>
+
+<details>
+    <summary>All Latin sets (31)</summary>
+    <table>
+        <tr>
+            <td>Main</td>
+            <td>ñ</td>
+            <td>å</td>
+            <td>ä</td>
+            <td>ö</td>
+            <td>ü</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Turkish</td>
+            <td>ç</td>
+            <td>ş</td>
+            <td>ğ</td>
+            <td>ö</td>
+            <td>ü</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Polish</td>
+            <td>ñ</td>
+            <td>ą</td>
+            <td>ę</td>
+            <td>ż</td>
+            <td>ó</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Romanian</td>
+            <td>î</td>
+            <td>ă</td>
+            <td>â</td>
+            <td>ș</td>
+            <td>ț</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Hungarian</td>
+            <td>ñ</td>
+            <td>ő</td>
+            <td>ű</td>
+            <td>ö</td>
+            <td>ü</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Slovene, Croatian, …</td>
+            <td>č</td>
+            <td>š</td>
+            <td>ǵ</td>
+            <td>ž</td>
+            <td>ć</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Lithuanian</td>
+            <td>č</td>
+            <td>š</td>
+            <td>ž</td>
+            <td>ė</td>
+            <td>ū</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Luxembourgish, Uyghur</td>
+            <td>é</td>
+            <td>ë</td>
+            <td>ä</td>
+            <td>ö</td>
+            <td>ü</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Kurdish (Hawar alphabet)</td>
+            <td>ç</td>
+            <td>ş</td>
+            <td>ê</td>
+            <td>î</td>
+            <td>û</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Twi, Yoruba (Benin), …</td>
+            <td>ñ</td>
+            <td>ŋ</td>
+            <td>ɲ</td>
+            <td>ɛ</td>
+            <td>ɔ</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Hausa</td>
+            <td>ɓ</td>
+            <td>ɗ</td>
+            <td>ƙ</td>
+            <td>r̃</td>
+            <td>ƴ</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Latvian, Maori, …</td>
+            <td>ā</td>
+            <td>ē</td>
+            <td>ī</td>
+            <td>ō</td>
+            <td>ū</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Igbo</td>
+            <td>ñ</td>
+            <td>ṅ</td>
+            <td>ị</td>
+            <td>ọ</td>
+            <td>ụ</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Irish, Luba-Katanga, Sundanese</td>
+            <td>á</td>
+            <td>é</td>
+            <td>í</td>
+            <td>ó</td>
+            <td>ú</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Venda</td>
+            <td>ṅ</td>
+            <td>ḓ</td>
+            <td>ḽ</td>
+            <td>ṋ</td>
+            <td>ṱ</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Old English, Icelandic</td>
+            <td>þ</td>
+            <td>ƿ</td>
+            <td>ſ</td>
+            <td>ö</td>
+            <td>ᵹ</td>
+            <td>ł</td>
+            <td>ð</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Mossi</td>
+            <td>ɓ</td>
+            <td>ɩ</td>
+            <td>ʋ</td>
+            <td>ɛ</td>
+            <td>ɔ</td>
+            <td>ł</td>
+            <td>ɖ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Fula</td>
+            <td>ɓ</td>
+            <td>ɗ</td>
+            <td>ŋ</td>
+            <td>ɲ</td>
+            <td>ƴ</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Maltese</td>
+            <td>ñ</td>
+            <td>ċ</td>
+            <td>ġ</td>
+            <td>ż</td>
+            <td>ħ</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Northern Sotho, Albanian</td>
+            <td>ç</td>
+            <td>š</td>
+            <td>ê</td>
+            <td>ô</td>
+            <td>ë</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Kazakh</td>
+            <td>ñ</td>
+            <td>ŋ</td>
+            <td>ş</td>
+            <td>ğ</td>
+            <td>ū</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Southern-Berber, Kanuri</td>
+            <td>ǝ</td>
+            <td>ŋ</td>
+            <td>ɣ</td>
+            <td>ʕ</td>
+            <td>ɍ</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Haitian, Javanese, Kikuyu</td>
+            <td>é</td>
+            <td>è</td>
+            <td>ò</td>
+            <td>ĩ</td>
+            <td>ũ</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Uzbek</td>
+            <td>ç</td>
+            <td>ş</td>
+            <td>ḡ</td>
+            <td>ō</td>
+            <td>ñ</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Azerbaijani, (Turkish)</td>
+            <td>ç</td>
+            <td>ş</td>
+            <td>ğ</td>
+            <td>ö</td>
+            <td>ü</td>
+            <td>ə</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Estonian</td>
+            <td>š</td>
+            <td>ž</td>
+            <td>ä</td>
+            <td>ö</td>
+            <td>ü</td>
+            <td>õ</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Urdu (Roman script)</td>
+            <td>ū</td>
+            <td>ṛ</td>
+            <td>ṣ</td>
+            <td>ṭ</td>
+            <td>ẓ</td>
+            <td>z̤</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Esperanto</td>
+            <td>ĉ</td>
+            <td>ŝ</td>
+            <td>ĝ</td>
+            <td>ĥ</td>
+            <td>ĵ</td>
+            <td>ǔ</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Western Frisian</td>
+            <td>â</td>
+            <td>ê</td>
+            <td>é</td>
+            <td>ô</td>
+            <td>û</td>
+            <td>ú</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Northern Sami</td>
+            <td>č</td>
+            <td>š</td>
+            <td>ž</td>
+            <td>á</td>
+            <td>ŋ</td>
+            <td>ŧ</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Volta-Niger languages</td>
+            <td>ṅ</td>
+            <td>ṣ</td>
+            <td>ẹ</td>
+            <td>ọ</td>
+            <td>ụ</td>
+            <td>ị</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+    </table>
+</details>
+
+Let's move on to Cyrillic sets.
+As mentioned earlier, in Cyrillic sets all positions are dynamic, due to which their number is much smaller than in Latin sets.
+All Cyrillic sets are "allowing" because complete typing in the languages of these sets is not possible without using them.
+Characters from Cyrillic sets are always input in a single form (with the exception of з́ and с́, which do not have a coherent representation).
+
+The main set in terms of potential demand – `ґ є і ї ӏ ў ѣ ѵ ѳ ӂ ӕ ӧ`
+This character set provides access to full-fledged typing in Ukrainian, Belarusian, Rusyn, Moldovan, Ossetian, Komi, a dialect of Ruska Roma, a number of Caucasian languages, and pre-revolutionary Russian.
+
+<details>
+    <summary>All Cyrillic sets (5)</summary>
+    <table>
+        <tr>
+            <td>Main</td>
+            <td>ґ</td>
+            <td>є</td>
+            <td>і</td>
+            <td>ї</td>
+            <td>ӏ</td>
+            <td>ў</td>
+            <td>ѣ</td>
+            <td>ѵ</td>
+            <td>ѳ</td>
+            <td>ӂ</td>
+            <td>ӕ</td>
+            <td>ӧ</td>
+        </tr>
+        <tr>
+            <td>Serbian, Bosnian, Macedonian, Montenegrin, Interslavic</td>
+            <td>ѓ</td>
+            <td>ќ</td>
+            <td>ђ</td>
+            <td>ћ</td>
+            <td>љ</td>
+            <td>њ</td>
+            <td>ѣ</td>
+            <td>џ</td>
+            <td>ј</td>
+            <td>ѕ</td>
+            <td>з́</td>
+            <td>с́</td>
+        </tr>
+        <tr>
+            <td>Kazakh, Mongolian, Uzbek, Kyrgyz, Tajik</td>
+            <td>ғ</td>
+            <td>қ</td>
+            <td>ң</td>
+            <td>ҷ</td>
+            <td>ҳ</td>
+            <td>ү</td>
+            <td>ә</td>
+            <td>һ</td>
+            <td>ө</td>
+            <td>і</td>
+            <td>Ұ</td>
+            <td>ӯ</td>
+        </tr>
+        <tr>
+            <td>Bashkir, Chuvash, Tatar</td>
+            <td>ғ</td>
+            <td>ҡ</td>
+            <td>ң</td>
+            <td>ӑ</td>
+            <td>ӗ</td>
+            <td>ү</td>
+            <td>ә</td>
+            <td>һ</td>
+            <td>ө</td>
+            <td>җ</td>
+            <td>ҙ</td>
+            <td>ҫ</td>
+        </tr>
+        <tr>
+            <td>Abkhazian</td>
+            <td>ӷ</td>
+            <td>қ</td>
+            <td>ҟ</td>
+            <td>ҷ</td>
+            <td>ҳ</td>
+            <td>ҩ</td>
+            <td>ә</td>
+            <td>ҵ</td>
+            <td>ӡ</td>
+            <td>ҭ</td>
+            <td>ҽ</td>
+            <td>ҿ</td>
+        </tr>
+    </table>
+</details>
+
+The currently active character sets are also displayed in the script GUI.
+
+[Displaying language sets](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/lang_modes.png)
+
+Some final statistics:
+> according to the use of languages on the Internet by (w3techs.com)[https://w3techs.com/technologies/overview/content_language] of 22.11.2021
+* fully supported languages on any modification – 77.61% (89.14% without simplified typing)
+* fully supported languages on main modifications – 6.83%
+* fully supported languages on additional modifications – 5.68%
+* romanized versions of languages of other scripts: all versions – 9.85%, some – 0.03%
+* unsupported languages – 0.001%
 
 
 ## Additional features
 
-* clipboard swap – `Ctrl-Shift-g` (`v` in qwerty-view) – paste clipboard value, save pasted value (if paste in selected area) in clipboard
-* activate/minimize predefined app – `Win-[any key]` – set your favorite apps in the `config.ini` file in the `[AltApps]` section and switch between them. If a process does not exist – start it. This way faster, easier and more flexible than `Win-[1-9]`. Pattern for `.ini`:
-```
-{scancode}={process_name},{path_to_file}
-```
-  Example – bind `nvim` on `Win–q`:
-```
-SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
-```
-* full arrow replacement with `alt-[mstr]` (with shift/ctrl/shift-ctrl. alt-(sh)-ctrl-[st] used to move to begin or end of line, respectively)
-* move windows with `Win-(shift)-mstr` (`hjkl` in qwerty-view) as well as with `arrows`
-* increasing/decreasing selected number by one with the user-defined keys (unless another value is assigned)
-* autocomplete paired brackets/quotes. It can be turned on in `config.ini`
-* dotted/dotless i fix – enabling in `config.ini`. Replaced `iI`, in home position to `iİ`, and `ıİ` under `8` to `ıI`. Primarily for Turkish, Azerbaijani, and Kazakh Latin
-* fix `cedilla` to `comma` for Romanian, to correct common misspellings. Enabled by default. Works only for the Romanian modification. Makes the use of cedilla not possible. Can be disabled in `config.ini`
-* if you collide with case, which require some "standard" key behavior – you can toggle script work on air with `Shift-tilde`
-* script restart – `Ctrl-Shift-tilde`
-* more "easy data input" features and fast edit `qPhyx` settings are available with related [menu](https://github.com/uqqu/menu) script
+### Paired brackets
+
+Switchable option.
+Automatically closes brackets and quotation marks `<>`, `«»`, `""`, `“”`, `()`, `[]` and `{}`, setting the carriage position between them.
+Automatically closing single quotes is not provided, as this symbol is often used in the meaning of apostrophe, where a paired quote would be undesirable.
+
+### Replacing text on the clipboard
+
+Called by pressing `Ctrl-Shift-v`.
+Pastes text from the clipboard in place of the selected text, saving the latter as a new clipboard value.
+
+### Changing the case of selected text
+
+Switchable option.
+Called by pressing `Shift` twice.
+When called, it reverses the case of each character.
+When called with `Ctrl` or `Alt` it changes the case to upper or lower, respectively.
+
+### Navigation with `Alt+[hjkl]`
+
+Navigation via simulated arrow keys supports all the original modifiers:
+* with `Ctrl` for word navigation (`j` and `k` will move the carriage to the beginning and end of the line, respectively)
+* with `Shift` to navigate with highlighting
+* with `LWin` instead of `Alt` to control window position. With additional `Shift` to position the window between screens
+
+### Other assignments and hotkeys
+
+Unbreakable space – `Shift-Space` (switchable functionality)
+Minimize all windows – `LWin-Enter`
+Restore minimized windows – `LWin-Enter long`
+Pause/resume the script – `Shift-Tilde`
+Restart the script – `Ctrl-Shift-Tilde`
+
+### GUI
+
+The script has a minimal hinting graphical interface, called via `Alt+F1` or by clicking on an icon in the tray.
+The interface displays in the corresponding tabs:
+* main layer – the user's system letter layout; language sets; reassignments
+* three tabs of symbol layers - long presses, `Alt`, `Alt Long`.
+* tab with scan codes for user assignments
+* list of all language sets for two scripts with switching between them by double click
+* list of all hotkeys for both script control and other functions
+
+The GUI can be modified depending on certain settings, displaying the view provided by these options. This includes the current language sets, paired bracket functionality, and custom reassignments.
+
+The layer tabs respond to keystrokes on the physical keyboard, prompting its position on the screen.
+Switching between tabs can be done by pressing the `F1-F7` keys.
+
+Other settings are managed in the menu called by `LWin+F1` or by right mouse clicking on the tray icon.
+
+### User assignments
+
+There are three types of user assignments:
+* assignment of additional keys in the number row, which, being empty, perform the functions of decreasing and increasing the selected number by 1
+* additional assignments in the letter part of the keyboard for the Latin script. After adapting the Latin layouts, there are 7 additional positions that can be used in addition to the language layer, depending on the individual needs of the user
+* assignment for switching between applications in combination with the `LWin` modifier. Starts the application if it is not running
+
+The assignments are defined in the `config.ini` file, which is generated next to the executable file of the script after the first run.
+For the first two types, the assignments are defined in the `AdditionalAssignments` section by the pattern `<key_scan_code>=<assignable_character>`. The scan codes of the numeric keys are pre-specified in this section with empty assignments. Scan codes of other keys can be viewed in the corresponding GUI tab. It's possible to specify modifier `Shift` (set as `+` before scan code) for assignments in alphabetic part of the keyboard. It is possible to specify unicode character value by pattern `{U+<symbol_code>}`.
+
+Assignments for switching focus between applications are defined in the `AltApps` section by the pattern `<key_scan_code>=<process_name>,<path_to_executable_file>`. Specifying modifiers is not required.
+
+After making changes via `config.ini`, the script needs to be restarted.
+When making changes via the menu option (only for key assignments in the numeric row) a restart is not required.
+
+### Controlling key reassignments
+
+In addition to what has been described in the previous sections, the user is suggested to try out the reassignment of control keys such as `Backspace`, `Enter`, `CapsLock` and `Esc`. Their more comfortable positioning with minimized unnecessary hand movements can be enabled in the corresponding menu item.
+Suggested assignment:
+* `Enter` performs the `Backspace` function; with `Shift` pressed – `Delete`.
+* `CapsLock` performs the function of `Enter`
+* `Tilde` performs the `Esc` function
+* `Backspace` performs media control functions (base press - play/pause; with `Shift` - increase volume; with `Alt` - decrease volume; with `Shift Long` - next media item; with `Alt Long` - previous media item)
+* The `CapsLock` function can be assigned to `Esc` by a separate setting.
+
+This arrangement is more ergonomic and minimizes movement that detaches the fingers from home positions.
+
+The current reassignments, both user and toggle control key options, are displayed in the GUI.
+
+An example of a display with control key reassignment, parentheses, and numeric row key
+reassignment settings enabled:
+
+[GUI with options](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/long_with_options.png)
+
+### Automatically disabling the script in certain applications
+
+Long presses can be undesirable in some applications, affecting their performance.
+Such applications are added to the `config.ini` file in the `BlackList` section with the pattern `<ord_number> = <process_name>`, after which the script activity in these applications will be automatically suspended.
 
 
-## Installation
+## Instalation
 
-### Windows
+> Windows only
 
-1. Launch setup files in folders [external/MKLC_qphy_lat](https://github.com/uqqu/layout/blob/master/external/MKLC_qphy_lat) and [external/MKLC_qphy_cyr](https://github.com/uqqu/layout/blob/master/external/MKLC_qphy_cyr);
-2. Select the installed layouts as input languages in your OS settings; restart your OS;
-3. *(optional)* Install <a href="https://www.autohotkey.com/">AHK</a>, if you want to use uncompiled version;
-4. Place [modes.ini](https://github.com/uqqu/layout/blob/master/modes.ini) and [qphyx.exe](https://github.com/uqqu/layout/blob/master/qphyx.exe) or its uncompiled counterpart – [qphyx.ahk](https://github.com/uqqu/layout/blob/master/qphyx.ahk) in a folder of your choice;
-5. Launch `qphyx.*` to generate the file `config.ini`;
-6. *(optional)* If you use or are going to use a related project [menu](https://github.com/uqqu/menu):
-    1. In `config.ini` beside `qphyx.*` set path to `menu` folder;
-    2. In `config.ini` beside `menu.*`, after first launch, set path to `qphyx` folder;
-    3. Restart `qphyx.*`. If both paths set correctly `qphyx` will restart `menu` itself, and the latter, in his turn, after restarting will get an option `Qphyx settings` in `message menu`. Note that `qphyx.*` will try to run `menu.*` with the same extension, and conversely, so use the same versions;
-7. Familiarize yourself with the use and functionality;
-8. *(optional)* Add `qphyx.*` to autostart (don't add `menu`, if you use it. `qphyx` launch it itself, if the path from 6.1 set correctly).
-
-### Android
-
-1. Install <a href="https://play.google.com/store/apps/details?id=kl.ime.oh&hl=en">Multiling O Keyboard</a>;
-2. Select DIY layout for English;
-3. Paste the contents of the file [multiling_o_keyboard_lat.txt](https://github.com/uqqu/layout/blob/master/external/android/multiling_o_keyboard_lat.txt);
-4. Select DIY layout for Russian;
-5. Paste the contents of the file [multiling_o_keyboard_cyr.txt](https://github.com/uqqu/layout/blob/master/external/android/multiling_o_keyboard_cyr.txt);
-6. Customize the appearance in the settings to your liking.
-
-
-## Future plans
-
- * transposition to other scripts
- * letter frequency of other languages (in order of frequency of use)
-
-
- * ? diacritical hooks in Unicode
- * ? diacritics with Cyrillic
- * ? `з́ ` and `с́ ` as separate characters in Unicode
-
-
-## FAQ
-
-<dl>
-  <dt>Do I need to install <a href="https://www.autohotkey.com/">AutoHotKey</a>?</dt>
-  <dd>Only for using the <code>.ahk</code> version. Using a compiled identical <code>.exe</code> version does not require any additional installations.</dd>
-  <dt>What about layout for ergonomic keyboards?</dt>
-  <dd>This project is aimed at standard non-ergonomic keyboards. Porting this layout to any other keyboard it is a special process. I think very highly of ergonomic keyboards and I will be glad to realize version for one of them someday, but now there are no any version for keyboards different of standard.</dd>
-  <dt>Can I use it on Linux?</dt>
-  <dd>No. As I know, there are only hard ways to realize "long presses" on Linux, and I'm not ready to take on them now. It is possible to implement a version with additional modifier instead of "long" trigger, but it will no longer be the original project.</dd>
-  <dt>Can I use it on Mac?</dt>
-  <dd>No, current version can be used only on Windows. I wasn't interested in ways to realize it on Mac.</dd>
-  <dt>Can I use it on Android?</dt>
-  <dd>Yes, partially. It cannot be done for <code>G.Board</code>, but there is an app with totally customization – <a href="https://play.google.com/store/apps/details?id=kl.ime.oh&hl=en">Multiling O Keyboard</a>. You can find layout pattern for this app with screenshot examples at the <a href="https://github.com/uqqu/layout/tree/master/external/android">external/android/</a>.</dd>
-  <dt>Latin layout has empty keys?</dt>
-  <dd>Yes. With the separating letter and symbol layers, keys with the potential-letter functions may be used only for letters. There is no problem with that, it's even more comfortably because now letters allocated to more convenient positions.</dd>
-  <dt>...and yet they are not completely empty?</dt>
-  <dd>Yes, technically, <code>x</code>, <code>c</code> and <code>b</code> keys (in qwerty-view) send <code>U+001E</code>, which does not appear in the printout, but can be used by third-party programs. I have not yet encountered a case where this would be bad, but potentially, if there are any, it can be removed.</dd>
-  <dt>Can I use symbol layout with <code>qwerty</code>?</dt>
-  <dd>You can, but it won't be as comfortable as it planned.</dd>
-  <dt>Can I use letter layout without symbols?</dt>
-  <dd>Unfortunately no. You will be missing base symbols, which were placed on "potential-letter" keys.</dd>
-  <dt>So, what languages can I write in exactly?</dt>
-  <dd>If you are already familiar with the categories in <a href="https://github.com/uqqu/layout#Modifications">"Modifications"</a>, check out the <a href="https://github.com/uqqu/layout/blob/master/external/languages.xlsx">external/languages.xlsx</a>. There is an answer to your question for more than <b>200</b> languages.</dd>
-  <dt>Has this project something to do with touch typing?</dt>
-  <dd>Of course! The main goal in maximizing convenience with touch typing and minimizing unnecessary moves (especially, moves that make you have to take your hands off your "home" positions)</dd>
-  <dt>Should I first train with touch typing before the use this layout?</dt>
-  <dd>If you are asking yourself this question – you should, regardless of future using this layout. And if you are not experienced in touch typing – maybe it is even better! Because that the process of switching to any new layout is very long and discomfortable. And the better you mastered the old layout, the more unpleasant the switching to the new one will be. The first time you will be slow and clumsy, and it will be really annoying. Also, later you will sometimes have "phantom" typing, when one letter of the entire stream suddenly will type from the old layout. Pretty infuriating thing. I am by no means discouraging you, just that you should be prepared in advance for all the things described, and understand that this is the normal order of transition.</dd>
-  <dt>I am a grand master of <code>colemak</code>/<code>dvorak</code>/<code>workman</code>/etc., will I get any profit from switching to this layout?</dt>
-  <dd>It's up to you, of course. You will get fewer benefits in the letter layout clause, but all the others are not going anywhere.</dd>
-  <dt>...and I'm a grand master of <code>qwerty</code>! Will I ge...</dt>
-  <dd>*interrupts* Right now, take any third-party layout. I would be pleased if the layout from the project that is the focus of this entire text was chosen, but even if not, there are many other layouts for Latin, and some of them are very good. But not for the Russian. It is bad there. Anyway, try to give up <code>qwerty</code> and <code>йцукен</code>. These are extremely important layouts for typing history, but leave their use to museum workers.</dd>
-  <dt>I can't use <code>arrows</code>/<code>numpad</code>!</dt>
-  <dd>That's the way it's supposed to be. If you want to try this layout, you should be used to keep your hands on "home" positions. If you really need a NumPad, you can toggle the <code>NumPad</code> option to <code>1</code> in the <code>config.ini</code> or in the <code>menu</code>.</dd>
-  <dt>I can't "scream" with <code>Caps Lock</code>!</dt>
-  <dd>That's great. That's the way it's supposed to be.</dd>
-  <dt>... but I need <code>Caps Lock</code> function for my PL or some other case!</dt>
-  <dd>This layout is for general use. And in general cases this function is harmful...<br>Okay, you can set <code>EscAsCaps</code> to 1 in <code>config.ini</code> and toggle <code>Caps Lock</code> via <code>Esc</code>. Even additional symbols from the numeric row will work with it. But, please, don't overuse it.</dd>
-  <dt>The non-breaking space is more of a hindrance!</dt>
-  <dd>For this case there is also a setting to disable – <code>UnbrSpace</code> in the <code>config.ini</code> or via the <code>menu</code>.</dd>
-  <dt>Is this project relative to <a href="https://github.com/uqqu/menu">menu</a>?</dt>
-  <dd>Yes, once they were a one-piece project, but while the functionality was becoming more and more they were separated in two projects. However they have connections with each other. E.g. you can regulate "long press" delay with <code>menu</code> via <code>input-box</code> which is invoked by <code>menu</code> and edit "on air" other <code>qPhyx</code> settings. In turn, <code>qPhyx</code> calls <code>menu</code> at the right time to avoid conflicting appointments. For connection between them, you should correct path to relative in <code>config.ini</code> for both.</dd>
-  <dt>Some other integrations?</dt>
-  <dd>Just start at the right time – <a href="https://github.com/magicstep/ViATc-English">ViATc</a>. If you use it – correct path to <code>ViATc-x.x.xen.ahk</code> in the <code>config.ini</code>. That's all.</dd>
-  <dt>Troubles with <code>config.ini</code></dt>
-  <dd>Don't create it yourself, let it be generated at first start, and only then edit it. For functionality with switching between applications, arrange your applications according to the appropriate pattern in the <code>[AltApps]</code> section.</dd>
-</dl>
+1. *(optional)* Install [adapted](https://github.com/uqqu/qPhyx/tree/master/external/layouts) versions of your Latin and/or Cyrillic layouts, select them in the OS settings and reboot the system.
+2. *(optional)* Install <a href="https://www.autohotkey.com/">AHK</a>, if you prefer to use an uncompiled version of the script
+3. Place the files `qphyx.exe` (or `qphyx.ahk`), `modes.ini` and the files `.ico` in a folder of your choice, run `qphyx.*`
+4. Familiarize yourself with the usage. Set up in the menu (right mouse click on the tray icon or `LWin+F1`) the language sets, "long" press trigger duration and other options
+5. *(optional)* Add `qphyx.*` to the startup.
 
 
 ---
 
 
-## ↓ Russian part
+# ↓ Russian part
 
-**qPhyx** – единая универсальная фонетическая двускриптовая клавиатурная раскладка с лучшими возможными показателями удобства печати и рядом дополнений к привычному методу набора.
+> Буквенная раскладка была отделена от проекта и перенесена в [отдельный репозиторий](https://github.com/uqqu/layout)
 
-Проект начинался как альтернативная фонетическая двуязычная раскладка. Впоследствии многие функции вышли за рамки обычной раскладки, и проект стал чем-то большим. Его можно логично разделить на две взаимосвязанные части:
-1. Клавиатурная раскладка стандартного вида;
-2. Символьная раскладка с некоторыми особенностями и функциями.
+**qPhyx** – дополнение к клавиатурной раскладке, превращающее последнюю в мультиязычную, едино-символьную расширенную раскладку с повышенным удобством набора и некоторыми дополнительными функциями.
 
 Преимущества:
-1. Единая система набора, как для текущих поддерживаемых письменностей, так и для будущих;
-2. Полная поддержка всех языков латинской и кириллической письменностей, со всеми особенностями, без отдельных языковых раскладок;
-3. Поддержка языковых модификаций, сохраняющих все преимущества единой системы, и в то же время снимающих все ограничения унификации с отдельных языков;
-4. Расширенная символьная поддержка;
-5. Лучшие объективные показатели удобства набора;
-6. Дополнительный внутренний и внешний функционал.
+1. Единая символьная и языковая система набора
+2. Полная поддержка всех языков латинской и кириллической письменностей, со всеми особенностями, без отдельных языковых раскладок
+3. Расширенная символьная поддержка
+4. Дополнительный внутренний и внешний функционал.
 
-Для полного понимания, чем является проект, настоятельно рекомендуется ознакомиться с его полухронологическим описанием по частям ниже. Описание общими фразами является фатально неполным и может вызвать ложное представление об оном.
-<br>Также хорошим методом ознакомления с проектом является его использование.
-<br>Лучше, конечно же, и то, и другое.
+> Лучшим способ познакомиться с проектом – использовать его.
 
 
-## Буквенный слой
-
-> Для лучшего понимания этой части рекомендуется обратиться к [external/calculation.xlsx](https://github.com/uqqu/layout/blob/master/external/calculation.xlsx).
-
-Расположение букв было максимально, насколько это возможно, лишено субъективщины. Объективные критерии, голые цифры.
-
-### Анализы частотности
-
-Первым делом были отобраны различные анализы частотности букв для интересующих языков, из которых были выведены средние значения *(получается, метаанализ)*. Всего было отобрано более 30 анализов, основанных на разных выборках. Учитывались все достоверные найденные анализы.
-
-Для английского языка для базовой буквенной частотности в финальный вид были включены следующие анализы:
-
-  * [norvig.com](http://norvig.com/mayzner.html)
-  * [core.ac.uk](https://core.ac.uk/download/pdf/231084615.pdf)
-  * [practicalcryptography.com](http://practicalcryptography.com/cryptanalysis/letter-frequencies-various-languages/english-letter-frequencies/)
-  * [github.com/uqqu](https://github.com/uqqu/frequency_analysis/tree/master/examples/multiUN_analysis)
-  * [macfreek.nl](http://www.macfreek.nl/memory/Letter_Distribution)
-  * [viviancook.uk](http://www.viviancook.uk/SpellStats/SingleLetterFrequencies.htm)
-  * [fitaly.com](http://www.fitaly.com/board/domper3/posts/136.html)
-  * [sttmedia.com](https://www.sttmedia.com/characterfrequency-english)
-  * [mathstats.uncg.edu](https://mathstats.uncg.edu/sites/pauli/112/HTML/secfrequency.html)
-  * [pi.math.cornell.edu](http://pi.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html)
-  * [math.ucsd.edu](http://www.math.ucsd.edu/~crypto/Projects/MarshaMoreno/TimeComparisonFrequency.pdf)
-  * [cs.wellesley.edu](http://cs.wellesley.edu/~fturbak/codman/letterfreq.html)
-  * [en.algoritmy.net](http://en.algoritmy.net/article/40379/Letter-frequency-English)
-
-Для русского языка для базовой буквенной частотности были включены следующие анализы:
-
-  * [dict.ruslang.ru](http://dict.ruslang.ru/freq.php?act=show&dic=freq_letters)
-  * [practicalcryptography.com](http://practicalcryptography.com/cryptanalysis/letter-frequencies-various-languages/russian-letter-frequencies/)
-  * [github.com/uqqu](https://github.com/uqqu/frequency_analysis/tree/master/examples/annot_opcorpora_analysis)
-  * [lg--web.chat.ru](http://lg--web.chat.ru/texts.html)
-  * [sttmedia.com](https://www.sttmedia.com/characterfrequency-russian)
-  * [dpva.ru](https://dpva.ru/Guide/GuideUnitsAlphabets/Alphabets/FrequencyRuLetters/)
-  * [simia.net](http://simia.net/letters/index.html)
-  * Яглом А.М., Яглом И.М., Вероятность и информация, М.: Наука, 1973 / с.238
-
-Для английского языка для парной буквенной частотности были отобраны следующие биграммные анализы:
-
-  * [gist.github.com/lydell](https://gist.github.com/lydell/c439049abac2c9226e53)
-  * [practicalcryptography.com](http://practicalcryptography.com/cryptanalysis/letter-frequencies-various-languages/english-letter-frequencies/)
-  * [github.com/uqqu](https://github.com/uqqu/frequency_analysis/tree/master/examples/multiUN_analysis)
-  * [link.springer.com](https://link.springer.com/content/pdf/10.3758/BF03201360.pdf)
-  * [homepages.math.uic.edu](http://homepages.math.uic.edu/~leon/mcs425-s08/handouts/char_freq2.pdf)
-  * [joyofdata.de](https://www.joyofdata.de/blog/frequency-of-character-combinations/)
-
-Для русского языка для парной буквенной частотности были отобраны следующие биграммные анализы:
-
-  * [practicalcryptography.com](http://practicalcryptography.com/cryptanalysis/letter-frequencies-various-languages/russian-letter-frequencies/)
-  * [github.com/uqqu](https://github.com/uqqu/frequency_analysis/tree/master/examples/annot_opcorpora_analysis)
-  * [joyofdata.de](https://www.joyofdata.de/blog/frequency-of-character-combinations/)
-  * [statistica.ru](http://statistica.ru/local-portals/data-mining/analiz-tekstov/)
-
-### Отбор критериев удобства
-
-Для объективной оценки удобства использования раскладки необходимо выделить соответствующие критерии. Ими стали:
-  * чередование рук (вероятность, с которой для набора любой случайной пары букв будут задействованы обе руки)
-  * минимизация вероятности использования одного пальца на два набора подряд (с учётом базовой вероятности повтора одной буквы)
-  * равномерная нагрузка рук и пальцев
-  * максимальное использование наиболее удобных групп (см. далее)
-
-Для последнего критерия буквенная часть стандартной не эргономичной клавиатуры была разделена на 6(7) групп по удобству.
-> Несмотря на то, что само подобное разделение является несколько субъективным, выделение первой группы не вызывает никаких вопросов – это домашние позиции пальцев, где вам не нужно совершать никаких движений, только нажатие. В будущей оценке основное внимание на этот критерий будет обращено именно на первую группу, как на самую объективную.
-
-> *Здесь и далее в "excel-виде".*
-
-![Группы клавиш по удобству](https://github.com/uqqu/layout/blob/master/external/readme_images/groups_animated.gif "Группы клавиш по удобству")
-<br>[Последний фрейм](https://github.com/uqqu/layout/blob/master/external/readme_images/groups.png)
-
-### Создание раскладки
-
-Прошлые пункты были систематизированы и автоматизированы в [external/calculation.xlsx](https://github.com/uqqu/layout/blob/master/external/calculation.xlsx), для дальнейшего создания раскладки.
-> Вы также можете попробовать изменить текущую раскладку или создать свою в данном файле. Все оценки изменяются динамически, в зависимости от текущего вида.
-
-Было опробовано множество вариантов для обоих языков. Некоторые оказались крайне удачными, и до сих пор хранятся на листе <code>[en/ru] archive</code>. Однако финальный вид раскладок должен умело балансировать между всеми критериями. А также ввиду изначальной цели создания фонетической раскладки, необходимо учитывать фонетическую зависимость раскладок двух языков. Спустя многие мытарства такой двойной раскладкой стали следующие части:
-
-![Letter layout](https://github.com/uqqu/layout/blob/master/external/readme_images/letters.png "Letter layout")
-
-Название раскладки составилось, с небольшой стилизацией, по первым символам верхнего ряда – «qPhyx».
-
-### Так что же, Веничка, что же всё-таки с цифрами? Нам страшно интересно...
-
-Да ведь я понимаю, что интересно. Сейчас, сейчас перечислю:
-  * чередование рук – 70.58% (en) и 71.23% (ru)
-  * вероятность "чистого" повторного нажатия одним пальцем – 2.55% и 4.54%
-  * равномерность нагрузки рук – 48.36/51.64% и 52.35/47.65%
-  * максимальная разница нагрузки пальцев – 4.86% и 8.98%
-  * использование "домашней" группы – 64.95% и 58.07%
-<br><sub>а ещё приятный внешний вид и мнемонические ряды</sub>
-
-### Так-так-так, – говорите вы, – а альтернативные раскладки? Ведь всё уже придумано до тебя
-
-Сейчас я вам покажу альтернативные раскладки.
-<br>Но сначала ещё одно уточнение – напрямую сравнивать эти раскладки между собой ещё можно, а вот с "топик-стартером" не получится – они концептуально разные. Все цифры ниже служат исключительно для общего представления (и немножко для демонстрации, насколько стандартные <code>qwerty</code> и <code>йцукен</code> плохи).
-> В подсчётах учитываются только буквы! Показатели символьно-ориентированных на базовом слое раскладок могут быть несколько неточными. Но лишь "несколько", т.к. не стоит переоценивать частоту небуквенных символов, особенно для английского языка.
+## Буквенные раскладки
 
 <details>
-  <summary>qwerty (en)</summary>
-  <ul>
-    <li>чередование рук – 52.60%</li>
-    <li>вероятность "чистого" повторного нажатия одним пальцем – 7.08%</li>
-    <li>равномерность нагрузки рук – 58.69/41.31%</li>
-    <li>максимальная разница нагрузки пальцев – 20.17%</li>
-    <li>использование "домашней" группы – 25.70%</li>
-  </ul>
-</details>
-<details>
-  <summary>workman (en)</summary>
-  <ul>
-    <li>чередование рук – 55.96%</li>
-    <li>вероятность "чистого" повторного нажатия одним пальцем – 2.91%</li>
-    <li>равномерность нагрузки рук – 51.49/48.51%</li>
-    <li>максимальная разница нагрузки пальцев – 11.14%</li>
-    <li>использование "домашней" группы – 63.71%</li>
-  </ul>
-</details>
-<details>
-  <summary>colemak (en)</summary>
-  <ul>
-    <li>чередование рук – 58.64%</li>
-    <li>вероятность "чистого" повторного нажатия одним пальцем – 1.26%</li>
-    <li>равномерность нагрузки рук – 48.38/51.62%</li>
-    <li>максимальная разница нагрузки пальцев – 12.05%</li>
-    <li>использование "домашней" группы – 64.95%</li>
-  </ul>
-</details>
-<details>
-  <summary>dvorak (en)</summary>
-  <ul>
-    <li>чередование рук – 70.67%</li>
-    <li>вероятность "чистого" повторного нажатия одним пальцем – 2.61%</li>
-    <li>равномерность нагрузки рук – 43.30/56.70%</li>
-    <li>максимальная разница нагрузки пальцев – 9.48%</li>
-    <li>использование "домашней" группы – 58.92%</li>
-  </ul>
-</details>
-<details>
-  <summary>qwpr (en)</summary>
-  <ul>
-    <li>чередование рук – 58.64%</li>
-    <li>вероятность "чистого" повторного нажатия одним пальцем – 4.04%</li>
-    <li>равномерность нагрузки рук – 48.38/51.62%</li>
-    <li>максимальная разница нагрузки пальцев – 14.19%</li>
-    <li>использование "домашней" группы – 62.53%</li>
-  </ul>
-</details>
-<details>
-  <summary>йцукен (ru)</summary>
-  <ul>
-    <li>чередование рук – 53.50%</li>
-    <li>вероятность "чистого" повторного нажатия одним пальцем – 19.17%</li>
-    <li>равномерность нагрузки рук – 53.40/46.47% (без "ё")</li>
-    <li>максимальная разница нагрузки пальцев – 29.72%</li>
-    <li>использование "домашней" группы – 33.86%</li>
-  </ul>
-  <sub>Интересный факт: две трети всех нажатий в йцукен приходятся на указательные пальцы. А подобная сгруппированность популярнейших символов в результате приводит к тому, что и каждое пятое нажатие будет выполняться одним и тем же пальцем. О каком "десятипальцевом наборе" в такой ситуации может идти речь?</sub>
-</details>
-<details>
-  <summary>яверты (ru)</summary>
-  (** учитывались только буквы основного буквенного блока)
-  <ul>
-    <li>чередование рук – 48.11%</li>
-    <li>вероятность "чистого" повторного нажатия одним пальцем – 8.98%</li>
-    <li>равномерность нагрузки рук – 53.40/46.87%</li>
-    <li>максимальная разница нагрузки пальцев – 13.09%</li>
-    <li>использование "домашней" группы – 25.92%</li>
-  </ul>
-</details>
-<details>
-  <summary>диктор (ru)</summary>
-  <ul>
-    <li>чередование рук – 74.75%</li>
-    <li>вероятность "чистого" повторного нажатия одним пальцем – 3.14%</li>
-    <li>равномерность нагрузки рук – 45.48/54.36%</li>
-    <li>максимальная разница нагрузки пальцев – 18.75%</li>
-    <li>использование "домашней" группы – 52.59%</li>
-  </ul>
-</details>
-<details>
-  <summary>раскладка Зубачёва (ru)</summary>
-  <ul>
-    <li>чередование рук – 74.21%</li>
-    <li>вероятность "чистого" повторного нажатия одним пальцем – 2.74%</li>
-    <li>равномерность нагрузки рук – 46.43/53.45%</li>
-    <li>максимальная разница нагрузки пальцев – 16.79%</li>
-    <li>использование "домашней" группы – 48.50%</li>
-  </ul>
+    <summary>tl;dr</summary>
+    Вы можете использовать любую буквенную раскладку, но предпочтительно использовать их [адаптированные варианты](https://github.com/uqqu/qPhyx/tree/master/external/layouts), очищенные от небуквенных символов, так как последние в полной мере предоставляются описываемым дополнением.
 </details>
 
-> Больше раскладок, а также их внешний вид можете найти в [external/calculation.xlsx](https://github.com/uqqu/layout/blob/master/external/calculation.xlsx). Здесь перечислены лишь основные показатели наиболее важных к упоминанию раскладок.
+Одна из целей, преследуемых проектом – полное разделение слоёв. Для этого должны соблюдаться следующие условия:
+* буквенные символы основной письменности полностью расположены в пределах буквенной части клавиатуры, с условием верхнего регистра при модификаторе `Shift` (очевидное условие, которым, однако, пренебрегают некоторые кириллические раскладки);
+* цифровые символы полностью расположены в цифровом ряду;
+* все прочие символы полностью расположены в собственных слоях.
 
-#### Результат
-Как видно, <code>qwerty</code> и <code>йцукен</code> откровенно плохи, если не сказать грубее. Любые существующие альтернативные раскладки (в том числе из не перечисленных) в разы и разы лучше. Если смотреть на обратный результат, то <code>dvorak</code> и <code>диктор</code>, забирают первенство в своих языках.
-Полноценно сравнивать <code>dvorak</code>/<code>диктор</code> и <code>qPhyx</code> я не стану, так как это сравнение некорректно, о чём я обмолвился изначально. Но даже для общего представления вы можете отметить, что в целом цифры топик-стартера если уж не лучше, то как минимум на уровне лидеров.
+Подобное разделение зон ответственности, другими словами – модульная система, позволяет использовать каждую из частей независимо от прочих. В существующих же раскладках эти слои хаотично перемешаны между собой, налагая массу ограничений на каждую из частей, что также приводит к тому, что для малейшего изменения всё подобие системы должно быть изменено и использовано как форк изначального варианта раскладки, с потенциальными излишними каскадными переназначенями.
 
-<br>
+Для разграничения слоёв многие популярные клавиатурные раскладки были приведены в адаптированный вид. В адаптированных раскладках не было изменений позиционирования буквенных символов, расположенных в буквенной части клавиатуры, что позволяет использовать их как и ранее. Изменениям подверглись вспомогательные символы, а также буквенные символы, находящиеся за пределами буквенной части.
 
-> NB
+Буквенные символы основной части намеренно не были перепозиционированны, для сохранения изначального вида и навыков набора их пользователей, несмотря на то, что после адаптации, многие буквенные символы могут быть назначены на более удобные позиции.
 
-На этом этапе стоит забежать несколько наперёд и отметить, что английская и русская раскладки, на деле являются общими раскладками латиницы и кириллицы, соответственно, которые при помощи расширенной диакритики и языковых модов символьной раскладки позволяют писать практически на всех языках, в основе которых лежит латиница или кириллица.
-<br>Таким образом, получается единая система для всех латинице- и кириллице-основанных языков. Под системой я подразумеваю всё, что вы сейчас и далее читаете – все концепты и всё из них вытекающее, будь то фонетическая преемственность или символьное единство... Стоит уже и последнем рассказать, не так ли?
+Вы также можете использовать и стандартные виды раскладок, однако в таком случае некоторые символы будут повторяться, а сам принцип логического разделения зон несколько пострадает.
+
+Адаптированные раскладки для латиницы и кириллицы, готовые к установке и использованию, находятся в папке [external/layouts](https://github.com/uqqu/qPhyx/tree/master/external/layouts).
 
 
-## Символьный слой
+## Символьные слои
 
-> Одна из причин создания *"и ещё одной"* раскладки – несоответствие символов в различных языках и их ограниченное количество.
+<details>
+    <summary>tl;dr</summary>
+    Есть три слоя – под `Alt`, под "длинными" нажатиями (базово 0.15с, изменяется пользователем), и под их комбинацией. Все три слоя расположены в буквенной части клавиатуры + цифровой ряд с диакритическими символами. Общий охват – 83 вспомогаельных символа + 24 диакритических символа + 8 управляющих команд. Все символы сгруппированы по логическим категориям и расположены с максимальным удобством набора.
+</details>
 
 К символьному слою были выставлены следующие требования:
-* единство символов для любой буквенной раскладки
-* чёткое разграничение между буквенным и символьным слоями
-* группировка символов по логическим категориям
-* больше символов; добавление диакритических символов
-* расположение с учётом "групп удобства" всё ещё более чем актуально
-* всё это должно быть вписано в 60% ANSI-клавиатуру (объяснение ниже)
-* наличие основных (а может быть и чуть больше) управляющих команд
-* решение вопроса специфических языковых символов/букв, отличных от стандартной латиницы или русской кириллицы
+* расширенная символьная поддержка
+* поддержка добавочной диакритики
+* разделение по логическим категориям
+* добавление управляющих команд, для минимизации лишних движений
+* расположение в пределах стандартной 60% ANSI-клавиатуры
+* максимизация удобства использования каждой части проекта.
 
 ![Объяснение, что есть 60% клавиатура](https://cdn.thewirecutter.com/wp-content/media/2021/05/20210527_mech-keyboard_layout.png "Объяснение, что есть 60% клавиатура")
 <sub>Источник: [nytimes.com](https://www.nytimes.com/wirecutter/blog/how-to-shop-for-a-mechanical-keyboard/); Иллюстрация: Sarah Macreading, Dana Davis</sub>
 
+### Модификаторы слоёв
 
-Давайте познакомимся с результатом в три (2.5) этапа, благо, есть что рассказать на каждом из них.
+Для набора символов на слоях существует два подхода:
+* выбор слоя для набора непосредственно в момент ввода, через зажатие модификатора
+* переключение между слоями с последующим набором.
 
-### Облегчённый вариант
+В данном проекте используется первый подход, так как он позволяет минимизировать промежуточные действия.
 
-![Облегчённый символьный вариант](https://github.com/uqqu/layout/blob/master/external/readme_images/symbols_lite.png "Облегчённый символьный вариант")
-> Перво-наперво – да, эта раскладка предполагает нестандартное использование компьютерной клавиатуры, а именно – `длинные` или `долгие нажатия`. Я не собираюсь доказывать, что это удобно – если вы убеждены в обратном, вы всё равно мне не поверите. Могу лишь сказать, что если вы переведёте эту функциональность в автоматизм (в процессе использования, конечно же), тогда вы со мной согласитесь. А этот процесс абсолютно не сложен. За сим всё, больше мы этот вопрос поднимать не будем.
+При выборе "очевидных" модификаторов, исключив комбинируемые удерживаемые модификаторы ввиду неудобства такого рода модификаторов, `Shift` и `Ctrl` из-за их собственного применения, а также `AltGr`, за его неоднозначное использование, остался лишь `Alt`.
 
-Вторым символьным модификатором выступает `alt`, под которым, в основном, расположен слой вспомогательных и навигационно-управляющих команд.
+В качестве неочевидного модификатора было выбрано "длинное нажатие". Да, это несколько расходится с привычным методом взаимодействия с клавиатурой, но, уверяю, этот модификатор гораздо удобнее даже привычных `Alt/Ctrl/Shift`, в чём вы сможете убедиться сами, как только привыкнете к этой функциональности, переведя её в автоматизм. Как только это произойдёт, набор символов с этим модификатором окажется столь же простым как и обычный набор буквенных символов в нижнем регистре.
 
-Зелёным выделены основные символы, знакомые всем со стандартной `qwerty` раскладки. Серым выделены дополнительные символы, которыми я счёл нужным дополнить раскладку (пожалуй, это самая субъективная часть всего проекта). В углу, под извечным `Ъ` расположились комбинируемые акут и гравис, в первую очередь как маркёры основного и побочного ударений.
+В качестве небольшого подтверждения этих слов – после многих проб и сравнений, самые востребованные символы расположились под модификатором длинного нажатия, именно из-за его удобства, по сравнению с прочими.
 
-Как видно, все условия соблюдены:
-* символы образуют собственный, независимый от какого бы то ни было языка слой
-* символы сгруппированы по категориям (базовая математика, валюты, пунктуация, скобки с зеркальным отображением вокруг домашнего ряда)
-* дополнительные символы из числа востребованных
-* распределение с учётом "групп удобства"
-* всё вмещено в 60% клавиатуру (даже чуть меньше, ведь цифровой ряд ещё впереди)
-* присутствуют управляющие (навигационные) команды
+Базовое значение длительности зажатия для срабатывания данного модификатора – 0.15с. Может быть в любой момент переназначено пользователем на более комфортное. После введения в автоматизм комфортным скорее всего окажется значение около 0.11с.
 
-### Полный вариант
+Таким образом получилось два слоя одинарных модификаторов, а также один слой из их комбинации – долгое нажатие с `Alt`, что по удобству не эквивалентно комбинации из двух удерживаемых модификаторов, по причинам, описанным в прошлом абзаце.
 
-![Полный символьный вариант](https://github.com/uqqu/layout/blob/master/external/readme_images/symbols_complete.png "Полный символьный вариант")
+### Распределение символов
 
-> Несомненно, это выглядит крайне странно и непривычно. Но уверяю, это именно оттого, что непривычно.
+Как было озвучено ранее, самые востребованные символы были расположены под модификатором длинного нажатия; альтернативные отображения и символы с меньшей востребованностью – под `Alt`; вспомогательный набор символов – под их комбинацией `AltLong`.
 
-Давайте взглянем, что изменилось:
+#### Основной набор символов (длинные нажатия)
+![Основной набор символов](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/symbols_long.png "Основной набор символов")
 
-#### Цифровой ряд
-Базовые позиции не изменились. Я не разделяю мнения, что обычный порядок по возрастанию плох, и их нужно перемешивать.
-<br>Под бывшими `-` и `=` расположены кнопки пользовательского ввода, которые будучи пустыми выполняют функцию увеличения или уменьшения текущего выделенного числа. Если определены пользователем – отправляют символ или их комбинацию. Определение рекомендуется для добавления сверх-дополнительных символов (в частности, для абхазского и фарерского языков).
+Как вы можете видеть, здесь расположены преимущественно символы, знакомые всем по стандартным раскладкам.
+* символы сгруппированы по категориям – базовая математика, пунктуация, валюты, скобки
+* первые две категории, как самые востребованные из всех, находятся на домашних позициях пальцев
+* графически и/или логически близкие символы расположены на вертикально смежных позициях
+* скобки расположены зеркально вокруг домашнего ряда – открывающие вверху, закрывающие внизу
+* в правом верхнем углу расположен самый востребованный диакритический комбинируемый символ "акут", в первую очередь как маркёр основного ударения.
 
-#### Расширенная диакритика
-С её помощью раскладка может быть использована для всех языков, имеющих в своём алфавите или регулярно использующих диакритику. К слову, за исключением английского, диакритику в той или иной мере использует абсолютное большинство языков на латинице. В частности, из первых 15 крупнейших языков этой категории регулярная диакритика отсутствует только у непосредственно английского и индонезийского. За наглядными примерами обратитесь к [external/languages.xlsx](https://github.com/uqqu/layout/blob/master/external/languages.xlsx), лист `Latin alphabets`.
+Забегая наперёд, в раздел дополнительной функциональности, клавиши `decr` и `incr` в цифровом ряду отвечают за уменьшение/увеличение выделенного числа на 1, но могут быть переназначены пользователем для ввода дополнительных символов.
 
-#### Управляющие клавиши изменены по позициям и переназначены
-  * `backspace` теперь используется для управления воспроизведением
-  * `enter` выполняет функции `backspace` и `delete`
-  * `caps lock` был заменён на `enter`
-  *  базовая `tilde` теперь `esc`
-  *  функция `caps lock` удалена (так и запланировано)
-    * если понадобится, вы можете определить функцию `caps lock` на `esc`, но в некоторых редких случаях вам может понадобиться "оригинальный" `esc`, а не `tilde` как `esc`
+#### Альтернативный набор символов (`Alt`)
+![Альтернативный набор символов](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/symbols_alt.png "Альтернативный набор символов")
 
-Опять же – это выглядит довольно странно, но это сделано исключительно для повышения удобства.
+Половина символов данного набора представляет собой альтернативные отображения символов основного набора, расположенных на тех же позициях:
+* дефис (используемый как минус) и минус
+* звёздочка (как умножение) и символ умножения
+* среднее тире и длинное тире
+* акут (основное ударение) и гравис (побочное ударение)
+* восклицательный знак и перевёрнутый аналог
+* одинарная кавычка-апостроф и апостроф
+* …
 
-#### Языковые символы
-Под `shift` в цифровом ряду расположены специфичные символы для разных языков. В их числе как самостоятельные символы, так и вспомогательные, являющиеся стандартными символами с добавленной диакритикой, предназначенные для упрощённого ввода для определённых языков. В отображении выше показан вид с основными модификациями для латиницы и кириллицы. В зависимости от потребностей пользователя (регулярных или разовых) они могут быть изменены в одну из 30+ для латиницы и 5 для кириллицы модификаций. "Язык" модификации зависит от текущего языка раскладки. Рассмотрим модификации подробнее ниже.
+Наследование позиций логических категорий соблюдено также и для символов, не имеющих альтернативного отображения.
 
-### Модификации
+На домашних позициях пальцев правой руки расположена навигация "стрелками", для минимизации отрыва руки для их нажатий. Здесь же, по обе стороны от домашнего ряда также расположены команды "вперёд"/"назад" и "отменить"/"повторить".
 
-> Стоит предварительно внести ясность: буквы с диакритикой в разных языках могут являться как отдельными алфавитными символами, так и просто буквами с добавленной диакритикой. Пример: `ñ` в испанском языке графически эквивалентна `n` + диакритическая тильда, однако в алфавите закреплена как самостоятельная, отдельная буква.
-<br>В распределении ниже учитываются именно алфавитные символы, как они закреплены в официальных текущих версиях языков, за редкими исключениями, и то, исключительно в пользу самих языков. Оглядка на наборы добавочной диакритики, специфичной для конкретных языков не выносится в данном тексте отдельно – она была учтена и покрыта <b>полностью</b> для всех поддерживаемых языков или версий романизации для неподдерживаемых.
-<br>NB. Однако на ввод, в целях унификации, такие отдельные алфавитные символы подаются именно в комбинированном виде, где это возможно.
+В цифровом ряду расположена вся используемая надстрочная комбинируемая диакритика (помимо акута и грависа, имеющих собственную позицию в буквенной части клавиатуры).
 
-Латинская и кириллическая стороны модификаций несколько разнятся концептуально, что обусловлено символьными особенностями участников этих категорий. Начнём с латинской:
+#### Вспомогательный набор символов (`AltLong`)
+![Вспомогательный набор символов](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/symbols_alt_long.png "Вспомогательный набор символов")
 
-12 доступных символов разбиты на две категории – самостоятельные символы и символы упрощённого набора.
-Самостоятельные символы – `ł đ ı ß ø æ œ`, с небольшой оговоркой абзацем ниже, доступны из любых модификаций, что, следовательно, позволяет использовать языки, доступ к которым они открывают также из любых модификаций.
-Символы упрощённого набора – это те самые символы, что будут меняться при выборе модификации, в зависимости от потребностей выбранного языка.
+На этом слое расположены менее востребованные символы разных категорий. Наследование позиций логических категорий по возможности соблюдено.
 
-Здесь стоит отдельно рассмотреть три символа:
-  * ñ – латинская n с диакритической тильдой. Принадлежит к вспомогательной категории, однако символ сам по себе, без прочих, открывает упрощённый набор для испанского языка и всех языков, на которые повлиял последний. Из-за этого он занял свободное место в модификациях, в которых набор вспомогательных символов закончился на четырёх.
-  * ł – латинская l с диагональным штрихом. Ситуация зеркальная по отношению к предыдущему символу – символ, хоть и является буквой с диакритикой, является самостоятельным, т.к. не может быть корректно отображён в виде с комбинируемой диакритикой. Также он имеет достаточно ограниченное использование, и от него не зависят прочие символы. Из-за этого, в модификациях, требующих 6 дополнительных символов, последнее место было отдано от "ł". Но таких модификаций не так много, что не делает этот факт чересчур значимым.
-  * đ – латинская d со штрихом. Здесь нас интересуют две конкретные модификации – староанглийский/исландский и язык мосси. Всё дело в том, что в данных модификациях используются собственные вариации данного символа, имеющие собственное название и применение. Во всех модификациях, помимо оговоренных выше, это `đ Đ`, для староанглийского это `ð Ð`, для мосси – `ɖ Ɖ`. Обратите внимание, что варианты в верхнем регистре, несмотря на единое начертание, являются разными юникод-символами.
+Клавиши, на которых расположены управляющие команды на альтернативном слое, не имеют назначений на слое `AltLong`, для сохранения возможности повтора команды через удержание клавиши.
 
-Итак, теперь мы можем разбить все языки на такие категории:
-
-#### Полностью поддерживаемые языки
-Языки, никоим образом не зависящие от выбранной модификации, и полноценно доступные к набору. Английский, французский, вьетнамский, португальский, итальянский, индонезийский, ...
-
-#### Полностью поддерживаемые языки "из коробки"
-Языки, доступные к набору из любой модификации, при этом имеющие упрощённый набор из основной. Испанский, немецкий, шведский, датский, финский, норвежский, ...
-
-#### Диакритически поддерживаемые языки с опциональной модификацией для упрощения набора
-Позвольте на примере – турецкий: язык может быть использован с любой модификацией (к примеру, с основной `ñ å ä ö ü`), при наборе дополнительных символов в два нажатия через диакритические символы, но при выбранной турецкой модификации (`ç ş ğ ö ü`) эти же символы становятся доступны через одинарное нажатие, не теряя общей функциональности. К этой категории относятся турецкий, румынский, хорватский (гаевица), словенский, эстонский, ...
-
-#### Диакритически поддерживаемые языки (без/с частичной) опциональной модификацией для упрощения набора
-Языки с крайне богатой диакритикой, такие как польский, чешский или словацкий, попросту не помещаются для упрощённого набора, однако полноценно доступны через диакритику с любой модификацией.
-
-#### Модификационно поддерживаемые языки
-Языки, полноценный набор на которых возможен только на специальных модификациях. Ещё раз отмечу, что специальные модификации сохраняют все возможности набора на языках предыдущих категорий.
-<br><sub>Согласно <a href="https://w3techs.com/technologies/overview/content_language">w3techs.com</a> в этой категории нет языков с долей использования в интернете более 0.05%</sub>
-
-#### Неподдерживаемые языки
-Языки с основной письменностью отличной от латиницы и кириллицы. Для всех из них поддерживаются все варианты романизации (в том числе, из разряда недоступных на стандартной ISO basic latin).
-
-После такого распределения получается 24 5-символьных модификаций (7 из которых содержат ñ), 7 6-символьных модификаций, и 5 кириллических, о которых ниже.
-
-Общий охват первой и второй групп, с учётом кириллических, составил 88.95% интернета.
-
-> Более наглядно и детально всё это отражено в файле [external/languages.xlsx](https://github.com/uqqu/layout/blob/master/external/languages.xlsx). А также сравнение алфавитов, 200+ основных мировых языков, 150+ нигеро-конголезских языков.
-
-А теперь про кириллическую группу:
-
-Так как здесь отсутствуют единые "над-символы", использование которых может быть востребовано из любой модификации, а также учитывая, что все символы являются отдельными, ввиду того факта, что комбинируемая диакритика крайне печально работает с кириллицей – все 12 мест являются динамическими. Это позволило объединить в группах целые ряды языков, итоговое количество которых – 4 группы + 1 отдельный язык (абхазский, и ему даже не хватило одного места). Также это влияет на то, что здесь нет "основной" модификации, хотя, фактически, из-за расположения по востребованности, её место занимает группа "украинский, белорусский, ...". Но так или иначе, в кириллической раскладке, в отличие от латинской, вас не будут интересовать прочие модификации, вы лишь единожды выбираете ту, использование которой вам может пригодиться. Поэтому все данные языки были приравнены ко второй категории поддержки языков, хотя они относятся в равной мере как к первой, так и к пятой категориям.
+В цифровом ряду расположена подстрочная комбинируемая диакритика, в половине случаев представляющая собой подстрочный вариант аналогичного символа из прошлого слоя. Два оставшихся после распределения места в цифровом ряду были отданы вспомогательным символам.
 
 
-## Реализация
+## Языковой слой
 
-Опуская множество попыток при помощи различных средств из разных категорий: буквенный слой был реализован средством генерации нативных клавиатурных раскладок – [Microsoft Keyboard Layout Creator](https://www.microsoft.com/en-us/download/details.aspx?id=102134), символьный слой и прочая функциональность реализованы через [AHK](https://www.autohotkey.com/).
+<details>
+    <summary>tl;dr</summary>
+    В цифровом ряду под `Shift` расположен ряд специфичных языковых символов. Этот набор может быть выбран из многих предустановленных, в зависимости от потребностей пользователя. Каждый набор открывает доступ к целому ряду языков, так как они сгруппированы для обеспечения максимального охвата для каждого набора. Набор символов выбирается раздельно для кириллической (русской) и латинской (английской) раскладок. Минимальный полноценный охват любой пары наборов – 78% языков интернета (доля использования), максимальный (основные наборы) – 85% интернета. Переключение между наборами, в случае необходимости, выполняется "на лету" в три нажатия.
+</details>
 
-Сгенерированные `MKLC` раскладки для `Windows` – [external/MKLC_qphy_lat/](https://github.com/uqqu/layout/tree/master/external/MKLC_qphy_lat), [external/MKLC_qphy_cyr/](https://github.com/uqqu/layout/tree/master/external/MKLC_qphy_cyr)
+Не беспокойтесь, никаких новых модификаторов нам не понадобится. Возможно, вы обратили внимание на то, что цифровой ряд не имеет варианта с `Shift`? Именно там и расположен языковой слой.
 
-AHK сценарий более содержателен. Но основная его функциональность заключается в добавлении символьных слоёв с "длинными" нажатиями. Базово длительность последних – 0.15с. Вы можете изменить её в файле `config.ini` (будет сгенерирован после первого запуска) или в соответствующем пункте в [menu](https://github.com/uqqu/menu). На первое время вы захотите увеличить время реакции вплоть до 0.2. Привыкая к этой функциональности время срабатывания будет уменьшаться вами вплоть до 0.1 (кмк, 0.12 оптимально).
+Вы можете заметить, что это не самое удобное расположение, и отчасти будете правы. Однако стоит отметить, что если провести сравнительный анализ алфавитов языков одной письменности, к примеру, латинской, можно обнаружить, что каждый из языков отличается от основного языка письменности (в нашем примере – английского) в среднем всего одним собственным дополнительным символом и несколькими устоявшимися символами с добавочной диакритикой. И в то же время, общий вид буквенных частотностей сохраняется из языка в язык, а уникальные языковые символы нередко находятся в конце данного списка. Из этого всего следует, что расположение таких дополнительных символов в цифровом ряду весьма незначительно, особенно ввиду того, что и в существующих раскладках подобное назначение повсеместно используется без каких бы то ни было возражений, в том числе, и в конкретных языковых раскладках.
+
+Основная идея языкового слоя состоит в том, что он выступает в роли открывающего доступ к набору на **любом** языке письменности, без привязки к конкретному языку, без каскадных ограничений набора и никак не сказывается на удобстве набора для тех пользователей, которые им не пользуются, хотя и у последних когда-никогда может возникнуть редкая потребность в нём.
+
+
+Но вернёмся к слою. Конечно, уместить все возможные дополнительные языковые символы в 12 позиций не представляется возможным, потому данный слой/модуль предоставляет конечному пользователю выбор из предустановленных позиционирований языковых символов, раздельно для кириллицы и латиницы (набор символов зависит от языка текущей активной раскладки).
+Базово выбраны "основные" наборы для каждой письменности, имеющие наибольшее потенциальное использование и охват. Пользователь может в процессе использования переключаться на любой другой набор, как для разовых потребностей, так и для дальнейшего основного использования.
+Нажатие соответствующей клавиши в цифровом ряду с зажатым `Shift` передаст на ввод символ в нижнем регистре, а уже привычное "длинное" нажатие с `Shift` введёт её вариант в верхнем регистре.
+
+### Распределение символов по наборам
+
+Распределение символов по наборам проводилось таким образом, чтобы обеспечить максимальный охват для каждого набора.
+
+Символы из наборов языкового слоя можно логически разделить на две категории:
+* самостоятельные, графически уникальные символы
+* графически эквивалентные символам базового набора письменности с добавленной диакритикой.
+
+Из символов первой категории, открывающих доступ к набору текста на популярнейших языках латинской письменности был сформирован базовый набор, присутствующий во всех латинских наборах символов.
+
+Символы второй категории потенциально доступны к набору даже без использования языкового слоя, через добавочную диакритику, которая в полной мере покрывает потребности всех минимально используемых языков.
+Однако необходимо предоставить ввод подобных символов через одинарное нажатие, без дополнительного ввода диакритики, который в дальнейшем мы будем называть "упрощённым набором".
+
+Изменяемые части символьных наборов состоят как раз из символов упрощённого набора, для повышения удобства пользователей этих языков.
+
+Также в изменяемой части символьных наборов встречаются и графически уникальные символы, недоступные ко вводу из других символьных наборов, однако имеющие ограниченную востребованность и представляющие интерес исключительно для носителей подобных языков.
+
+Из этого следует, что каждый набор символов, помимо специфичных символов конкретного языка (будь то уникальные символы или символы упрощённого набора), всегда предоставляет доступ ко вводу текста на целом ряде популярнейших языков, доступ к которым может быть востребован из любого набора символов.
+
+
+Для кириллических наборов положение несколько иное:
+* большинство кириллических языков имеют довольно обширный набор дополнительных символов, отличных от базовой письменности
+* практически все специфичные символы являются графически уникальными, а те редкие, что потенциально могут быть отображены в виде с комбинируемой диакртикой, не могут быть корректно отображёны на подавляющем большинстве шрифтов
+* в кириллических наборах не представляется возможным выделить единый набор потенциально самых востребованных символов – каждый набор представляет интерес для своей группы пользователей
+
+В связи с вышеперечисленным, кириллические наборы являются полностью динамическими, и каждый из них содержит свой уникальный набор символов.
+
+#### Примеры
+Рассмотрим основные наборы символов для латиницы и кириллицы.
+
+Латинский основной набор – `ñ å ä ö ü ł đ ı ß ø æ œ`
+
+Первые 5 символов являются динамическими и в таком сочетании присутствуют только в данном наборе. Остальные 7 символов, с небольшой оговоркой ниже, стабильно присутствуют во всех наборах, распространяя на них свой охват.
+
+
+Данный набор символов открывает доступ к полноценному набору на следующих языках: испанский *(и несколько десятков прочих, на которые он повлиял)*, немецкий, французский, вьетнамский, шведский, датский, финский и норвежский.
+Также набор уникальных графических символов открывает базовую возможность ввода (со вводом прочих специфичных символов через диакритику) к турецкому, польскому и словенскому.
+
+Здесь не перечислено огромное множество языков, доступных ко вводу (как на базовой письменности, так и через диакритику) без использования языкового слоя – их поддержка подразумевается сама собой.
+
+
+Латинские наборы разделены на две категории:
+* поддерживающие – предоставляющие упрощённый набор: турецкий, польский, румынский, венгерский, и 20 прочих наборов, в сумме охватывающих более 40 языков
+* позволяющие – наборы с уникальными графическими символами, необходимыми для языка, которые могут быть введены только на данном наборе: исландский/древнеанглийский, мальтийский, казахский, азербайджанский, ряд африканских языков (хауса, мосси, фула, йоруба, и т.д.), …
+
+<details>
+    <summary>Отдельные уточнения и учёт языковых особенностей</summary>
+    <ul>
+        <li>в наборах, основанных на турецком варианте латиницы предусмотрено небольшое опциональное перепозиционирование символов `iI` и `ıİ`, для более логичного ввода – `iİ` и `ıI` (переключаемая опция)</li>
+        <li>при выборе румынского языкового набора предусмотрена опциональная замена диакритической седили на кому, для исправления распространённого ошибочного использования первой (переключаемая опция)</li>
+        <li>в наборах "исландский/древнеанглийский" и "мосси" символ `đĐ` заменён на варианты начертания, использующиеся в данных языках – `ðÐ` и `ɖƉ`, соответственно</li>
+        <li>в наборы, в которых количество динамических символов ограничилось 4, была добавлена `ñ`, даже не относясь к основному языку набора, в качестве символа с максимальным расширением охвата, без зависимости от прочих символов</li>
+        <li>в некоторых отдельных наборах, в которых количество динамических символов потребовало 6 позиций, дополнительное место было пожертвовано от `ł`</li>
+        <li>в наборах для польского, литовского, латышского и венгерского языков предусмотрен лишь частичный упрощённый ввод, ввиду крайне широкого использования диакритики в данных языках. Упрощённый ввод, по возможности, охватывает символы с разной диакритикой, оставляя на комбинированный ввод буквы с единым диакритическим знаком (акут для польского и венгерского, огонэк для литовского)</li>
+        <li>в зависимости от потребностей пользователя (переключаемая настройка), символы упрощённого набора могут подаваться на ввод как в комбинированном виде (два символа – буква+диакритика), так и в виде цельного юникод-символа</li>
+        <li>одинаковые динамические символы, встречающиеся в разных наборах, расположены на одних и тех же позициях, где это было возможно</li>
+    </ul>
+</details>
+
+<details>
+    <summary>Все варианты латинских наборов (31)</summary>
+    <table>
+        <tr>
+            <td>Main</td>
+            <td>ñ</td>
+            <td>å</td>
+            <td>ä</td>
+            <td>ö</td>
+            <td>ü</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Turkish</td>
+            <td>ç</td>
+            <td>ş</td>
+            <td>ğ</td>
+            <td>ö</td>
+            <td>ü</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Polish</td>
+            <td>ñ</td>
+            <td>ą</td>
+            <td>ę</td>
+            <td>ż</td>
+            <td>ó</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Romanian</td>
+            <td>î</td>
+            <td>ă</td>
+            <td>â</td>
+            <td>ș</td>
+            <td>ț</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Hungarian</td>
+            <td>ñ</td>
+            <td>ő</td>
+            <td>ű</td>
+            <td>ö</td>
+            <td>ü</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Slovene, Croatian, …</td>
+            <td>č</td>
+            <td>š</td>
+            <td>ǵ</td>
+            <td>ž</td>
+            <td>ć</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Lithuanian</td>
+            <td>č</td>
+            <td>š</td>
+            <td>ž</td>
+            <td>ė</td>
+            <td>ū</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Luxembourgish, Uyghur</td>
+            <td>é</td>
+            <td>ë</td>
+            <td>ä</td>
+            <td>ö</td>
+            <td>ü</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Kurdish (Hawar alphabet)</td>
+            <td>ç</td>
+            <td>ş</td>
+            <td>ê</td>
+            <td>î</td>
+            <td>û</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Twi, Yoruba (Benin), …</td>
+            <td>ñ</td>
+            <td>ŋ</td>
+            <td>ɲ</td>
+            <td>ɛ</td>
+            <td>ɔ</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Hausa</td>
+            <td>ɓ</td>
+            <td>ɗ</td>
+            <td>ƙ</td>
+            <td>r̃</td>
+            <td>ƴ</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Latvian, Maori, …</td>
+            <td>ā</td>
+            <td>ē</td>
+            <td>ī</td>
+            <td>ō</td>
+            <td>ū</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Igbo</td>
+            <td>ñ</td>
+            <td>ṅ</td>
+            <td>ị</td>
+            <td>ọ</td>
+            <td>ụ</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Irish, Luba-Katanga, Sundanese</td>
+            <td>á</td>
+            <td>é</td>
+            <td>í</td>
+            <td>ó</td>
+            <td>ú</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Venda</td>
+            <td>ṅ</td>
+            <td>ḓ</td>
+            <td>ḽ</td>
+            <td>ṋ</td>
+            <td>ṱ</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Old English, Icelandic</td>
+            <td>þ</td>
+            <td>ƿ</td>
+            <td>ſ</td>
+            <td>ö</td>
+            <td>ᵹ</td>
+            <td>ł</td>
+            <td>ð</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Mossi</td>
+            <td>ɓ</td>
+            <td>ɩ</td>
+            <td>ʋ</td>
+            <td>ɛ</td>
+            <td>ɔ</td>
+            <td>ł</td>
+            <td>ɖ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Fula</td>
+            <td>ɓ</td>
+            <td>ɗ</td>
+            <td>ŋ</td>
+            <td>ɲ</td>
+            <td>ƴ</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Maltese</td>
+            <td>ñ</td>
+            <td>ċ</td>
+            <td>ġ</td>
+            <td>ż</td>
+            <td>ħ</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Northern Sotho, Albanian</td>
+            <td>ç</td>
+            <td>š</td>
+            <td>ê</td>
+            <td>ô</td>
+            <td>ë</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Kazakh</td>
+            <td>ñ</td>
+            <td>ŋ</td>
+            <td>ş</td>
+            <td>ğ</td>
+            <td>ū</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Southern-Berber, Kanuri</td>
+            <td>ǝ</td>
+            <td>ŋ</td>
+            <td>ɣ</td>
+            <td>ʕ</td>
+            <td>ɍ</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Haitian, Javanese, Kikuyu</td>
+            <td>é</td>
+            <td>è</td>
+            <td>ò</td>
+            <td>ĩ</td>
+            <td>ũ</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Uzbek</td>
+            <td>ç</td>
+            <td>ş</td>
+            <td>ḡ</td>
+            <td>ō</td>
+            <td>ñ</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Azerbaijani, (Turkish)</td>
+            <td>ç</td>
+            <td>ş</td>
+            <td>ğ</td>
+            <td>ö</td>
+            <td>ü</td>
+            <td>ə</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Estonian</td>
+            <td>š</td>
+            <td>ž</td>
+            <td>ä</td>
+            <td>ö</td>
+            <td>ü</td>
+            <td>õ</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Urdu (Roman script)</td>
+            <td>ū</td>
+            <td>ṛ</td>
+            <td>ṣ</td>
+            <td>ṭ</td>
+            <td>ẓ</td>
+            <td>z̤</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Esperanto</td>
+            <td>ĉ</td>
+            <td>ŝ</td>
+            <td>ĝ</td>
+            <td>ĥ</td>
+            <td>ĵ</td>
+            <td>ǔ</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Western Frisian</td>
+            <td>â</td>
+            <td>ê</td>
+            <td>é</td>
+            <td>ô</td>
+            <td>û</td>
+            <td>ú</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Northern Sami</td>
+            <td>č</td>
+            <td>š</td>
+            <td>ž</td>
+            <td>á</td>
+            <td>ŋ</td>
+            <td>ŧ</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Volta-Niger languages</td>
+            <td>ṅ</td>
+            <td>ṣ</td>
+            <td>ẹ</td>
+            <td>ọ</td>
+            <td>ụ</td>
+            <td>ị</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+    </table>
+</details>
+
+Перейдём к кириллическим наборам.
+Как было упомянуто ранее, в кириллических наборах все позиции являются динамическими, за счёт чего их количество значительно меньше латинских наборов.
+Все кириллические наборы являются "позволяющими", так как полноценный ввод текста на языках этих наборов невозможен без их использования.
+Символы из кириллических наборов всегда подаются на ввод в едином виде (за исключением з́ и с́, не имеющих цельного представления).
+
+Основной по потенциальной востребованности набор – `ґ є і ї ӏ ў ѣ ѵ ѳ ӂ ӕ ӧ`
+Данный набор символов открывает доступ к полноценному набору текста на украинском, белорусском, русинском, молдавском, осетинском, языке коми, диалекте руска рома, ряде кавказских языков, дореволюционном русском.
+
+<details>
+    <summary>Все варианты кириллических наборов (5)</summary>
+    <table>
+        <tr>
+            <td>Основной</td>
+            <td>ґ</td>
+            <td>є</td>
+            <td>і</td>
+            <td>ї</td>
+            <td>ӏ</td>
+            <td>ў</td>
+            <td>ѣ</td>
+            <td>ѵ</td>
+            <td>ѳ</td>
+            <td>ӂ</td>
+            <td>ӕ</td>
+            <td>ӧ</td>
+        </tr>
+        <tr>
+            <td>Сербский, боснийский, македонский, черногорский, интерславик</td>
+            <td>ѓ</td>
+            <td>ќ</td>
+            <td>ђ</td>
+            <td>ћ</td>
+            <td>љ</td>
+            <td>њ</td>
+            <td>ѣ</td>
+            <td>џ</td>
+            <td>ј</td>
+            <td>ѕ</td>
+            <td>з́</td>
+            <td>с́</td>
+        </tr>
+        <tr>
+            <td>Казахский, монгольский, узбекский, киргизскй, таджикский</td>
+            <td>ғ</td>
+            <td>қ</td>
+            <td>ң</td>
+            <td>ҷ</td>
+            <td>ҳ</td>
+            <td>ү</td>
+            <td>ә</td>
+            <td>һ</td>
+            <td>ө</td>
+            <td>і</td>
+            <td>Ұ</td>
+            <td>ӯ</td>
+        </tr>
+        <tr>
+            <td>Башкирский, чувашский, татарский</td>
+            <td>ғ</td>
+            <td>ҡ</td>
+            <td>ң</td>
+            <td>ӑ</td>
+            <td>ӗ</td>
+            <td>ү</td>
+            <td>ә</td>
+            <td>һ</td>
+            <td>ө</td>
+            <td>җ</td>
+            <td>ҙ</td>
+            <td>ҫ</td>
+        </tr>
+        <tr>
+            <td>Абхазский</td>
+            <td>ӷ</td>
+            <td>қ</td>
+            <td>ҟ</td>
+            <td>ҷ</td>
+            <td>ҳ</td>
+            <td>ҩ</td>
+            <td>ә</td>
+            <td>ҵ</td>
+            <td>ӡ</td>
+            <td>ҭ</td>
+            <td>ҽ</td>
+            <td>ҿ</td>
+        </tr>
+    </table>
+</details>
+
+
+Текущие активные наборы символов также отображены в GUI скрипта.
+
+[Отображение языковых наборов](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/lang_modes.png)
+
+Немного финальной статистики:
+> согласно данным использования языков в интернете от (w3techs.com)[https://w3techs.com/technologies/overview/content_language] за 22.11.2021
+* полностью поддерживаемые языки на любой модификации – 77.61% (89.14% без упрощённого набора)
+* полностью поддерживаемые языки на основных модификациях – 6.83%
+* полностью поддерживаемые языки на дополнительных модификациях – 5.68%
+* романизированные версии языков прочих письменностей: все версии – 9.85%, некоторые – 0.03%
+* неподдерживаемые языки – 0.001%
 
 
 ## Дополнительная функциональность
 
-* вставка с сохранением выделенного в буфер обмена (или просто clipboard swap) – `Ctrl-Shift-g` (`v` в qwerty-виде)
-* активация/свёртка предустановленных приложений – `Win-[любая клавиша]` – определите свои любимые приложения в `config.ini` в секции `[AltApps]` и переключайтесь между ними. Если процесс ещё не запущен – запускает его. Этот путь быстрее, проще и более гибкий нежели стандартный `Win-[1-9]`. Шаблон для добавления в `.ini`:
-```
-{сканкод}={имя_процесса},{путь_к_файлу}
-```
-  Пример – установим `nvim` на `Win–q`:
-```
-SC010=nvim-qt.exe,C:\Shortcuts\nvim-qt.exe.lnk
-```
-* полная замена стрелок с `alt-[мстр]` (с `shift/ctrl/shift-ctrl`. `Alt-(sh)-ctrl-[ст]` используются для перемещения в начало и конец линии соответственно)
-* перемещение окон с помощью `Win-(shift)-[мстр]` (`[ролд]` в йцукен-виде) так же, как и при помощи `стрелок`
-* инкрементация/декрементация (увеличение/уменьшение на 1) текущего выделенного числа клавишами пользовательского определения (если не присвоено другое значение)
-* автодополнение парных скобок/кавычек. Может быть включено в `config.ini`
-* исправление dotted/dotless i – включается в `config.ini`. Заменяет `iI`, в домашней позиции на `iİ`, а `ıİ` под `8` на `ıI`. В первую очередь для турецкого, азербайджанского языков и казахской латиницы
-* исправление `седиль` в `кому` для румынского языка, для исправления распространённого ложного написания. Включено по умолчанию. Работает только для румынской модификации. Делает использование седили невозможным. Может быть отключено в `config.ini`
-* если же вы столкнулись со случаем, в котором вам нужно "стандартное" поведение клавиш – вы можете на лету приостановить работу скрипта сочетанием `Shift-tilde`
-* перезапуск скрипта – `Ctrl-Shift-tilde`
-* больше функций упрощённого ввода данных и быстрая настройка `qPhyx` доступны через родственный [menu](https://github.com/uqqu/menu) скрипт
+### Парные скобки/кавычки
+
+Переключаемая функциональность.
+Автоматически закрывает скобки и кавычки `<>`, `«»`, `""`, `“”`, `()`, `[]` и `{}`, устанавливая позицию каретки между ними.
+Автоматическое закрытие одинарных кавычек не предусмотрено, так как данный символ часто используется в значении апострофа, где парная кавычка будет нежелательной.
+
+### Замена текста в буфере обмена
+
+Вызывается нажатием `Ctrl-Shift-v`.
+Вставляет текст из буфера обмена вместо выделенного текста, сохраняя последний в качестве нового значения буфера.
+
+### Изменение регистра выделенного текста
+
+Переключаемая функциональность.
+Вызывается двойным нажатием на `Shift`.
+При вызове изменяет регистр каждого символа на обратный.
+При вызове с `Ctrl` или `Alt` меняет регистр на верхний или нижний, соответственно.
+
+### Навигация через `Alt+[hjkl]`
+
+Навигация через имитацию клавиш-стрелок поддерживает все изначальные модификаторы:
+* с `Ctrl` для навигации по словам (`j` и `k` будут выполнять функции перемещения каретки в начало и конец строки, соответственно)
+* с `Shift` для навигации с выделением
+* с `LWin` вместо `Alt` для управления положением окна. С дополнительным `Shift` для позиционирования окна между экранами
+
+### Прочие назначения и горячие клавиши
+
+Неразрывный пробел – `Shift-Space` (переключаемая функциональность)
+Свернуть все окна – `LWin-Enter`
+Восстановить свёрнутые окна – `LWin-Enter long`
+Пауза/возобновление работы скрипта – `Shift-Tilde`
+Перезапуск скрипта – `Ctrl-Shift-Tilde`
+
+### GUI
+
+Скрипт имеет минимальный подсказывающий графический интерфейс, вызываемый через `Alt+F1` или кликом по иконке в трее.
+В интерфейсе в соответствующих вкладках отображены:
+* базовый слой – системная буквенная раскладка пользователя; языковые наборы; переназначения
+* три вкладки символьных слоёв – длинные нажатия, `Alt`, `Alt Long`
+* вкладка со скан-кодами клавиш для пользовательских назначений
+* список всех языковых наборов для двух письменностей с переключением двойным нажатием
+* список всех горячих клавиш как для управления скриптом, так и для прочих функций
+
+GUI может изменяться в зависимости от некоторых настроек, отображая вид предусматриваемый данными опциями. В их числе текущие языковые наборы, функциональность парных скобок, пользовательские переназначения.
+
+Вкладки слоёв реагируют на нажатия клавиш на физической клавиатуре, подсказывая её положение на экране.
+Переключение между вкладками может быть осуществлено клавишами `F1-F7`.
+
+Управление прочими настройками расположено в меню, вызываемом через `LWin+F1` или ПКМ по иконке в трее.
+
+### Пользовательские назначения
+
+Предусмотрены пользовательские назначения трёх типов:
+* назначения дополнительных клавиш в цифровом ряду, которые, будучи пустыми, выполняют функции уменьшения и увеличения выделенного числа на 1
+* дополнительные назначения в буквенной части клавиатуры для латинской письменности. После адаптации латинских раскладок в них появилось 7 дополнительных позиций, которые могут быть использованы в дополнение к языковому слою, в зависимости от индивидуальных потребностей пользователя
+* назначения для переключения между приложениями в комбинации с модификатором `LWin`. Запускает приложение, если оно не запущено
+
+Назначения прописываются в файле `config.ini`, который генерируется рядом с исполняемым файлом скрипта после первого запуска.
+Для первых двух видов, назначения прописывается в секции `AdditionalAssignments` по шаблону `<скан_код_клавиши>=<назначаемый_символ>`. Скан коды клавиш цифрового ряда предварительно указаны в этой секции с пустыми назначениями. Скан коды прочих клавиш можно посмотреть в соответствующей вкладке GUI. Возможно указание модификатора `Shift` (указывается как `+` перед скан кодом) для назначений в буквенной части клавиатуры. Возможно указание unicode значения символа по шаблону `{U+<код_символа>}`.
+
+Назначения для переключения фокуса между приложениями прописываются в секции `AltApps` по шаблону `<скан_код_клавши>=<имя_процесса>,<путь_к_исполняемому_файлу>`. Указание модификаторов не требуется.
+
+После внесения изменений через `config.ini` требуется перезапуск скрипта.
+При внесении изменений через пункт меню (только для назначений клавиш в цифровом ряду) перезапуск не требуется.
+
+### Переназначения управляющих клавиш
+
+В дополнение к перечисленному в прошлых разделах, пользователю предлагается опробовать переназначение управляющих клавиш, таких как `Backspace`, `Enter`, `CapsLock` и `Esc`. Их более комфортное расположение с минимизацией лишних движений рук может быть включено в соответствующем пункте меню.
+Предлагаемое назначение:
+* `Enter` выполняет функцию `Backspace`; с зажатым `Shift` – `Delete`
+* `CapsLock` выполняет функцию `Enter`
+* `Tilde` выполняет функцию `Esc`
+* `Backspace` выполняет функции управления медиа (нажатие – воспроизведение/пауза; с `Shift` – увеличить громкость; с `Alt` – уменьшить громкость; с `Shift Long` – следующий медиа-элемент; с `Alt Long` – предыдущий медиа-элемент)
+* Функция `CapsLock` может быть назначена на `Esc` отдельной настройкой.
+
+Подобное расположение является более эргономичным и позволяет минимизировать движения, отрывающие пальцы от домашних позиций.
+
+Текущие переназначения, как пользовательские, так и переключение опции управляющих клавиш, отображаются в GUI.
+
+Пример отображения с включёнными настройками переназначения управляющих клавиш, парных скобок и переназначением клавиш в цифровом ряду:
+
+[GUI с опциями](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/long_with_options.png)
+
+### Автоматическое отключение скрипта в отдельных приложениях
+
+Отлов длинных нажатий может быть нежелательным в некоторых приложениях, сказываясь на их работе.
+Такие приложения вносятся в файл `config.ini` в секцию `BlackList` по шаблону `<порядковый_номер>=<имя_процесса>`, после чего действие скрипта в данных приложениях будет автоматически приостанавливаться.
 
 
-## Установка
+## Установка и запуск
 
-### Windows
+> Только для Windows
 
-1. Запустите установочные файлы в папках [external/MKLC_qphy_lat](https://github.com/uqqu/layout/blob/master/external/MKLC_qphy_lat) и [external/MKLC_qphy_cyr](https://github.com/uqqu/layout/blob/master/external/MKLC_qphy_cyr);
-2. Выберите установившиеся раскладки как языки ввода в настройках вашей ОС и перезагрузите систему;
-3. *(опционально)* Установите <a href="https://www.autohotkey.com/">AHK</a>, если предпочитаете использовать нескомпилированную версию;
-4. Разместите [modes.ini](https://github.com/uqqu/layout/blob/master/modes.ini) и [qphyx.exe](https://github.com/uqqu/layout/blob/master/qphyx.exe) или его нескомпилированный аналог – [qphyx.ahk](https://github.com/uqqu/layout/blob/master/qphyx.ahk) в папке по вашему выбору;
-5. Запустите `qphyx.*` для генерации файла `config.ini`;
-6. *(опционально)* Если используете или собираетесь использовать смежный проект [menu](https://github.com/uqqu/menu):
-    1. В `config.ini` рядом с `qphyx.*` укажите путь к папке `menu`;
-    2. В `config.ini` рядом с `menu.*`, после первого запуска, укажите путь к папке `qphyx`;
-    3. Перезапустите `qphyx.*`. Если пути указаны верно, `qphyx` сам перезапустит `menu`, а тот, в свою очередь, после перезапуска обзаведётся пунктом `Qphyx settings` в `message menu`. Учтите, что `qphyx.*` будет пытаться вызвать версию `menu.*` с тем же расширением, что и у него самого, поэтому используйте версии с одинаковым расширением;
-7. Ознакомьтесь с использованием и функционалом;
-8. *(опционально)* Добавьте `qphyx.*` в автозагрузку (не добавляйте `menu`, если используете. `qphyx` сам вызывает его, если путь из пункта 6.1 указан верно).
+1. *(опционально)* Установите [адаптированные](https://github.com/uqqu/qPhyx/tree/master/external/layouts) версии ваших раскладок для латиницы и кириллицы, выберите их в настройках ОС и перезагрузите систему
+2. *(опционально)* Установите <a href="https://www.autohotkey.com/">AHK</a>, если предпочитаете использовать нескомпилированную версию скрипта
+3. Разместите файлы `qphyx.exe` (или `qphyx.ahk`), `modes.ini` и файлы `.ico` в папке по вашему выбору, запустите `qphyx.*`
+4. Ознакомьтесь с использованием. Настройте в меню (ПКМ по иконке в трее или `LWin+F1`) языковые наборы, время срабатывания "длинных" нажатий и прочие пункты
+5. *(опционально)* Добавьте `qphyx.*` в автозагрузку
 
-### Android
-
-1. Установите <a href="https://play.google.com/store/apps/details?id=kl.ime.oh&hl=en">Multiling O Keyboard</a>;
-2. Выберите DIY layout для английского языка;
-3. Вставьте содержимое файла [multiling_o_keyboard_lat.txt](https://github.com/uqqu/layout/blob/master/external/android/multiling_o_keyboard_lat.txt);
-4. Выберите DIY layout для русского языка;
-5. Вставьте содержимое файла [multiling_o_keyboard_cyr.txt](https://github.com/uqqu/layout/blob/master/external/android/multiling_o_keyboard_cyr.txt);
-6. Настройте внешний вид в настройках на свой вкус.
-
-
-## Дальнейшие планы
-
- * переложение на другие письменности
- * частотность других языков (в порядке используемости)
-
-
- * ? диакритические хуки в юникоде
- * ? диакритика с кириллицей
- * ? `з́ ` и `с́ ` отдельными символами в юникоде
-
-
-## ЧАВО
-
-<dl>
-  <dt>Нужно ли устанавливать <a href="https://www.autohotkey.com/">AutoHotKey</a>?</dt>
-  <dd>Только для использования <code>.ahk</code> версии. Использование скомпилированной идентичной <code>.exe</code> версии не требует никаких дополнительных установок.</dd>
-  <dt>А что насчёт раскладки для эргономических клавиатур?</dt>
-  <dd>Этот проект направлен на стандартные не эргономические клавиатуры. Перенос этой раскладки на любую другую клавиатуру – это отдельный процесс. Я буду рад когда-нибудь сделать это, но на текущий момент нет версий для любых клавиатур отличных от стандартной.</dd>
-  <dt>Возможно ли использовать это на Linux?</dt>
-  <dd>Нет. Насколько я интересовался вопросом – там есть только сложные пути реализации отлова длинных нажатий, и за эти варианты я сейчас взяться не готов. Конечно, можно назначить любую клавишу как модификатор, и перенести весь слой длинных нажатий под этот модификатор. Но это уже будет не совсем то, что я делал. Или совсем не то.</dd>
-  <dt>Могу я использовать это на Mac?</dt>
-  <dd>Нет, текущая версия используется только на Windows. Честно говоря, я пока даже не интересовался вопросом реализации этой раскладки на Mac.</dd>
-  <dt>Может хоть на Android?</dt>
-  <dd>Да! Правда, не для монополиста <code>G.Board</code>, но есть приложение с полнейшей кастомизацией – <a href="https://play.google.com/store/apps/details?id=kl.ime.oh&hl=en">Multiling O Keyboard</a>. Шаблоны раскладок для этого приложения и скриншоты можно найти тут: <a href="https://github.com/uqqu/layout/tree/master/external/android">external/android/</a>.</dd>
-  <dt>В латинской раскладке присутствуют пустые клавиши?</dt>
-  <dd>Да. Ввиду разделения буквенного и символьных слоёв, клавиши с потенциально буквенным назначением могут быть использованы только для букв. Но в том, что они пустые нет никакой проблемы – количество символов от этого уж явно не пострадало, а буквы расположены на самых удобных позициях, не теснясь с конкурентами на место.</dd>
-  <dt>...но они не совсем пустые?</dt>
-  <dd>Да, технически, <code>x</code>, <code>c</code> и <code>v</code> клавиши (в qwerty-виде) отправляют <code>U+001E</code>, который не отображается на печати, но может быть использован сторонними программами, для дополнительных назначений, к примеру. Я не сталкивался со случаями, где это решение давало бы сбои, но если (когда) такие найдутся, это всегда можно убрать. Пока пользы больше.</dd>
-  <dt>Могу я использовать символьную раскладку с <code>йцукен</code>?</dt>
-  <dd>Вы-то, конечно, можете, но это будет не так удобно, как это планировалось (планировалось не использовать <code>йцукен</code>).</dd>
-  <dt>Могу я использовать буквенную раскладку без символьной?</dt>
-  <dd>А вот тут, к сожалению, нет. Вам объективно не будет хватать базовых символов.</dd>
-  <dt>И всё-таки, на каких конкретно языках можно писать?</dt>
-  <dd>Если вы уже ознакомились с категориями в разделе <a href="https://github.com/uqqu/layout#Модификации">"Модификации"</a>, загляните в <a href="https://github.com/uqqu/layout/blob/master/external/languages.xlsx">external/languages.xlsx</a>. Там есть ответ на ваш вопрос для <b>200+</b> языков.</dd>
-  <dt>Связан ли как-то этот проект и метод слепого набора?</dt>
-  <dd>Конечно! Одна из целей как раз в максимизации удобства слепого набора и минимизации лишних движений (в особенности – движений отрывающих руки с их домашних позиций).</dd>
-  <dt>Нужно ли мне сначала потренироваться в слепом наборе, прежде чем знакомиться с этим проектом?</dt>
-  <dd>Если вы уже об этом задумались – однозначно стоит, и вне зависимости от того, собираетесь ли вы потом знакомиться с данным проектом. А если всё-таки собираетесь, то даже лучше сначала ознакомиться с проектом, а уже пользуясь выбранной раскладкой тренироваться в слепом наборе, потому как процесс перехода на любую новую раскладку длителен и дискомфортен. И чем лучше вы владели предыдущей раскладкой, тем больнее будет переход на новую. Первое время вы будете очень медленными и неуклюжими, и это будет бесить. Также потом могут иногда проявляться фантомные нажатия, когда в процессе потокового набора палец на один символ идёт по старому автоматизму. Тоже довольно бесячая вещь. Я ни в коем случае не отговариваю вас, просто вы должны быть заранее готовы к описанному, и понимать, что это естественный порядок перехода.</dd>
-  <dt>Я гранд-мастер набора текста на <code>colemak</code>/<code>dvorak</code>/<code>workman</code>/др., есть ли смысл переходить на эту раскладку?</dt>
-  <dd>На ваше усмотрение, конечно. Вы получите меньше преимуществ в пункте буквенной раскладки, но все остальные никуда не делись.</dd>
-  <dt>...а я гранд-мастер набора текста на <code>qwerty</code>! Есть ли мн...</dt>
-  <dd>*перебивает* Прямо сейчас возьмите любую стороннюю раскладку. Мне будет приятно, если выбор остановится на раскладке из проекта, которому посвящён весь данный текст, но даже если нет – существует множество других раскладок для латиницы, и некоторые из них очень даже хороши. Но не для русского. Там всё плохо. Так или иначе, постарайтесь отказаться от <code>qwerty</code> и <code>йцукен</code>. Это крайне важные раскладки для истории набора текста, но оставьте их использование музейным работникам.</dd>
-  <dt>Я не могу использовать <code>стрелки</code> и <code>цифровой блок</code>!</dt>
-  <dd>Так и задумано. Если вы хотите попробовать эту раскладку, как она и планировалась, вам нужно привыкнуть к тому, чтобы поменьше отрывать руки от домашних позиций. Если вам действительно нужен цифровой блок, вы можете переключить настройку <code>NumPad</code> в <code>1</code>, в <code>config.ini</code> или через <code>menu</code>.</dd>
-  <dt>Я не могу кричать капсом!</dt>
-  <dd>Восхитительно. Так и задумано.</dd>
-  <dt>... но мне нужен <code>Caps Lock</code> для моего ЯП или для чего-то ещё!</dt>
-  <dd>Эта раскладка для общего пользования. А для общего пользования функция <code>Caps Lock</code> вредна...<br>Ладно, если что, вы можете установить в <code>config.ini</code> параметр <code>EscAsCaps</code> в 1, и переключать состояние <code>Caps Lock</code> через <code>Esc</code>. Даже дополнительные буквенные символы из цифрового ряда будут инвертированы. Только, пожалуйста, не злоупотребляйте этим.</dd>
-  <dt>Неразрывный пробел больше мешает!</dt>
-  <dd>На этот случай также предусмотрена настройка для отключения – <code>UnbrSpace</code> в <code>config.ini</code> или через <code>menu</code>.</dd>
-  <dt>Этот проект родственен с <a href="https://github.com/uqqu/menu">menu</a>?</dt>
-  <dd>Да, когда-то это был единый проект, но с постоянным добавлением нового функционала было принято решение о его разделении на два проекта. Но и сейчас они тесно связаны друг с другом. К примеру, вы можете выставлять время срабатывания длинного нажатия через <code>input-box</code> вызываемый <code>menu</code>, и управлять прочими пунктами настроек, а <code>qphyx</code> сам вызывает <code>menu</code> в подходящий момент, дабы избежать конфликта назначений. Для связи между ними нужно лишь в <code>config.ini</code> обоих проектов указать путь к родственнику.</dd>
-  <dt>Ещё какие-нибудь интеграции?</dt>
-  <dd>Просто вызов в нужное время, для исключения конфликтов – <a href="https://github.com/magicstep/ViATc-English">ViATc</a>. Если вы пользуетесь этим проектом, просто укажите путь к основному файлу <code>ViATc-x.x.xen.ahk</code> в <code>config.ini</code>, только и всего.</dd>
-  <dt>Проблемы с <code>config.ini</code></dt>
-  <dd>Не создавайте его сами, дайте ему сгенерироваться при первом запуске, и лишь потом правьте. Для функциональности с переключением между приложениями в секции <code>[AltApps]</code> на отдельных строках располагайте ваши приложения по соответствующему образцу.</dd>
-</dl>
 
 ---
 
