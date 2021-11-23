@@ -8,20 +8,20 @@
 **qPhyx** is a layout supplement script to the keyboard layout that transform latter into a multilingual layout with extended symbol support and a few extra features.
 
 Benefits:
-1. Unified symbol and language typing system
-2. Full support for all languages in Latin and Cyrillic scripts, with all features, without separate language layouts
-3. Extended symbol support
+1. Unified symbol and language typing system.
+2. Full support for all languages in Latin and Cyrillic scripts, with all features, without separate language layouts.
+3. Extended symbol support.
 4. Additional internal and external functionality.
 
-> The best way to get to know a project is to use it.
+> The best way to get to know a project is to use it
 
 
 ## Letter layouts
 
-<details>
-    <summary>tl;dr</summary>
-    You can use any letter layout, but it is preferable to use [adapted versions](https://github.com/uqqu/qPhyx/tree/master/external/layouts), which have been cleared of non-alphabetic characters, beause they are fully provided by the described script.
-</details>
+> <details>
+>    <summary>tl;dr</summary>
+>    You can use any letter layout, but it is preferable to use <a href="https://github.com/uqqu/qPhyx/tree/master/external/layouts">adapted versions</a>, which have been cleared of non-alphabetic characters, beause they are fully provided by the described script.
+> </details>
 
 One of the goals pursued by the project is the complete separation of the layers. To do this, the following conditions must be met:
 * the alphabetic characters of the main script are completely arranged in the letter part of the keyboard, with the condition of upper case at the modifier `Shift` (an obvious condition, which, however, is neglected by some Cyrillic keyboard layouts);
@@ -39,26 +39,32 @@ Adapted layouts for Latin and Cyrillic, ready to install and use, are in the fol
 
 ## Symbol layers
 
-<details>
-    <summary>tl;dr</summary>
-    There are three layers – under `Alt`, under "long" presses (base 0.15s, can be changed by user), and under their combination. All three layers are located in the alphabetic part of the keyboard + numeric row with diacritical symbols. Total coverage – 83 auxiliary characters + 24 diacritics + 8 control commands. All characters are grouped into logical categories and arranged with maximum typing convenience.
-</details>
+> <details>
+>    <summary>tl;dr</summary>
+>    There are three layers – under <code>Alt</code>, under <code>"long" presses</code> (base 0.15s, can be changed by user), and under their combination. 
+>    <br><br>All three layers are located in the alphabetic part of the keyboard + numeric row with diacritical symbols.
+>    <br><br>All characters are grouped into logical categories and arranged with maximum typing convenience.
+>    <br><br>Total coverage – 83 auxiliary characters + 24 diacritics + 8 control commands.
+> </details>
 
 The following requirements were specified for the symbol layers:
-* extended symbol support
-* auxiliary diacritics support
-* division by logical categories
-* adding control commands to minimize unnecessary movements
-* location within the standard 60% ANSI keyboard
-* maximizing the usability of each part of the project.
+* extended symbol support;
+* auxiliary diacritics support;
+* division by logical categories;
+* adding control commands to minimize unnecessary movements;
+* location within the standard 60% ANSI keyboard;
+* location of the most popular symbols in the most convenient positions and layers
 
-![An explanation of what a 60% keyboard is](https://cdn.thewirecutter.com/wp-content/media/2021/05/20210527_mech-keyboard_layout.png "An explanation of what a 60% keyboard is")
-<sub>Source: [nytimes.com](https://www.nytimes.com/wirecutter/blog/how-to-shop-for-a-mechanical-keyboard/); Illustration: Sarah Macreading, Dana Davis</sub>
+<details>
+    <summary>An explanation of what a 60% keyboard is</summary>
+    <img src="https://cdn.thewirecutter.com/wp-content/media/2021/05/20210527_mech-keyboard_layout.png">
+    <sub>Source: <a href="https://www.nytimes.com/wirecutter/blog/how-to-shop-for-a-mechanical-keyboard/">nytimes.com</a>; Illustration: Sarah Macreading, Dana Davis</sub>
+</details>
 
 ### Layer modifiers
 
 There are two ways to typing symbols on the layers:
-* select the layer to be typed directly at the moment of input, by pressing the modifier
+* select the layer to be typed directly at the moment of input, by pressing the modifier;
 * switching between layers with subsequent typing.
 
 This project uses the first way, as it minimizes intermediate actions.
@@ -81,10 +87,10 @@ As mentioned earlier, the most demanded symbols were located under the long-pres
 ![Main symbol set](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/symbols_long.png "Main symbol set")
 
 As you can see, there are mostly symbols that are familiar to everyone from the standard layouts.
-* symbols are grouped into categories – basic math, punctuation, currencies, brackets
-* the first two categories, as the most demanded of all, are located at the home finger positions
-* graphically and/or logically close symbols are on vertically adjacent positions
-* brackets are mirrored around the home row – opening at the top, closing at the bottom
+* symbols are grouped into categories – basic math, punctuation, currencies, brackets;
+* the first two categories, as the most demanded of all, are located at the home finger positions;
+* graphically and/or logically close symbols are on vertically adjacent positions;
+* brackets are mirrored around the home row – opening at the top, closing at the bottom;
 * in the upper right corner is the most demanded diacritic combining symbol "acute" primarily as a marker of the main accent.
 
 Looking ahead to the additional functionality section, the `decr` and `incr` keys in the numeric row are responsible for decreasing/increasing the highlighted number by 1, but can be reassigned by the user to enter additional symbols.
@@ -93,12 +99,12 @@ Looking ahead to the additional functionality section, the `decr` and `incr` key
 ![Alternative symbol set](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/symbols_alt.png "Alternative symbol set")
 
 Half of the symbols in this set are alternate representations of the main set symbols at the same positions:
-* hyphen (used as a minus) and minus
-* asterisk (as multiplication) and multiplication symbol
-* middle dash and long dash
-* acute (main accent) and grave (secondary accent)
-* exclamation mark and inverted counterpart
-* single quote (used as apostrophe) and apostrophe
+* hyphen (used as a minus) and minus;
+* asterisk (as multiplication) and multiplication symbol;
+* middle dash and long dash;
+* acute (main accent) and grave (secondary accent);
+* exclamation mark and inverted counterpart;
+* single quote (used as apostrophe) and apostrophe;
 * …
 
 The inheritance of logical category positions is also followed for symbols that have no alternative representation.
@@ -119,27 +125,30 @@ In the numeric row there is a subscript combined diacritic, which in half of the
 
 ## Language layer
 
-<details>
-    <summary>tl;dr</summary>
-    The numeric row below `Shift` contains a number of specific language characters. This set can be selected from many preset ones, depending on the user's needs. Each set provides access to a number of languages, as they are grouped to provide maximum coverage for each set. The character set is selectable separately for Cyrillic (Russian) and Latin (English) layouts. The minimal total coverage of any pair of sets is 78% of the languages of the Internet (share of use), the maximum (the main sets) is 85% of the Internet. Switching between sets, if necessary, is performed "on the fly" in three presses.
-</details>
+> <details>
+>    <summary>tl;dr</summary>
+>    The numeric row below `Shift` contains a number of specific language characters.
+>    <br><br>This set can be selected from many preset ones, depending on the user's needs. Each set provides access to a number of languages, as they are grouped to provide maximum coverage for each set.
+>    <br><br>The character set is selectable separately for Cyrillic (Russian) and Latin (English) layouts.
+>    <br><br>The minimal total simultaneous coverage of any pair of sets is 77.6% of the languages of the Internet (share of use), the maximum (the main sets) is 84.4% of the Internet. Total coverage of all sets is 90.1% + 9.85% of all romanization variants of languages with main script different from Latin or Cyrillic.
+>    <br><br>Switching between sets, if necessary, is performed "on the fly" in three presses.
+> </details>
 
-Don't worry, we won't need any new modifiers. Perhaps you noticed that the numeric row has no option with `Shift`? That is where the language layer is located.
-
-You may notice that this is not the most convenient location, and you would be partly right. It is worth noting, however, that if you do a comparative analysis of the alphabets of languages of the same script, for example Latin, you will find that each language differs from the main script language (English in our example) by an average of only one additional character of its own and a few settled characters with an additional diacritic. And at the same time, the overall look of the letter frequencies is preserved from language to language, and the unique language symbols are often at the end of this list. It follows from all this that the placement of such additional characters in the numeric row is quite insignificant, especially considering that even in existing layouts such a placement is used universally without any objection, including in the layouts of specific languages.
+Perhaps you noticed that the numeric row has no option with `Shift`? That is where the language layer is located.
 
 The main idea of the language layer is that it acts as an open access to typing in **any** writing language, with no ties to a particular language, no cascading restrictions on typing, and no effect on the convenience of typing for those users who do not use it, although the latter may have a rare need for it someday, too.
 
-But back to the layer. Of course, it is not possible to fit all the available additional language characters in 12 positions, so this layer/module gives the end user a choice of preset language character positions, separately for Cyrillic and Latin (the character set depends on the language of the current active layout).
+Of course, it is not possible to fit all the available additional language characters in 12 positions, so this layer/module gives the end user a choice of preset language character positions, separately for Cyrillic and Latin (the character set depends on the language of the current active layout).
+
 Basically, the "main" sets are chosen for each script that have the greatest potential use and coverage. The user can switch to any other set as they use it, either for one-time needs or for further primary use.
-Pressing the corresponding key in the numeric row with pressed `Shift` will pass the character in lowercase, and the already familiar "long" press with `Shift` will enter its version in uppercase.
+<br>Pressing the corresponding key in the numeric row with pressed `Shift` will pass the character in lowercase, and the already familiar "long" press with `Shift` will enter its version in uppercase.
 
 ### Character allocation to sets
 
 The allocation of characters to the sets was designed to provide maximum coverage for each set.
 
 Symbols from the language layer sets can be logically divided into two categories:
-* independent, graphically unique symbols
+* independent, graphically unique symbols;
 * graphically equivalent characters of the basic writing script with added diacritics.
 
 From the characters of the first category, opening access to typing in the most popular languages of the Latin script, a core set was formed, present in all Latin character sets.
@@ -153,10 +162,11 @@ There are also graphically unique characters in the modifiable part of character
 
 It follows that each character set, in addition to language-specific characters (be they unique characters or simplified characters), always provides access to text input in a range of the most popular languages that can be accessed from any character set.
 
+
 The situation is somewhat different for Cyrillic sets:
-* most Cyrillic languages have a fairly extensive set of additional characters, different from the base script
-* almost all specific characters are graphically unique, and those rare ones that can potentially be displayed in a combined diacritic form cannot be displayed correctly in the majority of fonts
-* in Cyrillic sets it is not possible to identify a core set of potentially most popular characters – each set is of interest to its own group of users
+* most Cyrillic languages have a fairly extensive set of additional characters, different from the base script;
+* almost all specific characters are graphically unique, and those rare ones that can potentially be displayed in a combined diacritic form cannot be displayed correctly in the majority of fonts;
+* in Cyrillic sets it is not possible to identify a core set of potentially most popular characters – each set is of interest to its own group of users.
 
 In connection with the above, Cyrillic sets are fully dynamic, and each of them contains its own unique set of characters.
 
@@ -170,23 +180,23 @@ The first 5 characters are dynamic and in this combination are present only in t
 This character set opens up access to full-fledged typing in the following languages: Spanish *(and several dozen other languages it has influenced)*, German, French, Vietnamese, Swedish, Danish, Finnish, and Norwegian.
 Also, a set of unique graphical characters opens up basic typing capability (with input of other specific characters via diacritics) to Turkish, Polish, and Slovenian.
 
-This does not list the myriad languages available for typing (both in basic script and via diacritics) without using a language layer – their support is self-evidently implied.
+> This does not list the myriad languages available for typing (both in basic script and via diacritics) without using a language layer – their support is self-evidently implied
 
 The Latin sets are divided into two categories:
-* supportive – which provide simplified typing: Turkish, Polish, Romanian, Hungarian, and 20 other sets, totaling more than 40 languages
+* supportive – which provide simplified typing: Turkish, Polish, Romanian, Hungarian, and 20 other sets, totaling more than 40 languages;
 * allowing – sets with unique graphic characters necessary for a language that can only be typed in a given set: Icelandic/Old English, Maltese, Kazakh, Azerbaijani, a number of African languages (Hausa, Mossi, Fula, Yoruba, etc.), …
 
 <details>
     <summary>Some clarifications and attention to the specifics of languages</summary>
     <ul>
-        <li>in sets based on the Turkish variant of the Latin alphabet, there is a small optional repositioning of the characters `iI` and `ıİ`, for more logical typing – `iİ` and `ıI` (switchable setting)</li>
-        <li>when selecting the Romanian language set, there is an optional replacement of the diacritical cedilla with a comma, to correct a popular misuse of the first one (switchable setting)</li>
-        <li>in the "Icelandic/Old English" and "Mossi" sets, the symbol `đĐ` is replaced by the variants of the lettering used in these languages – `ðÐ` and `ɖƉ`, respectively</li>
-        <li>in sets in which the number of dynamic characters was restricted to 4, `ñ` was added, not even related to the main language of the set, as a character with maximum extension of coverage, without dependence on other characters</li>
-        <li>in some sets, in which the number of dynamic characters required 6 positions, additional place was sacrificed from `ł`</li>
-        <li>the Polish, Lithuanian, Latvian, and Hungarian sets have only partially simplified typing, due to the extremely widespread use of diacritics in these languages. Simplified typing, if possible, covers characters with different diacritics, leaving for combined typing letters with a single diacritical symbol (acute for Polish and Hungarian, ogonek for Lithuanian)</li>
-        <li>depending on the user's needs (switchable setting), the simplified characters can be input as in a combined form (two characters – letter+diacritics), or as a single Unicode character</li>
-        <li>the same dynamic characters occurring in different sets are located in the same positions, where possible</li>
+        <li>in sets based on the Turkish variant of the Latin alphabet, there is a small optional repositioning of the characters `iI` and `ıİ`, for more logical typing – `iİ` and `ıI` (switchable setting);</li>
+        <li>when selecting the Romanian language set, there is an optional replacement of the diacritical cedilla with a comma, to correct a popular misuse of the first one (switchable setting);</li>
+        <li>in the "Icelandic/Old English" and "Mossi" sets, the symbol `đĐ` is replaced by the variants of the lettering used in these languages – `ðÐ` and `ɖƉ`, respectively;</li>
+        <li>in sets in which the number of dynamic characters was restricted to 4, `ñ` was added, not even related to the main language of the set, as a character with maximum extension of coverage, without dependence on other characters;</li>
+        <li>in some sets, in which the number of dynamic characters required 6 positions, additional place was sacrificed from `ł`;</li>
+        <li>the Polish, Lithuanian, Latvian, and Hungarian sets have only partially simplified typing, due to the extremely widespread use of diacritics in these languages. Simplified typing, if possible, covers characters with different diacritics, leaving for combined typing letters with a single diacritical symbol (acute for Polish and Hungarian, ogonek for Lithuanian);</li>
+        <li>depending on the user's needs (switchable setting), the simplified characters can be input as in a combined form (two characters – letter+diacritics), or as a single Unicode character;</li>
+        <li>the same dynamic characters occurring in different sets are located in the same positions, where possible.</li>
     </ul>
 </details>
 
@@ -662,12 +672,15 @@ The Latin sets are divided into two categories:
 </details>
 
 Let's move on to Cyrillic sets.
-As mentioned earlier, in Cyrillic sets all positions are dynamic, due to which their number is much smaller than in Latin sets.
+<br>As mentioned earlier, in Cyrillic sets all positions are dynamic, due to which their number is much smaller than in Latin sets.
+
 All Cyrillic sets are "allowing" because complete typing in the languages of these sets is not possible without using them.
+
 Characters from Cyrillic sets are always input in a single form (with the exception of з́ and с́, which do not have a coherent representation).
 
-The main set in terms of potential demand – `ґ є і ї ӏ ў ѣ ѵ ѳ ӂ ӕ ӧ`
-This character set provides access to full-fledged typing in Ukrainian, Belarusian, Rusyn, Moldovan, Ossetian, Komi, a dialect of Ruska Roma, a number of Caucasian languages, and pre-revolutionary Russian.
+The main Cyrillic set in terms of potential demand – `ґ є і ї ӏ ў ѣ ѵ ѳ ӂ ӕ ӧ`
+
+This character set provides access to full-fledged typing in Ukrainian, Belarusian, Moldovan, Rusyn, Ossetian, Komi, a dialect of Ruska Roma, a number of Caucasian languages, and pre-revolutionary Russian.
 
 <details>
     <summary>All Cyrillic sets (5)</summary>
@@ -752,15 +765,17 @@ This character set provides access to full-fledged typing in Ukrainian, Belarusi
 
 The currently active character sets are also displayed in the script GUI.
 
-[Displaying language sets](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/lang_modes.png)
+![Displaying language sets](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/lang_modes.png)
 
 Some final statistics:
-> according to the use of languages on the Internet by (w3techs.com)[https://w3techs.com/technologies/overview/content_language] of 22.11.2021
+> *according to the use of languages on the Internet by <a href="https://w3techs.com/technologies/overview/content_language">w3techs.com</a> of 22.11.2021*
 * fully supported languages on any modification – 77.61% (89.14% without simplified typing)
 * fully supported languages on main modifications – 6.83%
 * fully supported languages on additional modifications – 5.68%
 * romanized versions of languages of other scripts: all versions – 9.85%, some – 0.03%
 * unsupported languages – 0.001%
+
+For details on all *(200+)* languages, categories, usability, alphabets, and support, see <a href="https://github.com/uqqu/qPhyx/blob/master/external/languages.xlsx">external/languages.xlsx</a> 
 
 
 ## Additional features
@@ -768,91 +783,91 @@ Some final statistics:
 ### Paired brackets
 
 Switchable option.
-Automatically closes brackets and quotation marks `<>`, `«»`, `""`, `“”`, `()`, `[]` and `{}`, setting the carriage position between them.
-Automatically closing single quotes is not provided, as this symbol is often used in the meaning of apostrophe, where a paired quote would be undesirable.
+<br>Automatically closes brackets and quotation marks `<>`, «», `""`, `“”`, `()`, `[]` and `{}`, setting the carriage position between them.
+<br>Automatic closing single quotes is not provided, as this symbol is often used in the meaning of apostrophe, where a paired quote would be undesirable.
 
 ### Replacing text on the clipboard
 
 Called by pressing `Ctrl-Shift-v`.
-Pastes text from the clipboard in place of the selected text, saving the latter as a new clipboard value.
+<br>Pastes text from the clipboard in place of the selected text, saving the latter as a new clipboard value.
 
 ### Changing the case of selected text
 
 Switchable option.
-Called by pressing `Shift` twice.
-When called, it reverses the case of each character.
-When called with `Ctrl` or `Alt` it changes the case to upper or lower, respectively.
+<br>Called by pressing `Shift` twice.
+<br>When called, it reverses the case of each character.
+<br>When called with `Ctrl` or `Alt` it changes the case to upper or lower, respectively.
 
 ### Navigation with `Alt+[hjkl]`
 
 Navigation via simulated arrow keys supports all the original modifiers:
-* with `Ctrl` for word navigation (`j` and `k` will move the carriage to the beginning and end of the line, respectively)
-* with `Shift` to navigate with highlighting
-* with `LWin` instead of `Alt` to control window position. With additional `Shift` to position the window between screens
+* with `Shift` to navigate with highlighting;
+* with `Ctrl` for word navigation (`j` and `k` will move the carriage to the beginning and end of the line, respectively);
+* with `LWin` instead of `Alt` to control window position. With additional `Shift` to position the window between screens.
 
 ### Other assignments and hotkeys
 
 Unbreakable space – `Shift-Space` (switchable functionality)
-Minimize all windows – `LWin-Enter`
-Restore minimized windows – `LWin-Enter long`
-Pause/resume the script – `Shift-Tilde`
-Restart the script – `Ctrl-Shift-Tilde`
+<br>Minimize all windows – `LWin-Enter`
+<br>Restore minimized windows – `LWin-Enter long`
+<br>Pause/resume the script – `Shift-Tilde`
+<br>Restart the script – `Ctrl-Shift-Tilde`
 
 ### GUI
 
 The script has a minimal hinting graphical interface, called via `Alt+F1` or by clicking on an icon in the tray.
-The interface displays in the corresponding tabs:
-* main layer – the user's system letter layout; language sets; reassignments
-* three tabs of symbol layers - long presses, `Alt`, `Alt Long`.
-* tab with scan codes for user assignments
-* list of all language sets for two scripts with switching between them by double click
-* list of all hotkeys for both script control and other functions
+<br>The interface displays in the corresponding tabs:
+* main layer – the user's system letter layout, language sets, reassignments;
+* three tabs of symbol layers - long presses, `Alt`, `Alt Long`;
+* tab with scan codes for user assignments;
+* list of all language sets for two scripts with switching between them by double click;
+* list of all hotkeys for both script control and other functions.
 
 The GUI can be modified depending on certain settings, displaying the view provided by these options. This includes the current language sets, paired bracket functionality, and custom reassignments.
 
 The layer tabs respond to keystrokes on the physical keyboard, prompting its position on the screen.
-Switching between tabs can be done by pressing the `F1-F7` keys.
+<br>Switching between tabs can be done by pressing the `F1-F7` keys.
 
 Other settings are managed in the menu called by `LWin+F1` or by right mouse clicking on the tray icon.
 
 ### User assignments
 
 There are three types of user assignments:
-* assignment of additional keys in the number row, which, being empty, perform the functions of decreasing and increasing the selected number by 1
-* additional assignments in the letter part of the keyboard for the Latin script. After adapting the Latin layouts, there are 7 additional positions that can be used in addition to the language layer, depending on the individual needs of the user
-* assignment for switching between applications in combination with the `LWin` modifier. Starts the application if it is not running
+* assignment of additional keys in the number row, which, being empty, perform the functions of decreasing and increasing the selected number by 1;
+* additional assignments in the letter part of the keyboard for the Latin script. After adapting the Latin layouts, there are 7 additional positions that can be used in addition to the language layer, depending on the individual needs of the user;
+* assignment for switching between applications in combination with the `LWin` modifier. Starts the application if it is not running.
 
 The assignments are defined in the `config.ini` file, which is generated next to the executable file of the script after the first run.
+
 For the first two types, the assignments are defined in the `AdditionalAssignments` section by the pattern `<key_scan_code>=<assignable_character>`. The scan codes of the numeric keys are pre-specified in this section with empty assignments. Scan codes of other keys can be viewed in the corresponding GUI tab. It's possible to specify modifier `Shift` (set as `+` before scan code) for assignments in alphabetic part of the keyboard. It is possible to specify unicode character value by pattern `{U+<symbol_code>}`.
 
 Assignments for switching focus between applications are defined in the `AltApps` section by the pattern `<key_scan_code>=<process_name>,<path_to_executable_file>`. Specifying modifiers is not required.
 
 After making changes via `config.ini`, the script needs to be restarted.
-When making changes via the menu option (only for key assignments in the numeric row) a restart is not required.
+<br>When making changes via the menu option (only for key assignments in the numeric row) a restart is not required.
 
 ### Controlling key reassignments
 
 In addition to what has been described in the previous sections, the user is suggested to try out the reassignment of control keys such as `Backspace`, `Enter`, `CapsLock` and `Esc`. Their more comfortable positioning with minimized unnecessary hand movements can be enabled in the corresponding menu item.
-Suggested assignment:
-* `Enter` performs the `Backspace` function; with `Shift` pressed – `Delete`.
-* `CapsLock` performs the function of `Enter`
-* `Tilde` performs the `Esc` function
-* `Backspace` performs media control functions (base press - play/pause; with `Shift` - increase volume; with `Alt` - decrease volume; with `Shift Long` - next media item; with `Alt Long` - previous media item)
+<br>Suggested assignment:
+* `Enter` performs the `Backspace` function; with `Shift` pressed – `Delete`;
+* `CapsLock` performs the function of `Enter`;
+* `Tilde` performs the `Esc` function;
+* `Backspace` performs media control functions (base press - play/pause; with `Shift` - increase volume; with `Alt` - decrease volume; with `Shift Long` - next media item; with `Alt Long` - previous media item);
 * The `CapsLock` function can be assigned to `Esc` by a separate setting.
 
 This arrangement is more ergonomic and minimizes movement that detaches the fingers from home positions.
 
 The current reassignments, both user and toggle control key options, are displayed in the GUI.
 
-An example of a display with control key reassignment, parentheses, and numeric row key
-reassignment settings enabled:
+An example of a display with control key reassignment, parentheses, and numeric row key reassignment settings enabled:
 
-[GUI with options](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/long_with_options.png)
+![GUI with options](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/long_with_options.png)
 
 ### Automatically disabling the script in certain applications
 
 Long presses can be undesirable in some applications, affecting their performance.
-Such applications are added to the `config.ini` file in the `BlackList` section with the pattern `<ord_number> = <process_name>`, after which the script activity in these applications will be automatically suspended.
+<br>Such applications are added to the `config.ini` file in the `BlackList` section with the pattern `<ord_number> = <process_name>`, after which the script activity in these applications will be automatically suspended.
 
 
 ## Instalation
@@ -860,9 +875,9 @@ Such applications are added to the `config.ini` file in the `BlackList` section 
 > Windows only
 
 1. *(optional)* Install [adapted](https://github.com/uqqu/qPhyx/tree/master/external/layouts) versions of your Latin and/or Cyrillic layouts, select them in the OS settings and reboot the system.
-2. *(optional)* Install <a href="https://www.autohotkey.com/">AHK</a>, if you prefer to use an uncompiled version of the script
-3. Place the files `qphyx.exe` (or `qphyx.ahk`), `modes.ini` and the files `.ico` in a folder of your choice, run `qphyx.*`
-4. Familiarize yourself with the usage. Set up in the menu (right mouse click on the tray icon or `LWin+F1`) the language sets, "long" press trigger duration and other options
+2. *(optional)* Install <a href="https://www.autohotkey.com/">AHK</a>, if you prefer to use an uncompiled version of the script.
+3. Place the files `qphyx.exe` (or `qphyx.ahk`), `modes.ini` and the files `.ico` in a folder of your choice, run `qphyx.*`.
+4. Familiarize yourself with the usage. Set up in the menu (right mouse click on the tray icon or `LWin+F1`) the language sets, "long" press trigger duration and other options.
 5. *(optional)* Add `qphyx.*` to the startup.
 
 
@@ -873,28 +888,28 @@ Such applications are added to the `config.ini` file in the `BlackList` section 
 
 > Буквенная раскладка была отделена от проекта и перенесена в [отдельный репозиторий](https://github.com/uqqu/layout)
 
-**qPhyx** – дополнение к клавиатурной раскладке, превращающее последнюю в мультиязычную, едино-символьную расширенную раскладку с повышенным удобством набора и некоторыми дополнительными функциями.
+**qPhyx** – дополнение к клавиатурной раскладке, превращающее её в мультиязычную, едино-символьную расширенную раскладку с повышенным удобством набора и некоторыми дополнительными функциями.
 
 Преимущества:
-1. Единая символьная и языковая система набора
-2. Полная поддержка всех языков латинской и кириллической письменностей, со всеми особенностями, без отдельных языковых раскладок
-3. Расширенная символьная поддержка
+1. Единая символьная и языковая система набора.
+2. Полная поддержка всех языков латинской и кириллической письменностей, со всеми особенностями, без отдельных языковых раскладок.
+3. Расширенная символьная поддержка.
 4. Дополнительный внутренний и внешний функционал.
 
-> Лучшим способ познакомиться с проектом – использовать его.
+> Лучший способ познакомиться с проектом – использовать его
 
 
 ## Буквенные раскладки
 
-<details>
-    <summary>tl;dr</summary>
-    Вы можете использовать любую буквенную раскладку, но предпочтительно использовать их [адаптированные варианты](https://github.com/uqqu/qPhyx/tree/master/external/layouts), очищенные от небуквенных символов, так как последние в полной мере предоставляются описываемым дополнением.
-</details>
+> <details>
+>    <summary>tl;dr</summary>
+>    Вы можете использовать любую буквенную раскладку, но предпочтительно использовать их <a href="https://github.com/uqqu/qPhyx/tree/master/external/layouts">адаптированные версии</a>, очищенные от небуквенных символов, так как последние в полной мере предоставляются описываемым дополнением.
+> </details>
 
 Одна из целей, преследуемых проектом – полное разделение слоёв. Для этого должны соблюдаться следующие условия:
 * буквенные символы основной письменности полностью расположены в пределах буквенной части клавиатуры, с условием верхнего регистра при модификаторе `Shift` (очевидное условие, которым, однако, пренебрегают некоторые кириллические раскладки);
 * цифровые символы полностью расположены в цифровом ряду;
-* все прочие символы полностью расположены в собственных слоях.
+* все прочие символы полностью расположены на собственных слоях.
 
 Подобное разделение зон ответственности, другими словами – модульная система, позволяет использовать каждую из частей независимо от прочих. В существующих же раскладках эти слои хаотично перемешаны между собой, налагая массу ограничений на каждую из частей, что также приводит к тому, что для малейшего изменения всё подобие системы должно быть изменено и использовано как форк изначального варианта раскладки, с потенциальными излишними каскадными переназначенями.
 
@@ -909,39 +924,45 @@ Such applications are added to the `config.ini` file in the `BlackList` section 
 
 ## Символьные слои
 
-<details>
-    <summary>tl;dr</summary>
-    Есть три слоя – под `Alt`, под "длинными" нажатиями (базово 0.15с, изменяется пользователем), и под их комбинацией. Все три слоя расположены в буквенной части клавиатуры + цифровой ряд с диакритическими символами. Общий охват – 83 вспомогаельных символа + 24 диакритических символа + 8 управляющих команд. Все символы сгруппированы по логическим категориям и расположены с максимальным удобством набора.
-</details>
+> <details>
+>    <summary>tl;dr</summary>
+>    Есть три слоя – под <code>Alt</code>, под <code>"длинными" нажатиями</code> (базово – 0.15с, изменяется пользователем), и под их комбинацией.
+>    <br><br>Все три слоя расположены в буквенной части клавиатуры + цифровой ряд с диакритическими символами.
+>    <br><br>Все символы сгруппированы по логическим категориям и расположены с максимальным удобством набора.
+>    <br><br>Общий охват – 83 вспомогательных символа + 24 диакритических символа + 8 управляющих команд.
+> </details>
 
 К символьному слою были выставлены следующие требования:
-* расширенная символьная поддержка
-* поддержка добавочной диакритики
-* разделение по логическим категориям
-* добавление управляющих команд, для минимизации лишних движений
-* расположение в пределах стандартной 60% ANSI-клавиатуры
-* максимизация удобства использования каждой части проекта.
+* расширенная символьная поддержка;
+* поддержка добавочной диакритики;
+* разделение по логическим категориям;
+* добавление управляющих команд, для минимизации лишних движений;
+* расположение в пределах стандартной 60% ANSI-клавиатуры;
+* расположение наиболее востребованных символов на наиболее удобных позициях и слоях.
 
-![Объяснение, что есть 60% клавиатура](https://cdn.thewirecutter.com/wp-content/media/2021/05/20210527_mech-keyboard_layout.png "Объяснение, что есть 60% клавиатура")
-<sub>Источник: [nytimes.com](https://www.nytimes.com/wirecutter/blog/how-to-shop-for-a-mechanical-keyboard/); Иллюстрация: Sarah Macreading, Dana Davis</sub>
+<details>
+    <summary>Границы 60% клавиатуры</summary>
+    <img src="https://cdn.thewirecutter.com/wp-content/media/2021/05/20210527_mech-keyboard_layout.png">
+    <sub>Источник: <a href="https://www.nytimes.com/wirecutter/blog/how-to-shop-for-a-mechanical-keyboard/">nytimes.com</a>; Иллюстрация: Sarah Macreading, Dana Davis</sub>
+</details>
 
 ### Модификаторы слоёв
 
 Для набора символов на слоях существует два подхода:
-* выбор слоя для набора непосредственно в момент ввода, через зажатие модификатора
+* выбор слоя для набора непосредственно в момент ввода, через зажатие модификатора;
 * переключение между слоями с последующим набором.
 
 В данном проекте используется первый подход, так как он позволяет минимизировать промежуточные действия.
 
-При выборе "очевидных" модификаторов, исключив комбинируемые удерживаемые модификаторы ввиду неудобства такого рода модификаторов, `Shift` и `Ctrl` из-за их собственного применения, а также `AltGr`, за его неоднозначное использование, остался лишь `Alt`.
+При выборе "очевидных" модификаторов, исключив комбинируемые удерживаемые модификаторы, ввиду неудобства такого рода модификаторов, `Shift` и `Ctrl` из-за их собственного применения, а также `AltGr`, за его неоднозначное использование, остался лишь `Alt`.
 
 В качестве неочевидного модификатора было выбрано "длинное нажатие". Да, это несколько расходится с привычным методом взаимодействия с клавиатурой, но, уверяю, этот модификатор гораздо удобнее даже привычных `Alt/Ctrl/Shift`, в чём вы сможете убедиться сами, как только привыкнете к этой функциональности, переведя её в автоматизм. Как только это произойдёт, набор символов с этим модификатором окажется столь же простым как и обычный набор буквенных символов в нижнем регистре.
 
 В качестве небольшого подтверждения этих слов – после многих проб и сравнений, самые востребованные символы расположились под модификатором длинного нажатия, именно из-за его удобства, по сравнению с прочими.
 
-Базовое значение длительности зажатия для срабатывания данного модификатора – 0.15с. Может быть в любой момент переназначено пользователем на более комфортное. После введения в автоматизм комфортным скорее всего окажется значение около 0.11с.
+Базовое значение длительности зажатия для срабатывания данного модификатора – 0.15с. Может быть в любой момент переназначено пользователем на более комфортное. После введения в автоматизм, комфортным скорее всего окажется значение около 0.11с.
 
-Таким образом получилось два слоя одинарных модификаторов, а также один слой из их комбинации – долгое нажатие с `Alt`, что по удобству не эквивалентно комбинации из двух удерживаемых модификаторов, по причинам, описанным в прошлом абзаце.
+Таким образом получилось два слоя одинарных модификаторов, а также один слой из их комбинации – долгое нажатие с `Alt`, что не эквивалентно комбинации из двух удерживаемых модификаторов, по причинам, описанным в прошлом абзаце.
 
 ### Распределение символов
 
@@ -951,10 +972,10 @@ Such applications are added to the `config.ini` file in the `BlackList` section 
 ![Основной набор символов](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/symbols_long.png "Основной набор символов")
 
 Как вы можете видеть, здесь расположены преимущественно символы, знакомые всем по стандартным раскладкам.
-* символы сгруппированы по категориям – базовая математика, пунктуация, валюты, скобки
-* первые две категории, как самые востребованные из всех, находятся на домашних позициях пальцев
-* графически и/или логически близкие символы расположены на вертикально смежных позициях
-* скобки расположены зеркально вокруг домашнего ряда – открывающие вверху, закрывающие внизу
+* символы сгруппированы по категориям – базовая математика, пунктуация, валюты, скобки;
+* первые две категории, как самые востребованные из всех, находятся на домашних позициях пальцев;
+* графически и/или логически близкие символы расположены на вертикально смежных позициях;
+* скобки расположены зеркально вокруг домашнего ряда – открывающие вверху, закрывающие внизу;
 * в правом верхнем углу расположен самый востребованный диакритический комбинируемый символ "акут", в первую очередь как маркёр основного ударения.
 
 Забегая наперёд, в раздел дополнительной функциональности, клавиши `decr` и `incr` в цифровом ряду отвечают за уменьшение/увеличение выделенного числа на 1, но могут быть переназначены пользователем для ввода дополнительных символов.
@@ -963,17 +984,17 @@ Such applications are added to the `config.ini` file in the `BlackList` section 
 ![Альтернативный набор символов](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/symbols_alt.png "Альтернативный набор символов")
 
 Половина символов данного набора представляет собой альтернативные отображения символов основного набора, расположенных на тех же позициях:
-* дефис (используемый как минус) и минус
-* звёздочка (как умножение) и символ умножения
-* среднее тире и длинное тире
-* акут (основное ударение) и гравис (побочное ударение)
-* восклицательный знак и перевёрнутый аналог
-* одинарная кавычка-апостроф и апостроф
+* дефис (используемый как минус) и минус;
+* звёздочка (как умножение) и символ умножения;
+* среднее тире и длинное тире;
+* акут (основное ударение) и гравис (побочное ударение);
+* восклицательный знак и перевёрнутый аналог;
+* одинарная кавычка-апостроф и апостроф;
 * …
 
 Наследование позиций логических категорий соблюдено также и для символов, не имеющих альтернативного отображения.
 
-На домашних позициях пальцев правой руки расположена навигация "стрелками", для минимизации отрыва руки для их нажатий. Здесь же, по обе стороны от домашнего ряда также расположены команды "вперёд"/"назад" и "отменить"/"повторить".
+На домашних позициях пальцев правой руки расположена навигация "стрелками", для минимизации отрыва руки для нажатий последних в стандартном расположении. Здесь же, по обе стороны от домашнего ряда, также расположены команды "вперёд"/"назад" и "отменить"/"повторить".
 
 В цифровом ряду расположена вся используемая надстрочная комбинируемая диакритика (помимо акута и грависа, имеющих собственную позицию в буквенной части клавиатуры).
 
@@ -989,51 +1010,53 @@ Such applications are added to the `config.ini` file in the `BlackList` section 
 
 ## Языковой слой
 
-<details>
-    <summary>tl;dr</summary>
-    В цифровом ряду под `Shift` расположен ряд специфичных языковых символов. Этот набор может быть выбран из многих предустановленных, в зависимости от потребностей пользователя. Каждый набор открывает доступ к целому ряду языков, так как они сгруппированы для обеспечения максимального охвата для каждого набора. Набор символов выбирается раздельно для кириллической (русской) и латинской (английской) раскладок. Минимальный полноценный охват любой пары наборов – 78% языков интернета (доля использования), максимальный (основные наборы) – 85% интернета. Переключение между наборами, в случае необходимости, выполняется "на лету" в три нажатия.
-</details>
+> <details>
+>    <summary>tl;dr</summary>
+>    В цифровом ряду под `Shift` расположен ряд специфичных языковых символов.
+>    <br><br>Этот набор может быть выбран из многих предустановленных, в зависимости от потребностей пользователя. Каждый набор открывает доступ к целому ряду языков, так как они сгруппированы для обеспечения максимального охвата для каждого набора.
+>    <br><br>Набор символов выбирается раздельно для кириллической (русской) и латинской (английской) раскладок.
+>    <br><br>Минимальный полноценный одновременный охват любой пары наборов – 77.6% языков интернета (доля использования), максимальный (основные наборы) – 84.4% интернета. Общий охват от всех наборов – 90.1% + 9.85% всех версий романизации языков, основная письменность которых отличается от латинской и кириллической.
+>    <br><br>Переключение между наборами, в случае необходимости, выполняется "на лету" в три нажатия.
+> </details>
 
-Не беспокойтесь, никаких новых модификаторов нам не понадобится. Возможно, вы обратили внимание на то, что цифровой ряд не имеет варианта с `Shift`? Именно там и расположен языковой слой.
-
-Вы можете заметить, что это не самое удобное расположение, и отчасти будете правы. Однако стоит отметить, что если провести сравнительный анализ алфавитов языков одной письменности, к примеру, латинской, можно обнаружить, что каждый из языков отличается от основного языка письменности (в нашем примере – английского) в среднем всего одним собственным дополнительным символом и несколькими устоявшимися символами с добавочной диакритикой. И в то же время, общий вид буквенных частотностей сохраняется из языка в язык, а уникальные языковые символы нередко находятся в конце данного списка. Из этого всего следует, что расположение таких дополнительных символов в цифровом ряду весьма незначительно, особенно ввиду того, что и в существующих раскладках подобное назначение повсеместно используется без каких бы то ни было возражений, в том числе, и в конкретных языковых раскладках.
+Возможно, вы обратили внимание на то, что цифровой ряд не имеет варианта с `Shift`. Именно там и расположен языковой слой.
 
 Основная идея языкового слоя состоит в том, что он выступает в роли открывающего доступ к набору на **любом** языке письменности, без привязки к конкретному языку, без каскадных ограничений набора и никак не сказывается на удобстве набора для тех пользователей, которые им не пользуются, хотя и у последних когда-никогда может возникнуть редкая потребность в нём.
 
+Конечно, уместить все возможные дополнительные языковые символы в 12 позиций не представляется возможным, потому данный слой/модуль предоставляет конечному пользователю выбор из предустановленных позиционирований языковых символов, раздельно для кириллицы и латиницы (набор символов зависит от языка текущей активной раскладки).
 
-Но вернёмся к слою. Конечно, уместить все возможные дополнительные языковые символы в 12 позиций не представляется возможным, потому данный слой/модуль предоставляет конечному пользователю выбор из предустановленных позиционирований языковых символов, раздельно для кириллицы и латиницы (набор символов зависит от языка текущей активной раскладки).
 Базово выбраны "основные" наборы для каждой письменности, имеющие наибольшее потенциальное использование и охват. Пользователь может в процессе использования переключаться на любой другой набор, как для разовых потребностей, так и для дальнейшего основного использования.
-Нажатие соответствующей клавиши в цифровом ряду с зажатым `Shift` передаст на ввод символ в нижнем регистре, а уже привычное "длинное" нажатие с `Shift` введёт её вариант в верхнем регистре.
+<br>Нажатие соответствующей клавиши в цифровом ряду с зажатым `Shift` передаст на ввод символ в нижнем регистре, а, уже знакомое, "длинное" нажатие с `Shift` введёт её вариант в верхнем регистре.
 
 ### Распределение символов по наборам
 
 Распределение символов по наборам проводилось таким образом, чтобы обеспечить максимальный охват для каждого набора.
 
 Символы из наборов языкового слоя можно логически разделить на две категории:
-* самостоятельные, графически уникальные символы
+* самостоятельные, графически уникальные символы;
 * графически эквивалентные символам базового набора письменности с добавленной диакритикой.
 
 Из символов первой категории, открывающих доступ к набору текста на популярнейших языках латинской письменности был сформирован базовый набор, присутствующий во всех латинских наборах символов.
 
 Символы второй категории потенциально доступны к набору даже без использования языкового слоя, через добавочную диакритику, которая в полной мере покрывает потребности всех минимально используемых языков.
-Однако необходимо предоставить ввод подобных символов через одинарное нажатие, без дополнительного ввода диакритики, который в дальнейшем мы будем называть "упрощённым набором".
+Однако необходимо предоставить ввод подобных символов через одинарное нажатие, без дополнительного ввода диакритики, который в дальнейшем мы будем называть "упрощённым вводом".
 
-Изменяемые части символьных наборов состоят как раз из символов упрощённого набора, для повышения удобства пользователей этих языков.
+Изменяемые части символьных наборов состоят как раз из символов упрощённого ввода, для повышения удобства пользователей этих языков.
 
 Также в изменяемой части символьных наборов встречаются и графически уникальные символы, недоступные ко вводу из других символьных наборов, однако имеющие ограниченную востребованность и представляющие интерес исключительно для носителей подобных языков.
 
-Из этого следует, что каждый набор символов, помимо специфичных символов конкретного языка (будь то уникальные символы или символы упрощённого набора), всегда предоставляет доступ ко вводу текста на целом ряде популярнейших языков, доступ к которым может быть востребован из любого набора символов.
+Из этого следует, что каждый набор символов, помимо специфичных символов конкретного языка (будь то уникальные символы или символы упрощённого ввода), всегда предоставляет доступ ко вводу текста на целом ряде популярнейших языков, доступ к которым может быть востребован из любого набора символов.
 
 
 Для кириллических наборов положение несколько иное:
-* большинство кириллических языков имеют довольно обширный набор дополнительных символов, отличных от базовой письменности
-* практически все специфичные символы являются графически уникальными, а те редкие, что потенциально могут быть отображены в виде с комбинируемой диакртикой, не могут быть корректно отображёны на подавляющем большинстве шрифтов
-* в кириллических наборах не представляется возможным выделить единый набор потенциально самых востребованных символов – каждый набор представляет интерес для своей группы пользователей
+* большинство кириллических языков имеют довольно обширный набор дополнительных символов, отличных от базовой письменности;
+* практически все специфичные символы являются графически уникальными, а те редкие, что потенциально могут быть отображены в виде с комбинируемой диакртикой, не могут быть корректно отображены на подавляющем большинстве шрифтов;
+* в кириллических наборах не представляется возможным выделить единый набор потенциально самых востребованных символов – каждый набор представляет интерес для своей группы пользователей.
 
 В связи с вышеперечисленным, кириллические наборы являются полностью динамическими, и каждый из них содержит свой уникальный набор символов.
 
 #### Примеры
-Рассмотрим основные наборы символов для латиницы и кириллицы.
+Рассмотрим наборы символов для латиницы и кириллицы.
 
 Латинский основной набор – `ñ å ä ö ü ł đ ı ß ø æ œ`
 
@@ -1041,26 +1064,25 @@ Such applications are added to the `config.ini` file in the `BlackList` section 
 
 
 Данный набор символов открывает доступ к полноценному набору на следующих языках: испанский *(и несколько десятков прочих, на которые он повлиял)*, немецкий, французский, вьетнамский, шведский, датский, финский и норвежский.
-Также набор уникальных графических символов открывает базовую возможность ввода (со вводом прочих специфичных символов через диакритику) к турецкому, польскому и словенскому.
+Также набор уникальных графических символов открывает базовую возможность ввода (со вводом прочих специальных языковых символов через диакритику) к турецкому, польскому и словенскому.
 
-Здесь не перечислено огромное множество языков, доступных ко вводу (как на базовой письменности, так и через диакритику) без использования языкового слоя – их поддержка подразумевается сама собой.
-
+> Здесь не перечислено огромное множество языков, доступных ко вводу (как на базовой письменности, так и через диакритику) без использования языкового слоя – их поддержка подразумевается сама собой
 
 Латинские наборы разделены на две категории:
-* поддерживающие – предоставляющие упрощённый набор: турецкий, польский, румынский, венгерский, и 20 прочих наборов, в сумме охватывающих более 40 языков
+* поддерживающие – предоставляющие упрощённый ввод: турецкий, польский, румынский, венгерский, и 20 прочих наборов, в сумме охватывающих более 40 языков;
 * позволяющие – наборы с уникальными графическими символами, необходимыми для языка, которые могут быть введены только на данном наборе: исландский/древнеанглийский, мальтийский, казахский, азербайджанский, ряд африканских языков (хауса, мосси, фула, йоруба, и т.д.), …
 
 <details>
     <summary>Отдельные уточнения и учёт языковых особенностей</summary>
     <ul>
-        <li>в наборах, основанных на турецком варианте латиницы предусмотрено небольшое опциональное перепозиционирование символов `iI` и `ıİ`, для более логичного ввода – `iİ` и `ıI` (переключаемая опция)</li>
-        <li>при выборе румынского языкового набора предусмотрена опциональная замена диакритической седили на кому, для исправления распространённого ошибочного использования первой (переключаемая опция)</li>
-        <li>в наборах "исландский/древнеанглийский" и "мосси" символ `đĐ` заменён на варианты начертания, использующиеся в данных языках – `ðÐ` и `ɖƉ`, соответственно</li>
-        <li>в наборы, в которых количество динамических символов ограничилось 4, была добавлена `ñ`, даже не относясь к основному языку набора, в качестве символа с максимальным расширением охвата, без зависимости от прочих символов</li>
-        <li>в некоторых отдельных наборах, в которых количество динамических символов потребовало 6 позиций, дополнительное место было пожертвовано от `ł`</li>
-        <li>в наборах для польского, литовского, латышского и венгерского языков предусмотрен лишь частичный упрощённый ввод, ввиду крайне широкого использования диакритики в данных языках. Упрощённый ввод, по возможности, охватывает символы с разной диакритикой, оставляя на комбинированный ввод буквы с единым диакритическим знаком (акут для польского и венгерского, огонэк для литовского)</li>
-        <li>в зависимости от потребностей пользователя (переключаемая настройка), символы упрощённого набора могут подаваться на ввод как в комбинированном виде (два символа – буква+диакритика), так и в виде цельного юникод-символа</li>
-        <li>одинаковые динамические символы, встречающиеся в разных наборах, расположены на одних и тех же позициях, где это было возможно</li>
+        <li>в наборах, основанных на турецком варианте латиницы предусмотрено небольшое опциональное перепозиционирование символов `iI` и `ıİ`, для более логичного ввода – `iİ` и `ıI` (переключаемая опция);</li>
+        <li>при выборе румынского языкового набора предусмотрена опциональная замена диакритической седили на кому, для исправления распространённого ошибочного использования первой (переключаемая опция);</li>
+        <li>в наборах "исландский/древнеанглийский" и "мосси" символ `đĐ` заменён на варианты начертания, использующиеся в данных языках – `ðÐ` и `ɖƉ`, соответственно;</li>
+        <li>в наборы, в которых количество динамических символов ограничилось 4, была добавлена `ñ`, даже не относясь к основному языку набора, в качестве символа с максимальным расширением охвата, без зависимости от прочих символов;</li>
+        <li>в некоторых отдельных наборах, в которых количество динамических символов потребовало 6 позиций, дополнительное место было пожертвовано от `ł`;</li>
+        <li>в наборах для польского, литовского, латышского и венгерского языков предусмотрен лишь частичный упрощённый ввод, ввиду крайне широкого использования диакритики в данных языках. Упрощённый ввод, по возможности, охватывает символы с разной диакритикой, оставляя на комбинированный ввод буквы с единым диакритическим знаком (акут для польского и венгерского, огонэк для литовского);</li>
+        <li>в зависимости от потребностей пользователя (переключаемая настройка), символы упрощённого набора могут подаваться на ввод как в комбинированном виде (два символа – буква+диакритика), так и в виде цельного юникод-символа;</li>
+        <li>одинаковые динамические символы, встречающиеся в разных наборах, расположены на одних и тех же позициях, где это было возможно.</li>
     </ul>
 </details>
 
@@ -1536,12 +1558,15 @@ Such applications are added to the `config.ini` file in the `BlackList` section 
 </details>
 
 Перейдём к кириллическим наборам.
-Как было упомянуто ранее, в кириллических наборах все позиции являются динамическими, за счёт чего их количество значительно меньше латинских наборов.
+<br>Как было упомянуто ранее, в кириллических наборах все позиции являются динамическими, за счёт чего их количество значительно меньше латинских наборов.
+
 Все кириллические наборы являются "позволяющими", так как полноценный ввод текста на языках этих наборов невозможен без их использования.
+
 Символы из кириллических наборов всегда подаются на ввод в едином виде (за исключением з́ и с́, не имеющих цельного представления).
 
 Основной по потенциальной востребованности набор – `ґ є і ї ӏ ў ѣ ѵ ѳ ӂ ӕ ӧ`
-Данный набор символов открывает доступ к полноценному набору текста на украинском, белорусском, русинском, молдавском, осетинском, языке коми, диалекте руска рома, ряде кавказских языков, дореволюционном русском.
+
+Данный набор символов открывает доступ к полноценному набору текста на украинском, белорусском, молдавском, русинском, осетинском, языке коми, диалекте руска рома, ряде кавказских языков, дореволюционном русском.
 
 <details>
     <summary>Все варианты кириллических наборов (5)</summary>
@@ -1627,15 +1652,17 @@ Such applications are added to the `config.ini` file in the `BlackList` section 
 
 Текущие активные наборы символов также отображены в GUI скрипта.
 
-[Отображение языковых наборов](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/lang_modes.png)
+![Отображение языковых наборов](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/lang_modes.png)
 
 Немного финальной статистики:
-> согласно данным использования языков в интернете от (w3techs.com)[https://w3techs.com/technologies/overview/content_language] за 22.11.2021
-* полностью поддерживаемые языки на любой модификации – 77.61% (89.14% без упрощённого набора)
-* полностью поддерживаемые языки на основных модификациях – 6.83%
-* полностью поддерживаемые языки на дополнительных модификациях – 5.68%
-* романизированные версии языков прочих письменностей: все версии – 9.85%, некоторые – 0.03%
-* неподдерживаемые языки – 0.001%
+> *согласно данным использования языков в интернете с <a href="https://w3techs.com/technologies/overview/content_language">w3techs.com</a> за 22.11.2021*
+* полностью поддерживаемые языки на любой модификации – 77.61% (89.14% без упрощённого набора);
+* полностью поддерживаемые языки на основных модификациях – 6.83%;
+* полностью поддерживаемые языки на дополнительных модификациях – 5.68%;
+* романизированные версии языков прочих письменностей: все версии – 9.85%, некоторые – 0.03%;
+* неподдерживаемые языки – 0.001%.
+
+Подробнее со всеми *(200+)* языками, категориями, используемостью, алфавитами и поддержкой можно ознакомиться в файле <a href="https://github.com/uqqu/qPhyx/blob/master/external/languages.xlsx">external/languages.xlsx</a> 
 
 
 ## Дополнительная функциональность
@@ -1643,76 +1670,77 @@ Such applications are added to the `config.ini` file in the `BlackList` section 
 ### Парные скобки/кавычки
 
 Переключаемая функциональность.
-Автоматически закрывает скобки и кавычки `<>`, `«»`, `""`, `“”`, `()`, `[]` и `{}`, устанавливая позицию каретки между ними.
-Автоматическое закрытие одинарных кавычек не предусмотрено, так как данный символ часто используется в значении апострофа, где парная кавычка будет нежелательной.
+<br>Автоматически закрывает скобки и кавычки `<>`, «», `""`, `“”`, `()`, `[]` и `{}`, устанавливая позицию каретки между ними.
+<br>Автоматическое закрытие одинарных кавычек не предусмотрено, так как данный символ часто используется в значении апострофа, где парная кавычка будет нежелательной.
 
 ### Замена текста в буфере обмена
 
 Вызывается нажатием `Ctrl-Shift-v`.
-Вставляет текст из буфера обмена вместо выделенного текста, сохраняя последний в качестве нового значения буфера.
+<br>Вставляет текст из буфера обмена вместо выделенного текста, сохраняя последний в качестве нового значения буфера.
 
 ### Изменение регистра выделенного текста
 
 Переключаемая функциональность.
-Вызывается двойным нажатием на `Shift`.
-При вызове изменяет регистр каждого символа на обратный.
-При вызове с `Ctrl` или `Alt` меняет регистр на верхний или нижний, соответственно.
+<br>Вызывается двойным нажатием на `Shift`.
+<br>При вызове изменяет регистр каждого символа на обратный.
+<br>При вызове с `Ctrl` или `Alt` меняет регистр на верхний или нижний, соответственно.
 
 ### Навигация через `Alt+[hjkl]`
 
 Навигация через имитацию клавиш-стрелок поддерживает все изначальные модификаторы:
-* с `Ctrl` для навигации по словам (`j` и `k` будут выполнять функции перемещения каретки в начало и конец строки, соответственно)
-* с `Shift` для навигации с выделением
-* с `LWin` вместо `Alt` для управления положением окна. С дополнительным `Shift` для позиционирования окна между экранами
+* с `Shift` для навигации с выделением;
+* с `Ctrl` для навигации по словам (`j` и `k` будут выполнять функции перемещения каретки в начало и конец строки, соответственно);
+* с `LWin` вместо `Alt` для управления положением окна. С дополнительным `Shift` для позиционирования окна между экранами.
 
 ### Прочие назначения и горячие клавиши
 
 Неразрывный пробел – `Shift-Space` (переключаемая функциональность)
-Свернуть все окна – `LWin-Enter`
-Восстановить свёрнутые окна – `LWin-Enter long`
-Пауза/возобновление работы скрипта – `Shift-Tilde`
-Перезапуск скрипта – `Ctrl-Shift-Tilde`
+<br>Свернуть все окна – `LWin-Enter`
+<br>Восстановить свёрнутые окна – `LWin-Enter long`
+<br>Пауза/возобновление работы скрипта – `Shift-Tilde`
+<br>Перезапуск скрипта – `Ctrl-Shift-Tilde`
 
 ### GUI
 
 Скрипт имеет минимальный подсказывающий графический интерфейс, вызываемый через `Alt+F1` или кликом по иконке в трее.
-В интерфейсе в соответствующих вкладках отображены:
-* базовый слой – системная буквенная раскладка пользователя; языковые наборы; переназначения
-* три вкладки символьных слоёв – длинные нажатия, `Alt`, `Alt Long`
-* вкладка со скан-кодами клавиш для пользовательских назначений
-* список всех языковых наборов для двух письменностей с переключением двойным нажатием
-* список всех горячих клавиш как для управления скриптом, так и для прочих функций
+<br>В интерфейсе в соответствующих вкладках отображены:
+* базовый слой – системная буквенная раскладка пользователя, языковые наборы, переназначения;
+* три вкладки символьных слоёв – длинные нажатия, `Alt`, `Alt Long`;
+* вкладка со скан-кодами клавиш для пользовательских назначений;
+* список всех языковых наборов для двух письменностей с переключением двойным нажатием;
+* список всех горячих клавиш как для управления скриптом, так и для прочих функций.
 
 GUI может изменяться в зависимости от некоторых настроек, отображая вид предусматриваемый данными опциями. В их числе текущие языковые наборы, функциональность парных скобок, пользовательские переназначения.
 
 Вкладки слоёв реагируют на нажатия клавиш на физической клавиатуре, подсказывая её положение на экране.
-Переключение между вкладками может быть осуществлено клавишами `F1-F7`.
+<br>Переключение между вкладками может быть осуществлено клавишами `F1-F7`.
 
 Управление прочими настройками расположено в меню, вызываемом через `LWin+F1` или ПКМ по иконке в трее.
 
 ### Пользовательские назначения
 
 Предусмотрены пользовательские назначения трёх типов:
-* назначения дополнительных клавиш в цифровом ряду, которые, будучи пустыми, выполняют функции уменьшения и увеличения выделенного числа на 1
-* дополнительные назначения в буквенной части клавиатуры для латинской письменности. После адаптации латинских раскладок в них появилось 7 дополнительных позиций, которые могут быть использованы в дополнение к языковому слою, в зависимости от индивидуальных потребностей пользователя
-* назначения для переключения между приложениями в комбинации с модификатором `LWin`. Запускает приложение, если оно не запущено
+* назначения дополнительных клавиш в цифровом ряду, которые, будучи пустыми, выполняют функции уменьшения и увеличения выделенного числа на 1;
+* дополнительные назначения в буквенной части клавиатуры для латинской письменности. После адаптации латинских раскладок в них появилось 7 дополнительных позиций, которые могут быть использованы в дополнение к языковому слою, в зависимости от индивидуальных потребностей пользователя;
+* назначения для переключения между приложениями в комбинации с модификатором `LWin`. Запускает приложение, если оно не запущено.
 
 Назначения прописываются в файле `config.ini`, который генерируется рядом с исполняемым файлом скрипта после первого запуска.
-Для первых двух видов, назначения прописывается в секции `AdditionalAssignments` по шаблону `<скан_код_клавиши>=<назначаемый_символ>`. Скан коды клавиш цифрового ряда предварительно указаны в этой секции с пустыми назначениями. Скан коды прочих клавиш можно посмотреть в соответствующей вкладке GUI. Возможно указание модификатора `Shift` (указывается как `+` перед скан кодом) для назначений в буквенной части клавиатуры. Возможно указание unicode значения символа по шаблону `{U+<код_символа>}`.
+
+Для первых двух типов, назначения прописывается в секции `AdditionalAssignments` по шаблону `<скан_код_клавиши>=<назначаемый_символ>`. Скан коды клавиш цифрового ряда предварительно указаны в этой секции с пустыми назначениями. Скан коды прочих клавиш можно посмотреть в соответствующей вкладке GUI. Возможно указание модификатора `Shift` (указывается как `+` перед скан кодом) для назначений в буквенной части клавиатуры. Возможно указание unicode значения символа по шаблону `{U+<код_символа>}`.
 
 Назначения для переключения фокуса между приложениями прописываются в секции `AltApps` по шаблону `<скан_код_клавши>=<имя_процесса>,<путь_к_исполняемому_файлу>`. Указание модификаторов не требуется.
 
 После внесения изменений через `config.ini` требуется перезапуск скрипта.
-При внесении изменений через пункт меню (только для назначений клавиш в цифровом ряду) перезапуск не требуется.
+<br>При внесении изменений через пункт меню (только для назначений клавиш в цифровом ряду) перезапуск не требуется.
 
 ### Переназначения управляющих клавиш
 
 В дополнение к перечисленному в прошлых разделах, пользователю предлагается опробовать переназначение управляющих клавиш, таких как `Backspace`, `Enter`, `CapsLock` и `Esc`. Их более комфортное расположение с минимизацией лишних движений рук может быть включено в соответствующем пункте меню.
-Предлагаемое назначение:
-* `Enter` выполняет функцию `Backspace`; с зажатым `Shift` – `Delete`
-* `CapsLock` выполняет функцию `Enter`
-* `Tilde` выполняет функцию `Esc`
-* `Backspace` выполняет функции управления медиа (нажатие – воспроизведение/пауза; с `Shift` – увеличить громкость; с `Alt` – уменьшить громкость; с `Shift Long` – следующий медиа-элемент; с `Alt Long` – предыдущий медиа-элемент)
+<br>Предлагаемое назначение:
+* `Enter` выполняет функцию `Backspace`; с зажатым `Shift` – `Delete`;
+* `CapsLock` выполняет функцию `Enter`;
+* `Tilde` выполняет функцию `Esc`;
+* `Backspace` выполняет функции управления медиа (нажатие – воспроизведение/пауза; с `Shift` – увеличить громкость; с `Alt` – уменьшить громкость; с `Shift Long` – следующий медиа-элемент; с `Alt Long` – предыдущий медиа-элемент);
 * Функция `CapsLock` может быть назначена на `Esc` отдельной настройкой.
 
 Подобное расположение является более эргономичным и позволяет минимизировать движения, отрывающие пальцы от домашних позиций.
@@ -1721,23 +1749,23 @@ GUI может изменяться в зависимости от некото�
 
 Пример отображения с включёнными настройками переназначения управляющих клавиш, парных скобок и переназначением клавиш в цифровом ряду:
 
-[GUI с опциями](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/long_with_options.png)
+![GUI с опциями](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/long_with_options.png)
 
 ### Автоматическое отключение скрипта в отдельных приложениях
 
 Отлов длинных нажатий может быть нежелательным в некоторых приложениях, сказываясь на их работе.
-Такие приложения вносятся в файл `config.ini` в секцию `BlackList` по шаблону `<порядковый_номер>=<имя_процесса>`, после чего действие скрипта в данных приложениях будет автоматически приостанавливаться.
+<br>Такие приложения вносятся в файл `config.ini` в секцию `BlackList` по шаблону `<порядковый_номер>=<имя_процесса>`, после чего действие скрипта в данных приложениях будет автоматически приостанавливаться.
 
 
 ## Установка и запуск
 
 > Только для Windows
 
-1. *(опционально)* Установите [адаптированные](https://github.com/uqqu/qPhyx/tree/master/external/layouts) версии ваших раскладок для латиницы и кириллицы, выберите их в настройках ОС и перезагрузите систему
-2. *(опционально)* Установите <a href="https://www.autohotkey.com/">AHK</a>, если предпочитаете использовать нескомпилированную версию скрипта
-3. Разместите файлы `qphyx.exe` (или `qphyx.ahk`), `modes.ini` и файлы `.ico` в папке по вашему выбору, запустите `qphyx.*`
-4. Ознакомьтесь с использованием. Настройте в меню (ПКМ по иконке в трее или `LWin+F1`) языковые наборы, время срабатывания "длинных" нажатий и прочие пункты
-5. *(опционально)* Добавьте `qphyx.*` в автозагрузку
+1. *(опционально)* Установите [адаптированные](https://github.com/uqqu/qPhyx/tree/master/external/layouts) версии ваших раскладок для латиницы и кириллицы, выберите их в настройках ОС и перезагрузите систему.
+2. *(опционально)* Установите <a href="https://www.autohotkey.com/">AHK</a>, если предпочитаете использовать нескомпилированную версию скрипта.
+3. Разместите файлы `qphyx.exe` (или `qphyx.ahk`), `modes.ini` и файлы `.ico` в папке по вашему выбору, запустите `qphyx.*`.
+4. Ознакомьтесь с использованием. Настройте в меню (ПКМ по иконке в трее или `LWin+F1`) языковые наборы, время срабатывания "длинных" нажатий и прочие пункты.
+5. *(опционально)* Добавьте `qphyx.*` в автозагрузку.
 
 
 ---
