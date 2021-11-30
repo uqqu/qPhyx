@@ -127,7 +127,7 @@ In the numeric row there is a subscript combined diacritic, which in half of the
 
 > <details>
 >    <summary>tl;dr</summary>
->    The numeric row below `Shift` contains a number of specific language characters.
+>    The numeric row below <code>Shift</code> contains a number of specific language characters.
 >    <br><br>This set can be selected from many preset ones, depending on the user's needs. Each set provides access to a number of languages, as they are grouped to provide maximum coverage for each set.
 >    <br><br>The character set is selectable separately for Cyrillic (Russian) and Latin (English) layouts.
 >    <br><br>The minimal total simultaneous coverage of any pair of sets is 77.6% of the languages of the Internet (share of use), the maximum (the main sets) is 84.4% of the Internet. Total coverage of all sets is 90.1% + 9.85% of all romanization variants of languages with main script different from Latin or Cyrillic.
@@ -189,11 +189,11 @@ The Latin sets are divided into two categories:
 <details>
     <summary>Some clarifications and attention to the specifics of languages</summary>
     <ul>
-        <li>in sets based on the Turkish variant of the Latin alphabet, there is a small optional repositioning of the characters `iI` and `ıİ`, for more logical typing – `iİ` and `ıI` (switchable setting);</li>
+        <li>in sets based on the Turkish variant of the Latin alphabet, there is a small optional repositioning of the characters <code>iI</code> and <code>ıİ</code>, for more logical typing – <code>iİ</code> and <code>ıI</code> (switchable setting);</li>
         <li>when selecting the Romanian language set, there is an optional replacement of the diacritical cedilla with a comma, to correct a popular misuse of the first one (switchable setting);</li>
-        <li>in the "Icelandic/Old English" and "Mossi" sets, the symbol `đĐ` is replaced by the variants of the lettering used in these languages – `ðÐ` and `ɖƉ`, respectively;</li>
-        <li>in sets in which the number of dynamic characters was restricted to 4, `ñ` was added, not even related to the main language of the set, as a character with maximum extension of coverage, without dependence on other characters;</li>
-        <li>in some sets, in which the number of dynamic characters required 6 positions, additional place was sacrificed from `ł`;</li>
+        <li>in the "Icelandic/Old English" and "Mossi" sets, the symbol <code>đĐ</code> is replaced by the variants of the lettering used in these languages – <code>ðÐ</code> and <code>ɖƉ</code>, respectively;</li>
+        <li>in sets in which the number of dynamic characters was restricted to 4, <code>ñ</code> was added, not even related to the main language of the set, as a character with maximum extension of coverage, without dependence on other characters;</li>
+        <li>in some sets, in which the number of dynamic characters required 6 positions, additional place was sacrificed from <code>ł</code>;</li>
         <li>the Polish, Lithuanian, Latvian, and Hungarian sets have only partially simplified typing, due to the extremely widespread use of diacritics in these languages. Simplified typing, if possible, covers characters with different diacritics, leaving for combined typing letters with a single diacritical symbol (acute for Polish and Hungarian, ogonek for Lithuanian);</li>
         <li>depending on the user's needs (switchable setting), the simplified characters can be input as in a combined form (two characters – letter+diacritics), or as a single Unicode character;</li>
         <li>the same dynamic characters occurring in different sets are located in the same positions, where possible.</li>
@@ -783,7 +783,7 @@ For details on all *(200+)* languages, categories, usability, alphabets, and sup
 ### Paired brackets
 
 Switchable option.
-<br>Automatically closes brackets and quotation marks `<>`, «», `""`, `“”`, `()`, `[]` and `{}`, setting the carriage position between them.
+<br>Automatically closes brackets and quotation marks `<>`, `«»`, `""`, `“”`, `()`, `[]` and `{}`, setting the carriage position between them.
 <br>Automatic closing single quotes is not provided, as this symbol is often used in the meaning of apostrophe, where a paired quote would be undesirable.
 
 ### Replacing text on the clipboard
@@ -976,7 +976,7 @@ Long presses can be undesirable in some applications, affecting their performanc
 * первые две категории, как самые востребованные из всех, находятся на домашних позициях пальцев;
 * графически и/или логически близкие символы расположены на вертикально смежных позициях;
 * скобки расположены зеркально вокруг домашнего ряда – открывающие вверху, закрывающие внизу;
-* в правом верхнем углу расположен самый востребованный диакритический комбинируемый символ "акут", в первую очередь как маркёр основного ударения.
+* в правом верхнем углу расположен самый востребованный диакритический комбинируемый символ "акут", в первую очередь как маркер основного ударения.
 
 Забегая наперёд, в раздел дополнительной функциональности, клавиши `decr` и `incr` в цифровом ряду отвечают за уменьшение/увеличение выделенного числа на 1, но могут быть переназначены пользователем для ввода дополнительных символов.
 
@@ -1012,7 +1012,7 @@ Long presses can be undesirable in some applications, affecting their performanc
 
 > <details>
 >    <summary>tl;dr</summary>
->    В цифровом ряду под `Shift` расположен ряд специфичных языковых символов.
+>    В цифровом ряду под <code>Shift</code> расположен ряд специфичных языковых символов.
 >    <br><br>Этот набор может быть выбран из многих предустановленных, в зависимости от потребностей пользователя. Каждый набор открывает доступ к целому ряду языков, так как они сгруппированы для обеспечения максимального охвата для каждого набора.
 >    <br><br>Набор символов выбирается раздельно для кириллической (русской) и латинской (английской) раскладок.
 >    <br><br>Минимальный полноценный одновременный охват любой пары наборов – 77.6% языков интернета (доля использования), максимальный (основные наборы) – 84.4% интернета. Общий охват от всех наборов – 90.1% + 9.85% всех версий романизации языков, основная письменность которых отличается от латинской и кириллической.
@@ -1075,13 +1075,13 @@ Long presses can be undesirable in some applications, affecting their performanc
 <details>
     <summary>Отдельные уточнения и учёт языковых особенностей</summary>
     <ul>
-        <li>в наборах, основанных на турецком варианте латиницы предусмотрено небольшое опциональное перепозиционирование символов `iI` и `ıİ`, для более логичного ввода – `iİ` и `ıI` (переключаемая опция);</li>
+        <li>в наборах, основанных на турецком варианте латиницы предусмотрено небольшое опциональное перепозиционирование символов <code>iI</code> и <code>ıİ</code>, для более логичного ввода – <code>iİ</code> и <code>ıI</code> (переключаемая опция);</li>
         <li>при выборе румынского языкового набора предусмотрена опциональная замена диакритической седили на кому, для исправления распространённого ошибочного использования первой (переключаемая опция);</li>
-        <li>в наборах "исландский/древнеанглийский" и "мосси" символ `đĐ` заменён на варианты начертания, использующиеся в данных языках – `ðÐ` и `ɖƉ`, соответственно;</li>
-        <li>в наборы, в которых количество динамических символов ограничилось 4, была добавлена `ñ`, даже не относясь к основному языку набора, в качестве символа с максимальным расширением охвата, без зависимости от прочих символов;</li>
-        <li>в некоторых отдельных наборах, в которых количество динамических символов потребовало 6 позиций, дополнительное место было пожертвовано от `ł`;</li>
+        <li>в наборах "исландский/древнеанглийский" и "мосси" символ <code>đĐ</code> заменён на варианты начертания, использующиеся в данных языках – <code>ðÐ</code> и <code>ɖƉ</code>, соответственно;</li>
+        <li>в наборы, в которых количество динамических символов ограничилось 4, была добавлена <code>ñ</code>, даже не относясь к основному языку набора, в качестве символа с максимальным расширением охвата, без зависимости от прочих символов;</li>
+        <li>в некоторых отдельных наборах, в которых количество динамических символов потребовало 6 позиций, дополнительное место было пожертвовано от <code>ł</code>;</li>
         <li>в наборах для польского, литовского, латышского и венгерского языков предусмотрен лишь частичный упрощённый ввод, ввиду крайне широкого использования диакритики в данных языках. Упрощённый ввод, по возможности, охватывает символы с разной диакритикой, оставляя на комбинированный ввод буквы с единым диакритическим знаком (акут для польского и венгерского, огонэк для литовского);</li>
-        <li>в зависимости от потребностей пользователя (переключаемая настройка), символы упрощённого набора могут подаваться на ввод как в комбинированном виде (два символа – буква+диакритика), так и в виде цельного юникод-символа;</li>
+        <li>в зависимости от потребностей пользователя (переключаемая настройка), символы упрощённого ввода могут подаваться на ввод как в комбинированном виде (два символа – буква+диакритика), так и в виде цельного юникод-символа;</li>
         <li>одинаковые динамические символы, встречающиеся в разных наборах, расположены на одних и тех же позициях, где это было возможно.</li>
     </ul>
 </details>
@@ -1656,7 +1656,7 @@ Long presses can be undesirable in some applications, affecting their performanc
 
 Немного финальной статистики:
 > *согласно данным использования языков в интернете с <a href="https://w3techs.com/technologies/overview/content_language">w3techs.com</a> за 22.11.2021*
-* полностью поддерживаемые языки на любой модификации – 77.61% (89.14% без упрощённого набора);
+* полностью поддерживаемые языки на любой модификации – 77.61% (89.14% без упрощённого ввода);
 * полностью поддерживаемые языки на основных модификациях – 6.83%;
 * полностью поддерживаемые языки на дополнительных модификациях – 5.68%;
 * романизированные версии языков прочих письменностей: все версии – 9.85%, некоторые – 0.03%;
@@ -1670,7 +1670,7 @@ Long presses can be undesirable in some applications, affecting their performanc
 ### Парные скобки/кавычки
 
 Переключаемая функциональность.
-<br>Автоматически закрывает скобки и кавычки `<>`, «», `""`, `“”`, `()`, `[]` и `{}`, устанавливая позицию каретки между ними.
+<br>Автоматически закрывает скобки и кавычки `<>`, `«»`, `""`, `“”`, `()`, `[]` и `{}`, устанавливая позицию каретки между ними.
 <br>Автоматическое закрытие одинарных кавычек не предусмотрено, так как данный символ часто используется в значении апострофа, где парная кавычка будет нежелательной.
 
 ### Замена текста в буфере обмена
