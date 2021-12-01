@@ -768,12 +768,11 @@ The currently active character sets are also displayed in the script GUI.
 ![Displaying language sets](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/lang_modes.png)
 
 Some final statistics:
-> *according to the use of languages on the Internet by <a href="https://w3techs.com/technologies/overview/content_language">w3techs.com</a> of 22.11.2021*
-* fully supported languages on any modification – 77.61% (89.14% without simplified typing)
-* fully supported languages on main modifications – 6.83%
-* fully supported languages on additional modifications – 5.68%
-* romanized versions of languages of other scripts: all versions – 9.85%, some – 0.03%
-* unsupported languages – 0.001%
+> *according to the use of languages on the Internet by <a href="https://w3techs.com/technologies/overview/content_language">w3techs.com</a> of 01.12.2021*
+* fully supported languages on any modification – 77.64% (89.16% without simplified typing)
+* fully supported languages on main modifications – 6.82%
+* fully supported languages on additional modifications – 5.40%
+* romanized versions of languages of other scripts: all versions – 9.84%, some – 0.02%
 
 For details on all *(200+)* languages, categories, usability, alphabets, and support, see <a href="https://github.com/uqqu/qPhyx/blob/master/external/languages.xlsx">external/languages.xlsx</a> 
 
@@ -1655,12 +1654,11 @@ Long presses can be undesirable in some applications, affecting their performanc
 ![Отображение языковых наборов](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/lang_modes.png)
 
 Немного финальной статистики:
-> *согласно данным использования языков в интернете с <a href="https://w3techs.com/technologies/overview/content_language">w3techs.com</a> за 22.11.2021*
-* полностью поддерживаемые языки на любой модификации – 77.61% (89.14% без упрощённого ввода);
-* полностью поддерживаемые языки на основных модификациях – 6.83%;
-* полностью поддерживаемые языки на дополнительных модификациях – 5.68%;
-* романизированные версии языков прочих письменностей: все версии – 9.85%, некоторые – 0.03%;
-* неподдерживаемые языки – 0.001%.
+> *согласно данным использования языков в интернете с <a href="https://w3techs.com/technologies/overview/content_language">w3techs.com</a> за 01.12.2021*
+* полностью поддерживаемые языки на любой модификации – 77.64% (89.16% без упрощённого ввода);
+* полностью поддерживаемые языки на основных модификациях – 6.82%;
+* полностью поддерживаемые языки на дополнительных модификациях – 5.40%;
+* романизированные версии языков прочих письменностей: все версии – 9.84%, некоторые – 0.02%;
 
 Подробнее со всеми *(200+)* языками, категориями, используемостью, алфавитами и поддержкой можно ознакомиться в файле <a href="https://github.com/uqqu/qPhyx/blob/master/external/languages.xlsx">external/languages.xlsx</a> 
 
