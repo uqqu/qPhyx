@@ -13,9 +13,9 @@ Global LONG_PRESS_TIME := 0.15
 Global LATIN_MODE := 1
 Global CYRILLIC_MODE := 1
 Global COMBINED_VIEW := 1
-Global CONTROLLING_KEYS := 1
-Global DOUBLE_SHIFT_INVERT := 1
-Global DOTLESS_I_SWAP := 0
+Global CONTROLLING_KEYS := 0
+Global DOUBLE_SHIFT_INVERT := 0
+Global DOTLESS_I_SWAP := 1
 Global ROMANIAN_CEDILLA_TO_COMMA := 1
 Global PAIRED_BRACKETS := 0
 Global UNBR_SPACE := 1
@@ -24,39 +24,39 @@ Global NUMPAD := 0
 Global USER_ASSIGNMENTS := {}
 IfExist, config.ini
 {
-    IniRead, DISABLED,                  config.ini, Configuration, Disabled
-    IniRead, LONG_PRESS_TIME,           config.ini, Configuration, LongPressTime
-    IniRead, LATIN_MODE,                config.ini, Configuration, LatinMode
-    IniRead, CYRILLIC_MODE,             config.ini, Configuration, CyrillicMode
-    IniRead, COMBINED_VIEW,             config.ini, Configuration, CombinedView
-    IniRead, CONTROLLING_KEYS,          config.ini, Configuration, ControllingKeys
-    IniRead, DOUBLE_SHIFT_INVERT,       config.ini, Configuration, DoubleShiftInvert
-    IniRead, DOTLESS_I_SWAP,            config.ini, Configuration, DotlessISwap
-    IniRead, ROMANIAN_CEDILLA_TO_COMMA, config.ini, Configuration, RomanianCedillaToComma
-    IniRead, PAIRED_BRACKETS,           config.ini, Configuration, PairedBrackets
-    IniRead, UNBR_SPACE,                config.ini, Configuration, UnbrSpace
-    IniRead, ESC_AS_CAPS,               config.ini, Configuration, EscAsCaps
-    IniRead, NUMPAD,                    config.ini, Configuration, NumPad
-    IniRead, menu_path,                 config.ini, Configuration, MenuPath
-    IniRead, viatc_file,                config.ini, Configuration, ViatcFile
+    IniRead, DISABLED,                     config.ini, Configuration, Disabled
+    IniRead, LONG_PRESS_TIME,              config.ini, Configuration, LongPressTime
+    IniRead, LATIN_MODE,                   config.ini, Configuration, LatinMode
+    IniRead, CYRILLIC_MODE,                config.ini, Configuration, CyrillicMode
+    IniRead, COMBINED_VIEW,                config.ini, Configuration, CombinedView
+    IniRead, CONTROLLING_KEYS,             config.ini, Configuration, ControllingKeys
+    IniRead, DOUBLE_SHIFT_INVERT,          config.ini, Configuration, DoubleShiftInvert
+    IniRead, DOTLESS_I_SWAP,               config.ini, Configuration, DotlessISwap
+    IniRead, ROMANIAN_CEDILLA_TO_COMMA,    config.ini, Configuration, RomanianCedillaToComma
+    IniRead, PAIRED_BRACKETS,              config.ini, Configuration, PairedBrackets
+    IniRead, UNBR_SPACE,                   config.ini, Configuration, UnbrSpace
+    IniRead, ESC_AS_CAPS,                  config.ini, Configuration, EscAsCaps
+    IniRead, NUMPAD,                       config.ini, Configuration, NumPad
+    IniRead, menu_path,                    config.ini, Configuration, MenuPath
+    IniRead, viatc_file,                   config.ini, Configuration, ViatcFile
 }
 Else
 {
-    IniWrite, 0,                        config.ini, Configuration, Disabled
-    IniWrite, 0.15,                     config.ini, Configuration, LongPressTime
-    IniWrite, 1,                        config.ini, Configuration, LatinMode
-    IniWrite, 1,                        config.ini, Configuration, CyrillicMode
-    IniWrite, 1,                        config.ini, Configuration, CombinedView
-    IniWrite, 1,                        config.ini, Configuration, ControllingKeys
-    IniWrite, 1,                        config.ini, Configuration, DoubleShiftInvert
-    IniWrite, 0,                        config.ini, Configuration, DotlessISwap
-    IniWrite, 1,                        config.ini, Configuration, RomanianCedillaToComma
-    IniWrite, 0,                        config.ini, Configuration, PairedBrackets
-    IniWrite, 1,                        config.ini, Configuration, UnbrSpace
-    IniWrite, 0,                        config.ini, Configuration, EscAsCaps
-    IniWrite, 0,                        config.ini, Configuration, NumPad
-    IniWrite, c:\menu\,                 config.ini, Configuration, MenuPath
-    IniWrite, c:\ViATc\ViATc.ahk,       config.ini, Configuration, ViatcFile
+    IniWrite, %DISABLED%,                  config.ini, Configuration, Disabled
+    IniWrite, %LONG_PRESS_TIME%,           config.ini, Configuration, LongPressTime
+    IniWrite, %LATIN_MODE%,                config.ini, Configuration, LatinMode
+    IniWrite, %CYRILLIC_MODE%,             config.ini, Configuration, CyrillicMode
+    IniWrite, %COMBINED_VIEW%,             config.ini, Configuration, CombinedView
+    IniWrite, %CONTROLLING_KEYS%,          config.ini, Configuration, ControllingKeys
+    IniWrite, %DOUBLE_SHIFT_INVERT%,       config.ini, Configuration, DoubleShiftInvert
+    IniWrite, %DOTLESS_I_SWAP%,            config.ini, Configuration, DotlessISwap
+    IniWrite, %ROMANIAN_CEDILLA_TO_COMMA%, config.ini, Configuration, RomanianCedillaToComma
+    IniWrite, %PAIRED_BRACKETS%,           config.ini, Configuration, PairedBrackets
+    IniWrite, %UNBR_SPACE%,                config.ini, Configuration, UnbrSpace
+    IniWrite, %ESC_AS_CAPS%,               config.ini, Configuration, EscAsCaps
+    IniWrite, %NUMPAD%,                    config.ini, Configuration, NumPad
+    IniWrite, c:\menu\,                    config.ini, Configuration, MenuPath
+    IniWrite, c:\ViATc\ViATc.ahk,          config.ini, Configuration, ViatcFile
     FileAppend, `n[AdditionalAssignments]`nSC00C=`nSC00D=`n`n[AltApps]`n`n`n[BlackList]`n
         , config.ini
 }
