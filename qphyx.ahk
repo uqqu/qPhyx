@@ -349,9 +349,9 @@ Loop, 5
     AddButton(1, outer_ind)
     Loop, 12
     {
-        AddButton(A_Index+1, outer_ind, A_Index*50, , , (outer_ind > 2) ? 40 : 20)
+        AddButton(A_Index+1, outer_ind, A_Index*50, , , (outer_ind > 1) ? 40 : 20)
     }
-    If (outer_ind < 3)
+    If (outer_ind < 2)
     {
         Loop, 12
         {
@@ -1022,7 +1022,7 @@ GuiFillValues()
         , "SC023", "SC024", "SC025", "SC026", "SC016", "SC017", "SC032", "SC033"]
     keys := CONTROLLING_KEYS
         ? ["Esc", "Media", "Enter", "Backspace"] : ["Tilde", "BS", "Caps Lock", "Enter"]
-    keys.Push("Tab", "RShift", "LShift"
+    keys.Push("Tab", "LShift", "RShift"
         , "left", "down", "up", "right", "forw", "backw", "undo", "redo")
     Loop, 4
     {
