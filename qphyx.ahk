@@ -1023,7 +1023,7 @@ GuiFillValues()
     keys := CONTROLLING_KEYS
         ? ["Esc", "Media", "Enter", "Backspace"] : ["Tilde", "BS", "Caps Lock", "Enter"]
     keys.Push("Tab", "LShift", "RShift"
-        , "left", "down", "up", "right", "forw", "backw", "undo", "redo")
+        , "left", "down", "up", "right", "backw", "forw", "undo", "redo")
     Loop, 4
     {
         outer_ind := A_Index
