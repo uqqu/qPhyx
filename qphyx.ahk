@@ -191,9 +191,12 @@ For i, script in [LAT_MODE_LIST[LATIN_MODE], CYR_MODE_LIST[CYRILLIC_MODE]]
 ;;Stay calm with third-party bindings. <Sh-i> will be detect as I. Diacr. dot will be added later
 ;;With this mode you can type I as <sh-i>+<bs> or as <sh-long-8>, how you want it
 ;;This option is not depends on selected latin mode, because you may want to use it with any mode
-If DOTLESS_I_SWAP
+If LATIN_MODE in 2,21,25
 {
-    NUM_DICT["SC009"][6] := "I"
+    If DOTLESS_I_SWAP
+    {
+        NUM_DICT["SC009"][6] := "I"
+    }
 }
 
 ;;paste comma instead of the cedilla for the chosen romanian mode
@@ -561,23 +564,20 @@ Up(this, shift:=0, alt:=0)
         Else
         {
             upper := shift ^ GetKeyState("CapsLock", "T")
-            If (USER_ASSIGNMENTS.haskey((upper ? "+" : "") . this))
+            SetFormat, Integer, H
+            lang := % DllCall("GetKeyboardLayout", Int
+                , DllCall("GetWindowThreadProcessId", int, WinActive("A"), Int, 0))
+            SetFormat, Integer, D
+            If (USER_ASSIGNMENTS.haskey((upper ? "+" : "") . this) && (lang == -0xF3EFBF7))
             {
-                SetFormat, Integer, H
-                lang := % DllCall("GetKeyboardLayout", Int
-                    , DllCall("GetWindowThreadProcessId", int, WinActive("A"), Int, 0))
-                SetFormat, Integer, D
-                If (lang == -0xF3EFBF7)
-                {
-                    SendInput, % USER_ASSIGNMENTS[(upper ? "+" : "") . this]
-                    DICT[this][1] := 0
-                    DICT[this][2] := 0
-                    Return
-                }
+                SendInput, % USER_ASSIGNMENTS[(upper ? "+" : "") . this]
+                DICT[this][1] := 0
+                DICT[this][2] := 0
+                Return
             }
             SendInput, % (upper ? "+" : "") . "{" . this . "}"
             ;dotted/dotless I feature
-            If (upper && DOTLESS_I_SWAP && (GetKeyName(this) == "i"))
+            If (upper && DOTLESS_I_SWAP && (lang == -0xF3EFBF7) && (GetKeyName(this) == "i"))
             {
                 If LATIN_MODE in 2,21,25
                 {
@@ -738,6 +738,12 @@ LongPressTimeChange()
 
 LatModeChange(_, item_pos)
 {
+    Loop, 12
+    {
+        scan_code := "SC00" Format("{:X}", A_Index+1)
+        NUM_DICT[scan_code][5] := LAT_MODE_LIST[item_pos][scan_code][1+COMBINED_VIEW*2]
+        NUM_DICT[scan_code][6] := LAT_MODE_LIST[item_pos][scan_code][2+COMBINED_VIEW*2]
+    }
     IniWrite, % item_pos, config.ini, Configuration, LatinMode
     Menu, LatModes, Uncheck, % LAT_MODE_LIST[LATIN_MODE]["name"]
     Menu, LatModes, Check, % LAT_MODE_LIST[item_pos]["name"]
@@ -766,11 +772,13 @@ LatModeChange(_, item_pos)
         If DOTLESS_I_SWAP
         {
             Menu, SubSettings, Check, Toggle "Dotless &i" feature
+            NUM_DICT["SC009"][6] := "I"
         }
     }
     If (item_pos != 4)
     {
         Menu, SubSettings, Delete, Toggle "Romanian &cedilla to comma" feature
+        NUM_DICT["SC002"][4] := "̧"
     }
     Else If (LATIN_MODE != 4)
     {
@@ -779,15 +787,10 @@ LatModeChange(_, item_pos)
         If ROMANIAN_CEDILLA_TO_COMMA
         {
             Menu, SubSettings, Check, Toggle "Romanian &cedilla to comma" feature
+            NUM_DICT["SC002"][4] := "̦"
         }
     }
     LATIN_MODE := item_pos
-    Loop, 12
-    {
-        scan_code := "SC00" Format("{:X}", A_Index+1)
-        NUM_DICT[scan_code][5] := LAT_MODE_LIST[item_pos][scan_code][1+COMBINED_VIEW*2]
-        NUM_DICT[scan_code][6] := LAT_MODE_LIST[item_pos][scan_code][2+COMBINED_VIEW*2]
-    }
 }
 
 CyrModeChange(_, item_pos)
@@ -862,7 +865,7 @@ DotlessIToggle()
     }
     Else
     {
-        NUM_DICT["SC009"][6] := LAT_MODE_LIST[LATIN_MODE]["SC009"][2]
+        NUM_DICT["SC009"][6] := LAT_MODE_LIST[LATIN_MODE]["SC009"][2+COMBINED_VIEW*2]
     }
     Menu, SubSettings, % DOTLESS_I_SWAP ? "Check" : "Uncheck", Toggle "Dotless &i" feature
 }
