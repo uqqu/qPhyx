@@ -191,7 +191,7 @@ For i, script in [LAT_MODE_LIST[LATIN_MODE], CYR_MODE_LIST[CYRILLIC_MODE]]
 ;;Stay calm with third-party bindings. <Sh-i> will be detect as I. Diacr. dot will be added later
 ;;With this mode you can type I as <sh-i>+<bs> or as <sh-long-8>, how you want it
 ;;This option is not depends on selected latin mode, because you may want to use it with any mode
-If LATIN_MODE in 2,21,25
+If LATIN_MODE in 2,11
 {
     If DOTLESS_I_SWAP
     {
@@ -275,7 +275,7 @@ Menu, Tray, Add, Change &cyrillic mode, :CyrModes
     {
         Menu, SubSettings, Check, Toggle "&double shift press to toggle case" feature
     }
-    If LATIN_MODE in 2,21,25
+    If LATIN_MODE in 2,11
     {
         Menu, SubSettings, Add, Toggle "Dotless &i" feature, DotlessIToggle
         If DOTLESS_I_SWAP
@@ -579,7 +579,7 @@ Up(this, shift:=0, alt:=0)
             ;dotted/dotless I feature
             If (upper && DOTLESS_I_SWAP && (lang == -0xF3EFBF7) && (GetKeyName(this) == "i"))
             {
-                If LATIN_MODE in 2,21,25
+                If LATIN_MODE in 2,11
                 {
                     SendInput, {̇}
                 }
@@ -761,11 +761,11 @@ LatModeChange(_, item_pos)
     Gui, ListView, LangModes
     LV_Modify(LATIN_MODE, , "")
     LV_Modify(item_pos, , "✓")
-    If item_pos not in 2,21,25
+    If item_pos not in 2,11
     {
         Menu, SubSettings, Delete, Toggle "Dotless &i" feature
     }
-    Else If LATIN_MODE not in 2,21,25
+    Else If LATIN_MODE not in 2,11
     {
         Menu, SubSettings, Insert, Toggle "&Paired brackets" feature
             , Toggle "Dotless &i" feature, DotlessIToggle
