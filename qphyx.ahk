@@ -14,6 +14,7 @@ Global LATIN_MODE := 1
 Global CYRILLIC_MODE := 1
 Global COMBINED_VIEW := 1
 Global CONTROLLING_KEYS := 0
+Global NUMROW_SHIFTING := 0
 Global DOUBLE_SHIFT_INVERT := 0
 Global DOTLESS_I_SWAP := 1
 Global ROMANIAN_CEDILLA_TO_COMMA := 1
@@ -30,6 +31,7 @@ IfExist, config.ini
     IniRead, CYRILLIC_MODE,                config.ini, Configuration, CyrillicMode
     IniRead, COMBINED_VIEW,                config.ini, Configuration, CombinedView
     IniRead, CONTROLLING_KEYS,             config.ini, Configuration, ControllingKeys
+    IniRead, NUMROW_SHIFTING,              config.ini, Configuration, NumrowShifting
     IniRead, DOUBLE_SHIFT_INVERT,          config.ini, Configuration, DoubleShiftInvert
     IniRead, DOTLESS_I_SWAP,               config.ini, Configuration, DotlessISwap
     IniRead, ROMANIAN_CEDILLA_TO_COMMA,    config.ini, Configuration, RomanianCedillaToComma
@@ -48,6 +50,7 @@ Else
     IniWrite, %CYRILLIC_MODE%,             config.ini, Configuration, CyrillicMode
     IniWrite, %COMBINED_VIEW%,             config.ini, Configuration, CombinedView
     IniWrite, %CONTROLLING_KEYS%,          config.ini, Configuration, ControllingKeys
+    IniWrite, %NUMROW_SHIFTING%,           config.ini, Configuration, NumrowShifting
     IniWrite, %DOUBLE_SHIFT_INVERT%,       config.ini, Configuration, DoubleShiftInvert
     IniWrite, %DOTLESS_I_SWAP%,            config.ini, Configuration, DotlessISwap
     IniWrite, %ROMANIAN_CEDILLA_TO_COMMA%, config.ini, Configuration, RomanianCedillaToComma
@@ -270,6 +273,11 @@ Menu, Tray, Add, Change &cyrillic mode, :CyrModes
     {
         Menu, SubSettings, Check, Toggle controlling &keys remap
     }
+    Menu, SubSettings, Add, Toggle numrow &shifting (1-90 to 01-9), NumrowShiftingToggle
+    If NUMROW_SHIFTING
+    {
+        Menu, SubSettings, Check, Toggle numrow &shifting (1-90 to 01-9)
+    }
     Menu, SubSettings, Add, Toggle "&double shift press to toggle case" feature, DoubleShiftToggle
     If DOUBLE_SHIFT_INVERT
     {
@@ -352,9 +360,9 @@ Loop, 5
     AddButton(1, outer_ind)
     Loop, 12
     {
-        AddButton(A_Index+1, outer_ind, A_Index*50, , , (outer_ind > 1) ? 40 : 20)
+        AddButton(A_Index+1, outer_ind, A_Index*50, , , (outer_ind > 2) ? 40 : 20)
     }
-    If (outer_ind < 2)
+    If (outer_ind < 3)
     {
         Loop, 12
         {
@@ -386,10 +394,7 @@ Loop, 5
 Gui, +Theme
 OnMessage(0x100, "GuiKeyPress")
 OnMessage(0x104, "GuiKeyPress")
-Loop, 53
-{
-    GuiControl, Text, % SCAN_CODES[A_Index] . 5, % SCAN_CODES[A_Index]
-}
+
 GuiFillValues()
 
 Gui, Tab, % TABS[6]
@@ -521,10 +526,6 @@ UpNum(this, shift:=0, alt:=0)
             {
                 SendInput, % NUM_DICT[this][7+caps_lock]
             }
-        }
-        Else
-        {
-            SendInput, {%this%}
         }
     }
     NUM_DICT[this][1] := 0
@@ -837,7 +838,7 @@ ControllingKeysToggle()
     IniWrite, %CONTROLLING_KEYS%, config.ini, Configuration, ControllingKeys
     keys := CONTROLLING_KEYS
         ? ["Esc", "Media", "Enter", "Backspace"] : ["Tilde", "BS", "Caps Lock", "Enter"]
-    Loop 4
+    Loop, 4
     {
         GuiControl, Text, % "SC029" . A_Index, % keys[1]
         GuiControl, Text, % "SC00E" . A_Index, % keys[2]
@@ -845,6 +846,29 @@ ControllingKeysToggle()
         GuiControl, Text, % "SC01C" . A_Index, % keys[4]
     }
     Menu, SubSettings, % CONTROLLING_KEYS ? "Check" : "Uncheck", Toggle controlling &keys remap
+}
+
+NumrowShiftingToggle()
+{
+    NUMROW_SHIFTING := !NUMROW_SHIFTING
+    IniWrite, %NUMROW_SHIFTING%, config.ini, Configuration, NumrowShifting
+    If NUMROW_SHIFTING
+    {
+        Loop, 10
+        {
+            GuiControl, Text, % "SC00" . Format("{:X}", A_Index+1) . 1, % A_Index - 1
+            GuiControl, Text, % "SC00" . Format("{:X}", A_Index+1) . 2, % A_Index - 1
+        }
+    }
+    Else
+    {
+        Loop, 10
+        {
+            GuiControl, Text, % SCAN_CODES[A_Index+1] . 1, % GetKeyName(SCAN_CODES[A_Index+1])
+            GuiControl, Text, % SCAN_CODES[A_Index+1] . 2, % GetKeyName(SCAN_CODES[A_Index+1])
+        }
+    }
+    Menu, SubSettings, % NUMROW_SHIFTING ? "Check" : "Uncheck", Toggle numrow &shifting (1-90 to 01-9)
 }
 
 DoubleShiftToggle()
@@ -1018,6 +1042,7 @@ GuiFillValues()
         GuiControl, Text, % SCAN_CODES[A_Index] . 2, % RegExReplace(values[3], "\{.+\}")
         GuiControl, Text, % SCAN_CODES[A_Index] . 3, % RegExReplace(values[4], "\{.+\}")
         GuiControl, Text, % SCAN_CODES[A_Index] . 4, % RegExReplace(values[5], "\{.+\}")
+        GuiControl, Text, % SCAN_CODES[A_Index] . 5, % SCAN_CODES[A_Index]
     }
 
     ;set optional values and fix some broken names
@@ -1061,6 +1086,15 @@ GuiFillValues()
     }
     GuiControl, Text, SC00C4, % NUM_DICT["SC00C"][4]
     GuiControl, Text, SC00D4, % NUM_DICT["SC00D"][4]
+
+    If NUMROW_SHIFTING
+    {
+        Loop, 10
+        {
+            GuiControl, Text, % "SC00" . Format("{:X}", A_Index+1) . 1, % A_Index - 1
+            GuiControl, Text, % "SC00" . Format("{:X}", A_Index+1) . 2, % A_Index - 1
+        }
+    }
 
     ;apply user-defined keys
     For key, value in USER_ASSIGNMENTS
@@ -1241,6 +1275,19 @@ SC001::
         SendInput, {%A_ThisHotkey%}
     }
     Return
+
+#If !DISABLED && NUMROW_SHIFTING && !WinActive("ahk_class AutoHotkeyGUI")
+
+SC002:: 0
+SC003:: 1
+SC004:: 2
+SC005:: 3
+SC006:: 4
+SC007:: 5
+SC008:: 6
+SC009:: 7
+SC00A:: 8
+SC00B:: 9
 
 #If !DISABLED && !WinActive("ahk_group BlackList") && DOUBLE_SHIFT_INVERT
 
