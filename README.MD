@@ -130,7 +130,7 @@ In the numeric row there is a subscript combined diacritic, which in half of the
 >    The numeric row below <code>Shift</code> contains a number of specific language characters.
 >    <br><br>This set can be selected from many preset ones, depending on the user's needs. Each set provides access to a number of languages, as they are grouped to provide maximum coverage for each set.
 >    <br><br>The character set is selectable separately for Cyrillic (Russian) and Latin (English) layouts.
->    <br><br>The minimal total simultaneous coverage of any pair of sets is 77.6% of the languages of the Internet (share of use), the maximum (the main sets) is 84.4% of the Internet. Total coverage of all sets is 90.1% + 9.85% of all romanization variants of languages with main script different from Latin or Cyrillic.
+>    <br><br>The minimal total simultaneous coverage of any pair of sets is 77.7% of the languages of the Internet (share of use), the maximum (the main sets) is 84.5% of the Internet. Total coverage of all sets is 90.1% + 9.9% of all romanization variants of languages with main script different from Latin or Cyrillic.
 >    <br><br>Switching between sets, if necessary, is performed "on the fly" in three presses.
 > </details>
 
@@ -151,7 +151,7 @@ Symbols from the language layer sets can be logically divided into two categorie
 * independent, graphically unique symbols;
 * graphically equivalent characters of the basic writing script with added diacritics.
 
-From the characters of the first category, opening access to typing in the most popular languages of the Latin script, a core set was formed, present in all Latin character sets.
+From the characters of the first category, opening access to typing in the most popular languages of the Latin script, a core set was formed, present in the most part of Latin character sets.
 
 Characters in the second category are potentially available for typing even without the use of a language layer, through an additional diacritic that fully covers the needs of all minimally used languages.
 However, it is necessary to provide input of such characters through a single press, without additional diacritics input, which we will call "simplified typing" hereafter.
@@ -160,7 +160,7 @@ The modifiable parts of the character sets consist of just the simplified charac
 
 There are also graphically unique characters in the modifiable part of character sets that are not available to input from other character sets, but which have limited relevance and are of interest only to speakers of such languages.
 
-It follows that each character set, in addition to language-specific characters (be they unique characters or simplified characters), always provides access to text input in a range of the most popular languages that can be accessed from any character set.
+It follows that each character set which contains the base set, in addition to language-specific characters (be they unique characters or simplified characters), open up the possibility of text input in a number of the most popular languages which can be in demand from any character set.
 
 
 The situation is somewhat different for Cyrillic sets:
@@ -175,7 +175,7 @@ Let's look at the main character sets for Latin and Cyrillic.
 
 Latin main set – `ñ å ä ö ü ł đ ı ß ø æ œ`
 
-The first 5 characters are dynamic and in this combination are present only in this set. The remaining 7 characters, with a small caveat below, are stably present in all sets, extending their coverage to them.
+The first 5 characters are dynamic and in this combination are present only in this set. The remaining 7 characters are stably present in most sets, extending their coverage to them.
 
 This character set opens up access to full-fledged typing in the following languages: Spanish *(and several dozen other languages it has influenced)*, German, French, Vietnamese, Swedish, Danish, Finnish, and Norwegian.
 Also, a set of unique graphical characters opens up basic typing capability (with input of other specific characters via diacritics) to Turkish, Polish, and Slovenian.
@@ -184,7 +184,11 @@ Also, a set of unique graphical characters opens up basic typing capability (wit
 
 The Latin sets are divided into two categories:
 * supportive – which provide simplified typing: Turkish, Polish, Romanian, Hungarian, and 20 other sets, totaling more than 40 languages;
-* allowing – sets with unique graphic characters necessary for a language that can only be typed in a given set: Icelandic/Old English, Maltese, Kazakh, Azerbaijani, a number of African languages (Hausa, Mossi, Fula, Yoruba, etc.), …
+* allowing – sets with unique graphic characters necessary for a language that can only be typed in a given set: Icelandic/Old English, Maltese, Azerbaijani, a number of African languages (Hausa, Mossi, Fula, Yoruba, etc.), …
+
+A total of 36 Latin sets were formed, 22 of which were formed with the basic symbol set, `łđıßøæœ`.
+In other 6 sets, in which 6 dynamic positions were required, additional position was sacrificed from `ł`.
+The remaining 8 sets are for languages with a large number of additional symbols, in which the basic symbol set has been truncated, in varying degrees, in favor of the main language of the set.
 
 <details>
     <summary>Some clarifications and attention to the specifics of languages</summary>
@@ -194,14 +198,17 @@ The Latin sets are divided into two categories:
         <li>in the "Icelandic/Old English" and "Mossi" sets, the symbol <code>đĐ</code> is replaced by the variants of the lettering used in these languages – <code>ðÐ</code> and <code>ɖƉ</code>, respectively;</li>
         <li>in sets in which the number of dynamic characters was restricted to 4, <code>ñ</code> was added, not even related to the main language of the set, as a character with maximum extension of coverage, without dependence on other characters;</li>
         <li>in some sets, in which the number of dynamic characters required 6 positions, additional place was sacrificed from <code>ł</code>;</li>
+        <li>the sets for Polish, Lithuanian and Hungarian are provided both in a full form, with a truncated basic set, and as a partial simplified input, where the basic symbol set is present, and some language symbols are given to combined input (mostly with a single diacritical symbol - acute for Polish and Hungarian, ogonek for Lithuanian + ż);</li>
+        <li>the sets for Czech and Slovak, even with abandoning the basic symbol set, are still partial-simplifying (without řďťťň for Czech, without acute forms for Slovak);</li>
         <li>the Polish, Lithuanian, Latvian, and Hungarian sets have only partially simplified typing, due to the extremely widespread use of diacritics in these languages. Simplified typing, if possible, covers characters with different diacritics, leaving for combined typing letters with a single diacritical symbol (acute for Polish and Hungarian, ogonek for Lithuanian);</li>
+        <li>the previous two points can be fixed and optimized by <a href="https://github.com/uqqu/qPhyx#user-assignments">additional user assignments</a>;</li>
         <li>depending on the user's needs (switchable setting), the simplified characters can be input as in a combined form (two characters – letter+diacritics), or as a single Unicode character;</li>
         <li>the same dynamic characters occurring in different sets are located in the same positions, where possible.</li>
     </ul>
 </details>
 
 <details>
-    <summary>All Latin sets (31)</summary>
+    <summary>All Latin sets (36)</summary>
     <table>
         <tr>
             <td>Main</td>
@@ -234,7 +241,7 @@ The Latin sets are divided into two categories:
             <td>œ</td>
         </tr>
         <tr>
-            <td>Polish</td>
+            <td>Polish (partial + base)</td>
             <td>ñ</td>
             <td>ą</td>
             <td>ę</td>
@@ -247,6 +254,36 @@ The Latin sets are divided into two categories:
             <td>ø</td>
             <td>æ</td>
             <td>œ</td>
+        </tr>
+        <tr>
+            <td>Polish (full − base)</td>
+            <td>ć</td>
+            <td>ń</td>
+            <td>ó</td>
+            <td>ś</td>
+            <td>ź</td>
+            <td>ł</td>
+            <td>ą</td>
+            <td>ę</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>ż</td>
+        </tr>
+        <tr>
+            <td>Czech (partial − base)</td>
+            <td>á</td>
+            <td>é</td>
+            <td>ó</td>
+            <td>í</td>
+            <td>ú</td>
+            <td>ý</td>
+            <td>ů</td>
+            <td>ě</td>
+            <td>ß</td>
+            <td>š</td>
+            <td>č</td>
+            <td>ž</td>
         </tr>
         <tr>
             <td>Romanian</td>
@@ -264,7 +301,7 @@ The Latin sets are divided into two categories:
             <td>œ</td>
         </tr>
         <tr>
-            <td>Hungarian</td>
+            <td>Hungarian (partial + base)</td>
             <td>ñ</td>
             <td>ő</td>
             <td>ű</td>
@@ -279,11 +316,26 @@ The Latin sets are divided into two categories:
             <td>œ</td>
         </tr>
         <tr>
-            <td>Slovene, Croatian, …</td>
+            <td>Hungarian (full − base)</td>
+            <td>á</td>
+            <td>é</td>
+            <td>ó</td>
+            <td>í</td>
+            <td>ú</td>
+            <td>ł</td>
+            <td>ö</td>
+            <td>ü</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>ő</td>
+            <td>ű</td>
+        </tr>
+        <tr>
+            <td>Slovene, Croatian (Gaj's latin), Romany</td>
             <td>č</td>
             <td>š</td>
-            <td>ǵ</td>
             <td>ž</td>
+            <td>ǵ</td>
             <td>ć</td>
             <td>ł</td>
             <td>đ</td>
@@ -294,7 +346,37 @@ The Latin sets are divided into two categories:
             <td>œ</td>
         </tr>
         <tr>
-            <td>Lithuanian</td>
+            <td>Slovak (full − base)</td>
+            <td>ň</td>
+            <td>ô</td>
+            <td>ä</td>
+            <td>ö</td>
+            <td>ü</td>
+            <td>ľ</td>
+            <td>ď</td>
+            <td>ť</td>
+            <td>ß</td>
+            <td>š</td>
+            <td>č</td>
+            <td>ž</td>
+        </tr>
+        <tr>
+            <td>Turkic languages (full − base)</td>
+            <td>ñ</td>
+            <td>ê</td>
+            <td>ä</td>
+            <td>ö</td>
+            <td>ü</td>
+            <td>ū</td>
+            <td>ə</td>
+            <td>ı</td>
+            <td>ţ</td>
+            <td>ş</td>
+            <td>ç</td>
+            <td>ğ</td>
+        </tr>
+        <tr>
+            <td>Lithuanian (partial + base)</td>
             <td>č</td>
             <td>š</td>
             <td>ž</td>
@@ -309,73 +391,43 @@ The Latin sets are divided into two categories:
             <td>œ</td>
         </tr>
         <tr>
-            <td>Luxembourgish, Uyghur</td>
-            <td>é</td>
-            <td>ë</td>
-            <td>ä</td>
-            <td>ö</td>
-            <td>ü</td>
+            <td>Lithuanian (full − base)</td>
+            <td>ą</td>
+            <td>ę</td>
+            <td>ė</td>
+            <td>ų</td>
+            <td>ū</td>
             <td>ł</td>
-            <td>đ</td>
-            <td>ı</td>
+            <td>į</td>
+            <td>ż</td>
             <td>ß</td>
-            <td>ø</td>
-            <td>æ</td>
-            <td>œ</td>
+            <td>š</td>
+            <td>č</td>
+            <td>ž</td>
         </tr>
         <tr>
-            <td>Kurdish (Hawar alphabet)</td>
-            <td>ç</td>
-            <td>ş</td>
-            <td>ê</td>
-            <td>î</td>
-            <td>û</td>
-            <td>ł</td>
-            <td>đ</td>
-            <td>ı</td>
-            <td>ß</td>
-            <td>ø</td>
-            <td>æ</td>
-            <td>œ</td>
-        </tr>
-        <tr>
-            <td>Twi, Yoruba (Benin), …</td>
-            <td>ñ</td>
-            <td>ŋ</td>
-            <td>ɲ</td>
-            <td>ɛ</td>
-            <td>ɔ</td>
-            <td>ł</td>
-            <td>đ</td>
-            <td>ı</td>
-            <td>ß</td>
-            <td>ø</td>
-            <td>æ</td>
-            <td>œ</td>
-        </tr>
-        <tr>
-            <td>Hausa</td>
-            <td>ɓ</td>
-            <td>ɗ</td>
-            <td>ƙ</td>
-            <td>r̃</td>
-            <td>ƴ</td>
-            <td>ł</td>
-            <td>đ</td>
-            <td>ı</td>
-            <td>ß</td>
-            <td>ø</td>
-            <td>æ</td>
-            <td>œ</td>
-        </tr>
-        <tr>
-            <td>Latvian, Maori, …</td>
+            <td>Latvian (full − base)</td>
             <td>ā</td>
             <td>ē</td>
             <td>ī</td>
-            <td>ō</td>
             <td>ū</td>
-            <td>ł</td>
+            <td>ǵ</td>
+            <td>ļ</td>
+            <td>ķ</td>
+            <td>ņ</td>
+            <td>ß</td>
+            <td>š</td>
+            <td>č</td>
+            <td>ž</td>
+        </tr>
+        <tr>
+            <td>Estonian (base − ł)</td>
+            <td>õ</td>
+            <td>š</td>
+            <td>ä</td>
+            <td>ö</td>
+            <td>ü</td>
+            <td>ž</td>
             <td>đ</td>
             <td>ı</td>
             <td>ß</td>
@@ -384,42 +436,12 @@ The Latin sets are divided into two categories:
             <td>œ</td>
         </tr>
         <tr>
-            <td>Igbo</td>
-            <td>ñ</td>
-            <td>ṅ</td>
-            <td>ị</td>
-            <td>ọ</td>
-            <td>ụ</td>
-            <td>ł</td>
-            <td>đ</td>
-            <td>ı</td>
-            <td>ß</td>
-            <td>ø</td>
-            <td>æ</td>
-            <td>œ</td>
-        </tr>
-        <tr>
-            <td>Irish, Luba-Katanga, Sundanese</td>
-            <td>á</td>
-            <td>é</td>
-            <td>í</td>
-            <td>ó</td>
-            <td>ú</td>
-            <td>ł</td>
-            <td>đ</td>
-            <td>ı</td>
-            <td>ß</td>
-            <td>ø</td>
-            <td>æ</td>
-            <td>œ</td>
-        </tr>
-        <tr>
-            <td>Venda</td>
-            <td>ṅ</td>
-            <td>ḓ</td>
-            <td>ḽ</td>
-            <td>ṋ</td>
-            <td>ṱ</td>
+            <td>Albanian, Northern Sotho</td>
+            <td>ç</td>
+            <td>š</td>
+            <td>ê</td>
+            <td>ô</td>
+            <td>ë</td>
             <td>ł</td>
             <td>đ</td>
             <td>ı</td>
@@ -444,72 +466,27 @@ The Latin sets are divided into two categories:
             <td>œ</td>
         </tr>
         <tr>
-            <td>Mossi</td>
-            <td>ɓ</td>
-            <td>ɩ</td>
-            <td>ʋ</td>
-            <td>ɛ</td>
-            <td>ɔ</td>
-            <td>ł</td>
-            <td>ɖ</td>
-            <td>ı</td>
-            <td>ß</td>
-            <td>ø</td>
-            <td>æ</td>
-            <td>œ</td>
-        </tr>
-        <tr>
-            <td>Fula</td>
-            <td>ɓ</td>
-            <td>ɗ</td>
-            <td>ŋ</td>
-            <td>ɲ</td>
-            <td>ƴ</td>
-            <td>ł</td>
-            <td>đ</td>
-            <td>ı</td>
-            <td>ß</td>
-            <td>ø</td>
-            <td>æ</td>
-            <td>œ</td>
-        </tr>
-        <tr>
-            <td>Maltese</td>
-            <td>ñ</td>
-            <td>ċ</td>
-            <td>ġ</td>
-            <td>ż</td>
-            <td>ħ</td>
-            <td>ł</td>
-            <td>đ</td>
-            <td>ı</td>
-            <td>ß</td>
-            <td>ø</td>
-            <td>æ</td>
-            <td>œ</td>
-        </tr>
-        <tr>
-            <td>Northern Sotho, Albanian</td>
-            <td>ç</td>
-            <td>š</td>
-            <td>ê</td>
-            <td>ô</td>
-            <td>ë</td>
-            <td>ł</td>
-            <td>đ</td>
-            <td>ı</td>
-            <td>ß</td>
-            <td>ø</td>
-            <td>æ</td>
-            <td>œ</td>
-        </tr>
-        <tr>
-            <td>Kazakh</td>
-            <td>ñ</td>
-            <td>ŋ</td>
-            <td>ş</td>
-            <td>ğ</td>
+            <td>Urdu (Roman script) (base − ł)</td>
             <td>ū</td>
+            <td>ṛ</td>
+            <td>ṣ</td>
+            <td>ṭ</td>
+            <td>ẓ</td>
+            <td>z̤</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Uzbek</td>
+            <td>ç</td>
+            <td>ş</td>
+            <td>ḡ</td>
+            <td>ō</td>
+            <td>ñ</td>
             <td>ł</td>
             <td>đ</td>
             <td>ı</td>
@@ -534,6 +511,126 @@ The Latin sets are divided into two categories:
             <td>œ</td>
         </tr>
         <tr>
+            <td>Twi, Yoruba (Benin) ...</td>
+            <td>ñ</td>
+            <td>ŋ</td>
+            <td>ɲ</td>
+            <td>ɛ</td>
+            <td>ɔ</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Northern Sami (base − ł)</td>
+            <td>č</td>
+            <td>š</td>
+            <td>ž</td>
+            <td>á</td>
+            <td>ŋ</td>
+            <td>ŧ</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Esperanto (base − ł)</td>
+            <td>ĉ</td>
+            <td>ŝ</td>
+            <td>ĝ</td>
+            <td>ĥ</td>
+            <td>ĵ</td>
+            <td>ǔ</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Kurdish (Hawar alphabet)</td>
+            <td>ç</td>
+            <td>ş</td>
+            <td>ê</td>
+            <td>î</td>
+            <td>û</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Turkmen (base − łđœ)</td>
+            <td>ç</td>
+            <td>ş</td>
+            <td>ä</td>
+            <td>ö</td>
+            <td>ü</td>
+            <td>ý</td>
+            <td>ň</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>ž</td>
+        </tr>
+        <tr>
+            <td>Irish, Sundanese, Luba-Katanga</td>
+            <td>á</td>
+            <td>é</td>
+            <td>í</td>
+            <td>ó</td>
+            <td>ú</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Luxembourgish, Uyghur</td>
+            <td>é</td>
+            <td>ë</td>
+            <td>ä</td>
+            <td>ö</td>
+            <td>ü</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Maltese</td>
+            <td>ñ</td>
+            <td>ċ</td>
+            <td>ġ</td>
+            <td>ż</td>
+            <td>ħ</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
             <td>Haitian, Javanese, Kikuyu</td>
             <td>é</td>
             <td>è</td>
@@ -549,12 +646,12 @@ The Latin sets are divided into two categories:
             <td>œ</td>
         </tr>
         <tr>
-            <td>Uzbek</td>
-            <td>ç</td>
-            <td>ş</td>
-            <td>ḡ</td>
-            <td>ō</td>
-            <td>ñ</td>
+            <td>Hausa</td>
+            <td>ɓ</td>
+            <td>ɗ</td>
+            <td>ƙ</td>
+            <td>r̃</td>
+            <td>ƴ</td>
             <td>ł</td>
             <td>đ</td>
             <td>ı</td>
@@ -564,43 +661,28 @@ The Latin sets are divided into two categories:
             <td>œ</td>
         </tr>
         <tr>
-            <td>Azerbaijani, (Turkish)</td>
-            <td>ç</td>
-            <td>ş</td>
-            <td>ğ</td>
-            <td>ö</td>
-            <td>ü</td>
-            <td>ə</td>
-            <td>đ</td>
-            <td>ı</td>
-            <td>ß</td>
-            <td>ø</td>
-            <td>æ</td>
-            <td>œ</td>
-        </tr>
-        <tr>
-            <td>Estonian</td>
-            <td>š</td>
-            <td>ž</td>
-            <td>ä</td>
-            <td>ö</td>
-            <td>ü</td>
-            <td>õ</td>
-            <td>đ</td>
-            <td>ı</td>
-            <td>ß</td>
-            <td>ø</td>
-            <td>æ</td>
-            <td>œ</td>
-        </tr>
-        <tr>
-            <td>Urdu (Roman script)</td>
+            <td>Maori, Samoan, Niuean</td>
+            <td>ā</td>
+            <td>ē</td>
+            <td>ī</td>
+            <td>ō</td>
             <td>ū</td>
-            <td>ṛ</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Volta–Niger languages (Yoruba, Igbo, ...)</td>
+            <td>ṅ</td>
             <td>ṣ</td>
-            <td>ṭ</td>
-            <td>ẓ</td>
-            <td>z̤</td>
+            <td>ẹ</td>
+            <td>ọ</td>
+            <td>ụ</td>
+            <td>ị</td>
             <td>đ</td>
             <td>ı</td>
             <td>ß</td>
@@ -609,22 +691,7 @@ The Latin sets are divided into two categories:
             <td>œ</td>
         </tr>
         <tr>
-            <td>Esperanto</td>
-            <td>ĉ</td>
-            <td>ŝ</td>
-            <td>ĝ</td>
-            <td>ĥ</td>
-            <td>ĵ</td>
-            <td>ǔ</td>
-            <td>đ</td>
-            <td>ı</td>
-            <td>ß</td>
-            <td>ø</td>
-            <td>æ</td>
-            <td>œ</td>
-        </tr>
-        <tr>
-            <td>Western Frisian</td>
+            <td>Western Frisian (base − ł)</td>
             <td>â</td>
             <td>ê</td>
             <td>é</td>
@@ -639,13 +706,13 @@ The Latin sets are divided into two categories:
             <td>œ</td>
         </tr>
         <tr>
-            <td>Northern Sami</td>
-            <td>č</td>
-            <td>š</td>
-            <td>ž</td>
-            <td>á</td>
-            <td>ŋ</td>
-            <td>ŧ</td>
+            <td>Venda</td>
+            <td>ṅ</td>
+            <td>ḓ</td>
+            <td>ḽ</td>
+            <td>ṋ</td>
+            <td>ṱ</td>
+            <td>ł</td>
             <td>đ</td>
             <td>ı</td>
             <td>ß</td>
@@ -654,14 +721,29 @@ The Latin sets are divided into two categories:
             <td>œ</td>
         </tr>
         <tr>
-            <td>Volta-Niger languages</td>
-            <td>ṅ</td>
-            <td>ṣ</td>
-            <td>ẹ</td>
-            <td>ọ</td>
-            <td>ụ</td>
-            <td>ị</td>
+            <td>Fula</td>
+            <td>ɓ</td>
+            <td>ɗ</td>
+            <td>ŋ</td>
+            <td>ɲ</td>
+            <td>ƴ</td>
+            <td>ł</td>
             <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Mossi</td>
+            <td>ɓ</td>
+            <td>ɩ</td>
+            <td>ʋ</td>
+            <td>ɛ</td>
+            <td>ɔ</td>
+            <td>ł</td>
+            <td>ɖ</td>
             <td>ı</td>
             <td>ß</td>
             <td>ø</td>
@@ -683,10 +765,10 @@ The main Cyrillic set in terms of potential demand – `ґ є і ї ӏ ў ѣ ѵ 
 This character set provides access to full-fledged typing in Ukrainian, Belarusian, Moldovan, Rusyn, Ossetian, Komi, a dialect of Ruska Roma, a number of Caucasian languages, and pre-revolutionary Russian.
 
 <details>
-    <summary>All Cyrillic sets (5)</summary>
+    <summary>All Cyrillic sets (6)</summary>
     <table>
         <tr>
-            <td>Main</td>
+            <td>Ukrainian, Belarusian, Caucasian, …</td>
             <td>ґ</td>
             <td>є</td>
             <td>і</td>
@@ -701,7 +783,7 @@ This character set provides access to full-fledged typing in Ukrainian, Belarusi
             <td>ӧ</td>
         </tr>
         <tr>
-            <td>Serbian, Bosnian, Macedonian, Montenegrin, Interslavic</td>
+            <td>Serbian, Montenegrin, Interslavic, …</td>
             <td>ѓ</td>
             <td>ќ</td>
             <td>ђ</td>
@@ -716,7 +798,7 @@ This character set provides access to full-fledged typing in Ukrainian, Belarusi
             <td>с́</td>
         </tr>
         <tr>
-            <td>Kazakh, Mongolian, Uzbek, Kyrgyz, Tajik</td>
+            <td>Kazakh, Mongolian, Uzbek, Kyrgyz, Tajik, …</td>
             <td>ғ</td>
             <td>қ</td>
             <td>ң</td>
@@ -731,7 +813,7 @@ This character set provides access to full-fledged typing in Ukrainian, Belarusi
             <td>ӯ</td>
         </tr>
         <tr>
-            <td>Bashkir, Chuvash, Tatar</td>
+            <td>Bashkir, Chuvash, Tatar, …</td>
             <td>ғ</td>
             <td>ҡ</td>
             <td>ң</td>
@@ -760,6 +842,21 @@ This character set provides access to full-fledged typing in Ukrainian, Belarusi
             <td>ҽ</td>
             <td>ҿ</td>
         </tr>
+        <tr>
+            <td>Yakut, Even(ki), Altai, Krymchak, …</td>
+            <td>ҕ</td>
+            <td>ҥ</td>
+            <td>ҋ</td>
+            <td>һ</td>
+            <td>ӏ</td>
+            <td>ү</td>
+            <td>ӈ</td>
+            <td>ј</td>
+            <td>ө</td>
+            <td>ӫ</td>
+            <td>ӱ</td>
+            <td>ӧ</td>
+        </tr>
     </table>
 </details>
 
@@ -769,9 +866,9 @@ The currently active character sets are also displayed in the script GUI.
 
 Some final statistics:
 > *according to the use of languages on the Internet by <a href="https://w3techs.com/technologies/overview/content_language">w3techs.com</a> of 01.12.2021*
-* fully supported languages on any modification – 77.64% (89.16% without simplified typing)
-* fully supported languages on main modifications – 6.82%
-* fully supported languages on additional modifications – 5.40%
+* fully supported languages on any modes – 77.65% (89.17% without simplified typing)
+* fully supported languages on main modes – 6.82%
+* fully supported languages on additional modes – 5.67%
 * romanized versions of languages of other scripts: all versions – 9.84%, some – 0.02%
 
 For details on all *(200+)* languages, categories, usability, alphabets, and support, see <a href="https://github.com/uqqu/qPhyx/blob/master/external/languages.xlsx">external/languages.xlsx</a> 
@@ -784,6 +881,10 @@ For details on all *(200+)* languages, categories, usability, alphabets, and sup
 Switchable option.
 <br>Automatically closes brackets and quotation marks `<>`, `«»`, `""`, `“”`, `()`, `[]` and `{}`, setting the carriage position between them.
 <br>Automatic closing single quotes is not provided, as this symbol is often used in the meaning of apostrophe, where a paired quote would be undesirable.
+
+### Numrow shifting (01…9 instead of 1…90)
+Switchable option.
+<br>Shifts the numeric row one position to the right, moving the zero to the first position.
 
 ### Replacing text on the clipboard
 
@@ -859,7 +960,7 @@ This arrangement is more ergonomic and minimizes movement that detaches the fing
 
 The current reassignments, both user and toggle control key options, are displayed in the GUI.
 
-An example of a display with control key reassignment, parentheses, and numeric row key reassignment settings enabled:
+An example of a display with control key reassignment, parentheses, and numeric row shifting and key reassignment settings enabled:
 
 ![GUI with options](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/long_with_options.png)
 
@@ -1014,7 +1115,7 @@ Long presses can be undesirable in some applications, affecting their performanc
 >    В цифровом ряду под <code>Shift</code> расположен ряд специфичных языковых символов.
 >    <br><br>Этот набор может быть выбран из многих предустановленных, в зависимости от потребностей пользователя. Каждый набор открывает доступ к целому ряду языков, так как они сгруппированы для обеспечения максимального охвата для каждого набора.
 >    <br><br>Набор символов выбирается раздельно для кириллической (русской) и латинской (английской) раскладок.
->    <br><br>Минимальный полноценный одновременный охват любой пары наборов – 77.6% языков интернета (доля использования), максимальный (основные наборы) – 84.4% интернета. Общий охват от всех наборов – 90.1% + 9.85% всех версий романизации языков, основная письменность которых отличается от латинской и кириллической.
+>    <br><br>Минимальный полноценный одновременный охват любой пары наборов – 77.7% языков интернета (доля использования), максимальный (основные наборы) – 84.5% интернета. Общий охват всех наборов – 90.1% + 9.9% всех версий романизации языков, основная письменность которых отличается от латинской и кириллической.
 >    <br><br>Переключение между наборами, в случае необходимости, выполняется "на лету" в три нажатия.
 > </details>
 
@@ -1035,7 +1136,7 @@ Long presses can be undesirable in some applications, affecting their performanc
 * самостоятельные, графически уникальные символы;
 * графически эквивалентные символам базового набора письменности с добавленной диакритикой.
 
-Из символов первой категории, открывающих доступ к набору текста на популярнейших языках латинской письменности был сформирован базовый набор, присутствующий во всех латинских наборах символов.
+Из символов первой категории, открывающих доступ к набору текста на популярнейших языках латинской письменности был сформирован базовый набор, присутствующий в большинстве латинских наборов символов.
 
 Символы второй категории потенциально доступны к набору даже без использования языкового слоя, через добавочную диакритику, которая в полной мере покрывает потребности всех минимально используемых языков.
 Однако необходимо предоставить ввод подобных символов через одинарное нажатие, без дополнительного ввода диакритики, который в дальнейшем мы будем называть "упрощённым вводом".
@@ -1044,7 +1145,7 @@ Long presses can be undesirable in some applications, affecting their performanc
 
 Также в изменяемой части символьных наборов встречаются и графически уникальные символы, недоступные ко вводу из других символьных наборов, однако имеющие ограниченную востребованность и представляющие интерес исключительно для носителей подобных языков.
 
-Из этого следует, что каждый набор символов, помимо специфичных символов конкретного языка (будь то уникальные символы или символы упрощённого ввода), всегда предоставляет доступ ко вводу текста на целом ряде популярнейших языков, доступ к которым может быть востребован из любого набора символов.
+Из этого следует, что каждый набор символов, содержащий базовый набор, помимо специфичных символов конкретного языка (будь то уникальные символы или символы упрощённого ввода), открывает возможность ввода на целом ряде популярнейших языков, доступ к которым может быть востребован из любого набора символов.
 
 
 Для кириллических наборов положение несколько иное:
@@ -1059,8 +1160,7 @@ Long presses can be undesirable in some applications, affecting their performanc
 
 Латинский основной набор – `ñ å ä ö ü ł đ ı ß ø æ œ`
 
-Первые 5 символов являются динамическими и в таком сочетании присутствуют только в данном наборе. Остальные 7 символов, с небольшой оговоркой ниже, стабильно присутствуют во всех наборах, распространяя на них свой охват.
-
+Первые 5 символов являются динамическими и в таком сочетании присутствуют только в данном наборе. Остальные 7 символов стабильно присутствуют в большинстве наборов, распространяя на них свой охват.
 
 Данный набор символов открывает доступ к полноценному набору на следующих языках: испанский *(и несколько десятков прочих, на которые он повлиял)*, немецкий, французский, вьетнамский, шведский, датский, финский и норвежский.
 Также набор уникальных графических символов открывает базовую возможность ввода (со вводом прочих специальных языковых символов через диакритику) к турецкому, польскому и словенскому.
@@ -1069,7 +1169,11 @@ Long presses can be undesirable in some applications, affecting their performanc
 
 Латинские наборы разделены на две категории:
 * поддерживающие – предоставляющие упрощённый ввод: турецкий, польский, румынский, венгерский, и 20 прочих наборов, в сумме охватывающих более 40 языков;
-* позволяющие – наборы с уникальными графическими символами, необходимыми для языка, которые могут быть введены только на данном наборе: исландский/древнеанглийский, мальтийский, казахский, азербайджанский, ряд африканских языков (хауса, мосси, фула, йоруба, и т.д.), …
+* позволяющие – наборы с уникальными графическими символами, необходимыми для языка, которые могут быть введены только на данном наборе: исландский/древнеанглийский, мальтийский, азербайджанский, ряд африканских языков (хауса, мосси, фула, йоруба, и т.д.), …
+
+Всего сформировано 36 латинских наборов, 22 из которых сформированы с базовым набором символов – `łđıßøæœ`.
+В ещё 6 наборах, в которых потребовалось 6 динамических позиций, дополнительное место было пожертвовано от `ł`.
+Оставшиеся 8 наборов предназначены для языков с большим количеством дополнительных символов, в которых базовый набор символов был в разной степени урезан, в пользу основного языка набора.
 
 <details>
     <summary>Отдельные уточнения и учёт языковых особенностей</summary>
@@ -1078,15 +1182,16 @@ Long presses can be undesirable in some applications, affecting their performanc
         <li>при выборе румынского языкового набора предусмотрена опциональная замена диакритической седили на кому, для исправления распространённого ошибочного использования первой (переключаемая опция);</li>
         <li>в наборах "исландский/древнеанглийский" и "мосси" символ <code>đĐ</code> заменён на варианты начертания, использующиеся в данных языках – <code>ðÐ</code> и <code>ɖƉ</code>, соответственно;</li>
         <li>в наборы, в которых количество динамических символов ограничилось 4, была добавлена <code>ñ</code>, даже не относясь к основному языку набора, в качестве символа с максимальным расширением охвата, без зависимости от прочих символов;</li>
-        <li>в некоторых отдельных наборах, в которых количество динамических символов потребовало 6 позиций, дополнительное место было пожертвовано от <code>ł</code>;</li>
-        <li>в наборах для польского, литовского, латышского и венгерского языков предусмотрен лишь частичный упрощённый ввод, ввиду крайне широкого использования диакритики в данных языках. Упрощённый ввод, по возможности, охватывает символы с разной диакритикой, оставляя на комбинированный ввод буквы с единым диакритическим знаком (акут для польского и венгерского, огонэк для литовского);</li>
+        <li>наборы для польского, литовского и венгерского языков предусмотрены как в полном виде, с урезанным базовым набором, так и в виде частичного упрощённого ввода, где присутствует базовый набор символов, а некоторые языковые символы отданы на комбинированный ввод (преимущественно с единым диакритическим символом – акут для польского и венгерского, огонек для литовского + ż);</li>
+        <li>наборы для чешского и словацкого, даже при отказе от базового набора символов, всё равно являются частично-упрощающими (без řďťň для чешского, без акутных форм для словацкого);</li>
+        <li>прошлые два пункта могут быть исправлены и оптимизированы <a href="https://github.com/uqqu/qPhyx#%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D1%81%D0%BA%D0%B8%D0%B5-%D0%BD%D0%B0%D0%B7%D0%BD%D0%B0%D1%87%D0%B5%D0%BD%D0%B8%D1%8F">дополнительными пользовательскими назначениями</a>;</li>
         <li>в зависимости от потребностей пользователя (переключаемая настройка), символы упрощённого ввода могут подаваться на ввод как в комбинированном виде (два символа – буква+диакритика), так и в виде цельного юникод-символа;</li>
         <li>одинаковые динамические символы, встречающиеся в разных наборах, расположены на одних и тех же позициях, где это было возможно.</li>
     </ul>
 </details>
 
 <details>
-    <summary>Все варианты латинских наборов (31)</summary>
+    <summary>Все варианты латинских наборов (36)</summary>
     <table>
         <tr>
             <td>Main</td>
@@ -1119,7 +1224,7 @@ Long presses can be undesirable in some applications, affecting their performanc
             <td>œ</td>
         </tr>
         <tr>
-            <td>Polish</td>
+            <td>Polish (partial + base)</td>
             <td>ñ</td>
             <td>ą</td>
             <td>ę</td>
@@ -1132,6 +1237,36 @@ Long presses can be undesirable in some applications, affecting their performanc
             <td>ø</td>
             <td>æ</td>
             <td>œ</td>
+        </tr>
+        <tr>
+            <td>Polish (full − base)</td>
+            <td>ć</td>
+            <td>ń</td>
+            <td>ó</td>
+            <td>ś</td>
+            <td>ź</td>
+            <td>ł</td>
+            <td>ą</td>
+            <td>ę</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>ż</td>
+        </tr>
+        <tr>
+            <td>Czech (partial − base)</td>
+            <td>á</td>
+            <td>é</td>
+            <td>ó</td>
+            <td>í</td>
+            <td>ú</td>
+            <td>ý</td>
+            <td>ů</td>
+            <td>ě</td>
+            <td>ß</td>
+            <td>š</td>
+            <td>č</td>
+            <td>ž</td>
         </tr>
         <tr>
             <td>Romanian</td>
@@ -1149,7 +1284,7 @@ Long presses can be undesirable in some applications, affecting their performanc
             <td>œ</td>
         </tr>
         <tr>
-            <td>Hungarian</td>
+            <td>Hungarian (partial + base)</td>
             <td>ñ</td>
             <td>ő</td>
             <td>ű</td>
@@ -1164,11 +1299,26 @@ Long presses can be undesirable in some applications, affecting their performanc
             <td>œ</td>
         </tr>
         <tr>
-            <td>Slovene, Croatian, …</td>
+            <td>Hungarian (full − base)</td>
+            <td>á</td>
+            <td>é</td>
+            <td>ó</td>
+            <td>í</td>
+            <td>ú</td>
+            <td>ł</td>
+            <td>ö</td>
+            <td>ü</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>ő</td>
+            <td>ű</td>
+        </tr>
+        <tr>
+            <td>Slovene, Croatian (Gaj's latin), Romany</td>
             <td>č</td>
             <td>š</td>
-            <td>ǵ</td>
             <td>ž</td>
+            <td>ǵ</td>
             <td>ć</td>
             <td>ł</td>
             <td>đ</td>
@@ -1179,7 +1329,37 @@ Long presses can be undesirable in some applications, affecting their performanc
             <td>œ</td>
         </tr>
         <tr>
-            <td>Lithuanian</td>
+            <td>Slovak (full − base)</td>
+            <td>ň</td>
+            <td>ô</td>
+            <td>ä</td>
+            <td>ö</td>
+            <td>ü</td>
+            <td>ľ</td>
+            <td>ď</td>
+            <td>ť</td>
+            <td>ß</td>
+            <td>š</td>
+            <td>č</td>
+            <td>ž</td>
+        </tr>
+        <tr>
+            <td>Turkic languages (full − base)</td>
+            <td>ñ</td>
+            <td>ê</td>
+            <td>ä</td>
+            <td>ö</td>
+            <td>ü</td>
+            <td>ū</td>
+            <td>ə</td>
+            <td>ı</td>
+            <td>ţ</td>
+            <td>ş</td>
+            <td>ç</td>
+            <td>ğ</td>
+        </tr>
+        <tr>
+            <td>Lithuanian (partial + base)</td>
             <td>č</td>
             <td>š</td>
             <td>ž</td>
@@ -1194,73 +1374,43 @@ Long presses can be undesirable in some applications, affecting their performanc
             <td>œ</td>
         </tr>
         <tr>
-            <td>Luxembourgish, Uyghur</td>
-            <td>é</td>
-            <td>ë</td>
-            <td>ä</td>
-            <td>ö</td>
-            <td>ü</td>
+            <td>Lithuanian (full − base)</td>
+            <td>ą</td>
+            <td>ę</td>
+            <td>ė</td>
+            <td>ų</td>
+            <td>ū</td>
             <td>ł</td>
-            <td>đ</td>
-            <td>ı</td>
+            <td>į</td>
+            <td>ż</td>
             <td>ß</td>
-            <td>ø</td>
-            <td>æ</td>
-            <td>œ</td>
+            <td>š</td>
+            <td>č</td>
+            <td>ž</td>
         </tr>
         <tr>
-            <td>Kurdish (Hawar alphabet)</td>
-            <td>ç</td>
-            <td>ş</td>
-            <td>ê</td>
-            <td>î</td>
-            <td>û</td>
-            <td>ł</td>
-            <td>đ</td>
-            <td>ı</td>
-            <td>ß</td>
-            <td>ø</td>
-            <td>æ</td>
-            <td>œ</td>
-        </tr>
-        <tr>
-            <td>Twi, Yoruba (Benin), …</td>
-            <td>ñ</td>
-            <td>ŋ</td>
-            <td>ɲ</td>
-            <td>ɛ</td>
-            <td>ɔ</td>
-            <td>ł</td>
-            <td>đ</td>
-            <td>ı</td>
-            <td>ß</td>
-            <td>ø</td>
-            <td>æ</td>
-            <td>œ</td>
-        </tr>
-        <tr>
-            <td>Hausa</td>
-            <td>ɓ</td>
-            <td>ɗ</td>
-            <td>ƙ</td>
-            <td>r̃</td>
-            <td>ƴ</td>
-            <td>ł</td>
-            <td>đ</td>
-            <td>ı</td>
-            <td>ß</td>
-            <td>ø</td>
-            <td>æ</td>
-            <td>œ</td>
-        </tr>
-        <tr>
-            <td>Latvian, Maori, …</td>
+            <td>Latvian (full − base)</td>
             <td>ā</td>
             <td>ē</td>
             <td>ī</td>
-            <td>ō</td>
             <td>ū</td>
-            <td>ł</td>
+            <td>ǵ</td>
+            <td>ļ</td>
+            <td>ķ</td>
+            <td>ņ</td>
+            <td>ß</td>
+            <td>š</td>
+            <td>č</td>
+            <td>ž</td>
+        </tr>
+        <tr>
+            <td>Estonian (base − ł)</td>
+            <td>õ</td>
+            <td>š</td>
+            <td>ä</td>
+            <td>ö</td>
+            <td>ü</td>
+            <td>ž</td>
             <td>đ</td>
             <td>ı</td>
             <td>ß</td>
@@ -1269,42 +1419,12 @@ Long presses can be undesirable in some applications, affecting their performanc
             <td>œ</td>
         </tr>
         <tr>
-            <td>Igbo</td>
-            <td>ñ</td>
-            <td>ṅ</td>
-            <td>ị</td>
-            <td>ọ</td>
-            <td>ụ</td>
-            <td>ł</td>
-            <td>đ</td>
-            <td>ı</td>
-            <td>ß</td>
-            <td>ø</td>
-            <td>æ</td>
-            <td>œ</td>
-        </tr>
-        <tr>
-            <td>Irish, Luba-Katanga, Sundanese</td>
-            <td>á</td>
-            <td>é</td>
-            <td>í</td>
-            <td>ó</td>
-            <td>ú</td>
-            <td>ł</td>
-            <td>đ</td>
-            <td>ı</td>
-            <td>ß</td>
-            <td>ø</td>
-            <td>æ</td>
-            <td>œ</td>
-        </tr>
-        <tr>
-            <td>Venda</td>
-            <td>ṅ</td>
-            <td>ḓ</td>
-            <td>ḽ</td>
-            <td>ṋ</td>
-            <td>ṱ</td>
+            <td>Albanian, Northern Sotho</td>
+            <td>ç</td>
+            <td>š</td>
+            <td>ê</td>
+            <td>ô</td>
+            <td>ë</td>
             <td>ł</td>
             <td>đ</td>
             <td>ı</td>
@@ -1329,72 +1449,27 @@ Long presses can be undesirable in some applications, affecting their performanc
             <td>œ</td>
         </tr>
         <tr>
-            <td>Mossi</td>
-            <td>ɓ</td>
-            <td>ɩ</td>
-            <td>ʋ</td>
-            <td>ɛ</td>
-            <td>ɔ</td>
-            <td>ł</td>
-            <td>ɖ</td>
-            <td>ı</td>
-            <td>ß</td>
-            <td>ø</td>
-            <td>æ</td>
-            <td>œ</td>
-        </tr>
-        <tr>
-            <td>Fula</td>
-            <td>ɓ</td>
-            <td>ɗ</td>
-            <td>ŋ</td>
-            <td>ɲ</td>
-            <td>ƴ</td>
-            <td>ł</td>
-            <td>đ</td>
-            <td>ı</td>
-            <td>ß</td>
-            <td>ø</td>
-            <td>æ</td>
-            <td>œ</td>
-        </tr>
-        <tr>
-            <td>Maltese</td>
-            <td>ñ</td>
-            <td>ċ</td>
-            <td>ġ</td>
-            <td>ż</td>
-            <td>ħ</td>
-            <td>ł</td>
-            <td>đ</td>
-            <td>ı</td>
-            <td>ß</td>
-            <td>ø</td>
-            <td>æ</td>
-            <td>œ</td>
-        </tr>
-        <tr>
-            <td>Northern Sotho, Albanian</td>
-            <td>ç</td>
-            <td>š</td>
-            <td>ê</td>
-            <td>ô</td>
-            <td>ë</td>
-            <td>ł</td>
-            <td>đ</td>
-            <td>ı</td>
-            <td>ß</td>
-            <td>ø</td>
-            <td>æ</td>
-            <td>œ</td>
-        </tr>
-        <tr>
-            <td>Kazakh</td>
-            <td>ñ</td>
-            <td>ŋ</td>
-            <td>ş</td>
-            <td>ğ</td>
+            <td>Urdu (Roman script) (base − ł)</td>
             <td>ū</td>
+            <td>ṛ</td>
+            <td>ṣ</td>
+            <td>ṭ</td>
+            <td>ẓ</td>
+            <td>z̤</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Uzbek</td>
+            <td>ç</td>
+            <td>ş</td>
+            <td>ḡ</td>
+            <td>ō</td>
+            <td>ñ</td>
             <td>ł</td>
             <td>đ</td>
             <td>ı</td>
@@ -1419,6 +1494,126 @@ Long presses can be undesirable in some applications, affecting their performanc
             <td>œ</td>
         </tr>
         <tr>
+            <td>Twi, Yoruba (Benin), …</td>
+            <td>ñ</td>
+            <td>ŋ</td>
+            <td>ɲ</td>
+            <td>ɛ</td>
+            <td>ɔ</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Northern Sami (base − ł)</td>
+            <td>č</td>
+            <td>š</td>
+            <td>ž</td>
+            <td>á</td>
+            <td>ŋ</td>
+            <td>ŧ</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Esperanto (base − ł)</td>
+            <td>ĉ</td>
+            <td>ŝ</td>
+            <td>ĝ</td>
+            <td>ĥ</td>
+            <td>ĵ</td>
+            <td>ǔ</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Kurdish (Hawar alphabet)</td>
+            <td>ç</td>
+            <td>ş</td>
+            <td>ê</td>
+            <td>î</td>
+            <td>û</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Turkmen (base − łđœ)</td>
+            <td>ç</td>
+            <td>ş</td>
+            <td>ä</td>
+            <td>ö</td>
+            <td>ü</td>
+            <td>ý</td>
+            <td>ň</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>ž</td>
+        </tr>
+        <tr>
+            <td>Irish, Sundanese, Luba-Katanga</td>
+            <td>á</td>
+            <td>é</td>
+            <td>í</td>
+            <td>ó</td>
+            <td>ú</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Luxembourgish, Uyghur</td>
+            <td>é</td>
+            <td>ë</td>
+            <td>ä</td>
+            <td>ö</td>
+            <td>ü</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Maltese</td>
+            <td>ñ</td>
+            <td>ċ</td>
+            <td>ġ</td>
+            <td>ż</td>
+            <td>ħ</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
             <td>Haitian, Javanese, Kikuyu</td>
             <td>é</td>
             <td>è</td>
@@ -1434,12 +1629,12 @@ Long presses can be undesirable in some applications, affecting their performanc
             <td>œ</td>
         </tr>
         <tr>
-            <td>Uzbek</td>
-            <td>ç</td>
-            <td>ş</td>
-            <td>ḡ</td>
-            <td>ō</td>
-            <td>ñ</td>
+            <td>Hausa</td>
+            <td>ɓ</td>
+            <td>ɗ</td>
+            <td>ƙ</td>
+            <td>r̃</td>
+            <td>ƴ</td>
             <td>ł</td>
             <td>đ</td>
             <td>ı</td>
@@ -1449,43 +1644,28 @@ Long presses can be undesirable in some applications, affecting their performanc
             <td>œ</td>
         </tr>
         <tr>
-            <td>Azerbaijani, (Turkish)</td>
-            <td>ç</td>
-            <td>ş</td>
-            <td>ğ</td>
-            <td>ö</td>
-            <td>ü</td>
-            <td>ə</td>
-            <td>đ</td>
-            <td>ı</td>
-            <td>ß</td>
-            <td>ø</td>
-            <td>æ</td>
-            <td>œ</td>
-        </tr>
-        <tr>
-            <td>Estonian</td>
-            <td>š</td>
-            <td>ž</td>
-            <td>ä</td>
-            <td>ö</td>
-            <td>ü</td>
-            <td>õ</td>
-            <td>đ</td>
-            <td>ı</td>
-            <td>ß</td>
-            <td>ø</td>
-            <td>æ</td>
-            <td>œ</td>
-        </tr>
-        <tr>
-            <td>Urdu (Roman script)</td>
+            <td>Maori, Samoan, Niuean</td>
+            <td>ā</td>
+            <td>ē</td>
+            <td>ī</td>
+            <td>ō</td>
             <td>ū</td>
-            <td>ṛ</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Volta–Niger languages (Yoruba, Igbo, …)</td>
+            <td>ṅ</td>
             <td>ṣ</td>
-            <td>ṭ</td>
-            <td>ẓ</td>
-            <td>z̤</td>
+            <td>ẹ</td>
+            <td>ọ</td>
+            <td>ụ</td>
+            <td>ị</td>
             <td>đ</td>
             <td>ı</td>
             <td>ß</td>
@@ -1494,22 +1674,7 @@ Long presses can be undesirable in some applications, affecting their performanc
             <td>œ</td>
         </tr>
         <tr>
-            <td>Esperanto</td>
-            <td>ĉ</td>
-            <td>ŝ</td>
-            <td>ĝ</td>
-            <td>ĥ</td>
-            <td>ĵ</td>
-            <td>ǔ</td>
-            <td>đ</td>
-            <td>ı</td>
-            <td>ß</td>
-            <td>ø</td>
-            <td>æ</td>
-            <td>œ</td>
-        </tr>
-        <tr>
-            <td>Western Frisian</td>
+            <td>Western Frisian (base − ł)</td>
             <td>â</td>
             <td>ê</td>
             <td>é</td>
@@ -1524,13 +1689,13 @@ Long presses can be undesirable in some applications, affecting their performanc
             <td>œ</td>
         </tr>
         <tr>
-            <td>Northern Sami</td>
-            <td>č</td>
-            <td>š</td>
-            <td>ž</td>
-            <td>á</td>
-            <td>ŋ</td>
-            <td>ŧ</td>
+            <td>Venda</td>
+            <td>ṅ</td>
+            <td>ḓ</td>
+            <td>ḽ</td>
+            <td>ṋ</td>
+            <td>ṱ</td>
+            <td>ł</td>
             <td>đ</td>
             <td>ı</td>
             <td>ß</td>
@@ -1539,14 +1704,29 @@ Long presses can be undesirable in some applications, affecting their performanc
             <td>œ</td>
         </tr>
         <tr>
-            <td>Volta-Niger languages</td>
-            <td>ṅ</td>
-            <td>ṣ</td>
-            <td>ẹ</td>
-            <td>ọ</td>
-            <td>ụ</td>
-            <td>ị</td>
+            <td>Fula</td>
+            <td>ɓ</td>
+            <td>ɗ</td>
+            <td>ŋ</td>
+            <td>ɲ</td>
+            <td>ƴ</td>
+            <td>ł</td>
             <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Mossi</td>
+            <td>ɓ</td>
+            <td>ɩ</td>
+            <td>ʋ</td>
+            <td>ɛ</td>
+            <td>ɔ</td>
+            <td>ł</td>
+            <td>ɖ</td>
             <td>ı</td>
             <td>ß</td>
             <td>ø</td>
@@ -1568,10 +1748,10 @@ Long presses can be undesirable in some applications, affecting their performanc
 Данный набор символов открывает доступ к полноценному набору текста на украинском, белорусском, молдавском, русинском, осетинском, языке коми, диалекте руска рома, ряде кавказских языков, дореволюционном русском.
 
 <details>
-    <summary>Все варианты кириллических наборов (5)</summary>
+    <summary>Все варианты кириллических наборов (6)</summary>
     <table>
         <tr>
-            <td>Основной</td>
+            <td>Ukrainian, Belarusian, Caucasian, …</td>
             <td>ґ</td>
             <td>є</td>
             <td>і</td>
@@ -1586,7 +1766,7 @@ Long presses can be undesirable in some applications, affecting their performanc
             <td>ӧ</td>
         </tr>
         <tr>
-            <td>Сербский, боснийский, македонский, черногорский, интерславик</td>
+            <td>Serbian, Montenegrin, Interslavic, …</td>
             <td>ѓ</td>
             <td>ќ</td>
             <td>ђ</td>
@@ -1601,7 +1781,7 @@ Long presses can be undesirable in some applications, affecting their performanc
             <td>с́</td>
         </tr>
         <tr>
-            <td>Казахский, монгольский, узбекский, киргизскй, таджикский</td>
+            <td>Kazakh, Mongolian, Uzbek, Kyrgyz, Tajik, …</td>
             <td>ғ</td>
             <td>қ</td>
             <td>ң</td>
@@ -1616,7 +1796,7 @@ Long presses can be undesirable in some applications, affecting their performanc
             <td>ӯ</td>
         </tr>
         <tr>
-            <td>Башкирский, чувашский, татарский</td>
+            <td>Bashkir, Chuvash, Tatar, …</td>
             <td>ғ</td>
             <td>ҡ</td>
             <td>ң</td>
@@ -1631,7 +1811,7 @@ Long presses can be undesirable in some applications, affecting their performanc
             <td>ҫ</td>
         </tr>
         <tr>
-            <td>Абхазский</td>
+            <td>Abkhazian</td>
             <td>ӷ</td>
             <td>қ</td>
             <td>ҟ</td>
@@ -1645,6 +1825,21 @@ Long presses can be undesirable in some applications, affecting their performanc
             <td>ҽ</td>
             <td>ҿ</td>
         </tr>
+        <tr>
+            <td>Yakut, Even(ki), Altai, Krymchak, …</td>
+            <td>ҕ</td>
+            <td>ҥ</td>
+            <td>ҋ</td>
+            <td>һ</td>
+            <td>ӏ</td>
+            <td>ү</td>
+            <td>ӈ</td>
+            <td>ј</td>
+            <td>ө</td>
+            <td>ӫ</td>
+            <td>ӱ</td>
+            <td>ӧ</td>
+        </tr>
     </table>
 </details>
 
@@ -1655,9 +1850,9 @@ Long presses can be undesirable in some applications, affecting their performanc
 
 Немного финальной статистики:
 > *согласно данным использования языков в интернете с <a href="https://w3techs.com/technologies/overview/content_language">w3techs.com</a> за 01.12.2021*
-* полностью поддерживаемые языки на любой модификации – 77.64% (89.16% без упрощённого ввода);
-* полностью поддерживаемые языки на основных модификациях – 6.82%;
-* полностью поддерживаемые языки на дополнительных модификациях – 5.40%;
+* полностью поддерживаемые языки на любых наборах – 77.65% (89.17% без упрощённого ввода);
+* полностью поддерживаемые языки на основных наборах – 6.82%;
+* полностью поддерживаемые языки на дополнительных наборах – 5.67%;
 * романизированные версии языков прочих письменностей: все версии – 9.84%, некоторые – 0.02%;
 
 Подробнее со всеми *(200+)* языками, категориями, используемостью, алфавитами и поддержкой можно ознакомиться в файле <a href="https://github.com/uqqu/qPhyx/blob/master/external/languages.xlsx">external/languages.xlsx</a> 
@@ -1670,6 +1865,10 @@ Long presses can be undesirable in some applications, affecting their performanc
 Переключаемая функциональность.
 <br>Автоматически закрывает скобки и кавычки `<>`, `«»`, `""`, `“”`, `()`, `[]` и `{}`, устанавливая позицию каретки между ними.
 <br>Автоматическое закрытие одинарных кавычек не предусмотрено, так как данный символ часто используется в значении апострофа, где парная кавычка будет нежелательной.
+
+### Сдвиг цифрового ряда для начала с нуля (01…9 вместо 1…90)
+Переключаемая функциональность.
+<br>Сдвигает цифровой ряд на одну позицию вправо, перемещая ноль в первую позицию.
 
 ### Замена текста в буфере обмена
 
@@ -1745,7 +1944,7 @@ GUI может изменяться в зависимости от некото�
 
 Текущие переназначения, как пользовательские, так и переключение опции управляющих клавиш, отображаются в GUI.
 
-Пример отображения с включёнными настройками переназначения управляющих клавиш, парных скобок и переназначением клавиш в цифровом ряду:
+Пример отображения с включёнными настройками переназначения управляющих клавиш, парных скобок, сдвигом цифрового ряда и переназначением клавиш в цифровом ряду:
 
 ![GUI с опциями](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/long_with_options.png)
 
