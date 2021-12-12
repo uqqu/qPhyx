@@ -207,7 +207,7 @@ If LATIN_MODE in 2,11
 ;;Default on. If you know what you're doing
 ;;   and you want to type cedilla, you can disable this behavior in config.ini
 ;;This also influences to the cyrillic layout. (Only with selected Romanian mode, ofc)
-If (LATIN_MODE == 4 && ROMANIAN_CEDILLA_TO_COMMA)
+If (LATIN_MODE == 6 && ROMANIAN_CEDILLA_TO_COMMA)
 {
     NUM_DICT["SC002"][4] := "̦"
 }
@@ -291,7 +291,7 @@ Menu, Tray, Add, Change &cyrillic mode, :CyrModes
             Menu, SubSettings, Check, Toggle "Dotless &i" feature
         }
     }
-    If (LATIN_MODE == 4)
+    If (LATIN_MODE == 6)
     {
         Menu, SubSettings, Add, Toggle "Romanian &cedilla to comma" feature
             , RomanianCedillaToCommaToggle
@@ -776,12 +776,12 @@ LatModeChange(_, item_pos)
             NUM_DICT["SC009"][6] := "I"
         }
     }
-    If (item_pos != 4)
+    If (item_pos != 6)
     {
         Menu, SubSettings, Delete, Toggle "Romanian &cedilla to comma" feature
         NUM_DICT["SC002"][4] := "̧"
     }
-    Else If (LATIN_MODE != 4)
+    Else If (LATIN_MODE != 6)
     {
         Menu, SubSettings, Insert, Toggle "&Paired brackets" feature
             , Toggle "Romanian &cedilla to comma" feature, RomanianCedillaToCommaToggle
@@ -898,13 +898,13 @@ RomanianCedillaToCommaToggle()
 {
     ROMANIAN_CEDILLA_TO_COMMA := !ROMANIAN_CEDILLA_TO_COMMA
     IniWrite, %ROMANIAN_CEDILLA_TO_COMMA%, config.ini, Configuration, RomanianCedillaToComma
-    If (LATIN_MODE == 4 && ROMANIAN_CEDILLA_TO_COMMA)
+    If (LATIN_MODE == 6 && ROMANIAN_CEDILLA_TO_COMMA)
     {
         NUM_DICT["SC002"][4] := "̦"
     }
     Else
     {
-        NUM_DICT["SC002"][4] := "̣"
+        NUM_DICT["SC002"][4] := "̧"
     }
     Menu, SubSettings, % ROMANIAN_CEDILLA_TO_COMMA ? "Check" : "Uncheck"
         , Toggle "Romanian &cedilla to comma" feature
@@ -1278,16 +1278,16 @@ SC001::
 
 #If !DISABLED && NUMROW_SHIFTING && !WinActive("ahk_class AutoHotkeyGUI")
 
-SC002:: 0
-SC003:: 1
-SC004:: 2
-SC005:: 3
-SC006:: 4
-SC007:: 5
-SC008:: 6
-SC009:: 7
-SC00A:: 8
-SC00B:: 9
+SC002:: SendInput, 0
+SC003:: SendInput, 1
+SC004:: SendInput, 2
+SC005:: SendInput, 3
+SC006:: SendInput, 4
+SC007:: SendInput, 5
+SC008:: SendInput, 6
+SC009:: SendInput, 7
+SC00A:: SendInput, 8
+SC00B:: SendInput, 9
 
 #If !DISABLED && !WinActive("ahk_group BlackList") && DOUBLE_SHIFT_INVERT
 
