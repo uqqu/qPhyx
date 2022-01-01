@@ -865,11 +865,11 @@ The currently active character sets are also displayed in the script GUI.
 ![Displaying language sets](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/lang_modes.png)
 
 Some final statistics:
-> *according to the use of languages on the Internet by <a href="https://w3techs.com/technologies/overview/content_language">w3techs.com</a> of 01.12.2021*
-* fully supported languages on any modes – 77.65% (89.17% without simplified typing)
-* fully supported languages on main modes – 6.82%
-* fully supported languages on additional modes – 5.67%
-* romanized versions of languages of other scripts: all versions – 9.84%, some – 0.02%
+> *according to the use of languages on the Internet by <a href="https://w3techs.com/technologies/overview/content_language">w3techs.com</a> of 01.01.2022*
+* fully supported languages on any modes – 77.76% (89.19% without simplified typing)
+* fully supported languages on main modes – 6.73%
+* fully supported languages on additional modes – 5.69%
+* romanized versions of languages of other scripts: all versions – 9.81%, some – 0.02%
 
 For details on all *(200+)* languages, categories, usability, alphabets, and support, see <a href="https://github.com/uqqu/qPhyx/blob/master/external/languages.xlsx">external/languages.xlsx</a> 
 
@@ -1850,10 +1850,10 @@ Long presses can be undesirable in some applications, affecting their performanc
 
 Немного финальной статистики:
 > *согласно данным использования языков в интернете с <a href="https://w3techs.com/technologies/overview/content_language">w3techs.com</a> за 01.12.2021*
-* полностью поддерживаемые языки на любых наборах – 77.65% (89.17% без упрощённого ввода);
-* полностью поддерживаемые языки на основных наборах – 6.82%;
-* полностью поддерживаемые языки на дополнительных наборах – 5.67%;
-* романизированные версии языков прочих письменностей: все версии – 9.84%, некоторые – 0.02%;
+* полностью поддерживаемые языки на любых наборах – 77.76% (89.19% без упрощённого ввода);
+* полностью поддерживаемые языки на основных наборах – 6.73%;
+* полностью поддерживаемые языки на дополнительных наборах – 5.69%;
+* романизированные версии языков прочих письменностей: все версии – 9.81%, некоторые – 0.02%;
 
 Подробнее со всеми *(200+)* языками, категориями, используемостью, алфавитами и поддержкой можно ознакомиться в файле <a href="https://github.com/uqqu/qPhyx/blob/master/external/languages.xlsx">external/languages.xlsx</a> 
 
@@ -1966,10 +1966,6 @@ GUI может изменяться в зависимости от некото�
 
 
 ---
-
-## Copyrights
-
-Icon was downloaded for free from [icons8.com](https://icons8.com/icon/l0UsZRTvcGel/laptop-coding)
 
 
 ## License
