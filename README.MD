@@ -183,11 +183,11 @@ Also, a set of unique graphical characters opens up basic typing capability (wit
 > This does not list the myriad languages available for typing (both in basic script and via diacritics) without using a language layer – their support is self-evidently implied
 
 The Latin sets are divided into two categories:
-* supportive – which provide simplified typing: Turkish, Polish, Romanian, Hungarian, and 20 other sets, totaling more than 40 languages;
+* supportive – which provide simplified typing: Turkish, Polish, Romanian, Hungarian, and 25 other sets, totaling more than 40 languages;
 * allowing – sets with unique graphic characters necessary for a language that can only be typed in a given set: Icelandic/Old English, Maltese, Azerbaijani, a number of African languages (Hausa, Mossi, Fula, Yoruba, etc.), …
 
-A total of 36 Latin sets were formed, 22 of which were formed with the basic symbol set, `łđıßøæœ`.
-In other 6 sets, in which 6 dynamic positions were required, additional position was sacrificed from `ł`.
+A total of 37 Latin sets were formed, 22 of which were formed with the basic symbol set, `łđıßøæœ`.
+In other 7 sets, in which 6 dynamic positions were required, additional position was sacrificed from `ł`.
 The remaining 8 sets are for languages with a large number of additional symbols, in which the basic symbol set has been truncated, in varying degrees, in favor of the main language of the set.
 
 <details>
@@ -208,7 +208,7 @@ The remaining 8 sets are for languages with a large number of additional symbols
 </details>
 
 <details>
-    <summary>All Latin sets (36)</summary>
+    <summary>All Latin sets (37)</summary>
     <table>
         <tr>
             <td>Main</td>
@@ -631,6 +631,21 @@ The remaining 8 sets are for languages with a large number of additional symbols
             <td>œ</td>
         </tr>
         <tr>
+            <td>Maori, Samoan, Niuean</td>
+            <td>ā</td>
+            <td>ē</td>
+            <td>ī</td>
+            <td>ō</td>
+            <td>ū</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
             <td>Haitian, Javanese, Kikuyu</td>
             <td>é</td>
             <td>è</td>
@@ -652,21 +667,6 @@ The remaining 8 sets are for languages with a large number of additional symbols
             <td>ƙ</td>
             <td>r̃</td>
             <td>ƴ</td>
-            <td>ł</td>
-            <td>đ</td>
-            <td>ı</td>
-            <td>ß</td>
-            <td>ø</td>
-            <td>æ</td>
-            <td>œ</td>
-        </tr>
-        <tr>
-            <td>Maori, Samoan, Niuean</td>
-            <td>ā</td>
-            <td>ē</td>
-            <td>ī</td>
-            <td>ō</td>
-            <td>ū</td>
             <td>ł</td>
             <td>đ</td>
             <td>ı</td>
@@ -713,6 +713,21 @@ The remaining 8 sets are for languages with a large number of additional symbols
             <td>ṋ</td>
             <td>ṱ</td>
             <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Sicilian</td>
+            <td>à</td>
+            <td>è</td>
+            <td>ì</td>
+            <td>ò</td>
+            <td>ù</td>
+            <td>ḍ</td>
             <td>đ</td>
             <td>ı</td>
             <td>ß</td>
@@ -866,10 +881,10 @@ The currently active character sets are also displayed in the script GUI.
 
 Some final statistics:
 > *according to the use of languages on the Internet by <a href="https://w3techs.com/technologies/overview/content_language">w3techs.com</a> of 01.01.2022*
-* fully supported languages on any modes – 77.76% (89.19% without simplified typing)
-* fully supported languages on main modes – 6.73%
-* fully supported languages on additional modes – 5.69%
-* romanized versions of languages of other scripts: all versions – 9.81%, some – 0.02%
+* fully supported languages on any modes – 77.59% (89.07% without simplified typing)
+* fully supported languages on main modes – 6.71%
+* fully supported languages on additional modes – 5.76%
+* romanized versions of languages of other scripts: all versions – 9.93%, some – 0.01%
 
 For details on all *(200+)* languages, categories, usability, alphabets, and support, see <a href="https://github.com/uqqu/qPhyx/blob/master/external/languages.xlsx">external/languages.xlsx</a> 
 
@@ -1168,11 +1183,11 @@ Long presses can be undesirable in some applications, affecting their performanc
 > Здесь не перечислено огромное множество языков, доступных ко вводу (как на базовой письменности, так и через диакритику) без использования языкового слоя – их поддержка подразумевается сама собой
 
 Латинские наборы разделены на две категории:
-* поддерживающие – предоставляющие упрощённый ввод: турецкий, польский, румынский, венгерский, и 20 прочих наборов, в сумме охватывающих более 40 языков;
+* поддерживающие – предоставляющие упрощённый ввод: турецкий, польский, румынский, венгерский, и 25 прочих наборов, в сумме охватывающих более 40 языков;
 * позволяющие – наборы с уникальными графическими символами, необходимыми для языка, которые могут быть введены только на данном наборе: исландский/древнеанглийский, мальтийский, азербайджанский, ряд африканских языков (хауса, мосси, фула, йоруба, и т.д.), …
 
-Всего сформировано 36 латинских наборов, 22 из которых сформированы с базовым набором символов – `łđıßøæœ`.
-В ещё 6 наборах, в которых потребовалось 6 динамических позиций, дополнительное место было пожертвовано от `ł`.
+Всего сформировано 37 латинских наборов, 22 из которых сформированы с базовым набором символов – `łđıßøæœ`.
+В ещё 7 наборах, в которых потребовалось 6 динамических позиций, дополнительное место было пожертвовано от `ł`.
 Оставшиеся 8 наборов предназначены для языков с большим количеством дополнительных символов, в которых базовый набор символов был в разной степени урезан, в пользу основного языка набора.
 
 <details>
@@ -1191,7 +1206,7 @@ Long presses can be undesirable in some applications, affecting their performanc
 </details>
 
 <details>
-    <summary>Все варианты латинских наборов (36)</summary>
+    <summary>Все варианты латинских наборов (37)</summary>
     <table>
         <tr>
             <td>Main</td>
@@ -1614,6 +1629,21 @@ Long presses can be undesirable in some applications, affecting their performanc
             <td>œ</td>
         </tr>
         <tr>
+            <td>Maori, Samoan, Niuean</td>
+            <td>ā</td>
+            <td>ē</td>
+            <td>ī</td>
+            <td>ō</td>
+            <td>ū</td>
+            <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
             <td>Haitian, Javanese, Kikuyu</td>
             <td>é</td>
             <td>è</td>
@@ -1635,21 +1665,6 @@ Long presses can be undesirable in some applications, affecting their performanc
             <td>ƙ</td>
             <td>r̃</td>
             <td>ƴ</td>
-            <td>ł</td>
-            <td>đ</td>
-            <td>ı</td>
-            <td>ß</td>
-            <td>ø</td>
-            <td>æ</td>
-            <td>œ</td>
-        </tr>
-        <tr>
-            <td>Maori, Samoan, Niuean</td>
-            <td>ā</td>
-            <td>ē</td>
-            <td>ī</td>
-            <td>ō</td>
-            <td>ū</td>
             <td>ł</td>
             <td>đ</td>
             <td>ı</td>
@@ -1696,6 +1711,21 @@ Long presses can be undesirable in some applications, affecting their performanc
             <td>ṋ</td>
             <td>ṱ</td>
             <td>ł</td>
+            <td>đ</td>
+            <td>ı</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>æ</td>
+            <td>œ</td>
+        </tr>
+        <tr>
+            <td>Sicilian</td>
+            <td>à</td>
+            <td>è</td>
+            <td>ì</td>
+            <td>ò</td>
+            <td>ù</td>
+            <td>ḍ</td>
             <td>đ</td>
             <td>ı</td>
             <td>ß</td>
@@ -1849,11 +1879,11 @@ Long presses can be undesirable in some applications, affecting their performanc
 ![Отображение языковых наборов](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/lang_modes.png)
 
 Немного финальной статистики:
-> *согласно данным использования языков в интернете с <a href="https://w3techs.com/technologies/overview/content_language">w3techs.com</a> за 01.12.2021*
-* полностью поддерживаемые языки на любых наборах – 77.76% (89.19% без упрощённого ввода);
-* полностью поддерживаемые языки на основных наборах – 6.73%;
-* полностью поддерживаемые языки на дополнительных наборах – 5.69%;
-* романизированные версии языков прочих письменностей: все версии – 9.81%, некоторые – 0.02%;
+> *согласно данным использования языков в интернете с <a href="https://w3techs.com/technologies/overview/content_language">w3techs.com</a> за 12.02.2022*
+* полностью поддерживаемые языки на любых наборах – 77.59% (89.07% без упрощённого ввода);
+* полностью поддерживаемые языки на основных наборах – 6.71%;
+* полностью поддерживаемые языки на дополнительных наборах – 5.76%;
+* романизированные версии языков прочих письменностей: все версии – 9.93%, некоторые – 0.01%;
 
 Подробнее со всеми *(200+)* языками, категориями, используемостью, алфавитами и поддержкой можно ознакомиться в файле <a href="https://github.com/uqqu/qPhyx/blob/master/external/languages.xlsx">external/languages.xlsx</a> 
 
@@ -1963,11 +1993,3 @@ GUI может изменяться в зависимости от некото�
 3. Разместите файлы `qphyx.exe` (или `qphyx.ahk`), `modes.ini` и файлы `.ico` в папке по вашему выбору, запустите `qphyx.*`.
 4. Ознакомьтесь с использованием. Настройте в меню (ПКМ по иконке в трее или `LWin+F1`) языковые наборы, время срабатывания "длинных" нажатий и прочие пункты.
 5. *(опционально)* Добавьте `qphyx.*` в автозагрузку.
-
-
----
-
-
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
