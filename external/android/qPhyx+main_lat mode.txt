@@ -18,7 +18,7 @@
 
 	"onScreen":{
 		"main":[
-			"[XK:1ñ][XK:2å][XK:3ä][XK:4ö][XK:5ü][4D:[CLIPBOARD][HOME][UP][END][DOWN]][XK:6ł][XK:7đ][XK:8I][XK:9ß][XK:0øæœ]",
+			"[XK:0ñ][XK:1å][XK:2ä][XK:3ö][XK:4ü][4D:[CLIPBOARD][HOME][UP][END][DOWN]][XK:5ł][XK:6đ][XK:7I][XK:8ß][XK:9øæœ]",
 			"qphyxzwdlv[XK: #]",
 			"eaoiumstrnc",
 			"[SHIFT]j[XK: €₽]k[XK: ≈]gf[XK: [RIGHTBRACKET]}]b[XK:[UNDO][REDO]][DEL]",
@@ -43,7 +43,7 @@
 		],
 
 		"shifted":[
-			"[XK:1Ñ][XK:2Å][XK:3Ä][XK:4Ö][XK:5Ü][4D:[CLIPBOARD][HOME][UP][END][DOWN]][XK:6Ł][XK:7Đ][XK:8İ][XK:9ß][XK:0ØÆŒ]",
+			"[XK:0Ñ][XK:1Å][XK:2Ä][XK:3Ö][XK:4Ü][4D:[CLIPBOARD][HOME][UP][END][DOWN]][XK:5Ł][XK:6Đ][XK:7İ][XK:8ß][XK:9ØÆŒ]",
 			"QPHYXZWDLV[XK: #]",
 			"EAOIUMSTRNC",
 			"[SHIFT]J[XK: €₽]K[XK: ≈]GF[XK: [RIGHTBRACKET]}]B[XK:[UNDO][REDO]][DEL]",

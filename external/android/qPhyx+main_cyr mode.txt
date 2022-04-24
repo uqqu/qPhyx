@@ -18,7 +18,7 @@
 
 	"onScreen":{
 		"main":[
-			"[XK:1ґ][XK:2є][XK:3і][XK:4ї][XK:5ӏ][4D:[CLIPBOARD][HOME][UP][END][DOWN]][XK:6ў][XK:7ѣ][XK:8ѵ][XK:9ѳ][XK:0ӂӕӧ]",
+			"[XK:0ґ][XK:1є][XK:2і][XK:3ї][XK:4ӏ][4D:[CLIPBOARD][HOME][UP][END][DOWN]][XK:5ў][XK:6ѣ][XK:7ѵ][XK:8ѳ][XK:9ӂӕӧ]",
 			"юпхыязшдлвщ",
 			"еаоиумстрнц",
 			"[SHIFT]йэёк[XK:ь≈ъ]гфжчб[XK:[UNDO][REDO]][DEL]",
@@ -43,7 +43,7 @@
 		],
 
 		"shifted":[
-			"[XK:1Ґ][XK:2Є][XK:3І][XK:4Ї][XK:5Ӏ][4D:[CLIPBOARD][HOME][UP][END][DOWN]][XK:6Ў][XK:7Ѣ][XK:8Ѵ][XK:9Ѳ][XK:0ӁӔӦ]",
+			"[XK:0Ґ][XK:1Є][XK:2І][XK:3Ї][XK:4Ӏ][4D:[CLIPBOARD][HOME][UP][END][DOWN]][XK:5Ў][XK:6Ѣ][XK:7Ѵ][XK:8Ѳ][XK:9ӁӔӦ]",
 			"ЮПХЫЯЗШДЛВЩ",
 			"ЕАОИУМСТРНЦ",
 			"[SHIFT]ЙЭЁК[XK:Ь≈Ъ]ГФЖЧБ[XK:[UNDO][REDO]][DEL]",
