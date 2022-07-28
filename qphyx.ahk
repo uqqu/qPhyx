@@ -7,6 +7,7 @@
 
 Global EXT := A_IsCompiled ? ".exe" : ".ahk"
 Global SHIFT_COUNTER := 0
+Global STACK := []
 ;global config.ini variables
 Global DISABLED := 0
 Global LONG_PRESS_TIME := 0.15
@@ -548,7 +549,7 @@ Down(this, alt:=0)
             }
             Else
             {
-                SendInput, % DICT[this][3]
+                SendInput, % (DetectClosingBracket(this, 3) ? "{Right}" : DICT[this][3])
             }
         }
     }
@@ -560,7 +561,7 @@ Up(this, shift:=0, alt:=0)
     {
         If alt
         {
-            SendInput, % DICT[this][4]
+            SendInput, % (DetectClosingBracket(this, 4) ? "{Right}" : DICT[this][4])
         }
         Else
         {
@@ -1030,6 +1031,44 @@ SpotifyDetectProcessId()
     {
         SetTimer, SpotifyDetectProcessId, -66666
     }
+}
+
+DetectClosingBracket(this, n)
+{
+    res := 0
+    If PAIRED_BRACKETS
+    {
+        length := StrLen(DICT[this][n])
+        WinGet, active_id, ID, A
+        last := STACK[STACK.MaxIndex()]
+        If ((last[1] == SubStr(DICT[this][n], length)
+                || ((last[1] == """") && (SubStr(DICT[this][n], 1, 1) == """")))
+            && (last[2] == active_id))
+        {
+            BlockInput, On
+            saved_value := Clipboard
+            Clipboard := ""
+            SendInput, +{Right}
+            Sleep, 1
+            SendInput, ^{SC02E}
+            Sleep, 1
+            SendInput, {Left}
+            Sleep, 1
+            If (Clipboard == last[1])
+            {
+                STACK.Pop()
+                res := 1
+            }
+            Sleep, 1
+            Clipboard := saved_value
+            BlockInput, Off
+        }
+        Else If (SubStr(DICT[this][n], length-5) == "{Left}")
+        {
+            STACK.Push([SubStr(DICT[this][n], length-6, 1), active_id])
+        }
+    }
+    Return res
 }
 
 GuiFillValues()
