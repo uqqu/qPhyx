@@ -17,6 +17,7 @@ Global COMBINED_VIEW := 1
 Global CONTROLLING_KEYS := 0
 Global NUMROW_SHIFTING := 0
 Global DOUBLE_SHIFT_INVERT := 0
+Global BOTH_SHIFTS_AS_ESC := 0
 Global DOTLESS_I_SWAP := 1
 Global ROMANIAN_CEDILLA_TO_COMMA := 1
 Global PAIRED_BRACKETS := 0
@@ -34,6 +35,7 @@ IfExist, config.ini
     IniRead, CONTROLLING_KEYS,             config.ini, Configuration, ControllingKeys
     IniRead, NUMROW_SHIFTING,              config.ini, Configuration, NumrowShifting
     IniRead, DOUBLE_SHIFT_INVERT,          config.ini, Configuration, DoubleShiftInvert
+    IniRead, BOTH_SHIFTS_AS_ESC,           config.ini, Configuration, BothShiftsAsEsc
     IniRead, DOTLESS_I_SWAP,               config.ini, Configuration, DotlessISwap
     IniRead, ROMANIAN_CEDILLA_TO_COMMA,    config.ini, Configuration, RomanianCedillaToComma
     IniRead, PAIRED_BRACKETS,              config.ini, Configuration, PairedBrackets
@@ -53,6 +55,7 @@ Else
     IniWrite, %CONTROLLING_KEYS%,          config.ini, Configuration, ControllingKeys
     IniWrite, %NUMROW_SHIFTING%,           config.ini, Configuration, NumrowShifting
     IniWrite, %DOUBLE_SHIFT_INVERT%,       config.ini, Configuration, DoubleShiftInvert
+    IniWrite, %BOTH_SHIFTS_AS_ESC%,        config.ini, Configuration, BothShiftsAsEsc
     IniWrite, %DOTLESS_I_SWAP%,            config.ini, Configuration, DotlessISwap
     IniWrite, %ROMANIAN_CEDILLA_TO_COMMA%, config.ini, Configuration, RomanianCedillaToComma
     IniWrite, %PAIRED_BRACKETS%,           config.ini, Configuration, PairedBrackets
@@ -272,15 +275,20 @@ Menu, Tray, Add, Change &cyrillic mode, :CyrModes
     {
         Menu, SubSettings, Check, Toggle controlling &keys remap
     }
-    Menu, SubSettings, Add, Toggle numrow &shifting (1-90 to 01-9), NumrowShiftingToggle
+    Menu, SubSettings, Add, Toggle n&umrow shifting (1-90 to 01-9), NumrowShiftingToggle
     If NUMROW_SHIFTING
     {
-        Menu, SubSettings, Check, Toggle numrow &shifting (1-90 to 01-9)
+        Menu, SubSettings, Check, Toggle n&umrow shifting (1-90 to 01-9)
     }
     Menu, SubSettings, Add, Toggle "&double shift press to toggle case" feature, DoubleShiftToggle
     If DOUBLE_SHIFT_INVERT
     {
         Menu, SubSettings, Check, Toggle "&double shift press to toggle case" feature
+    }
+    Menu, SubSettings, Add, Toggle "b&oth shifts as esc" feature, BothShiftsAsEscToggle
+    If BOTH_SHIFTS_AS_ESC
+    {
+        Menu, SubSettings, Check, Toggle "b&oth shifts as esc" feature
     }
     If LATIN_MODE in 2,11
     {
@@ -458,6 +466,7 @@ LV_Add(, "Volume down", "Alt+Backspace")
 LV_Add(, "Media next", "Shift+LongBackspace")
 LV_Add(, "Media previous", "Alt+LongBackspace")
 LV_Add(, "<Delete>", "Shift+Enter")
+LV_Add(, "<Esc>", "LShift+RShift")
 
 LV_ModifyCol()
 
@@ -879,7 +888,7 @@ NumrowShiftingToggle()
             GuiControl, Text, % SCAN_CODES[A_Index+1] . 2, % GetKeyName(SCAN_CODES[A_Index+1])
         }
     }
-    Menu, SubSettings, % NUMROW_SHIFTING ? "Check" : "Uncheck", Toggle numrow &shifting (1-90 to 01-9)
+    Menu, SubSettings, % NUMROW_SHIFTING ? "Check" : "Uncheck", Toggle n&umrow shifting (1-90 to 01-9)
 }
 
 DoubleShiftToggle()
@@ -888,6 +897,14 @@ DoubleShiftToggle()
     IniWrite, %DOUBLE_SHIFT_INVERT%, config.ini, Configuration, DoubleShiftInvert
     Menu, SubSettings, % DOUBLE_SHIFT_INVERT ? "Check" : "Uncheck"
         , Toggle "&double shift press to toggle case" feature
+}
+
+BothShiftsAsEscToggle()
+{
+    BOTH_SHIFTS_AS_ESC := !BOTH_SHIFTS_AS_ESC
+    IniWrite, %BOTH_SHIFTS_AS_ESC%, config.ini, Configuration, BothShiftsAsEsc
+    Menu, SubSettings, % BOTH_SHIFTS_AS_ESC ? "Check" : "Uncheck"
+        , Toggle "b&oth shifts as esc" feature
 }
 
 DotlessIToggle()
@@ -1300,6 +1317,10 @@ SC008:: SendInput, 6
 SC009:: SendInput, 7
 SC00A:: SendInput, 8
 SC00B:: SendInput, 9
+
+#If !DISABLED && !WinActive("ahk_group BlackList") && BOTH_SHIFTS_AS_ESC
+
+SC02A & SC136:: SendInput,  {SC001}
 
 #If !DISABLED && !WinActive("ahk_group BlackList") && DOUBLE_SHIFT_INVERT
 
