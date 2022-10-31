@@ -6,7 +6,8 @@
 #UseHook On
 
 Global EXT := A_IsCompiled ? ".exe" : ".ahk"
-Global SHIFT_COUNTER := 0
+Global LSHIFT_COUNTER := 0
+Global RSHIFT_COUNTER := 0
 ;global config.ini variables
 Global DISABLED := 0
 Global LONG_PRESS_TIME := 0.15
@@ -69,7 +70,8 @@ IniRead, section, config.ini, AdditionalAssignments
 For ind, string in StrSplit(section, "`n")
 {
     pair := StrSplit(string, "=")
-    USER_ASSIGNMENTS[pair[1]] := pair[2]
+    values := StrSplit(pair[2], ",")
+    USER_ASSIGNMENTS[pair[1]] := values
 }
 
 ;set icon
@@ -194,12 +196,9 @@ For i, script in [LAT_MODE_LIST[LATIN_MODE], CYR_MODE_LIST[CYRILLIC_MODE]]
 ;;Stay calm with third-party bindings. <Sh-i> will be detect as I. Diacr. dot will be added later
 ;;With this mode you can type I as <sh-i>+<bs> or as <sh-long-8>, how you want it
 ;;This option is not depends on selected latin mode, because you may want to use it with any mode
-If LATIN_MODE in 2,11
+If (DOTLESS_I_SWAP && LATIN_MODE in 2,11)
 {
-    If DOTLESS_I_SWAP
-    {
-        NUM_DICT["SC009"][6] := "I"
-    }
+    NUM_DICT["SC009"][6] := "I"
 }
 
 ;;paste comma instead of the cedilla for the chosen romanian mode
@@ -207,7 +206,7 @@ If LATIN_MODE in 2,11
 ;;Default on. If you know what you're doing
 ;;   and you want to type cedilla, you can disable this behavior in config.ini
 ;;This also influences to the cyrillic layout. (Only with selected Romanian mode, ofc)
-If (LATIN_MODE == 6 && ROMANIAN_CEDILLA_TO_COMMA)
+If (ROMANIAN_CEDILLA_TO_COMMA && LATIN_MODE == 6)
 {
     NUM_DICT["SC002"][4] := "̦"
 }
@@ -528,6 +527,7 @@ UpNum(this, shift:=0, alt:=0)
             }
         }
     }
+    SendInput, {Shift up}
     NUM_DICT[this][1] := 0
     NUM_DICT[this][2] := 0
 }
@@ -565,18 +565,27 @@ Up(this, shift:=0, alt:=0)
         Else
         {
             upper := shift ^ GetKeyState("CapsLock", "T")
+            u_this := (upper ? "+" : "") . this
             SetFormat, Integer, H
             lang := % DllCall("GetKeyboardLayout", Int
                 , DllCall("GetWindowThreadProcessId", int, WinActive("A"), Int, 0))
             SetFormat, Integer, D
-            If (USER_ASSIGNMENTS.haskey((upper ? "+" : "") . this) && (lang == -0xF3EFBF7))
+            If (USER_ASSIGNMENTS.haskey(u_this)
+                && (!USER_ASSIGNMENTS[u_this][2] || (lang == USER_ASSIGNMENTS[u_this][2])))
             {
-                SendInput, % USER_ASSIGNMENTS[(upper ? "+" : "") . this]
+                SendInput, % USER_ASSIGNMENTS[u_this][1] . (upper ? "{Shift up}" : "")
                 DICT[this][1] := 0
                 DICT[this][2] := 0
                 Return
             }
-            SendInput, % (upper ? "+" : "") . "{" . this . "}"
+            If upper
+            {
+                SendInput, % "+{" . this . "}{Shift up}"
+            }
+            Else
+            {
+                SendInput, % "{" . this . "}"
+            }
             ;dotted/dotless I feature
             If (upper && DOTLESS_I_SWAP && (lang == -0xF3EFBF7) && (GetKeyName(this) == "i"))
             {
@@ -587,6 +596,7 @@ Up(this, shift:=0, alt:=0)
             }
         }
     }
+    SendInput, {Shift up}
     DICT[this][1] := 0
     DICT[this][2] := 0
 }
@@ -661,7 +671,7 @@ IncrDecrNumber(n)
 
 ShiftPress()
 {
-    If (SHIFT_COUNTER > 1)
+    If (LSHIFT_COUNTER > 1 || RSHIFT_COUNTER > 1)
     {
         BlockInput, On
         saved_value := Clipboard
@@ -687,7 +697,8 @@ ShiftPress()
         Sleep, 1
         Clipboard := saved_value
         BlockInput, Off
-        SHIFT_COUNTER := 0
+        LSHIFT_COUNTER := 0
+        RSHIFT_COUNTER := 0
         SetTimer, ShiftCounterDrop, Off
     }
 }
@@ -1162,7 +1173,8 @@ LangModes:
     Return
 
 ShiftCounterDrop:
-    SHIFT_COUNTER := 0
+    LSHIFT_COUNTER := 0
+    RSHIFT_COUNTER := 0
     SetTimer, ShiftCounterDrop, Off
     Return
 
@@ -1227,20 +1239,20 @@ SC041:: GuiControl, Choose, GuiTabs, % TABS[7]
     KeyWait, SC00E, T%LONG_PRESS_TIME%
     If ErrorLevel
     {
-        SendInput, {SC119}
+        SendInput, {SC119}{Shift up}
     }
     Else
     {
-        SendInput, {SC130}
+        SendInput, {SC130}{Shift up}
     }
     KeyWait, SC00E
     Return
 
 ;enter
   SC01C:: SendInput,  {SC00E}
- +SC01C:: SendInput,  {SC153}
+ +SC01C:: SendInput,  {SC153}{Shift up}
  ^SC01C:: SendInput, ^{SC00E}
-+^SC01C:: SendInput, ^{SC153}
++^SC01C:: SendInput, ^{SC153}{Shift up}
  #SC01C::
     KeyWait, SC01C, T%LONG_PRESS_TIME%
     If ErrorLevel
@@ -1260,7 +1272,7 @@ SC041:: GuiControl, Choose, GuiTabs, % TABS[7]
 
 ;caps lock
  SC03A:: SendInput,  {SC01C}
-+SC03A:: SendInput, +{SC01C}
++SC03A:: SendInput, +{SC01C}{Shift up}
 !SC03A:: SendInput, !{SC01C}
 ^SC03A:: SendInput, ^{SC01C}
 
@@ -1293,8 +1305,12 @@ SC00B:: SendInput, 9
 
 ;double shift press = invert case; +ctrl = upper case; +alt = lower case
 ~*SC02A up::
+    LSHIFT_COUNTER++
+    ShiftPress()
+    SetTimer, ShiftCounterDrop, % LONG_PRESS_TIME*2000
+    Return
 ~*SC136 up::
-    SHIFT_COUNTER++
+    RSHIFT_COUNTER++
     ShiftPress()
     SetTimer, ShiftCounterDrop, % LONG_PRESS_TIME*2000
     Return
@@ -1308,27 +1324,27 @@ SC00B:: SendInput, 9
   !SC025:: SendInput,   {SC148}
   !SC026:: SendInput,   {SC14D}
     ;nav with select
- +!SC023:: SendInput,  +{SC14B}
- +!SC024:: SendInput,  +{SC150}
- +!SC025:: SendInput,  +{SC148}
- +!SC026:: SendInput,  +{SC14D}
+ +!SC023:: SendInput,  +{SC14B}{Shift up}
+ +!SC024:: SendInput,  +{SC150}{Shift up}
+ +!SC025:: SendInput,  +{SC148}{Shift up}
+ +!SC026:: SendInput,  +{SC14D}{Shift up}
     ;ctrl nav (left-right move by words; up-down as home-end)
  ^!SC023:: SendInput,  ^{SC14B}
  ^!SC024:: SendInput,   {SC147}
  ^!SC025:: SendInput,   {SC14F}
  ^!SC026:: SendInput,  ^{SC14D}
     ;ctrl nav with select
-+^!SC023:: SendInput, +^{SC14B}
-+^!SC024:: SendInput,  +{SC147}
-+^!SC025:: SendInput,  +{SC14F}
-+^!SC026:: SendInput, +^{SC14D}
++^!SC023:: SendInput, +^{SC14B}{Shift up}
++^!SC024:: SendInput,  +{SC147}{Shift up}
++^!SC025:: SendInput,  +{SC14F}{Shift up}
++^!SC026:: SendInput, +^{SC14D}{Shift up}
     ;move window
   #SC023:: SendInput,  #{SC14B}
   #SC024:: SendInput,  #{SC150}
   #SC025:: SendInput,  #{SC148}
   #SC026:: SendInput,  #{SC14D}
- #+SC023:: SendInput, #+{SC14B}
- #+SC026:: SendInput, #+{SC14D}
+ #+SC023:: SendInput, #+{SC14B}{Shift up}
+ #+SC026:: SendInput, #+{SC14D}{Shift up}
  #+SC024::
     WinGetActiveTitle, title
     If title
@@ -1349,36 +1365,63 @@ SC00B:: SendInput, 9
 +^SC02F::
     saved_value := Clipboard
     Clipboard := ""
-    SendInput, ^{SC02E}
-    ClipWait
+    Send, ^{SC02E}
+    Sleep, 1
     saved_value2 := Clipboard
     Clipboard := ""
     Clipboard := saved_value
-    ClipWait
-    SendEvent ^{SC02F}
+    Sleep, 1
+    Send, ^{SC02F}
     Clipboard := saved_value2
     Return
 
 ;two keys left from BS ("-/_", "=/+")
 SC00C::
-    If USER_ASSIGNMENTS["SC00C"]
+    If USER_ASSIGNMENTS["SC00C"][1]
     {
-        SendInput, % USER_ASSIGNMENTS["SC00C"]
+        If USER_ASSIGNMENTS["SC00C"][2]
+        {
+            SetFormat, Integer, H
+            lang := % DllCall("GetKeyboardLayout", Int
+                , DllCall("GetWindowThreadProcessId", int, WinActive("A"), Int, 0))
+            SetFormat, Integer, D
+            If (USER_ASSIGNMENTS["SC00C"][2] == lang)
+            {
+                SendInput, % USER_ASSIGNMENTS["SC00C"][1]
+                Return
+            }
+        }
+        Else
+        {
+            SendInput, % USER_ASSIGNMENTS["SC00C"][1]
+            Return
+        }
     }
-    Else
-    {
-        IncrDecrNumber(-1)
-    }
+    IncrDecrNumber(-1)
     Return
+
 SC00D::
-    If USER_KEY_2
+    If USER_ASSIGNMENTS["SC00D"][1]
     {
-        SendInput, % USER_ASSIGNMENTS["SC00D"]
+        If USER_ASSIGNMENTS["SC00D"][2]
+        {
+            SetFormat, Integer, H
+            lang := % DllCall("GetKeyboardLayout", Int
+                , DllCall("GetWindowThreadProcessId", int, WinActive("A"), Int, 0))
+            SetFormat, Integer, D
+            If (USER_ASSIGNMENTS["SC00D"][2] == lang)
+            {
+                SendInput, % USER_ASSIGNMENTS["SC00D"][1]
+                Return
+            }
+        }
+        Else
+        {
+            SendInput, % USER_ASSIGNMENTS["SC00D"][1]
+            Return
+        }
     }
-    Else
-    {
-        IncrDecrNumber(1)
-    }
+    IncrDecrNumber(1)
     Return
 
 ;backward, forward, undo, redo
@@ -1673,11 +1716,11 @@ SC039::
         }
     }
     If UNBR_SPACE {
-        SendInput, +{Space}
+        SendInput, +{Space}{Shift up}
     }
     Else
     {
-        SendInput, {Space}
+        SendInput, {Space}{Shift up}
     }
     Return
 
