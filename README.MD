@@ -41,7 +41,7 @@ Adapted layouts for Latin and Cyrillic, ready to install and use, are in the fol
 
 > <details>
 >    <summary>tl;dr</summary>
->    There are three layers – under <code>Alt</code>, under <code>"long" presses</code> (base 0.15s, can be changed by user), and under their combination. 
+>    There are three layers – under <code>Alt</code>, under <code>"long" presses</code> (base 0.15s, can be changed by user), and under their combination.
 >    <br><br>All three layers are located in the alphabetic part of the keyboard + numeric row with diacritical symbols.
 >    <br><br>All characters are grouped into logical categories and arranged with maximum typing convenience.
 >    <br><br>Total coverage – 83 auxiliary characters + 24 diacritics + 8 control commands.
@@ -886,7 +886,7 @@ Some final statistics:
 * fully supported languages on additional modes – 5.36%
 * romanized versions of languages of other scripts: all versions – 9.45%, some – 0.01%
 
-For details on all *(200+)* languages, categories, usability, alphabets, and support, see <a href="https://github.com/uqqu/qPhyx/blob/master/external/languages.xlsx">external/languages.xlsx</a> 
+For details on all *(200+)* languages, categories, usability, alphabets, and support, see <a href="https://github.com/uqqu/qPhyx/blob/master/external/languages.xlsx">external/languages.xlsx</a>
 
 
 ## Additional features
@@ -898,8 +898,15 @@ Switchable option.
 <br>Automatic closing single quotes is not provided, as this symbol is often used in the meaning of apostrophe, where a paired quote would be undesirable.
 
 ### Numrow shifting (01…9 instead of 1…90)
+
 Switchable option.
 <br>Shifts the numeric row one position to the right, moving the zero to the first position.
+
+### Incrementing/decrementing selected number or symbol
+
+Overridable option.
+<br>Called by non-numeric keys on numeric row (`-_` and `+=`)
+<br>Changes the integer part of the number. If the selected text cannot be treating as number – changes the last symbol by the unicode character position (combining symbols are ommited)
 
 ### Replacing text on the clipboard
 
@@ -923,6 +930,7 @@ Navigation via simulated arrow keys supports all the original modifiers:
 ### Other assignments and hotkeys
 
 Unbreakable space – `Shift-Space` (switchable functionality)
+<br>Additional `Esc` – `LShift-RShift` (switchable)
 <br>Minimize all windows – `LWin-Enter`
 <br>Restore minimized windows – `LWin-Enter long`
 <br>Pause/resume the script – `Shift-Tilde`
@@ -948,13 +956,13 @@ Other settings are managed in the menu called by `LWin+F1` or by right mouse cli
 ### User assignments
 
 There are three types of user assignments:
-* assignment of additional keys in the number row, which, being empty, perform the functions of decreasing and increasing the selected number by 1;
+* assignment of additional keys in the number row, which, being empty, perform the function of decreasing and increasing the selected character/number, or, if there is no selection, mark next character;
 * additional assignments in the letter part of the keyboard for the Latin script. After adapting the Latin layouts, there are 7 additional positions that can be used in addition to the language layer, depending on the individual needs of the user;
 * assignment for switching between applications in combination with the `LWin` modifier. Starts the application if it is not running.
 
 The assignments are defined in the `config.ini` file, which is generated next to the executable file of the script after the first run.
 
-For the first two types, the assignments are defined in the `AdditionalAssignments` section by the pattern `<key_scan_code>=<assignable_character>`. The scan codes of the numeric keys are pre-specified in this section with empty assignments. Scan codes of other keys can be viewed in the corresponding GUI tab. It's possible to specify modifier `Shift` (set as `+` before scan code) for assignments in alphabetic part of the keyboard. It is possible to specify unicode character value by pattern `{U+<symbol_code>}`.
+For the first two types, the assignments are defined in the `AdditionalAssignments` section by the pattern `<key_scan_code>=<assignable_character>,<layout_code (leave empty – for set mapping for all layouts)>`. The scan codes of the numeric keys are pre-specified in this section with empty assignments. Scan codes of other keys can be viewed in the corresponding GUI tab. It's possible to specify modifier `Shift` (set as `+` before scan code) for assignments in alphabetic part of the keyboard. It is possible to specify unicode character value by pattern `{U+<symbol_code>}`.
 
 Assignments for switching focus between applications are defined in the `AltApps` section by the pattern `<key_scan_code>=<process_name>,<path_to_executable_file>`. Specifying modifiers is not required.
 
@@ -1885,7 +1893,7 @@ Long presses can be undesirable in some applications, affecting their performanc
 * полностью поддерживаемые языки на дополнительных наборах – 5.36%;
 * романизированные версии языков прочих письменностей: все версии – 9.45%, некоторые – 0.01%;
 
-Подробнее со всеми *(200+)* языками, категориями, используемостью, алфавитами и поддержкой можно ознакомиться в файле <a href="https://github.com/uqqu/qPhyx/blob/master/external/languages.xlsx">external/languages.xlsx</a> 
+Подробнее со всеми *(200+)* языками, категориями, используемостью, алфавитами и поддержкой можно ознакомиться в файле <a href="https://github.com/uqqu/qPhyx/blob/master/external/languages.xlsx">external/languages.xlsx</a>
 
 
 ## Дополнительная функциональность
@@ -1897,8 +1905,15 @@ Long presses can be undesirable in some applications, affecting their performanc
 <br>Автоматическое закрытие одинарных кавычек не предусмотрено, так как данный символ часто используется в значении апострофа, где парная кавычка будет нежелательной.
 
 ### Сдвиг цифрового ряда для начала с нуля (01…9 вместо 1…90)
+
 Переключаемая функциональность.
 <br>Сдвигает цифровой ряд на одну позицию вправо, перемещая ноль в первую позицию.
+
+### Инкрементация/декрементация выделенного числа или символа
+
+Переопределяемая функциональность.
+<br>Вызывается через нецифровые клавиши цифрового ряда (`-_` и `+=`)
+<br>Увеличивает/уменьшает целую часть выделенного числа. Если выделенный текст не может быть приведён к числовому значению – изменяет последний символ согласно его unicode позиции (комбинируемые символы пропускаются).
 
 ### Замена текста в буфере обмена
 
@@ -1922,6 +1937,7 @@ Long presses can be undesirable in some applications, affecting their performanc
 ### Прочие назначения и горячие клавиши
 
 Неразрывный пробел – `Shift-Space` (переключаемая функциональность)
+<br>Дополнительный `Esc` – `LShift-RShift` (переключаемо)
 <br>Свернуть все окна – `LWin-Enter`
 <br>Восстановить свёрнутые окна – `LWin-Enter long`
 <br>Пауза/возобновление работы скрипта – `Shift-Tilde`
@@ -1947,13 +1963,13 @@ GUI может изменяться в зависимости от некото�
 ### Пользовательские назначения
 
 Предусмотрены пользовательские назначения трёх типов:
-* назначения дополнительных клавиш в цифровом ряду, которые, будучи пустыми, выполняют функции уменьшения и увеличения выделенного числа на 1;
+* назначения дополнительных клавиш в цифровом ряду, которые, будучи пустыми, выполняют функции уменьшения и увеличения выделенного символа/числа (если нет текущего выделения – выделяет следующий символ без увеличения/уменьшения);
 * дополнительные назначения в буквенной части клавиатуры для латинской письменности. После адаптации латинских раскладок в них появилось 7 дополнительных позиций, которые могут быть использованы в дополнение к языковому слою, в зависимости от индивидуальных потребностей пользователя;
 * назначения для переключения между приложениями в комбинации с модификатором `LWin`. Запускает приложение, если оно не запущено.
 
 Назначения прописываются в файле `config.ini`, который генерируется рядом с исполняемым файлом скрипта после первого запуска.
 
-Для первых двух типов, назначения прописывается в секции `AdditionalAssignments` по шаблону `<скан_код_клавиши>=<назначаемый_символ>`. Скан коды клавиш цифрового ряда предварительно указаны в этой секции с пустыми назначениями. Скан коды прочих клавиш можно посмотреть в соответствующей вкладке GUI. Возможно указание модификатора `Shift` (указывается как `+` перед скан кодом) для назначений в буквенной части клавиатуры. Возможно указание unicode значения символа по шаблону `{U+<код_символа>}`.
+Для первых двух типов, назначения прописывается в секции `AdditionalAssignments` по шаблону `<скан_код_клавиши>=<назначаемый_символ>,<код_раскладки (оставьте пустым для назначения без привязки к раскадке)>`. Скан коды клавиш цифрового ряда предварительно указаны в этой секции с пустыми назначениями. Скан коды прочих клавиш можно посмотреть в соответствующей вкладке GUI. Возможно указание модификатора `Shift` (указывается как `+` перед скан кодом) для назначений в буквенной части клавиатуры. Возможно указание unicode значения символа по шаблону `{U+<код_символа>}`.
 
 Назначения для переключения фокуса между приложениями прописываются в секции `AltApps` по шаблону `<скан_код_клавши>=<имя_процесса>,<путь_к_исполняемому_файлу>`. Указание модификаторов не требуется.
 
