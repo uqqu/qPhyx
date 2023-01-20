@@ -44,7 +44,7 @@ Adapted layouts for Latin and Cyrillic, ready to install and use, are in the fol
 >    There are three layers – under <code>Alt</code>, under <code>"long" presses</code> (base 0.15s, can be changed by user), and under their combination.
 >    <br><br>All three layers are located in the alphabetic part of the keyboard + numeric row with diacritical symbols.
 >    <br><br>All characters are grouped into logical categories and arranged with maximum typing convenience.
->    <br><br>Total coverage – 83 auxiliary characters + 24 diacritics + 8 control commands.
+>    <br><br>Total coverage – 83 auxiliary characters + 24 diacritics + 10 control commands.
 > </details>
 
 The following requirements were specified for the symbol layers:
@@ -257,18 +257,18 @@ The remaining 8 sets are for languages with a large number of additional symbols
         </tr>
         <tr>
             <td>Polish (full − base)</td>
-            <td>ć</td>
             <td>ń</td>
-            <td>ó</td>
-            <td>ś</td>
-            <td>ź</td>
-            <td>ł</td>
             <td>ą</td>
             <td>ę</td>
+            <td>ż</td>
+            <td>ó</td>
+            <td>ł</td>
+            <td>ś</td>
+            <td>ć</td>
             <td>ß</td>
             <td>ø</td>
             <td>æ</td>
-            <td>ż</td>
+            <td>ź</td>
         </tr>
         <tr>
             <td>Czech (partial − base)</td>
@@ -318,17 +318,17 @@ The remaining 8 sets are for languages with a large number of additional symbols
         <tr>
             <td>Hungarian (full − base)</td>
             <td>á</td>
-            <td>é</td>
-            <td>ó</td>
-            <td>í</td>
-            <td>ú</td>
-            <td>ł</td>
-            <td>ö</td>
-            <td>ü</td>
-            <td>ß</td>
-            <td>ø</td>
             <td>ő</td>
             <td>ű</td>
+            <td>ö</td>
+            <td>ü</td>
+            <td>ł</td>
+            <td>é</td>
+            <td>í</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>ó</td>
+            <td>ú</td>
         </tr>
         <tr>
             <td>Slovene, Croatian (Gaj's latin), Romany</td>
@@ -392,18 +392,18 @@ The remaining 8 sets are for languages with a large number of additional symbols
         </tr>
         <tr>
             <td>Lithuanian (full − base)</td>
-            <td>ą</td>
-            <td>ę</td>
+            <td>č</td>
+            <td>š</td>
+            <td>ž</td>
             <td>ė</td>
-            <td>ų</td>
             <td>ū</td>
             <td>ł</td>
+            <td>ų</td>
             <td>į</td>
-            <td>ż</td>
             <td>ß</td>
-            <td>š</td>
-            <td>č</td>
-            <td>ž</td>
+            <td>ą</td>
+            <td>ę</td>
+            <td>ż</td>
         </tr>
         <tr>
             <td>Latvian (full − base)</td>
@@ -875,9 +875,15 @@ This character set provides access to full-fledged typing in Ukrainian, Belarusi
     </table>
 </details>
 
-The currently active character sets are also displayed in the script GUI.
+You can view all sets in corresponding GUI tab
+![Lang modes](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/lang_modes.png "Lang modes")
 
-![Displaying language sets](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/lang_modes.png)
+The currently active character sets are also displayed in the first two tabs of GUI.
+![Main tab](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/default_qwerty.png "Main tab")
+
+The GUI for buttons uses your default layout, no matter what it is.
+![Alternative layout](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/default_qphyx.png "Alternative layout")
+
 
 Some final statistics:
 > *according to the use of languages on the Internet by <a href="https://w3techs.com/technologies/overview/content_language">w3techs.com</a> of 24.04.2022*
@@ -946,6 +952,8 @@ The script has a minimal hinting graphical interface, called via `Alt+F1` or by 
 * list of all language sets for two scripts with switching between them by double click;
 * list of all hotkeys for both script control and other functions.
 
+The GUI is also used to the initial binding of the current Latin and Cyrillic layouts.
+
 The GUI can be modified depending on certain settings, displaying the view provided by these options. This includes the current language sets, paired bracket functionality, and custom reassignments.
 
 The layer tabs respond to keystrokes on the physical keyboard, prompting its position on the screen.
@@ -962,12 +970,11 @@ There are three types of user assignments:
 
 The assignments are defined in the `config.ini` file, which is generated next to the executable file of the script after the first run.
 
-For the first two types, the assignments are defined in the `AdditionalAssignments` section by the pattern `<key_scan_code>=<assignable_character>,<layout_code (leave empty – for set mapping for all layouts)>`. The scan codes of the numeric keys are pre-specified in this section with empty assignments. Scan codes of other keys can be viewed in the corresponding GUI tab. It's possible to specify modifier `Shift` (set as `+` before scan code) for assignments in alphabetic part of the keyboard. It is possible to specify unicode character value by pattern `{U+<symbol_code>}`.
+For the first two types, the assignments are defined in the `AdditionalAssignments` section by the pattern `<key scancode>:<layout code or "1" for any layout>=<assignable character>`. Key scancodes can be viewed in the corresponding GUI tab. It's possible to specify modifier `Shift` (set as `+` before scan code) for assignments in alphabetic part of the keyboard. It is possible to specify unicode character value by pattern `{U+<symbol code>}`.
 
-Assignments for switching focus between applications are defined in the `AltApps` section by the pattern `<key_scan_code>=<process_name>,<path_to_executable_file>`. Specifying modifiers is not required.
+Assignments for switching focus between applications are defined in the `AltApps` section by the pattern `<key scancode>=<process name>,<path to executable file>`. Specifying modifiers is not required.
 
 After making changes via `config.ini`, the script needs to be restarted.
-<br>When making changes via the menu option (only for key assignments in the numeric row) a restart is not required.
 
 ### Controlling key reassignments
 
@@ -990,7 +997,7 @@ An example of a display with control key reassignment, parentheses, and numeric 
 ### Automatically disabling the script in certain applications
 
 Long presses can be undesirable in some applications, affecting their performance.
-<br>Such applications are added to the `config.ini` file in the `BlackList` section with the pattern `<ord_number> = <process_name>`, after which the script activity in these applications will be automatically suspended.
+<br>Such applications are added to the `config.ini` file in the `BlackList` section with the pattern `<order number> = <process name>`, after which the script activity in these applications will be automatically suspended.
 
 
 ## Instalation
@@ -1000,7 +1007,7 @@ Long presses can be undesirable in some applications, affecting their performanc
 1. *(optional)* Install [adapted](https://github.com/uqqu/qPhyx/tree/master/external/layouts) versions of your Latin and/or Cyrillic layouts, select them in the OS settings and reboot the system.
 2. *(optional)* Install <a href="https://www.autohotkey.com/">AHK</a>, if you prefer to use an uncompiled version of the script.
 3. Place the files `qphyx.exe` (or `qphyx.ahk`), `modes.ini` and the files `.ico` in a folder of your choice, run `qphyx.*`.
-4. Familiarize yourself with the usage. Set up in the menu (right mouse click on the tray icon or `LWin+F1`) the language sets, "long" press trigger duration and other options.
+4. Familiarize yourself with the usage. Set up in the menu (right mouse click on the tray icon or `LWin+F1`) the language sets, "long" press trigger duration and other options. Bind the current layouts via the GUI.
 5. *(optional)* Add `qphyx.*` to the startup.
 
 
@@ -1052,7 +1059,7 @@ Long presses can be undesirable in some applications, affecting their performanc
 >    Есть три слоя – под <code>Alt</code>, под <code>"длинными" нажатиями</code> (базово – 0.15с, изменяется пользователем), и под их комбинацией.
 >    <br><br>Все три слоя расположены в буквенной части клавиатуры + цифровой ряд с диакритическими символами.
 >    <br><br>Все символы сгруппированы по логическим категориям и расположены с максимальным удобством набора.
->    <br><br>Общий охват – 83 вспомогательных символа + 24 диакритических символа + 8 управляющих команд.
+>    <br><br>Общий охват – 83 вспомогательных символа + 24 диакритических символа + 10 управляющих команд.
 > </details>
 
 К символьному слою были выставлены следующие требования:
@@ -1263,18 +1270,18 @@ Long presses can be undesirable in some applications, affecting their performanc
         </tr>
         <tr>
             <td>Polish (full − base)</td>
-            <td>ć</td>
             <td>ń</td>
-            <td>ó</td>
-            <td>ś</td>
-            <td>ź</td>
-            <td>ł</td>
             <td>ą</td>
             <td>ę</td>
+            <td>ż</td>
+            <td>ó</td>
+            <td>ł</td>
+            <td>ś</td>
+            <td>ć</td>
             <td>ß</td>
             <td>ø</td>
             <td>æ</td>
-            <td>ż</td>
+            <td>ź</td>
         </tr>
         <tr>
             <td>Czech (partial − base)</td>
@@ -1324,17 +1331,17 @@ Long presses can be undesirable in some applications, affecting their performanc
         <tr>
             <td>Hungarian (full − base)</td>
             <td>á</td>
-            <td>é</td>
-            <td>ó</td>
-            <td>í</td>
-            <td>ú</td>
-            <td>ł</td>
-            <td>ö</td>
-            <td>ü</td>
-            <td>ß</td>
-            <td>ø</td>
             <td>ő</td>
             <td>ű</td>
+            <td>ö</td>
+            <td>ü</td>
+            <td>ł</td>
+            <td>é</td>
+            <td>í</td>
+            <td>ß</td>
+            <td>ø</td>
+            <td>ó</td>
+            <td>ú</td>
         </tr>
         <tr>
             <td>Slovene, Croatian (Gaj's latin), Romany</td>
@@ -1398,18 +1405,18 @@ Long presses can be undesirable in some applications, affecting their performanc
         </tr>
         <tr>
             <td>Lithuanian (full − base)</td>
-            <td>ą</td>
-            <td>ę</td>
+            <td>č</td>
+            <td>š</td>
+            <td>ž</td>
             <td>ė</td>
-            <td>ų</td>
             <td>ū</td>
             <td>ł</td>
+            <td>ų</td>
             <td>į</td>
-            <td>ż</td>
             <td>ß</td>
-            <td>š</td>
-            <td>č</td>
-            <td>ž</td>
+            <td>ą</td>
+            <td>ę</td>
+            <td>ż</td>
         </tr>
         <tr>
             <td>Latvian (full − base)</td>
@@ -1882,9 +1889,15 @@ Long presses can be undesirable in some applications, affecting their performanc
 </details>
 
 
-Текущие активные наборы символов также отображены в GUI скрипта.
+Вы можете ознакомиться со всеми наборами в соответствующей вкладке GUI
+![Языковые наборы](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/lang_modes.png "Языковые наборы")
 
-![Отображение языковых наборов](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/lang_modes.png)
+Текущие активные наборы символов также отображены на первых двух вкладках GUI.
+![Основная вкладка](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/default_qwerty.png "Основная вкладка")
+
+GUI для подсказки использует вашу стандартную раскладку, какой бы она ни была.
+![Альтернативная раскладка](https://github.com/uqqu/qPhyx/blob/master/external/readme_images/default_qphyx.png "Альтарнативная раскладка")
+
 
 Немного финальной статистики:
 > *согласно данным использования языков в интернете с <a href="https://w3techs.com/technologies/overview/content_language">w3techs.com</a> за 24.04.2022*
@@ -1953,6 +1966,8 @@ Long presses can be undesirable in some applications, affecting their performanc
 * список всех языковых наборов для двух письменностей с переключением двойным нажатием;
 * список всех горячих клавиш как для управления скриптом, так и для прочих функций.
 
+Также через GUI соответствующими кнопками производится первичная привязка текущих латинской и кириллической раскладок.
+
 GUI может изменяться в зависимости от некоторых настроек, отображая вид предусматриваемый данными опциями. В их числе текущие языковые наборы, функциональность парных скобок, пользовательские переназначения.
 
 Вкладки слоёв реагируют на нажатия клавиш на физической клавиатуре, подсказывая её положение на экране.
@@ -1969,12 +1984,11 @@ GUI может изменяться в зависимости от некото�
 
 Назначения прописываются в файле `config.ini`, который генерируется рядом с исполняемым файлом скрипта после первого запуска.
 
-Для первых двух типов, назначения прописывается в секции `AdditionalAssignments` по шаблону `<скан_код_клавиши>=<назначаемый_символ>,<код_раскладки (оставьте пустым для назначения без привязки к раскадке)>`. Скан коды клавиш цифрового ряда предварительно указаны в этой секции с пустыми назначениями. Скан коды прочих клавиш можно посмотреть в соответствующей вкладке GUI. Возможно указание модификатора `Shift` (указывается как `+` перед скан кодом) для назначений в буквенной части клавиатуры. Возможно указание unicode значения символа по шаблону `{U+<код_символа>}`.
+Для первых двух типов, назначения прописывается в секции `AdditionalAssignments` по шаблону `<сканкод клавиши>:<код раскладки или "1" для срабатывания на любой раскладке>=<назначаемый символ>`. Скан коды клавиш можно посмотреть в соответствующей вкладке GUI. Возможно указание модификатора `Shift` (указывается как `+` перед скан кодом) для назначений в буквенной части клавиатуры. Возможно указание unicode значения символа по шаблону `{U+<код символа>}`.
 
-Назначения для переключения фокуса между приложениями прописываются в секции `AltApps` по шаблону `<скан_код_клавши>=<имя_процесса>,<путь_к_исполняемому_файлу>`. Указание модификаторов не требуется.
+Назначения для переключения фокуса между приложениями прописываются в секции `AltApps` по шаблону `<сканкод клавши>=<имя процесса>,<путь к исполняемому файлу>`. Указание модификаторов не требуется.
 
-После внесения изменений через `config.ini` требуется перезапуск скрипта.
-<br>При внесении изменений через пункт меню (только для назначений клавиш в цифровом ряду) перезапуск не требуется.
+После внесения ручных изменений в `config.ini` требуется перезапуск скрипта.
 
 ### Переназначения управляющих клавиш
 
@@ -1996,8 +2010,8 @@ GUI может изменяться в зависимости от некото�
 
 ### Автоматическое отключение скрипта в отдельных приложениях
 
-Отлов длинных нажатий может быть нежелательным в некоторых приложениях, сказываясь на их работе.
-<br>Такие приложения вносятся в файл `config.ini` в секцию `BlackList` по шаблону `<порядковый_номер>=<имя_процесса>`, после чего действие скрипта в данных приложениях будет автоматически приостанавливаться.
+Отлов длинных нажатий и прочие назначения могут быть нежелательными в некоторых приложениях, сказываясь на их работе.
+<br>Такие приложения вносятся в файл `config.ini` в секцию `BlackList` по шаблону `<порядковый номер>=<имя процесса>`, после чего действие скрипта в данных приложениях будет автоматически приостанавливаться.
 
 
 ## Установка и запуск
@@ -2007,5 +2021,5 @@ GUI может изменяться в зависимости от некото�
 1. *(опционально)* Установите [адаптированные](https://github.com/uqqu/qPhyx/tree/master/external/layouts) версии ваших раскладок для латиницы и кириллицы, выберите их в настройках ОС и перезагрузите систему.
 2. *(опционально)* Установите <a href="https://www.autohotkey.com/">AHK</a>, если предпочитаете использовать нескомпилированную версию скрипта.
 3. Разместите файлы `qphyx.exe` (или `qphyx.ahk`), `modes.ini` и файлы `.ico` в папке по вашему выбору, запустите `qphyx.*`.
-4. Ознакомьтесь с использованием. Настройте в меню (ПКМ по иконке в трее или `LWin+F1`) языковые наборы, время срабатывания "длинных" нажатий и прочие пункты.
+4. Ознакомьтесь с использованием. Настройте в меню (ПКМ по иконке в трее или `LWin+F1`) языковые наборы, время срабатывания "длинных" нажатий и прочие пункты. Выполните привязку текущих раскладок через GUI.
 5. *(опционально)* Добавьте `qphyx.*` в автозагрузку.
