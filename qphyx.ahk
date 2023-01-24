@@ -209,7 +209,7 @@ CYR_MODES := Menu()
 SUB_SETTINGS := Menu()
 
 Try TraySetIcon(CONF["Disabled"] ? "disabled.ico" : "qphyx.ico")
-TrayTip("qPhyx" . EXT . " – " . (CONF["Disabled"] ? "disabled" : "enabled"))
+A_IconTip := "qPhyx" . EXT . " – " . (CONF["Disabled"] ? "disabled" : "enabled")
 
 A_TrayMenu.Delete()
 A_TrayMenu.Add("qPhyx", CheatsheetToggle)
@@ -686,7 +686,7 @@ DisabledToggle(*)
     CONF["Disabled"] := !CONF["Disabled"]
     IniWrite(CONF["Disabled"], "config.ini", "Configuration", "Disabled")
     Try TraySetIcon(CONF["Disabled"] ? "disabled.ico" : "qphyx.ico")
-    TrayTip("qPhyx" . EXT . " – " . (CONF["Disabled"] ? "disabled" : "enabled"))
+    A_IconTip := "qPhyx" . EXT . " – " . (CONF["Disabled"] ? "disabled" : "enabled")
     w := ["Dis", "En"]
     A_TrayMenu.Rename(w[!CONF["Disabled"]+1] . "a&ble qPhyx"
         , w[CONF["Disabled"]+1] . "a&ble qPhyx")
