@@ -439,12 +439,27 @@ UpNum(this, shift:=0, alt:=0)
 }
 
 ;letter rows interaction
-Down(this, alt:=0)
+Down(this, shift:=0, alt:=0)
 {
+    If WinActive("ahk_group BlackList")
+    {
+        If alt
+        {
+            Send(%this%[4])
+            Return
+        }
+        upper := shift ^ GetKeyState("CapsLock", "T")
+        If upper
+            Send("+{" . this . "}")
+        Else
+            Send("{" . this . "}")
+        Return
+    }
+
     If %this%[1]
         Return
     %this%[1] := 1
-    If %this%[2] || KeyWait(this, LONG_PRESS_TIME)
+    If WinActive("ahk_group BlackList") || %this%[2] || KeyWait(this, LONG_PRESS_TIME)
         Return
     %this%[2] := 1
     If alt
@@ -545,13 +560,15 @@ LastMinimizedWindow()
             Return(id)
 }
 
-;incr/decremenet func works on current selected (marked) number or character
+;incr/decrement func works on current selected (marked) number or character
 ;the function changes the integer part for numbers (including floats)
 ;    or unicode order for other (only last character), omitting the combining characters
 ;if there is no selection – it will select next (or last) character without incr/decrementing
 ;called from UserDefinedIncrDecr() if there no remapping
 _IncrDecr(n)
 {
+    If WinActive("ahk_group BlackList")
+        Return
     saved_value := A_Clipboard
     SendEvent("^{SC02E}")
     Sleep(50)
@@ -1093,7 +1110,7 @@ CallExit(*)
 <#SC03B:: A_TrayMenu.Show()
 
 ;; while GUI active
-#HotIf !CONF["Disabled"] && CONF["ControllingKeys"] && WinActive("ahk_class AutoHotkeyGUI")
+#HotIf CONF["ControllingKeys"] && WinActive("ahk_class AutoHotkeyGUI")
 SC029:: MY_GUI.Hide()
 
 #HotIf WinActive("ahk_class AutoHotkeyGUI")
@@ -1111,8 +1128,7 @@ SC040:: TABS.Value := 6
 SC041:: TABS.Value := 7
 
 ;; main controlling region
-#HotIf !CONF["Disabled"] && CONF["ControllingKeys"]
-    && !WinActive("ahk_class AutoHotkeyGUI") && !WinActive("ahk_group BlackList")
+#HotIf !CONF["Disabled"] && CONF["ControllingKeys"] && !WinActive("ahk_class AutoHotkeyGUI")
 ;tilde
  SC029:: Send( "{SC001}")
 !SC029:: Send("!{SC001}")
@@ -1174,7 +1190,7 @@ SC00A:: Send("8")
 SC00B:: Send("9")
 
 ;; both shifts as esc feature
-#HotIf !CONF["Disabled"] && CONF["BothShiftsAsEsc"] && !WinActive("ahk_group BlackList")
+#HotIf !CONF["Disabled"] && CONF["BothShiftsAsEsc"]
 SC02A & SC136:: Send("{SC001}")
 
 ;; double shifts invert feature
@@ -1196,7 +1212,7 @@ SC02A & SC136:: Send("{SC001}")
 }
 
 ;; nav region
-#HotIf !CONF["Disabled"] && !WinActive("ahk_group BlackList")
+#HotIf !CONF["Disabled"]
 ;nav "hjkl"
     ;base nav
   !SC023:: Send( "{SC14B}")
@@ -1238,7 +1254,7 @@ SC02A & SC136:: Send("{SC001}")
     Try WinRestore(WinGetTitle("ahk_id" . LastMinimizedWindow()))
 }
 
-#HotIf !CONF["Disabled"] && !WinActive("ahk_class AutoHotkeyGUI") && !WinActive("ahk_group BlackList")
+#HotIf !CONF["Disabled"] && !WinActive("ahk_class AutoHotkeyGUI")
 ;ctrl-sh-v – clipboard swap (paste and save replaced text as a new clipboard text)
 +^SC02F::
 {
@@ -1361,70 +1377,70 @@ SC034:: Down("SC034")
 SC035:: Down("SC035")
 
 ;top letters row
-+SC010:: Down("SC010")
-+SC011:: Down("SC011")
-+SC012:: Down("SC012")
-+SC013:: Down("SC013")
-+SC014:: Down("SC014")
-+SC015:: Down("SC015")
-+SC016:: Down("SC016")
-+SC017:: Down("SC017")
-+SC018:: Down("SC018")
-+SC019:: Down("SC019")
-+SC01A:: Down("SC01A")
-+SC01B:: Down("SC01B")
++SC010:: Down("SC010", 1)
++SC011:: Down("SC011", 1)
++SC012:: Down("SC012", 1)
++SC013:: Down("SC013", 1)
++SC014:: Down("SC014", 1)
++SC015:: Down("SC015", 1)
++SC016:: Down("SC016", 1)
++SC017:: Down("SC017", 1)
++SC018:: Down("SC018", 1)
++SC019:: Down("SC019", 1)
++SC01A:: Down("SC01A", 1)
++SC01B:: Down("SC01B", 1)
 ;home letters row
-+SC01E:: Down("SC01E")
-+SC01F:: Down("SC01F")
-+SC020:: Down("SC020")
-+SC021:: Down("SC021")
-+SC022:: Down("SC022")
-+SC023:: Down("SC023")
-+SC024:: Down("SC024")
-+SC025:: Down("SC025")
-+SC026:: Down("SC026")
-+SC027:: Down("SC027")
-+SC028:: Down("SC028")
++SC01E:: Down("SC01E", 1)
++SC01F:: Down("SC01F", 1)
++SC020:: Down("SC020", 1)
++SC021:: Down("SC021", 1)
++SC022:: Down("SC022", 1)
++SC023:: Down("SC023", 1)
++SC024:: Down("SC024", 1)
++SC025:: Down("SC025", 1)
++SC026:: Down("SC026", 1)
++SC027:: Down("SC027", 1)
++SC028:: Down("SC028", 1)
 ;bottom letters row
-+SC02C:: Down("SC02C")
-+SC02D:: Down("SC02D")
-+SC02E:: Down("SC02E")
-+SC02F:: Down("SC02F")
-+SC030:: Down("SC030")
-+SC031:: Down("SC031")
-+SC032:: Down("SC032")
-+SC033:: Down("SC033")
-+SC034:: Down("SC034")
-+SC035:: Down("SC035")
++SC02C:: Down("SC02C", 1)
++SC02D:: Down("SC02D", 1)
++SC02E:: Down("SC02E", 1)
++SC02F:: Down("SC02F", 1)
++SC030:: Down("SC030", 1)
++SC031:: Down("SC031", 1)
++SC032:: Down("SC032", 1)
++SC033:: Down("SC033", 1)
++SC034:: Down("SC034", 1)
++SC035:: Down("SC035", 1)
 
 ;top letters row
-!SC010:: Down("SC010", 1)
-!SC011:: Down("SC011", 1)
-!SC012:: Down("SC012", 1)
-!SC013:: Down("SC013", 1)
-!SC014:: Down("SC014", 1)
-!SC015:: Down("SC015", 1)
-!SC018:: Down("SC018", 1)
-!SC019:: Down("SC019", 1)
-!SC01A:: Down("SC01A", 1)
-!SC01B:: Down("SC01B", 1)
+!SC010:: Down("SC010", 0, 1)
+!SC011:: Down("SC011", 0, 1)
+!SC012:: Down("SC012", 0, 1)
+!SC013:: Down("SC013", 0, 1)
+!SC014:: Down("SC014", 0, 1)
+!SC015:: Down("SC015", 0, 1)
+!SC018:: Down("SC018", 0, 1)
+!SC019:: Down("SC019", 0, 1)
+!SC01A:: Down("SC01A", 0, 1)
+!SC01B:: Down("SC01B", 0, 1)
 ;home letters row
-!SC01E:: Down("SC01E", 1)
-!SC01F:: Down("SC01F", 1)
-!SC020:: Down("SC020", 1)
-!SC021:: Down("SC021", 1)
-!SC022:: Down("SC022", 1)
-!SC027:: Down("SC027", 1)
-!SC028:: Down("SC028", 1)
+!SC01E:: Down("SC01E", 0, 1)
+!SC01F:: Down("SC01F", 0, 1)
+!SC020:: Down("SC020", 0, 1)
+!SC021:: Down("SC021", 0, 1)
+!SC022:: Down("SC022", 0, 1)
+!SC027:: Down("SC027", 0, 1)
+!SC028:: Down("SC028", 0, 1)
 ;bottom letters row
-!SC02C:: Down("SC02C", 1)
-!SC02D:: Down("SC02D", 1)
-!SC02E:: Down("SC02E", 1)
-!SC02F:: Down("SC02F", 1)
-!SC030:: Down("SC030", 1)
-!SC031:: Down("SC031", 1)
-!SC034:: Down("SC034", 1)
-!SC035:: Down("SC035", 1)
+!SC02C:: Down("SC02C", 0, 1)
+!SC02D:: Down("SC02D", 0, 1)
+!SC02E:: Down("SC02E", 0, 1)
+!SC02F:: Down("SC02F", 0, 1)
+!SC030:: Down("SC030", 0, 1)
+!SC031:: Down("SC031", 0, 1)
+!SC034:: Down("SC034", 0, 1)
+!SC035:: Down("SC035", 0, 1)
 
 ;top letters row
 SC010 up:: Up("SC010")
