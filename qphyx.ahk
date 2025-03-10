@@ -4,6 +4,7 @@
 
 #SingleInstance Force
 #UseHook True
+#Include user_functions.ahk
 SendMode "Input"
 
 EXT := A_IsCompiled ? ".exe" : ".ahk"
@@ -33,7 +34,7 @@ CYR_LAYOUT := _GetConfig("CyrLayout")
 For name in ["LatinMode", "CyrillicMode", "CombinedView", "DotlessISwap", "RomCedillaToComma"
     , "UnbrSpace", "EscAsCaps"]
     CONF[name] := _GetConfig(name, 1)
-For name in ["Disabled", "ControllingKeys", "NumrowShifting", "DoubleShiftInvert"
+For name in ["Disabled", "ControllingKeys", "NumrowReverse", "DoubleShiftInvert"
     , "BothShiftsAsEsc", "PairedBrackets", "NumPad"]
     CONF[name] := _GetConfig(name)
 
@@ -44,9 +45,15 @@ Try
     IniRead("config.ini", "AdditionalAssignments")
 Catch
     FileAppend("`n[AdditionalAssignments]"
-        . "`n;['+'_shift_modifier]scan_code:layout_decimal_code_or_'1'_for_any=symbol[s]"
-        . "`n;only for letter region and two user-defined keys to the left of the 'backspace'"
+        .
+        "`n;['+'_shift_modifier]scan_code:layout_decimal_code_or_'1'_for_any=symbol[s]"
+        . "_or_function_'F(<func>(<params>))'"
+        . "`n;you can define your own functions on the user_functions.ahk file"
+        . "`n;assignments works only for letter region and numrow with tilde"
         . "`n;symbols can be sended by their unicode values as '{U+code}'"
+        . "`n;SC002:1=0`n;SC003:1=1`n;SC004:1=2`n;SC005:1=3`n;SC006:1=4"
+        . "`n;SC007:1=5`n;SC008:1=6`n;SC009:1=7`n;SC00A:1=8`n;SC00B:1=9"
+        . "`nSC00C:1=F(Decr())`nSC00D:1=F(Incr())`nSC029:1=F(LongOnce())"
         . "`n`n[AltApps]`n;scan_code=process_name.exe,program_pathname.exe"
         . "`n`n[BlackList]`n;whatever=process_name.exe`n", "config.ini")
 
@@ -239,7 +246,7 @@ _AddOption(text, var, before?)
 
 _AddOption("Preferably combined &view for lang mode symbols", "CombinedView")
 _AddOption("Toggle controlling &keys remap", "ControllingKeys")
-_AddOption("Toggle n&umrow shifting (1-90 to 01-9)", "NumrowShifting")
+_AddOption("Toggle n&umrow reverse (normal and shift presses for lang.mode; long for numbers)", "NumrowReverse")
 _AddOption("Toggle '&double shift press to toggle case' feature", "DoubleShiftInvert")
 _AddOption("Toggle 'b&oth shifts as esc' feature", "BothShiftsAsEsc")
 
@@ -392,23 +399,75 @@ Return
 ;=========================================Main layout functions=================================
 ;===============================================================================================
 
-;num row interaction
-DownNum(this, alt:=0)
+UserDefined(this, upper:=0)
 {
-    If %this%[1]
-        Return
-    %this%[1] := 1
-    If KeyWait(this, LONG_PRESS_TIME)
-        Return
+    If upper
+        this := "+" . this
+
+    If !USER_ASSIGNMENTS.Has(this)
+        Return False
+
+    If USER_ASSIGNMENTS[this].Has(1)
+    {
+        val := USER_ASSIGNMENTS[this][1]
+    }
+    Else
+    {
+        lang := _GetCurrentLang()
+        If USER_ASSIGNMENTS[this].Has(lang)
+            val := USER_ASSIGNMENTS[this][lang]
+        Else
+            Return False
+    }
+
+    If RegExMatch(val, "F\((\w+)\((.*)\)\)", &m)
+        If m[2]
+            %m[1]%.Call(m[2])
+        Else
+            %m[1]%.Call()
+    Else
+        Send(val)
+    Return True
+}
+
+;num row interaction
+DownNum(this, shift:=0, alt:=0)
+{
+    If TREAT_ONCE_AS_LONG
+    {
+        %this%[1] := 1
+        Global TREAT_ONCE_AS_LONG
+        TREAT_ONCE_AS_LONG := False
+    }
+    Else
+    {
+        If !shift && !alt && !CONF["NumrowReverse"]
+        {
+            If !UserDefined(this)
+                Send("{" . this . "}")
+            Return
+        }
+        If %this%[1]
+            Return
+        %this%[1] := 1
+        If KeyWait(this, LONG_PRESS_TIME)
+            Return
+    }
+
     %this%[2] := 1
     If alt
     {
         Send(%this%[4])
         Return
     }
+    Else If CONF["NumrowReverse"]
+    {
+        If !UserDefined(this, shift)
+            Send("{" . this . "}")
+        Return
+    }
     caps_lock := GetKeyState("CapsLock", "T")
-    lang := DllCall("GetKeyboardLayout", "Int"
-        , DllCall("GetWindowThreadProcessId", "Int", WinActive("A"), "Int", 0))
+    lang := _GetCurrentLang()
     If lang == LAT_LAYOUT
         Send(%this%[6-caps_lock])
     Else If lang == CYR_LAYOUT
@@ -423,15 +482,14 @@ UpNum(this, shift:=0, alt:=0)
         {
             Send(%this%[3])
         }
-        Else If shift
+        Else If shift || CONF["NumrowReverse"]
         {
-            caps_lock := GetKeyState("CapsLock", "T")
-            lang := DllCall("GetKeyboardLayout", "Int"
-                , DllCall("GetWindowThreadProcessId", "Int", WinActive("A"), "Int", 0))
+            upper := GetKeyState("CapsLock", "T") ^ shift * CONF["NumrowReverse"]
+            lang := _GetCurrentLang()
             If lang == LAT_LAYOUT
-                Send(%this%[5+caps_lock])
+                Send(%this%[5+upper])
             Else If lang == CYR_LAYOUT
-                Send(%this%[7+caps_lock])
+                Send(%this%[7+upper])
         }
     }
     %this%[1] := 0
@@ -441,31 +499,34 @@ UpNum(this, shift:=0, alt:=0)
 ;letter rows interaction
 Down(this, shift:=0, alt:=0)
 {
-    If WinActive("ahk_group BlackList")
+    If TREAT_ONCE_AS_LONG
     {
-        If alt
+        %this%[1] := 1
+        Global TREAT_ONCE_AS_LONG
+        TREAT_ONCE_AS_LONG := False
+    }
+    Else
+    {
+        If WinActive("ahk_group BlackList")
         {
-            Send(%this%[4])
+            If alt
+            {
+                Send(%this%[4])
+                Return
+            }
+            Send((shift ^ GetKeyState("CapsLock", "T") ? "+" : "") . "{" . this . "}")
             Return
         }
-        upper := shift ^ GetKeyState("CapsLock", "T")
-        If upper
-            Send("+{" . this . "}")
-        Else
-            Send("{" . this . "}")
-        Return
+
+        If %this%[1]
+            Return
+        %this%[1] := 1
+        If WinActive("ahk_group BlackList") || %this%[2] || KeyWait(this, LONG_PRESS_TIME)
+            Return
     }
 
-    If %this%[1]
-        Return
-    %this%[1] := 1
-    If WinActive("ahk_group BlackList") || %this%[2] || KeyWait(this, LONG_PRESS_TIME)
-        Return
     %this%[2] := 1
-    If alt
-        Send(%this%[5])
-    Else
-        Send(%this%[3])
+    Send(%this%[alt ? 5 : 3])
 }
 
 Up(this, shift:=0, alt:=0)
@@ -480,42 +541,15 @@ Up(this, shift:=0, alt:=0)
             Break
         }
         upper := shift ^ GetKeyState("CapsLock", "T")
-        If upper
-            u_this := "+" . this
-        Else
-            u_this := this
 
-        ;check user defined
-        If USER_ASSIGNMENTS.Has(u_this)
-        {
-            Try
-            {
-                Send(USER_ASSIGNMENTS[u_this][1])
-                Break
-            }
-            Try
-            {
-                lang := DllCall("GetKeyboardLayout", "Int"
-                    , DllCall("GetWindowThreadProcessId", "Int", WinActive("A"), "Int", 0))
-                Send(USER_ASSIGNMENTS[u_this][lang])
-                Break
-            }
-        }
+        If UserDefined(this, upper)
+            Break
 
         ;dotted/dotless I feature
-        If upper && CONF["DotlessISwap"] && GetKeyName(this) == "i"
+        If upper && CONF["DotlessISwap"] && GetKeyName(this) == "i" && _GetCurrentLang() == LAT_LAYOUT
         {
-            If !IsSet(lang)
-                lang := DllCall("GetKeyboardLayout", "Int"
-                    , DllCall("GetWindowThreadProcessId", "Int", WinActive("A"), "Int", 0))
-            If lang == LAT_LAYOUT
-            {
-                If CONF["CombinedView"]
-                    Send("İ")
-                Else
-                    Send("İ")
-                Break
-            }
+            Send(CONF["CombinedView"] ? "İ" : "İ")
+            Break
         }
 
         ;send default
@@ -558,77 +592,6 @@ LastMinimizedWindow()
     For id in WinGetList()
         If WinGetMinMax("ahk_id" . id) == -1
             Return(id)
-}
-
-;incr/decrement func works on current selected (marked) number or character
-;the function changes the integer part for numbers (including floats)
-;    or unicode order for other (only last character), omitting the combining characters
-;if there is no selection – it will select next (or last) character without incr/decrementing
-;called from UserDefinedIncrDecr() if there no remapping
-_IncrDecr(n)
-{
-    If WinActive("ahk_group BlackList")
-        Return
-    saved_value := A_Clipboard
-    SendEvent("^{SC02E}")
-    Sleep(50)
-    If IsNumber(A_Clipboard)
-    {
-        If IsFloat(A_Clipboard)
-            A_Clipboard := Round(A_Clipboard + 1*n, StrLen(A_Clipboard) - InStr(A_Clipboard, "."))
-        Else
-            A_Clipboard := A_Clipboard + 1*n
-        new_value_len := StrLen(A_Clipboard)
-        Send(A_Clipboard . "{Left " . new_value_len . "}" . "+{Right " . new_value_len . "}")
-        A_Clipboard := saved_value
-        Return
-    }
-    ;else
-    If StrLen(A_Clipboard) == 1
-    {
-        order := Ord(A_Clipboard) + 1*n
-    }
-    Else
-    {
-        order := Ord(SubStr(A_Clipboard, 0)) + 1*n
-        Send("{Right}+{Left}")
-    }
-    If order == 31
-    {
-        order := 32
-    }
-    Else If order < 31
-    {
-        A_Clipboard := saved_value
-        Return
-    }
-    While RegExMatch(Chr(order), "\p{M}|\p{C}") || order == 6277 || order == 6278
-        order := order + 1*n
-
-    Try SendEvent("{Text}" . Chr(order))
-    Send("{Left}")
-    Send("+{Right}")
-    A_Clipboard := saved_value
-}
-
-UserDefinedIncrDecr(n, key)
-{
-    If USER_ASSIGNMENTS.Has(key)
-    {
-        Try
-        {
-            Send(USER_ASSIGNMENTS[key][1])
-            Return
-        }
-        lang := DllCall("GetKeyboardLayout", "Int"
-            , DllCall("GetWindowThreadProcessId", "Int", WinActive("A"), "Int", 0))
-        Try
-        {
-            Send(USER_ASSIGNMENTS[key][lang])
-            Return
-        }
-    }
-    _IncrDecr(n)
 }
 
 ShiftPress()
@@ -790,8 +753,7 @@ ChangeLatLayout(*)
 {
     Global LAT_LAYOUT
     MsgBox("Switch to your latin layout and press OK")
-    lang := DllCall("GetKeyboardLayout", "Int"
-        , DllCall("GetWindowThreadProcessId", "Int", WinActive("A"), "Int", 0))
+    lang := _GetCurrentLang()
     IniWrite(lang, "config.ini", "Configuration", "LatLayout")
     LAT_LAYOUT_BUTTON.Text := "Latin layout: " . lang
     LAT_LAYOUT := lang
@@ -801,8 +763,7 @@ ChangeCyrLayout(*)
 {
     Global CYR_LAYOUT
     MsgBox("Switch to your cyrillic layout and press OK")
-    lang := DllCall("GetKeyboardLayout", "Int"
-        , DllCall("GetWindowThreadProcessId", "Int", WinActive("A"), "Int", 0))
+    lang := _GetCurrentLang()
     IniWrite(lang, "config.ini", "Configuration", "CyrLayout")
     CYR_LAYOUT_BUTTON.Text := "Cyrillic layout: " . lang
     CYR_LAYOUT := lang
@@ -840,25 +801,9 @@ ControllingKeysToggle(*)
     }
 }
 
-NumrowShiftingToggle(*)
+NumrowReverseToggle(*)
 {
-    _ToggleOption("NumrowShifting", "Toggle n&umrow shifting (1-90 to 01-9)")
-    If CONF["NumrowShifting"]
-    {
-        Loop 10
-        {
-            BUTTONS["SC00" . Format("{:X}", A_Index+1) . 1].Text := A_Index - 1
-            BUTTONS["SC00" . Format("{:X}", A_Index+1) . 2].Text := A_Index - 1
-        }
-    }
-    Else
-    {
-        Loop 10
-        {
-            BUTTONS[SCAN_CODES[A_Index+1] . 1].Text := GetKeyName(SCAN_CODES[A_Index+1])
-            BUTTONS[SCAN_CODES[A_Index+1] . 2].Text := GetKeyName(SCAN_CODES[A_Index+1])
-        }
-    }
+    _ToggleOption("NumrowReverse", "Toggle n&umrow reverse (normal and shift presses for lang.mode; long for numbers)")
 }
 
 DoubleShiftInvertToggle(*)
@@ -948,6 +893,11 @@ NumPadToggle(*)
 ;================================================Auxiliary======================================
 ;===============================================================================================
 
+_GetCurrentLang()
+{
+    Return DllCall("GetKeyboardLayout", "Int", DllCall("GetWindowThreadProcessId", "Int", WinActive("A"), "Int", 0))
+}
+
 ;detect current spotify process
 _SpotifyDetectProcessId()
 {
@@ -1020,16 +970,6 @@ _GuiFillValues()
     }
     BUTTONS["SC00C4"].Text := SC00C[4]
     BUTTONS["SC00D4"].Text := SC00D[4]
-
-    If CONF["NumrowShifting"]
-    {
-        Loop 10
-        {
-            sc := "SC00" . Format("{:X}", A_Index+1)
-            BUTTONS[sc . 1].Text := A_Index - 1
-            BUTTONS[sc . 2].Text := A_Index - 1
-        }
-    }
 
     ;apply user-defined keys
     For key, value in USER_ASSIGNMENTS
@@ -1177,17 +1117,6 @@ SC041:: TABS.Value := 7
 SC001:: CONF["EscAsCaps"] ? SetCapsLockState(!GetKeyState("CapsLock", "T")) : Send("{SC001}")
 
 ;; numrow shifting feature. should it always work? or should it be turned off on black listed apps?
-#HotIf !CONF["Disabled"] && CONF["NumrowShifting"] && !WinActive("ahk_class AutoHotkeyGUI")
-SC002:: Send("0")
-SC003:: Send("1")
-SC004:: Send("2")
-SC005:: Send("3")
-SC006:: Send("4")
-SC007:: Send("5")
-SC008:: Send("6")
-SC009:: Send("7")
-SC00A:: Send("8")
-SC00B:: Send("9")
 
 ;; both shifts as esc feature
 #HotIf !CONF["Disabled"] && CONF["BothShiftsAsEsc"]
@@ -1254,6 +1183,14 @@ SC02A & SC136:: Send("{SC001}")
     Try WinRestore(WinGetTitle("ahk_id" . LastMinimizedWindow()))
 }
 
+#HotIf !CONF["Disabled"] && !CONF["ControllingKeys"] && !WinActive("ahk_class AutoHotkeyGUI")
+;tilde
+SC029::
+{
+    If !UserDefined("SC029")
+        Send("{SC029}")
+}
+
 #HotIf !CONF["Disabled"] && !WinActive("ahk_class AutoHotkeyGUI")
 ;ctrl-sh-v – clipboard swap (paste and save replaced text as a new clipboard text)
 +^SC02F::
@@ -1262,10 +1199,6 @@ SC02A & SC136:: Send("{SC001}")
     SendEvent("^{SC02E}")
     Send(saved_value)
 }
-
-;two keys left from BS ("-/_", "=/+")
-SC00C:: UserDefinedIncrDecr(-1, "SC00C")
-SC00D:: UserDefinedIncrDecr( 1, "SC00D")
 
 ;backward, forward, undo, redo
 !SC016:: Send( "{SC16A}")
@@ -1287,31 +1220,57 @@ SC00D:: UserDefinedIncrDecr( 1, "SC00D")
 ;===============================================================================================
 
 ;numeric row
-+SC002:: DownNum("SC002")
-+SC003:: DownNum("SC003")
-+SC004:: DownNum("SC004")
-+SC005:: DownNum("SC005")
-+SC006:: DownNum("SC006")
-+SC007:: DownNum("SC007")
-+SC008:: DownNum("SC008")
-+SC009:: DownNum("SC009")
-+SC00A:: DownNum("SC00A")
-+SC00B:: DownNum("SC00B")
-+SC00C:: DownNum("SC00C")
-+SC00D:: DownNum("SC00D")
+SC002:: DownNum("SC002")
+SC003:: DownNum("SC003")
+SC004:: DownNum("SC004")
+SC005:: DownNum("SC005")
+SC006:: DownNum("SC006")
+SC007:: DownNum("SC007")
+SC008:: DownNum("SC008")
+SC009:: DownNum("SC009")
+SC00A:: DownNum("SC00A")
+SC00B:: DownNum("SC00B")
+SC00C:: DownNum("SC00C")
+SC00D:: DownNum("SC00D")
 
-!SC002:: DownNum("SC002", 1)
-!SC003:: DownNum("SC003", 1)
-!SC004:: DownNum("SC004", 1)
-!SC005:: DownNum("SC005", 1)
-!SC006:: DownNum("SC006", 1)
-!SC007:: DownNum("SC007", 1)
-!SC008:: DownNum("SC008", 1)
-!SC009:: DownNum("SC009", 1)
-!SC00A:: DownNum("SC00A", 1)
-!SC00B:: DownNum("SC00B", 1)
-!SC00C:: DownNum("SC00C", 1)
-!SC00D:: DownNum("SC00D", 1)
++SC002:: DownNum("SC002", 1)
++SC003:: DownNum("SC003", 1)
++SC004:: DownNum("SC004", 1)
++SC005:: DownNum("SC005", 1)
++SC006:: DownNum("SC006", 1)
++SC007:: DownNum("SC007", 1)
++SC008:: DownNum("SC008", 1)
++SC009:: DownNum("SC009", 1)
++SC00A:: DownNum("SC00A", 1)
++SC00B:: DownNum("SC00B", 1)
++SC00C:: DownNum("SC00C", 1)
++SC00D:: DownNum("SC00D", 1)
+
+!SC002:: DownNum("SC002", , 1)
+!SC003:: DownNum("SC003", , 1)
+!SC004:: DownNum("SC004", , 1)
+!SC005:: DownNum("SC005", , 1)
+!SC006:: DownNum("SC006", , 1)
+!SC007:: DownNum("SC007", , 1)
+!SC008:: DownNum("SC008", , 1)
+!SC009:: DownNum("SC009", , 1)
+!SC00A:: DownNum("SC00A", , 1)
+!SC00B:: DownNum("SC00B", , 1)
+!SC00C:: DownNum("SC00C", , 1)
+!SC00D:: DownNum("SC00D", , 1)
+
+SC002 up:: UpNum("SC002")
+SC003 up:: UpNum("SC003")
+SC004 up:: UpNum("SC004")
+SC005 up:: UpNum("SC005")
+SC006 up:: UpNum("SC006")
+SC007 up:: UpNum("SC007")
+SC008 up:: UpNum("SC008")
+SC009 up:: UpNum("SC009")
+SC00A up:: UpNum("SC00A")
+SC00B up:: UpNum("SC00B")
+SC00C up:: UpNum("SC00C")
+SC00D up:: UpNum("SC00D")
 
 +SC002 up:: UpNum("SC002", 1)
 +SC003 up:: UpNum("SC003", 1)
@@ -1414,33 +1373,33 @@ SC035:: Down("SC035")
 +SC035:: Down("SC035", 1)
 
 ;top letters row
-!SC010:: Down("SC010", 0, 1)
-!SC011:: Down("SC011", 0, 1)
-!SC012:: Down("SC012", 0, 1)
-!SC013:: Down("SC013", 0, 1)
-!SC014:: Down("SC014", 0, 1)
-!SC015:: Down("SC015", 0, 1)
-!SC018:: Down("SC018", 0, 1)
-!SC019:: Down("SC019", 0, 1)
-!SC01A:: Down("SC01A", 0, 1)
-!SC01B:: Down("SC01B", 0, 1)
+!SC010:: Down("SC010", , 1)
+!SC011:: Down("SC011", , 1)
+!SC012:: Down("SC012", , 1)
+!SC013:: Down("SC013", , 1)
+!SC014:: Down("SC014", , 1)
+!SC015:: Down("SC015", , 1)
+!SC018:: Down("SC018", , 1)
+!SC019:: Down("SC019", , 1)
+!SC01A:: Down("SC01A", , 1)
+!SC01B:: Down("SC01B", , 1)
 ;home letters row
-!SC01E:: Down("SC01E", 0, 1)
-!SC01F:: Down("SC01F", 0, 1)
-!SC020:: Down("SC020", 0, 1)
-!SC021:: Down("SC021", 0, 1)
-!SC022:: Down("SC022", 0, 1)
-!SC027:: Down("SC027", 0, 1)
-!SC028:: Down("SC028", 0, 1)
+!SC01E:: Down("SC01E", , 1)
+!SC01F:: Down("SC01F", , 1)
+!SC020:: Down("SC020", , 1)
+!SC021:: Down("SC021", , 1)
+!SC022:: Down("SC022", , 1)
+!SC027:: Down("SC027", , 1)
+!SC028:: Down("SC028", , 1)
 ;bottom letters row
-!SC02C:: Down("SC02C", 0, 1)
-!SC02D:: Down("SC02D", 0, 1)
-!SC02E:: Down("SC02E", 0, 1)
-!SC02F:: Down("SC02F", 0, 1)
-!SC030:: Down("SC030", 0, 1)
-!SC031:: Down("SC031", 0, 1)
-!SC034:: Down("SC034", 0, 1)
-!SC035:: Down("SC035", 0, 1)
+!SC02C:: Down("SC02C", , 1)
+!SC02D:: Down("SC02D", , 1)
+!SC02E:: Down("SC02E", , 1)
+!SC02F:: Down("SC02F", , 1)
+!SC030:: Down("SC030", , 1)
+!SC031:: Down("SC031", , 1)
+!SC034:: Down("SC034", , 1)
+!SC035:: Down("SC035", , 1)
 
 ;top letters row
 SC010 up:: Up("SC010")
