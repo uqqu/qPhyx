@@ -8,18 +8,17 @@
 SendMode "Input"
 
 EXT := A_IsCompiled ? ".exe" : ".ahk"
-LSHIFT_COUNTER := 0
-RSHIFT_COUNTER := 0
 USER_ASSIGNMENTS := Map()
 CONF := Map()
 
-_GetConfig(name, initial:=0, str:=0)
+_GetConfig(name, initial:=0)
 {
     Try
     {
-        If str
+        Try
+            Return Integer(IniRead("config.ini", "Configuration", name))
+        Catch
             Return IniRead("config.ini", "Configuration", name)
-        Return Integer(IniRead("config.ini", "Configuration", name))
     }
     Catch
     {
@@ -28,18 +27,17 @@ _GetConfig(name, initial:=0, str:=0)
     }
 }
 
-LONG_PRESS_TIME := _GetConfig("LongPressTime", "T0.15", 1)
+LONG_PRESS_TIME := _GetConfig("LongPressTime", "T0.15")
 LAT_LAYOUT := _GetConfig("LatLayout")
 CYR_LAYOUT := _GetConfig("CyrLayout")
-For name in ["LatinMode", "CyrillicMode", "CombinedView", "DotlessISwap", "RomCedillaToComma"
-    , "UnbrSpace", "EscAsCaps"]
+For name in ["LatinMode", "CyrillicMode", "CombinedView", "DotlessISwap", "RomCedillaToComma", "UnbrSpace", "EscAsCaps"]
     CONF[name] := _GetConfig(name, 1)
-For name in ["Disabled", "ControllingKeys", "NumrowReverse", "DoubleShiftInvert"
+For name in ["BlackListSendMode", "Disabled", "ControllingKeys", "NumrowReverse"
     , "BothShiftsAsEsc", "PairedBrackets", "NumPad"]
-    CONF[name] := _GetConfig(name)
+    CONF[name] := _GetConfig(name)  ; initial 0
 
-menu_path := _GetConfig("MenuPath", "c:\menu\", 1)
-viatc_file := _GetConfig("ViatcFile", "c:\ViATc\ViATc.ahk", 1)
+menu_path := _GetConfig("MenuPath", "c:\menu\")  ; https://github.com/uqqu/menu
+viatc_file := _GetConfig("ViatcFile", "c:\ViATc\ViATc.ahk")  ; https://github.com/magicstep/ViATc-English
 
 Try
     IniRead("config.ini", "AdditionalAssignments")
@@ -156,10 +154,7 @@ For section in StrSplit(IniRead("modes.ini"), "`n")
         scan_code := "SC00" Format("{:X}", A_Index+1)
         keys[scan_code] := StrSplit(IniRead("modes.ini", section, scan_code), ",")
     }
-    If SubStr(section, 1, 3) == "Lat"
-        LAT_MODE_LIST.Push(keys)
-    Else
-        CYR_MODE_LIST.Push(keys)
+    SubStr(section, 1, 3) == "Lat" ? LAT_MODE_LIST.Push(keys) : CYR_MODE_LIST.Push(keys)
 }
 
 ;set chosen language modes (shift and shift-long layers on the num row)
@@ -214,6 +209,7 @@ For str in StrSplit(IniRead("config.ini", "AltApps"), "`n")
 LAT_MODES := Menu()
 CYR_MODES := Menu()
 SUB_SETTINGS := Menu()
+SUB_BLSM := Menu()
 
 Try TraySetIcon(CONF["Disabled"] ? "disabled.ico" : "qphyx.ico")
 A_IconTip := "qPhyx" . EXT . " – " . (CONF["Disabled"] ? "disabled" : "enabled")
@@ -247,7 +243,6 @@ _AddOption(text, var, before?)
 _AddOption("Preferably combined &view for lang mode symbols", "CombinedView")
 _AddOption("Toggle controlling &keys remap", "ControllingKeys")
 _AddOption("Toggle n&umrow reverse (normal and shift presses for lang.mode; long for numbers)", "NumrowReverse")
-_AddOption("Toggle '&double shift press to toggle case' feature", "DoubleShiftInvert")
 _AddOption("Toggle 'b&oth shifts as esc' feature", "BothShiftsAsEsc")
 
 If CONF["LatinMode"] == 2 || CONF["LatinMode"] == 11
@@ -261,9 +256,15 @@ _AddOption("Toggle 'no-&break Space' on Sh-Space", "UnbrSpace")
 _AddOption("Toggle '&Esc as Caps Lock' feature", "EscAsCaps")
 _AddOption("Toggle &NumPad availability", "NumPad")
 
+BLSM_TEXTS := ["Default (SendInput)", "DllCall(keybd_event)", "PostMessage"]
+For text in BLSM_TEXTS
+    SUB_BLSM.Add(text, BlackListSendModeChange)
+SUB_BLSM.Check(BLSM_TEXTS[CONF["BlackListSendMode"] + 1])
+
+SUB_SETTINGS.Add("BlackList &Send Mode", SUB_BLSM)
+
 A_TrayMenu.Add("&Other settings", SUB_SETTINGS)
-A_TrayMenu.Add("Long press &delay (now is " . SubStr(LONG_PRESS_TIME, 2) . "s)"
-    , LongPressTimeChange)
+A_TrayMenu.Add("Long press &delay (now is " . SubStr(LONG_PRESS_TIME, 2) . "s)", LongPressTimeChange)
 A_TrayMenu.Add((CONF["Disabled"] ? "En" : "Dis") . "a&ble qPhyx", DisabledToggle)
 A_TrayMenu.Add("&Help cheatsheet", CheatsheetToggle)
 A_TrayMenu.Add("&Exit", CallExit)
@@ -295,8 +296,7 @@ MY_GUI.SetFont("s11", "Calibri")
 
 _NewButton(i, oi, x:=0, y:=20, w:=50, h:=40)
 {
-    BUTTONS[SCAN_CODES[i] . oi] := MY_GUI.AddButton("x" . x . " y" . y . " w" . w . " h" . h
-        . " -Tabstop")
+    BUTTONS[SCAN_CODES[i] . oi] := MY_GUI.AddButton("x" . x . " y" . y . " w" . w . " h" . h . " -Tabstop")
 }
 
 Loop 5
@@ -369,9 +369,6 @@ hotkeys.Add(, "Show tray menu", "LWin+F1")
 hotkeys.Add(, "Enable/disable qPhyx functionality", "Shift+Tilde")
 hotkeys.Add(, "Restart qPhyx", "Ctrl+Shift+Tilde")
 hotkeys.Add(, "Clipboard swap", "Ctrl+Shift+v")
-hotkeys.Add(, "Invert case for selected text", "Shift-Shift (double press)")
-hotkeys.Add(, "Upper case for selected text", "Ctrl+Shift-Shift")
-hotkeys.Add(, "Lower case for selected text", "Alt+Shift-Shift")
 hotkeys.Add(, "Minimize all windows", "LWin+Enter")
 hotkeys.Add(, "Restore windows state", "LWin+LongEnter")
 hotkeys.Add(, "Non-break space", "Shift+Space")
@@ -398,6 +395,38 @@ Return
 ;===============================================================================================
 ;=========================================Main layout functions=================================
 ;===============================================================================================
+
+SendKbd(scancode, modifiers:="", amodifiers:="", rmodifiers:="")
+{
+    ; TODO PostMessage with modifiers
+    Static mods := Map("+", 0x10, "^", 0x11, "!", 0x12, "#", 0x5B)
+    Static key_down := [
+        (vk_code) => DllCall("keybd_event", "UInt", vk_code, "UInt", 0, "UInt", 0, "UPtr", 0),
+        (vk_code) => PostMessage(0x100, vk_code, 0, , "A")
+    ]
+    Static key_up := [
+        (vk_code) => DllCall("keybd_event", "UInt", vk_code, "UInt", 0, "UInt", 2, "UPtr", 0),
+        (vk_code) => PostMessage(0x101, vk_code, 0, , "A")
+    ]
+
+    If !CONF["BlackListSendMode"] || !WinActive("ahk_group BlackList")
+    {
+        Send((modifiers ? modifiers . "{" : "{") . scancode . "}")
+        Return
+    }
+
+    Loop Parse, modifiers
+        key_down[CONF["BlackListSendMode"]].Call(mods[A_LoopField])
+    Loop Parse, amodifiers
+        key_up[CONF["BlackListSendMode"]].Call(mods[A_LoopField])
+    CONF["Disabled"] := !CONF["Disabled"]
+    key_down[CONF["BlackListSendMode"]].Call(_GetKeyVK(scancode))
+    CONF["Disabled"] := !CONF["Disabled"]
+    Loop Parse, amodifiers
+        key_down[CONF["BlackListSendMode"]].Call(mods[A_LoopField])
+    Loop Parse, rmodifiers
+        key_up[CONF["BlackListSendMode"]].Call(mods[A_LoopField])
+}
 
 UserDefined(this, upper:=0)
 {
@@ -431,7 +460,7 @@ UserDefined(this, upper:=0)
 }
 
 ;num row interaction
-DownNum(this, shift:=0, alt:=0)
+DownNum(this, shift:=False, alt:=False)
 {
     If TREAT_ONCE_AS_LONG
     {
@@ -444,7 +473,7 @@ DownNum(this, shift:=0, alt:=0)
         If !shift && !alt && !CONF["NumrowReverse"]
         {
             If !UserDefined(this)
-                Send("{" . this . "}")
+                SendKbd(this)
             Return
         }
         If %this%[1]
@@ -463,7 +492,7 @@ DownNum(this, shift:=0, alt:=0)
     Else If CONF["NumrowReverse"]
     {
         If !UserDefined(this, shift)
-            Send("{" . this . "}")
+            SendKbd(this)
         Return
     }
     caps_lock := GetKeyState("CapsLock", "T")
@@ -474,7 +503,7 @@ DownNum(this, shift:=0, alt:=0)
         Send(%this%[8-caps_lock])
 }
 
-UpNum(this, shift:=0, alt:=0)
+UpNum(this, shift:=False, alt:=False)
 {
     If %this%[1] && !%this%[2]
     {
@@ -497,7 +526,7 @@ UpNum(this, shift:=0, alt:=0)
 }
 
 ;letter rows interaction
-Down(this, shift:=0, alt:=0)
+Down(this, shift:=False, alt:=False)
 {
     If TREAT_ONCE_AS_LONG
     {
@@ -510,18 +539,16 @@ Down(this, shift:=0, alt:=0)
         If WinActive("ahk_group BlackList")
         {
             If alt
-            {
                 Send(%this%[4])
-                Return
-            }
-            Send((shift ^ GetKeyState("CapsLock", "T") ? "+" : "") . "{" . this . "}")
+            Else
+                SendKbd(this, (shift ? "+" : ""))
             Return
         }
 
         If %this%[1]
             Return
         %this%[1] := 1
-        If WinActive("ahk_group BlackList") || %this%[2] || KeyWait(this, LONG_PRESS_TIME)
+        If %this%[2] || KeyWait(this, LONG_PRESS_TIME)
             Return
     }
 
@@ -529,7 +556,7 @@ Down(this, shift:=0, alt:=0)
     Send(%this%[alt ? 5 : 3])
 }
 
-Up(this, shift:=0, alt:=0)
+Up(this, shift:=False, alt:=False)
 {
     Loop
     {
@@ -553,10 +580,7 @@ Up(this, shift:=0, alt:=0)
         }
 
         ;send default
-        If upper
-            Send("+{" . this . "}")
-        Else
-            Send("{" . this . "}")
+        SendKbd(this, (upper ? "+" : ""))
         Break
     }
     %this%[1] := 0
@@ -594,35 +618,6 @@ LastMinimizedWindow()
             Return(id)
 }
 
-ShiftPress()
-{
-    Global LSHIFT_COUNTER
-    Global RSHIFT_COUNTER
-    If LSHIFT_COUNTER > 1 || RSHIFT_COUNTER > 1
-    {
-        BlockInput(True)
-        saved_value := A_Clipboard
-        SendEvent("^{SC02E}")
-        Sleep(100)
-        If StrLen(A_Clipboard)
-        {
-            If GetKeyState("Ctrl")
-                result := StrUpper(A_Clipboard)
-            Else If GetKeyState("Alt")
-                result := StrLower(A_Clipboard)
-            Else
-                result := RegExReplace(A_Clipboard, "(\p{Ll})|(\p{Lu})", "$U1$L2")
-            Send("{Raw}" . result)
-        }
-        Sleep(100)
-        A_Clipboard := saved_value
-        BlockInput(False)
-        LSHIFT_COUNTER := 0
-        RSHIFT_COUNTER := 0
-        SetTimer(_ShiftCounterDrop, 1)
-    }
-}
-
 
 ;===============================================================================================
 ;===============================================Menu functions==================================
@@ -635,15 +630,13 @@ DisabledToggle(*)
     Try TraySetIcon(CONF["Disabled"] ? "disabled.ico" : "qphyx.ico")
     A_IconTip := "qPhyx" . EXT . " – " . (CONF["Disabled"] ? "disabled" : "enabled")
     w := ["Dis", "En"]
-    A_TrayMenu.Rename(w[!CONF["Disabled"]+1] . "a&ble qPhyx"
-        , w[CONF["Disabled"]+1] . "a&ble qPhyx")
+    A_TrayMenu.Rename(w[!CONF["Disabled"]+1] . "a&ble qPhyx", w[CONF["Disabled"]+1] . "a&ble qPhyx")
 }
 
 LongPressTimeChange(*)
 {
     Global LONG_PRESS_TIME
-    user_input := InputBox("New value in seconds (e.g. 0.15)", "Set new long press delay"
-        , "w444 h130")
+    user_input := InputBox("New value in seconds (e.g. 0.15)", "Set new long press delay", "w444 h130")
     If user_input.Result !== "OK"
         Return
     If !IsNumber(user_input.Value)
@@ -658,6 +651,14 @@ LongPressTimeChange(*)
     IniWrite(LONG_PRESS_TIME, "config.ini", "Configuration", "LongPressTime")
     A_TrayMenu.Rename("Long press &delay (now is " . old_value . "s)"
         , "Long press &delay (now is " . user_input.Value . "s)")
+}
+
+BlackListSendModeChange(_, item_pos, *)
+{
+    SUB_BLSM.Uncheck(BLSM_TEXTS[CONF["BlackListSendMode"] + 1])
+    CONF["BlackListSendMode"] := item_pos - 1
+    IniWrite(CONF["BlackListSendMode"], "config.ini", "Configuration", "BlackListSendMode")
+    SUB_BLSM.Check(BLSM_TEXTS[item_pos])
 }
 
 LatModeChange(_, item_pos, *)
@@ -790,8 +791,7 @@ ControllingKeysToggle(*)
 {
     _ToggleOption("ControllingKeys", "Toggle controlling &keys remap")
     SetCapsLockState(CONF["ControllingKeys"] && !CONF["EscAsCaps"] ? "AlwaysOff" : False)
-    keys := CONF["ControllingKeys"]
-        ? ["Esc", "Media", "Enter", "Backspace"] : ["Tilde", "BS", "Caps Lock", "Enter"]
+    keys := CONF["ControllingKeys"] ? ["Esc", "Media", "Enter", "Backspace"] : ["Tilde", "BS", "Caps Lock", "Enter"]
     Loop 4
     {
         BUTTONS["SC029" . A_Index].Text := keys[1]
@@ -804,11 +804,6 @@ ControllingKeysToggle(*)
 NumrowReverseToggle(*)
 {
     _ToggleOption("NumrowReverse", "Toggle n&umrow reverse (normal and shift presses for lang.mode; long for numbers)")
-}
-
-DoubleShiftInvertToggle(*)
-{
-    _ToggleOption("DoubleShiftInvert", "Toggle '&double shift press to toggle case' feature")
 }
 
 BothShiftsAsEscToggle(*)
@@ -893,6 +888,21 @@ NumPadToggle(*)
 ;================================================Auxiliary======================================
 ;===============================================================================================
 
+_GetKeyVK(scancode)
+{
+    Static cached_vk := Map()
+
+    Try
+    {
+        Return cached_vk[scancode]
+    }
+    Catch
+    {
+        cached_vk[scancode] := GetKeyVK(scancode)
+        Return cached_vk[scancode]
+    }
+}
+
 _GetCurrentLang()
 {
     Return DllCall("GetKeyboardLayout", "Int", DllCall("GetWindowThreadProcessId", "Int", WinActive("A"), "Int", 0))
@@ -936,10 +946,8 @@ _GuiFillValues()
     ;set optional values and fix some broken names
     repl := ["SC029", "SC00E", "SC03A", "SC01C", "SC00F", "SC02A", "SC136"
         , "SC023", "SC024", "SC025", "SC026", "SC016", "SC017", "SC032", "SC033"]
-    keys := CONF["ControllingKeys"]
-        ? ["Esc", "Media", "Enter", "Backspace"] : ["Tilde", "BS", "Caps Lock", "Enter"]
-    keys.Push("Tab", "LShift", "RShift"
-        , "left", "down", "up", "right", "backw", "forw", "undo", "redo")
+    keys := CONF["ControllingKeys"] ? ["Esc", "Media", "Enter", "Backspace"] : ["Tilde", "BS", "Caps Lock", "Enter"]
+    keys.Push("Tab", "LShift", "RShift", "left", "down", "up", "right", "backw", "forw", "undo", "redo")
     Loop 4
     {
         outer_ind := A_Index
@@ -1020,15 +1028,6 @@ CheatsheetToggle(*)
         MY_GUI.Show("h180 w715")
 }
 
-_ShiftCounterDrop()
-{
-    Global LSHIFT_COUNTER
-    Global RSHIFT_COUNTER
-    LSHIFT_COUNTER := 0
-    RSHIFT_COUNTER := 0
-    SetTimer(_ShiftCounterDrop, 0)
-}
-
 CallExit(*)
 {
     ExitApp
@@ -1049,7 +1048,7 @@ CallExit(*)
 ;LWin-f1 menu
 <#SC03B:: A_TrayMenu.Show()
 
-;; while GUI active
+;; while the GUI is active
 #HotIf CONF["ControllingKeys"] && WinActive("ahk_class AutoHotkeyGUI")
 SC029:: MY_GUI.Hide()
 
@@ -1070,34 +1069,38 @@ SC041:: TABS.Value := 7
 ;; main controlling region
 #HotIf !CONF["Disabled"] && CONF["ControllingKeys"] && !WinActive("ahk_class AutoHotkeyGUI")
 ;tilde
- SC029:: Send( "{SC001}")
-!SC029:: Send("!{SC001}")
-^SC029:: Send("^{SC001}")
+ SC029:: SendKbd("SC001")
+!SC029:: SendKbd("SC001", "!")
+^SC029:: SendKbd("SC001", "^")
 
 ;backspace
- SC00E:: Send( "{SC122}")
+ SC00E::
+{
+    SendKbd("SC122")
+    KeyWait("SC00E")  ; deny repeating by holding
+}
 !SC00E::
 {
     If KeyWait("SC00E", LONG_PRESS_TIME)
-        Send("{SC12E}")
+        SendKbd("SC12E", "", "!")
     Else
-        Send("{SC110}")
-    KeyWait("SC00E")  ; deny repeating by holding
+        SendKbd("SC110", "", "!")
+    KeyWait("SC00E")
 }
 +SC00E::
 {
     If KeyWait("SC00E", LONG_PRESS_TIME)
-        Send("{SC130}")
+        SendKbd("SC130", "", "+")
     Else
-        Send("{SC119}")
-    KeyWait("SC00E")  ; deny repeating by holding
+        SendKbd("SC119", "", "+")
+    KeyWait("SC00E")
 }
 
 ;enter
-  SC01C:: Send( "{SC00E}")
- +SC01C:: Send( "{SC153}")
- ^SC01C:: Send("^{SC00E}")
-+^SC01C:: Send("^{SC153}")
+  SC01C:: SendKbd("SC00E")
+ +SC01C:: SendKbd("SC153", "", "+")
+ ^SC01C:: SendKbd("SC00E", "^")
++^SC01C:: SendKbd("SC153", "^", "+")
  #SC01C::
 {
     If !KeyWait("SC01C", LONG_PRESS_TIME)
@@ -1108,68 +1111,54 @@ SC041:: TABS.Value := 7
 }
 
 ;caps lock
- SC03A:: Send( "{SC01C}")
-+SC03A:: Send("+{SC01C}")
-!SC03A:: Send("!{SC01C}")
-^SC03A:: Send("^{SC01C}")
+ SC03A:: SendKbd("SC01C")
++SC03A:: SendKbd("SC01C", "+")
+!SC03A:: SendKbd("SC01C", "!")
+^SC03A:: SendKbd("SC01C", "^")
 
 ;esc
-SC001:: CONF["EscAsCaps"] ? SetCapsLockState(!GetKeyState("CapsLock", "T")) : Send("{SC001}")
-
-;; numrow shifting feature. should it always work? or should it be turned off on black listed apps?
+SC001:: CONF["EscAsCaps"] ? SetCapsLockState(!GetKeyState("CapsLock", "T")) : SendKbd("SC001")
 
 ;; both shifts as esc feature
 #HotIf !CONF["Disabled"] && CONF["BothShiftsAsEsc"]
-SC02A & SC136:: Send("{SC001}")
-
-;; double shifts invert feature
-#HotIf !CONF["Disabled"] && CONF["DoubleShiftInvert"] && !WinActive("ahk_group BlackList")
-;double shift press = invert case; +ctrl = upper case; +alt = lower case
-~*SC02A up::
-{
-    Global LSHIFT_COUNTER
-    LSHIFT_COUNTER++
-    ShiftPress()
-    SetTimer(_ShiftCounterDrop, SubStr(LONG_PRESS_TIME, 2)*2000)
-}
-~*SC136 up::
-{
-    Global RSHIFT_COUNTER
-    RSHIFT_COUNTER++
-    ShiftPress()
-    SetTimer(_ShiftCounterDrop, SubStr(LONG_PRESS_TIME, 2)*2000)
-}
+SC02A & SC136:: SendKbd("SC001")
+SC136 & SC02A:: SendKbd("SC001")
+;why?
+~*SC136::
+{}
+~*SC02A::
+{}
 
 ;; nav region
 #HotIf !CONF["Disabled"]
 ;nav "hjkl"
     ;base nav
-  !SC023:: Send( "{SC14B}")
-  !SC024:: Send( "{SC150}")
-  !SC025:: Send( "{SC148}")
-  !SC026:: Send( "{SC14D}")
+  !SC023:: SendKbd("SC04B", "", "!")
+  !SC024:: SendKbd("SC050", "", "!")
+  !SC025:: SendKbd("SC048", "", "!")
+  !SC026:: SendKbd("SC04D", "", "!")
     ;nav with select
- +!SC023:: Send("+{SC14B}")
- +!SC024:: Send("+{SC150}")
- +!SC025:: Send("+{SC148}")
- +!SC026:: Send("+{SC14D}")
+ +!SC023:: SendKbd("SC04B", "+", "!")
+ +!SC024:: SendKbd("SC050", "+", "!")
+ +!SC025:: SendKbd("SC048", "+", "!")
+ +!SC026:: SendKbd("SC04D", "+", "!")
     ;ctrl nav (left-right move by words; up-down as home-end)
- ^!SC023:: Send("^{SC14B}")
- ^!SC024:: Send( "{SC147}")
- ^!SC025:: Send( "{SC14F}")
- ^!SC026:: Send("^{SC14D}")
+ ^!SC023:: SendKbd("SC04B", "^", "!")
+ ^!SC024:: SendKbd("SC047", "", "^!")
+ ^!SC025:: SendKbd("SC04F", "", "^!")
+ ^!SC026:: SendKbd("SC04D", "^", "!")
     ;ctrl nav with select
-+^!SC023:: Send("+^{SC14B}")
-+^!SC024:: Send( "+{SC147}")
-+^!SC025:: Send( "+{SC14F}")
-+^!SC026:: Send("+^{SC14D}")
++^!SC023:: SendKbd("SC04B", "+^", "!")
++^!SC024:: SendKbd("SC047", "+", "^!")
++^!SC025:: SendKbd("SC04F", "+", "^!")
++^!SC026:: SendKbd("SC04D", "+^", "!")
     ;move window
-  #SC023:: SendEvent( "#{SC14B}")
-  #SC024:: SendEvent( "#{SC150}")
-  #SC025:: SendEvent( "#{SC148}")
-  #SC026:: SendEvent( "#{SC14D}")
- #+SC023:: SendEvent("#+{SC14B}")
- #+SC026:: SendEvent("#+{SC14D}")
+  #SC023:: Send( "#{SC04B}")
+  #SC024:: Send( "#{SC050}")
+  #SC025:: Send( "#{SC048}")
+  #SC026:: Send( "#{SC04D}")
+ #+SC023:: Send("#+{SC04B}")
+ #+SC026:: Send("#+{SC04D}")
  #+SC024::
 {
     Try
@@ -1188,7 +1177,7 @@ SC02A & SC136:: Send("{SC001}")
 SC029::
 {
     If !UserDefined("SC029")
-        Send("{SC029}")
+        SendKbd("SC029")
 }
 
 #HotIf !CONF["Disabled"] && !WinActive("ahk_class AutoHotkeyGUI")
@@ -1201,10 +1190,10 @@ SC029::
 }
 
 ;backward, forward, undo, redo
-!SC016:: Send( "{SC16A}")
-!SC017:: Send( "{SC169}")
-!SC032:: Send("^{SC02C}")
-!SC033:: Send("^{SC015}")
+!SC016:: SendKbd("SC16A", "", "!")
+!SC017:: SendKbd("SC169", "", "!")
+!SC032:: SendKbd("SC02C", "^", "!", "^")
+!SC033:: SendKbd("SC015", "^", "!", "^")
 
 ;unbr space feature
 +SC039::
@@ -1212,7 +1201,7 @@ SC029::
     If CONF["UnbrSpace"]
         Send("+{U+00A0}")
     Else
-        Send("{Space}")
+        SendKbd("SC039", "", "+")
 }
 
 ;===============================================================================================

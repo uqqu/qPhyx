@@ -1,9 +1,10 @@
-﻿;incr/decrement func works on current selected (marked) number or character
+﻿TREAT_ONCE_AS_LONG := False
+
+
+;incr/decrement func works on current selected (marked) number or character
 ;the function changes the integer part for numbers (including floats)
 ;    or unicode order for other (only last character), omitting the combining characters
 ;if there is no selection – it will select next (or last) character without incr/decrementing
-TREAT_ONCE_AS_LONG := False
-
 IncrDecr(n)
 {
     If WinActive("ahk_group BlackList")
@@ -66,4 +67,3 @@ Decr()
 {
     IncrDecr(-1)
 }
-
