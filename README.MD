@@ -1,3 +1,5 @@
+# ⚠️ DEPRECATED — Merged into [Tap-Dance-for-Windows](https://github.com/uqqu/Tap-Dance-for-Windows)
+
 # qPhyx
 # ↓ English part
 
